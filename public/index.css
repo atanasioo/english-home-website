@@ -560,16 +560,16 @@ video {
 }
 
 .relative {
-  position: relative;
+  position: relative !important;
 }
 
 .h-10 {
-  height: 2.5rem;
+  height: 2.5rem !important;
 }
 
 .text-blue-500 {
-  --tw-text-opacity: 1;
-  color: rgb(59 130 246 / var(--tw-text-opacity));
+  --tw-text-opacity: 1 !important;
+  color: rgb(59 130 246 / var(--tw-text-opacity)) !important;
 }
 
 body {

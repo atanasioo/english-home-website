@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}", "./public/index.html"],
+  important: true,
   theme: {
     extend: {
 
@@ -118,5 +119,17 @@ module.exports = {
       }
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addComponents }) {
+      addComponents({
+        ".container": {
+          width: "100%",
+          maxWidth: "1440px",
+          padding: "0 0.75rem",
+          margin: "auto",
+          overflow: "hidden"
+        },
+      });
+    },
+  ],
 }
