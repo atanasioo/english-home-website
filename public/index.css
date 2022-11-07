@@ -559,17 +559,262 @@ video {
   --tw-backdrop-sepia:  ;
 }
 
+.container {
+  width: 100%;
+}
+
+@media (min-width: 320px) {
+  .container {
+    max-width: 320px;
+  }
+}
+
+@media (min-width: 640px) {
+  .container {
+    max-width: 640px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 768px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1024px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1280px;
+  }
+}
+
+@media (min-width: 1536px) {
+  .container {
+    max-width: 1536px;
+  }
+}
+
+.absolute {
+  position: absolute !important;
+}
+
 .relative {
   position: relative !important;
+}
+
+.-top-1\.5 {
+  top: -0.375rem !important;
+}
+
+.left-4 {
+  left: 1rem !important;
+}
+
+.-top-1 {
+  top: -0.25rem !important;
+}
+
+.float-right {
+  float: right !important;
+}
+
+.float-left {
+  float: left !important;
+}
+
+.mx-auto {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.ml-5 {
+  margin-left: 1.25rem !important;
+}
+
+.mt-1\.5 {
+  margin-top: 0.375rem !important;
+}
+
+.mt-1 {
+  margin-top: 0.25rem !important;
+}
+
+.mt-2\.5 {
+  margin-top: 0.625rem !important;
+}
+
+.mt-2 {
+  margin-top: 0.5rem !important;
+}
+
+.inline-block {
+  display: inline-block !important;
+}
+
+.flex {
+  display: flex !important;
+}
+
+.hidden {
+  display: none !important;
 }
 
 .h-10 {
   height: 2.5rem !important;
 }
 
+.h-9 {
+  height: 2.25rem !important;
+}
+
+.h-6 {
+  height: 1.5rem !important;
+}
+
+.h-4 {
+  height: 1rem !important;
+}
+
+.w-10 {
+  width: 2.5rem !important;
+}
+
+.w-6 {
+  width: 1.5rem !important;
+}
+
+.w-4 {
+  width: 1rem !important;
+}
+
+.items-center {
+  align-items: center !important;
+}
+
+.justify-center {
+  justify-content: center !important;
+}
+
+.whitespace-nowrap {
+  white-space: nowrap !important;
+}
+
+.rounded-full {
+  border-radius: 9999px !important;
+}
+
+.border {
+  border-width: 1px !important;
+}
+
+.border-b {
+  border-bottom-width: 1px !important;
+}
+
+.border-dblue1 {
+  --tw-border-opacity: 1 !important;
+  border-color: rgb(70 136 215 / var(--tw-border-opacity)) !important;
+}
+
+.border-dborderblack1 {
+  --tw-border-opacity: 1 !important;
+  border-color: rgb(13 20 60 / var(--tw-border-opacity)) !important;
+}
+
+.bg-dgrey1 {
+  --tw-bg-opacity: 1 !important;
+  background-color: rgb(243 243 243 / var(--tw-bg-opacity)) !important;
+}
+
+.bg-dwhite1 {
+  --tw-bg-opacity: 1 !important;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity)) !important;
+}
+
+.bg-dblue1 {
+  --tw-bg-opacity: 1 !important;
+  background-color: rgb(70 136 215 / var(--tw-bg-opacity)) !important;
+}
+
+.p-2\.5 {
+  padding: 0.625rem !important;
+}
+
+.p-2 {
+  padding: 0.5rem !important;
+}
+
+.pt-6 {
+  padding-top: 1.5rem !important;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+.text-d12 {
+  font-size: 12px !important;
+}
+
+.text-d30 {
+  font-size: 30px !important;
+}
+
+.text-xl {
+  font-size: 1.25rem !important;
+}
+
+.text-d11 {
+  font-size: 11px !important;
+}
+
+.text-d15 {
+  font-size: 15px !important;
+}
+
+.font-bold {
+  font-weight: 700 !important;
+}
+
+.leading-10 {
+  line-height: 2.5rem !important;
+}
+
+.leading-8 {
+  line-height: 2rem !important;
+}
+
+.leading-5 {
+  line-height: 1.25rem !important;
+}
+
+.leading-4 {
+  line-height: 1rem !important;
+}
+
+.text-dblack2 {
+  --tw-text-opacity: 1 !important;
+  color: rgb(0 0 0 / var(--tw-text-opacity)) !important;
+}
+
+.text-dblue1 {
+  --tw-text-opacity: 1 !important;
+  color: rgb(70 136 215 / var(--tw-text-opacity)) !important;
+}
+
 .text-blue-500 {
   --tw-text-opacity: 1 !important;
   color: rgb(59 130 246 / var(--tw-text-opacity)) !important;
+}
+
+.text-dwhite1 {
+  --tw-text-opacity: 1 !important;
+  color: rgb(255 255 255 / var(--tw-text-opacity)) !important;
 }
 
 body {
@@ -584,4 +829,17 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.center_div_inside_div{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+
+.hover\:underline:hover {
+  text-decoration-line: underline !important;
 }

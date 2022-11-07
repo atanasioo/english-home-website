@@ -31,6 +31,7 @@ module.exports = {
         d15: "15px",
         d16: "16px",
         d20: "20.5712px",
+        d30: "30px",
   
         d6: "6px",
         d22: "22px",
@@ -89,7 +90,7 @@ module.exports = {
           DEFAULT: "#022c5c" //ehm
         },
         dred1: {
-          DEFAULT: "#FFFFFF"
+          DEFAULT: "#FF0000"
         },
         dred2: {
           DEFAULT: "#97191a"
@@ -98,7 +99,7 @@ module.exports = {
           DEFAULT: "#d01344"  //for % badge
         },
         dblue1: {
-          DEFAULT: "#46688d7"
+          DEFAULT: "#4688d7"
         },
         dblue2: {
           DEFAULT: "#2c4f79"
@@ -120,16 +121,17 @@ module.exports = {
     },
   },
   plugins: [
-    function ({ addComponents }) {
-      addComponents({
-        ".container": {
-          width: "100%",
-          maxWidth: "1440px",
-          padding: "0 0.75rem",
-          margin: "auto",
-          overflow: "hidden"
-        },
-      });
-    },
+    // function ({ addComponents }) {
+    //   addComponents({
+    //     ".container": {
+    //       width: "100%",
+    //       maxWidth: "1440px",
+    //       padding: "0 0.75rem",
+    //       marginRight: "auto",
+    //       marginLeft: "auto",
+    //       overflow: "hidden"
+    //     },
+    //   });
+    // },
   ],
 }
