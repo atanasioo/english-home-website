@@ -65,6 +65,9 @@ module.exports = {
         dgrey4: {
           DEFAULT: "#F7F5EE"  //category bg page
         },
+        dgrey5: {
+          DEFAULT: "#dddddd"  //desktopmenu hover bg page
+        },
         dgreyTransp1: {
           DEFAULT: "rgba(255,255,255,0.9)"  //slick arrow bg color
         },
@@ -117,6 +120,10 @@ module.exports = {
         
 
         
+      },
+      height:{
+        "7.5": "31.5px",
+        "17" : "70px",
       }
     },
   },
@@ -125,7 +132,7 @@ module.exports = {
       addComponents({
         ".container": {
           width: "100%",
-          maxWidth: "1170px",
+          //maxWidth: "1170px",
           padding: "0 5px",
           marginRight: "auto",
           marginLeft: "auto",

@@ -6,6 +6,9 @@ import { BsCart3 }  from "react-icons/bs"
 import DesktopMenu from './DesktopMenu'
 
 function Header() {
+
+const width =window.innerWidth;
+
   return (
     <div className='relative'>
         <section className='h-10 bg-dgrey1'>
@@ -66,8 +69,11 @@ function Header() {
                 <div className='clearfix hidden'></div>
                 <div className='header__search search-wrapper'></div>
             </div>
-        </div>                  
-        <DesktopMenu />
+        </div>
+        {width >990 && (
+            <DesktopMenu />
+        )}                  
+        
         <div className='mobile-header-menu hidden'></div>
     </div>
   )
