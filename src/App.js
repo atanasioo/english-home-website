@@ -6,11 +6,13 @@ import Product from './pages/Product';
 import Cart from './pages/Cart';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import HeaderCampaigns from './components/HeaderCampaigns';
 
 function App() {
   return (
     <div className="App">
       <Header/>
+      <HeaderCampaigns/>
       <Routes>
         <Route path='/' element={ <Home/> }/>
         <Route path='category' element={ <Category/> }/>

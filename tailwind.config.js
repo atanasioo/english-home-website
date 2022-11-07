@@ -110,6 +110,9 @@ module.exports = {
         dyellow1: {
           DEFAULT: "#F7F5EE"
         },
+        dyellow2: {
+          DEFAULT: "#f6f4ee"
+        },
         dblack1: {
           DEFAULT: "#333"
         },
@@ -132,7 +135,7 @@ module.exports = {
       addComponents({
         ".container": {
           width: "100%",
-          //maxWidth: "1170px",
+          //maxWidth: "1440px",
           padding: "0 5px",
           marginRight: "auto",
           marginLeft: "auto",

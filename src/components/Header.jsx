@@ -69,11 +69,8 @@ const width =window.innerWidth;
                 <div className='clearfix hidden'></div>
                 <div className='header__search search-wrapper'></div>
             </div>
-        </div>
-        {width >990 && (
-            <DesktopMenu />
-        )}                  
-        
+        </div>                  
+        <DesktopMenu />
         <div className='mobile-header-menu hidden'></div>
     </div>
   )
