@@ -19,8 +19,8 @@ function Header() {
                 </div>
             </div>
         </section>
-        <div className='header__action pt-6 bg-dwhite1'>
-            <div className='container header__action-container relative'>
+        <div className='header__action pt-6 bg-dwhite1' style={{height: "85px"}}>
+            <div className='container header__action-container relative ml-auto mr-auto'>
                 <div className='back-bar hidden'></div>
                 <div className='header__logo float-left'>
                     <div></div>
@@ -28,8 +28,8 @@ function Header() {
                         <span className='icon-logo text-xl '>ENGLISH HOME</span>
                     </Link>
                 </div>
-                <div className='header__icons float-right flex '>
-                    <Link>
+                <div className='header__icons float-right flex ml-2'>
+                    <Link className='cursor-pointer'>
                         <div className='h-9 w-10 leading-8 mx-auto border border-dblue1 text-dblue1 flex justify-center items-center '> 
                             <SlHeart className='h-6 w-6 ' />
                         </div>
@@ -37,7 +37,7 @@ function Header() {
                             <p>Favorites</p>
                         </span>
                     </Link>
-                    <div className='header__user inline-block relative'>
+                    <div className='header__user inline-block relative cursor-pointer ml-2'>
                         <Link className='header__user__auth__link'>
                             <div className='h-9 w-10 leading-8 mx-auto border border-dblue1 text-dblue1 flex justify-center items-center '> 
                                 <FiUser className='h-6 w-6 ' />
@@ -48,12 +48,12 @@ function Header() {
                         </Link>
                         <div></div>
                     </div>
-                    <div className='header__icons-basket float-right'>
+                    <div className='header__icons-basket float-right cursor-pointer ml-2'>
                         <div className='relative'>
                             <Link className='relative'>
                                 <div>
                                     <div className='h-9 w-10 leading-8 mx-auto border border-dblue1 text-dblue1 flex justify-center items-center '>
-                                        <span className='absolute -top-1.5 left-4 w-4 h-4 leading-4 bg-dblue1 text-dwhite1 text-center rounded-full text-d11 font-bold '>0</span>
+                                        <span className='absolute -top-2 -left-1.5 w-4 h-4 leading-4 bg-dblue1 text-dwhite1 text-center rounded-full text-d11 font-bold '>0</span>
                                         <BsCart3 className='h-6 w-6'/>
                                     </div>
                                     <div className=' text-d11 whitespace-nowrap'>my cart</div>
@@ -66,7 +66,7 @@ function Header() {
                 <div className='header__search search-wrapper'></div>
             </div>
         </div>                  
-        <nav className='header-menu border-b border-dborderblack1 mt-2.5'>
+        <nav className='header-menu border-b border-dborderblack1 mt-2.5 h-10'>
             <div className='container'>
                 <ul className='navigation relative text-center mx-auto'>
                     <li className='inline-block'>
