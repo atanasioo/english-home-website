@@ -121,17 +121,17 @@ module.exports = {
     },
   },
   plugins: [
-    // function ({ addComponents }) {
-    //   addComponents({
-    //     ".container": {
-    //       width: "100%",
-    //       maxWidth: "1440px",
-    //       padding: "0 0.75rem",
-    //       marginRight: "auto",
-    //       marginLeft: "auto",
-    //       overflow: "hidden"
-    //     },
-    //   });
-    // },
+    function ({ addComponents }) {
+      addComponents({
+        ".container": {
+          width: "100%",
+          maxWidth: "1170px",
+          padding: "0 5px",
+          marginRight: "auto",
+          marginLeft: "auto",
+          //overflow: "hidden"
+        },
+      });
+    },
   ],
 }
