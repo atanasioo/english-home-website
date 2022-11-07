@@ -27,7 +27,6 @@ var urls = {
   search: "v2/index.php?route=catalog/search/autoCompleteV2&term=",
   home: "v2/index.php?route=common/widgets",
   product: "v2/index.php?route=catalog/product&product_id=",
-  // recentlyViewd: "v1/index.php?route=catalog/product/recentlyViewd",
   productpreview: "v2/index.php?route=catalog/product_preview&product_id=",
   category: "v2/index.php?route=catalog/category&path=",
   manufacturer: "v2/index.php?route=catalog/manufacturer&manufacturer_id=",
@@ -48,13 +47,11 @@ var urls = {
   alias: "v2/index.php?route=catalog/seo/handler&keyword=",
   footerv2: "v2/index.php?route=common/footerItem",
   headerv2: "v2/index.php?route=design/headerMenu",
-  // reviews: "v2/index.php?route=catalog/review",
-  // pixel: "v1/index.php?route=marketing/st",
+
   currency: "v2/index.php?route=account/change/currency",
   notify:
     "v2/index.php?route=marketing/notify/addNotification",
-  // productBundles:
-  //   "v1/index.php?route=catalog/product/getProductBundles&product_id=",
+
   insertLike: "v2/index.php?route=catalog/product/likeProduct",
   deleteLike: "v2/index.php?route=catalog/product/unlikeProduct",
   getLikeProduct: "v2/index.php?route=catalog/product/getLikedProducts",
