@@ -30,8 +30,12 @@ module.exports = {
         d14: "14px",
         d15: "15px",
         d16: "16px",
+        d18: "18px",
         d20: "20.5712px",
         d30: "30px",
+
+        d25: "25px",
+
   
         d6: "6px",
         d22: "22px",
@@ -68,6 +72,9 @@ module.exports = {
         dgrey5: {
           DEFAULT: "#dddddd"  //desktopmenu hover bg page
         },
+        dgrey6:{
+          DEFAULT: "#9d9d9c" // footer text color
+        },
         dgreyTransp1: {
           DEFAULT: "rgba(255,255,255,0.9)"  //slick arrow bg color
         },
@@ -89,9 +96,7 @@ module.exports = {
         dbasenavy: {
           DEFAULT: "#002b5c"
         },
-        dbasenavy: {
-          DEFAULT: "#022c5c" //ehm
-        },
+     
         dred1: {
           DEFAULT: "#FF0000"
         },

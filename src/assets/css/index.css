@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.googlePlay {
+    background-image: url(https://www.ishtari.com/img/sprite.25850177.png);
+    background-position-x: 0px;
+    background-position-y: -86px;
+    background-size: 186px;
+  
+    background-attachment: initial;
+    background-origin: initial;
+    background-clip: initial;
+    background-color: initial;
+    text-indent: 100%;
+    white-space: nowrap;
+    display: inline-block;
+    width: 135px;
+    padding: 0 20px;
+    height: 40px;
+  }
+  
+  .appleStore {
+    display: inline-block;
+    width: 135px;
+    height: 40px;
+    background-image: url(https://www.ishtari.com/img/sprite.25850177.png);
+    background-position-x: 0px;
+    background-position-y: 0px;
+    background-size: 186px;
+    background-attachment: initial;
+    background-origin: initial;
+    background-clip: initial;
+    background-color: initial;
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  

@@ -46,11 +46,9 @@ var urls = {
   alias: "v2/index.php?route=catalog/seo/handler&keyword=",
   footerv2: "v2/index.php?route=common/footerItem",
   headerv2: "v2/index.php?route=design/headerMenu",
-
   currency: "v2/index.php?route=account/change/currency",
   notify:
     "v2/index.php?route=marketing/notify/addNotification",
-
   insertLike: "v2/index.php?route=catalog/product/likeProduct",
   deleteLike: "v2/index.php?route=catalog/product/unlikeProduct",
   getLikeProduct: "v2/index.php?route=catalog/product/getLikedProducts",
