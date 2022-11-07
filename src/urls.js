@@ -2,7 +2,6 @@
 var host = window.location.host;
 export const path = "";
 export var pixelID = "";
-var mobileurls;
 var path1 = "";
 var urls = {
   token: "v2/index.php?route=token/token&grant_type=client_credentials",
