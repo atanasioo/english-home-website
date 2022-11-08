@@ -42,6 +42,7 @@ function Footer() {
                       <div
                         className="text-d15 font-light  leading-relaxed text-dbgrey6 cursor-pointer opacity-50"
                         dangerouslySetInnerHTML={{ __html: sub.name }}
+                        key={sub.category_id}
                       />
                     );
                   })}

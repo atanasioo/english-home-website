@@ -75,6 +75,12 @@ module.exports = {
         dgrey6:{
           DEFAULT: "#9d9d9c" // footer text color
         },
+        dgrey7:{
+          DEFAULT: "#eee"
+        },
+        dgrey8:{
+          DEFAULT: "#f9f9f9" 
+        },
         dgreyTransp1: {
           DEFAULT: "rgba(255,255,255,0.9)"  //slick arrow bg color
         },
@@ -90,8 +96,20 @@ module.exports = {
         dborderblack2: {
           DEFAULT: "#0a2240"
         },
+        dborderblack3: {
+          DEFAULT: "#666"
+        },
         dbordergrey: {
           DEFAULT: "#D3D3D1"
+        },
+        dbordergrey2: {
+          DEFAULT: "#F8F8F8"
+        },
+        dbordergrey3: {
+          DEFAULT: "#D8D8D8"
+        },
+        dbordergrey4: {
+          DEFAULT: "#ebebeb"
         },
         dbasenavy: {
           DEFAULT: "#002b5c"
