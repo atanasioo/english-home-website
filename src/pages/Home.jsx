@@ -8,7 +8,7 @@ function Home() {
   const [data, setData] = useState();
   useEffect(() => {
     getData();
-  });
+  },[]);
   async function getData() {
     //  var plusHome = state.admin ?  '&nocahe=true' : ''
     await _axios({

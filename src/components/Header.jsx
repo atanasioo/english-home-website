@@ -4,6 +4,7 @@ import DesktopMenu from './DesktopMenu';
 import TopWishlist from './TopWishlist';
 import TopAccount from './TopAccount';
 import TopCart from './TopCart';
+import TopSearch from './TopSearch';
 
 function Header() {
 
@@ -24,7 +25,7 @@ const width =window.innerWidth;
             </div>
         </section>
         <div className='header__action pt-6 bg-dwhite1' style={{height: "85px"}}>
-            <div className='container header__action-container relative'>
+            <div className='container header__action-container relative '>
                 <div className='back-bar hidden'></div>
                 <div className='header__logo float-left'>
                     <div></div>
@@ -44,7 +45,9 @@ const width =window.innerWidth;
                     </div>
                 </div>
                 <div className='clearfix hidden'></div>
-                <div className='header__search search-wrapper'></div>
+                <div className='header__search search-wrapper float-left ml-16'>
+                    <TopSearch/>
+                </div>
             </div>
         </div>                  
         <DesktopMenu />

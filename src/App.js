@@ -11,12 +11,16 @@ import { AccountContext, AccountProvider } from "./contexts/AccountContext";
 import { CartProvider } from "./contexts/CartContext";
 
 function App() {
+  const width= window.innerWidth;
+
   return (
     <div className="App">
       <CartProvider>
         <AccountProvider>
           <Header />
-          <HeaderCampaigns />
+          {width >650 && (
+            <HeaderCampaigns />
+          )}
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="category" element={<Category />} />

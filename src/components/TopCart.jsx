@@ -24,7 +24,7 @@ function TopCart() {
           <div className=" text-d11 whitespace-nowrap">My cart</div>
         </div>
       </Link>
-      {showmenu && accountState.loged && (
+      {showmenu  && (
         <div className="absolute z-10 w-80 top-full -mt-1 -right-4 bg-dwhite1 shadow-lg"
         onMouseEnter={()=>setShowmenu(true)} onMouseLeave={()=>setShowmenu(false)}
         >

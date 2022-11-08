@@ -19,7 +19,6 @@ function HeaderCampaigns() {
         </div>
         <div className="campaign-item flex items-center">
           <Link className="hover:underline">⭐ All Products</Link>
-          <p className="mx-2">|</p>
         </div>
       </div>
     </div>
