@@ -27,7 +27,7 @@ function TopAccount() {
       {/* not logged hover div */}
       {showmenu && !state.loged && (
         <div
-          className="header__auth__menu-inner absolute  -right-16 bg-dwhite1 w-60  p-5 z-10 shadow-lg border border-dgrey5 flex flex-col"
+          className="header__auth__menu-inner absolute -mt-0.5 -right-16 bg-dwhite1 w-60  p-5 z-10 shadow-lg border border-dgrey5 flex flex-col"
           onMouseEnter={() => setShowmenu(true)}
           onMouseLeave={() => setShowmenu(false)}
         >

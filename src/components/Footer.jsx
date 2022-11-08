@@ -40,7 +40,7 @@ function Footer() {
                   {cat?.data?.map((sub) => {
                     return (
                       <div
-                        className="text-d15 font-light  leading-relaxed text-dbgrey6 cursor-pointer opacity-50"
+                        className="text-d15 font-light  leading-relaxed text-dbgrey6 cursor-pointer text-dgrey6 hover:text-dblue1 hover:underline transition-all"
                         dangerouslySetInnerHTML={{ __html: sub.name }}
                         key={sub.category_id}
                       />
@@ -56,23 +56,23 @@ function Footer() {
             </div>
 
             <div className="flex w-full place-content-center mx-5 ">
-              <div className="border-2 rounded-full  border-dbasenavy p-2 text-d25 mx-1">
+              <div className="border-2 rounded-full  border-dbasenavy p-2 text-d25 mx-1 cursor-pointer">
                 {" "}
                 <FaFacebookF />
               </div>
-              <div className="border-2 rounded-full  border-dbasenavy p-2 text-d25  mx-1">
+              <div className="border-2 rounded-full  border-dbasenavy p-2 text-d25  mx-1 cursor-pointer">
                 {" "}
                 <FaInstagram />
               </div>
-              <div className="border-2 rounded-full  border-dbasenavy p-2 text-d25 mx-1">
+              <div className="border-2 rounded-full  border-dbasenavy p-2 text-d25 mx-1 cursor-pointer">
                 {" "}
                 <FaLinkedinIn />
               </div>
-              <div className="border-2 rounded-full  border-dbasenavy p-2 text-d25 mx-1">
+              <div className="border-2 rounded-full  border-dbasenavy p-2 text-d25 mx-1 cursor-pointer">
                 {" "}
                 <FaTwitter />
               </div>
-              <div className="border-2 rounded-full  border-dbasenavy p-2 text-d25 mx-1">
+              <div className="border-2 rounded-full  border-dbasenavy p-2 text-d25 mx-1 cursor-pointer">
                 {" "}
                 <FaYoutube />
               </div>
@@ -83,10 +83,10 @@ function Footer() {
               </span>
               <div className="flex space-x-3 py-3 w-full  place-content-center">
                 <a>
-                  <p className="appleStore px-10"></p>
+                  <p className="appleStore px-10 cursor-pointer"></p>
                 </a>
                 <a>
-                  <p className="googlePlay"></p>
+                  <p className="googlePlay cursor-pointer"></p>
                 </a>
               </div>
               <div className="w-full grid-flow-row  pt-3">
