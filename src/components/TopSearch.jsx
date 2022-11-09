@@ -136,8 +136,9 @@ function TopSearch() {
 
 
   return(
-     <div className="flex items-center mt-2.5">
-        <input type="text" name="search_text" id="top_search_input" className="h-9 text-dblack2 pl-4 relative z-10 border border-dbordergrey4 outline-none rounded-none"  
+     <div className="flex items-center mt-2.5 mx-2.5 md:mx-0">
+        <input type="text" name="search_text" id="top_search_input"
+        className="h-9 text-dblack2 pl-4 relative z-10 border-2 border-dbasenavy md:border  md:border-dbordergrey4 outline-none rounded-none "  
         style={{width: "450px"}} 
         placeholder="What are you looking for?"
         onChange={(e) => {
@@ -152,8 +153,9 @@ function TopSearch() {
         ref={wrapperRef}
         value={query}
         />
-        <button className="w-10 h-9  text-center flex justify-center items-center text-d15" style={{backgroundColor: "#555"}}>
-            <BsSearch className="text-dwhite1 text-d22"/>
+        <button className="w-10 h-9  text-center flex justify-center items-center text-d15 bg-dbasenavy md:bg-dgrey9" 
+        style={{minWidth: "30px"}}>
+            <BsSearch className="text-dwhite1 text-d18 md:text-d22"/>
         </button>
         {results.length > 0 && viewResults && (
           <div

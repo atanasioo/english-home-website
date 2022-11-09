@@ -15,16 +15,16 @@ function TopCart() {
     <div className="relative">
       <Link className="relative" onMouseEnter={()=>setShowmenu(true)} onMouseLeave={()=>setShowmenu(false)}>
         <div>
-          <div className="h-9 w-10 leading-8 mx-auto border border-dblue1 text-dblue1 hover:text-dwhite1 hover:bg-dblue1 flex justify-center items-center mb-1">
-            <span className="absolute -top-2 -left-1.5 w-4 h-4 leading-4 bg-dblue1 text-dwhite1 text-center rounded-full text-d11 font-bold ">
+          <div className="h-9 w-6 md:w-10 leading-8 mx-auto md:border md:border-dblue1 text-dbasenavy md:text-dblue1 hover:text-dwhite1 hover:bg-dblue1 flex justify-center items-center mb-1">
+            <span className="absolute -top-0.5 md:-top-2 -left-1.5 w-4 h-4 leading-4 bg-dbasenavy md:bg-dblue1 text-dwhite1 text-center rounded-full text-d11 font-bold ">
               0
             </span>
-            <BsCart3 className="h-6 w-6" />
+            <BsCart3 className="h-5 w-5 md:h-6 md:w-6" />
           </div>
-          <div className=" text-d11 whitespace-nowrap">My cart</div>
+          <div className=" text-d11 whitespace-nowrap hidden md:block">My cart</div>
         </div>
       </Link>
-      {showmenu  && (
+      {showmenu  && accountState.loged && (
         <div className="absolute z-10 w-80 top-full -mt-1 -right-4 bg-dwhite1 shadow-lg"
         onMouseEnter={()=>setShowmenu(true)} onMouseLeave={()=>setShowmenu(false)}
         >

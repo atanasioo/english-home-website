@@ -14,7 +14,7 @@ function App() {
   const width= window.innerWidth;
 
   return (
-    <div className="App">
+    <div className="App ">
       <CartProvider>
         <AccountProvider>
           <Header />

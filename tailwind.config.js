@@ -30,6 +30,7 @@ module.exports = {
         d14: "14px",
         d15: "15px",
         d16: "16px",
+        d17: "17px",
         d18: "18px",
         d20: "20.5712px",
         d30: "30px",
@@ -80,6 +81,9 @@ module.exports = {
         },
         dgrey8:{
           DEFAULT: "#f9f9f9" 
+        },
+        dgrey9:{
+          DEFAULT: "#555"  // for search icon bg color
         },
         dgreyTransp1: {
           DEFAULT: "rgba(255,255,255,0.9)"  //slick arrow bg color
@@ -141,6 +145,9 @@ module.exports = {
         },
         dblack2: {
           DEFAULT: "#000"
+        },
+        dblackOverlay: {
+          DEFAULT: "rgba(0,0,0,0.5)"
         },
 
         
