@@ -9,6 +9,7 @@ import Footer from "./components/Footer";
 import HeaderCampaigns from "./components/HeaderCampaigns";
 import { AccountContext, AccountProvider } from "./contexts/AccountContext";
 import { CartProvider } from "./contexts/CartContext";
+import Login from "./pages/Login";
 
 function App() {
   const width= window.innerWidth;
@@ -26,6 +27,7 @@ function App() {
             <Route path="category" element={<Category />} />
             <Route path="product" element={<Product />} />
             <Route path="cart" element={<Cart />} />
+            <Route path="login" element={<Login />} />
           </Routes>
           <Footer />
         </AccountProvider>

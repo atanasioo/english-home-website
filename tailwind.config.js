@@ -34,10 +34,8 @@ module.exports = {
         d18: "18px",
         d20: "20.5712px",
         d30: "30px",
-
         d25: "25px",
-
-  
+        d27: "27px",
         d6: "6px",
         d22: "22px",
         xs: ".75rem",
@@ -85,6 +83,9 @@ module.exports = {
         dgrey9:{
           DEFAULT: "#555"  // for search icon bg color
         },
+        dgrey10:{
+          DEFAULT: "#F7F6F6"  // for search icon bg color
+        },
         dgreyTransp1: {
           DEFAULT: "rgba(255,255,255,0.9)"  //slick arrow bg color
         },
@@ -128,11 +129,20 @@ module.exports = {
         dred3: {
           DEFAULT: "#d01344"  //for % badge
         },
+        dred4: {
+          DEFAULT: "#b60000"  //for errors
+        },
         dblue1: {
           DEFAULT: "#4688d7"
         },
         dblue2: {
           DEFAULT: "#2c4f79"
+        },
+        dblue3: {
+          DEFAULT: "#004ea8" // for login button
+        },
+        dblue4: {
+          DEFAULT: "#1a73e8" // for sign in with google button
         },
         dyellow1: {
           DEFAULT: "#F7F5EE"

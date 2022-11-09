@@ -31,10 +31,14 @@ function TopAccount() {
           onMouseEnter={() => setShowmenu(true)}
           onMouseLeave={() => setShowmenu(false)}
         >
-          <Link className="cursor-pointer bg-dblue1 hover:bg-dblack2 text-dwhite1 border border-dborderblack3 text-center p-1 mb-1.5 text-sm font-mono">
+          <Link 
+          to={"/login"}
+          className="cursor-pointer bg-dblue1 hover:bg-dblack2 text-dwhite1 border border-dborderblack3 text-center p-1 mb-1.5 text-sm font-mono">
             LOGIN
           </Link>
-          <Link className="cursor-pointer bg-dwhite1 text-dblue1 hover:text-dblack2 border border-dborderblack3 text-center p-1 mb-1.5 text-sm font-mono">
+          <Link 
+          to={"/login"}
+          className="cursor-pointer bg-dwhite1 text-dblue1 hover:text-dblack2 border border-dborderblack3 text-center p-1 mb-1.5 text-sm font-mono">
             SIGN UP
           </Link>
         </div>
