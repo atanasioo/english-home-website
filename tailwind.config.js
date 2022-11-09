@@ -4,21 +4,20 @@ module.exports = {
   important: true,
   theme: {
     extend: {
-
       screens: {
         xs: "320px",
         sm: "640px",
         // => @media (min-width: 640px) { ... }
-  
+
         md: "768px",
         // => @media (min-width: 768px) { ... }
-  
+
         lg: "1024px",
         // => @media (min-width: 1024px) { ... }
-  
+
         xl: "1280px",
         // => @media (min-width: 1280px) { ... }
-  
+
         "2xl": "1536px"
       },
 
@@ -36,6 +35,8 @@ module.exports = {
         d30: "30px",
         d25: "25px",
         d27: "27px",
+
+        dh3: "1.3rem",
         d6: "6px",
         d22: "22px",
         xs: ".75rem",
@@ -47,7 +48,7 @@ module.exports = {
         "2xl": "1.5rem",
         m: "1.6rem",
         xxl: "2em",
-  
+
         "3xl": "1.875rem",
         "4xl": "2.25rem",
         "5xl": "3rem",
@@ -55,7 +56,7 @@ module.exports = {
         "7xl": "5rem"
       },
 
-      colors:{
+      colors: {
         dgrey1: {
           DEFAULT: "#F3F3F3"
         },
@@ -66,19 +67,19 @@ module.exports = {
           DEFAULT: "#EAEAEA"
         },
         dgrey4: {
-          DEFAULT: "#F7F5EE"  //category bg page
+          DEFAULT: "#F7F5EE" //category bg page
         },
         dgrey5: {
-          DEFAULT: "#dddddd"  //desktopmenu hover bg page
+          DEFAULT: "#dddddd" //desktopmenu hover bg page
         },
-        dgrey6:{
+        dgrey6: {
           DEFAULT: "#9d9d9c" // footer text color
         },
-        dgrey7:{
+        dgrey7: {
           DEFAULT: "#eee"
         },
-        dgrey8:{
-          DEFAULT: "#f9f9f9" 
+        dgrey8: {
+          DEFAULT: "#f9f9f9"
         },
         dgrey9:{
           DEFAULT: "#555"  // for search icon bg color
@@ -87,10 +88,10 @@ module.exports = {
           DEFAULT: "#F7F6F6"  // for search icon bg color
         },
         dgreyTransp1: {
-          DEFAULT: "rgba(255,255,255,0.9)"  //slick arrow bg color
+          DEFAULT: "rgba(255,255,255,0.9)" //slick arrow bg color
         },
         dgreyTransp2: {
-          DEFAULT: "rgba(255,255,255,0.7)"  //hover on carousel cart
+          DEFAULT: "rgba(255,255,255,0.7)" //hover on carousel cart
         },
         dwhite1: {
           DEFAULT: "#FFF"
@@ -119,7 +120,7 @@ module.exports = {
         dbasenavy: {
           DEFAULT: "#002b5c"
         },
-     
+
         dred1: {
           DEFAULT: "#FF0000"
         },
@@ -127,7 +128,7 @@ module.exports = {
           DEFAULT: "#97191a"
         },
         dred3: {
-          DEFAULT: "#d01344"  //for % badge
+          DEFAULT: "#d01344" //for % badge
         },
         dred4: {
           DEFAULT: "#b60000"  //for errors
@@ -164,11 +165,11 @@ module.exports = {
 
         
       },
-      height:{
-        "7.5": "31.5px",
-        "17" : "70px",
+      height: {
+        7.5: "31.5px",
+        17: "70px"
       }
-    },
+    }
   },
   plugins: [
     function ({ addComponents }) {
@@ -178,10 +179,10 @@ module.exports = {
           //maxWidth: "1440px",
           padding: "0 5px",
           marginRight: "auto",
-          marginLeft: "auto",
+          marginLeft: "auto"
           //overflow: "hidden"
-        },
+        }
       });
-    },
-  ],
-}
+    }
+  ]
+};

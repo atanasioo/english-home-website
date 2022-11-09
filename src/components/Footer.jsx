@@ -7,7 +7,6 @@ import {
   FaFacebookF,
   FaInstagram,
   FaTwitter,
-  FaYoutubeSquare,
   FaYoutube
 } from "react-icons/fa";
 import supportImage from "../assets/images/online-support.png";
