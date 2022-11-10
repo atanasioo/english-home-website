@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import _axios from "../axios";
-import WidgetsLooop from "../components/WidgetsLoop";
+import WidgetsLoop from "../components/WidgetsLoop";
+import WidgetsLoopMobile from "../components/WidgetsLoopMobile";
+
 import buildLink from "../urls";
 
 function Home() {
   const [data, setData] = useState();
   useEffect(() => {
     getData();
-  },[]);
+  }, []);
   async function getData() {
     //  var plusHome = state.admin ?  '&nocahe=true' : ''
     await _axios({
@@ -25,14 +27,14 @@ function Home() {
       .catch((e) => {});
   }
   return (
-    <div className="containner">
- 
-      <div>Home page</div>
+    <div className="containne pt-3">
+
       {window.innerWidth < 650
-        ?
-        <div></div>
+        ? data?.map((widget) => {
+            return <WidgetsLoopMobile widget={widget} />;
+          })
         : data?.map((widget) => {
-            return <WidgetsLooop widget={widget} />;
+            return <WidgetsLoop widget={widget} />;
           })}
     </div>
   );
