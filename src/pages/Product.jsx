@@ -4,22 +4,39 @@ import buildLink from "../urls";
 import { useParams } from "react-router-dom";
 import { AiOutlineHeart } from 'react-icons/ai';
 import { FiShare } from 'react-icons/fi';
-
+import NewZoom from "../components/NewZoom";
 function Product() {
   const [productData, setProductData] = useState();
+  const [images, setImages] = useState();
   let product_id = useParams().id;
 
   useEffect(() => {
     _axios
       .get(buildLink("product", undefined, undefined) + product_id)
       .then((response) => {
-        setProductData(response.data.data);
+        const data = response?.data?.data
+        setProductData(data);
+        data?.images.unshift({
+          popup: data.popup,
+          thumb: data.thumb,
+        });
+
+        setImages(data?.images);
+
       });
   }, []);
 
   return (
     <div className="flex flex-wrap ">
-      <div className="w-7/12">x</div>
+      <div className="w-7/12">
+      {images && (
+                    <NewZoom
+                      // activeOption={activeImageOption.product_option_value_id}
+                      images={images}
+                      index={"zzzzz"}
+                    />
+                  )}
+      </div>
 
       <div className="w-5/12 p-1 ">
       <div className="flex my-3">
