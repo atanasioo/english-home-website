@@ -105,6 +105,9 @@ module.exports = {
         dborderblack3: {
           DEFAULT: "#666"
         },
+        dborderblack4: {
+          DEFAULT: "#343a4"
+        },
         dbordergrey: {
           DEFAULT: "#D3D3D1"
         },

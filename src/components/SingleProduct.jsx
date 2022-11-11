@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { HiOutlineShoppingBag } from "react-icons/hi";
+import buildLink, { path } from "../urls";
+
 export default function SingleProduct(props) {
   const [hovered, isHovered] = useState(false);
   const [hovered1, isHovered1] = useState(false);
@@ -11,7 +13,14 @@ export default function SingleProduct(props) {
   }
 
   return (
-    <div
+    <Link 
+    to={`${path}/${props.item.name.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+    .replace(/\s+/g, "-")
+    .replace("..", "")
+    .replace("/", "-")
+    .replace("---", "-")
+    .replace("--", "-")
+    .replace("/", "")}/p=${props.item.product_id}`}
       className="relative w-full m-3"
       onMouseEnter={() => isHovered(true)}
       onMouseLeave={onMouseLeave}
@@ -83,6 +92,6 @@ export default function SingleProduct(props) {
 
 }
       </div>
-    </div>
+    </Link>
   );
 }
