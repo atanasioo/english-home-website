@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import _axios from "../axios";
 import buildLink from "../urls";
 import { useParams } from "react-router-dom";
+import { AiOutlineHeart } from 'react-icons/ai';
+import { FiShare } from 'react-icons/fi';
+
 function Product() {
   const [productData, setProductData] = useState();
   let product_id = useParams().id;
@@ -16,12 +19,16 @@ function Product() {
 
   return (
     <div className="flex flex-wrap ">
-      <div className="w-1/2">x</div>
+      <div className="w-7/12">x</div>
 
-      <div className="w-1/3 p-1 ">
-        <div className="font-sans md:font-serif font-semibold text-left	text-dborderblack2 text-d20">
+      <div className="w-5/12 p-1 ">
+      <div className="flex my-3">
+        <div className="font-sans md:font-serif font-semibold text-left	text-dborderblack2 text-d20 w-8/12">
           {productData?.heading_title}
         </div>
+        <div className="align-right w-8 mt-1 text-d25  ml-6 	text-dborderblack2 font-black	" ><FiShare/></div>
+        <div className="align-right w-12 mt-1 text-d25 ml-2 	text-dborderblack2" ><AiOutlineHeart /></div>
+      </div>
         <div className="flex my-3">
           <div className="rounded-full bg-dborderblack2 text-white w-16 h-16 text-d11 align-middle pt-4">
             DiSCOUNT IN CART
