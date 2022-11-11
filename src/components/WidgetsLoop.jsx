@@ -113,8 +113,12 @@ function WidgetsLooop({ widget }) {
                       >
                         <img
                           alt={item.name}
+                          // src={
+                          //   `${window.config["site-url"]}/image/` +
+                          //   item.image
+                          // }
                           src={
-                            `${window.config["site-url"]}/image/` +
+                            `https://www.ishtari.com/image/` +
                             item.image
                           }
                           width={item.banner_width}

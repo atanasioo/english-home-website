@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import { AccountContext } from "../contexts/AccountContext";
 import { Link } from "react-router-dom";
 import _axios from "../axios";
 import WidgetsLooop from "../components/WidgetsLoop";
@@ -6,6 +7,8 @@ import buildLink from "../urls";
 
 function Home() {
   const [data, setData] = useState();
+  const [state, dispatch] = useContext(AccountContext);
+  console.log(state);
   useEffect(() => {
     getData();
   },[]);
@@ -27,7 +30,7 @@ function Home() {
   return (
     <div className="containner">
  
-      <div>Home page</div>
+      
       {window.innerWidth < 650
         ?
         <div></div>

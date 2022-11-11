@@ -21,6 +21,10 @@ module.exports = {
         "2xl": "1536px"
       },
 
+      backgroundImage:{
+        "grey-gradient": "linear-gradient(to top, #ffffff, #fafafa, #f6f6f6, #f1f1f1, #ededed)"
+      },
+
       fontSize: {
         d13: "13px",
         d11: "11px",
@@ -33,6 +37,7 @@ module.exports = {
         d18: "18px",
         d20: "20.5712px",
         d30: "30px",
+        d24: "24px",
         d25: "25px",
         d27: "27px",
 
@@ -168,6 +173,10 @@ module.exports = {
       height: {
         7.5: "31.5px",
         17: "70px"
+      },
+      width: {
+        488: "48%",
+       
       }
     }
   },

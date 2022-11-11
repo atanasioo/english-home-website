@@ -7,7 +7,7 @@ export default function CustomArrows({
   className,
   type
 }) {
-  console.log(style);
+ 
   return type === "slider" || type === "carousel" ? (
     <div
       style={{ ...style, padding: "2px 2px" }}
