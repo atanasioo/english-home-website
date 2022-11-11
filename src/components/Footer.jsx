@@ -27,13 +27,13 @@ function Footer() {
     <div className="overflow-x-hidden">
       <div className="border-t-2 "></div>
       <div className="container">
-        <div className=" flex flex-col  md:flex-row   px-auto mt-16">
+        <div className={`flex flex-col  md:flex-row   px-auto ${ window.innerWidth < 650 ? "mt-2" : "  mt-16"}`}>
           <div className="flex flex-col  md:grid md:grid-cols-3 md:gap-3 text-left ">
             {data?.data?.map((cat) => {
               return (
                 <div key={cat.category_id} className="mt-2 mb-3 mx-2 flex flex-col justify-center">
                   <div
-                    className="text-d18 font-medium text-dbasenavy text-center md:text-left  pb-3"
+                    className="text-d18 font-medium text-dbasenavy text-center md:text-left  pb-3 uppercase"
                     dangerouslySetInnerHTML={{ __html: cat.name }}>
                   </div>
                   {cat?.data?.map((sub) => {

@@ -13,23 +13,26 @@ import { CartProvider } from "./contexts/CartContext";
 import Login from "./pages/Login";
 
 function App() {
-  const width= window.innerWidth;
+  const width = window.innerWidth;
 
   return (
     <div className="App ">
       <CartProvider>
         <AccountProvider>
           <Header />
-          {width >650 && (
-            <HeaderCampaigns />
-          )}
+          {width > 650 && <HeaderCampaigns />}
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="category" element={<Category />} />
-            <Route path="product" element={<Product />} />
+            {/* <Route
+              path={["/:name/c=:id", "/:name/m=:id", "/:name/s=:id"]}
+              element={<Category />}   exact
+            /> */}
             <Route path="cart" element={<Cart />} />
             <Route path="login" element={<Login />} />
             <Route path="forgotmypassword" element={<ForgotMyPassword />} />
+            <Route path="product/:id" element={<Product />} />
+            <Route path="/:name/p=:id" element={<Product />} exact />
           </Routes>
           <Footer />
         </AccountProvider>

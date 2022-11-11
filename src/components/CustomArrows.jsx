@@ -14,7 +14,7 @@ export default function CustomArrows({
       onClick={onClick}
       className={`absolute z-10 ${
         direction === "r" ? "right-0" : "left-0"
-      }  border-dblack1 border-2 w-12 h-12  top-1/2  cursor-pointer bg-white mx-4`}
+      }  border-dblack1 border w-12 h-12  top-1/2  cursor-pointer bg-white mx-4`}
     >
  
 
