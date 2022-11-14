@@ -77,12 +77,14 @@ figure.mz-figure {
 .mz-figure>img {
     width: 100%;
     height: auto;
+    max-height: 545.5px !important;
 }
 
 .ie8-magic .MagicZoom>img,
 .ie8-magic .mz-figure>img {
     width: 100%;
     max-width: none !important;
+    
 }
 
 .mz-figure.mz-no-zoom.mz-no-expand,
@@ -1593,7 +1595,7 @@ a[data-zoom-id] img,
 }
 
 .mz-thumb img {
-    width: 60px;
+    width: 80px !important;
     border-radius: 4px !important;
 }
 

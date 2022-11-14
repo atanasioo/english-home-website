@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import _axios from "../axios";
 import buildLink from "../urls";
 import { useParams, Link, useLocation } from "react-router-dom";
@@ -9,8 +9,10 @@ import Slider from "react-slick";
 import NewZoom from "../components/NewZoom";
 import SingleProducts from "../components/SingleProduct";
 import CustomArrows from "../components/CustomArrows";
+import { CartContext } from "../contexts/CartContext";
 
 function Product() {
+  const [state, dispatch] = useContext(CartContext);
   const [productData, setProductData] = useState();
   const [images, setImages] = useState();
   const [infomenu, setInfomenu] = useState(true);
@@ -23,6 +25,7 @@ function Product() {
   const width = window.innerWidth;
   const location = useLocation();
   let product_id = useParams().id;
+  const [quantity, setQuantity] = useState(1);
 
   const productSetting = {
     speed: 200,
@@ -63,6 +66,19 @@ function Product() {
         setImages(data?.images);
       });
   }, [location]);
+
+  function incrementQuantity(quantity){
+   const newquantity = quantity + 1;
+   setQuantity(newquantity);
+  }
+  function decrementQuantity(quantity){
+    if(quantity == 1){
+      setQuantity(1)
+    }else{
+      const newquantity = quantity -1;
+      setQuantity(newquantity);
+    }
+  }
 
 
   // function setOption(option) {
@@ -235,10 +251,10 @@ function Product() {
                 </div>
               )}
               <div className="flex  my-3">
-                <div className="w-3/12 flex flex-wrap align-middle text-center pt-3 text-d22 font-bold text-dborderblack2 pr-3">
-                  <span className="w-3/12">-</span>
-                  <span className="w-6/12 text-center "> 1 </span>
-                  <span className="w-3/12">+</span>
+                <div className="w-3/12 flex flex-wrap align-middle text-center pt-3 text-d22 font-bold text-dborderblack2 pr-3 items-center">
+                  <button onClick={()=> decrementQuantity(quantity)}><span className="w-3/12">-</span></button>
+                  <span className="w-6/12 text-center ">{ quantity }</span>
+                  <button onClick={()=> incrementQuantity(quantity)}><span className="w-3/12">+</span></button>
                 </div>
                 <button className="bg-dborderblack2 font-black	 text-white  py-4 w-8/12 text-d16">
                   ADD TO BASKET

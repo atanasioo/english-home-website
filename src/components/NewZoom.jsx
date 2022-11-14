@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from "react";
 import Slider from "react-slick";
 // import SmallArrows from "./SmallArrows";
 import "../assets/css/index.css"
+import "../assets/css/magiczoom.css";
 import CustomArrows from "./CustomArrows";
 import SmallArrows from "./SmallArrows";
 
@@ -16,8 +17,8 @@ function NewZoom(props) {
     dots: false,
     infinite: false,
     speed: 100,
-    slidesToShow: 4,
-    slidesToScroll: 4,
+    slidesToShow: 6,
+    slidesToScroll: 5,
     autoplay: false,
     vertical: false,
     prevArrow: <SmallArrows direction={"l"} />,
@@ -66,13 +67,12 @@ function NewZoom(props) {
   return (
     <div>
       {images.length > 0 && (
-        <div className="flex flex-col justify-center items-center">
+        <div className="flex flex-col justify-center items-center" key={activeImage.popup}>
           {/* <div className="bx-wrapper max-w-full mb-1.5 relative"> */}
             <div
-              className="w-full overflow-hidden"
-              
+              className=" overflow-hidden"
             >
-              <div className="w-full" style={{height: "503px"}}>
+              <div className="w-full">
                 <a
                   id="Zoom-1"
                   className="MagicZoom"
@@ -81,7 +81,8 @@ function NewZoom(props) {
                   <img
                     src={activeImage["popup"]}
                     alt=""
-                    className="rounded-lg w-full h-1/2"
+                    className="rounded-lg"
+                    style={{maxHeight: "545px"}}
                   />
                 </a>
               </div>
@@ -90,9 +91,9 @@ function NewZoom(props) {
           {/* </div> */}
           <div
             id="selector_div"
-            className=" selector_div w-full my-2 md:pr-2  relative flex justify-center"
+            className=" selector_div w-full my-2 md:pr-2 "
           >
-            <div className="selectors w-full">
+            <div className="selectors w-full overflow-hidden overflow-y-hidden h-full  whitespace-pre md:whitespace-normal ">
               {width > 650 ? (
                 <Slider {...setting}>
                   {images?.map((i) => (
@@ -103,7 +104,7 @@ function NewZoom(props) {
                       data-image={i["popup"]}
                       data-zoom-image-2x={i["popup"]}
                       data-image-2x={i["popup"]}
-                      className="mz-thumb flex justify-center "
+                      className="mz-thumb flex justify-center"
                     >
                       <img srcSet={i["thumb"]} src={i["thumb"]} alt=""/>
                     </a>
