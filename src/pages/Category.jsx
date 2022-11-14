@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import _axios from "../axios";
-import SingleProduct from "../components/SingleProduct";
+import SingleProductCategory from "../components/SingleProductCategory";
 import buildLink from "../urls";
 function Category() {
   const location = useLocation();
@@ -34,7 +34,7 @@ function Category() {
       <div className="grid grid-cols-4">
         {data?.products?.map((product)=>(
           <div className="p-2">
-             <SingleProduct item={product}></SingleProduct>
+             <SingleProductCategory item={product}></SingleProductCategory>
           </div>
          
         ))}
