@@ -208,8 +208,9 @@ function Product() {
           <div className="w-5/12 p-1 ">
             <div className="wrapper">
               <div className="flex my-3">
-                <div className="font-mono md:font-mono font-semibold text-left	text-dborderblack2 text-d20 w-8/12">
-                  {productData?.heading_title}
+                <div className="font-mono md:font-mono font-semibold text-left	text-dborderblack2 text-d20 w-8/12"
+                  dangerouslySetInnerHTML={{ __html: productData?.heading_title}}
+                >
                 </div>
                 <div className="align-right w-8 mt-1 text-d25  ml-6 	text-dborderblack2 font-black	">
                   <FiShare />
