@@ -92,6 +92,9 @@ module.exports = {
         dgrey10:{
           DEFAULT: "#F7F6F6"  // for search icon bg color
         },
+        dgrey11:{
+          DEFAULT: "#999"  // for breadcrumbs
+        },
         dgreyTransp1: {
           DEFAULT: "rgba(255,255,255,0.9)" //slick arrow bg color
         },
@@ -111,7 +114,7 @@ module.exports = {
           DEFAULT: "#666"
         },
         dborderblack4: {
-          DEFAULT: "#343a4"
+          DEFAULT: "#343a40"
         },
         dbordergrey: {
           DEFAULT: "#D3D3D1"

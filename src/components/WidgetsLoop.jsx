@@ -134,8 +134,8 @@ function WidgetsLoop({ widget }) {
             </Slider>
           ) : (
             <Slider {...productMobile}>
-              {widget.items?.map((item) => {
-                if (item.product_id) {
+              {widget?.items?.map((item) => {
+                if (item?.product_id) {
                   return (
                     <div className="pr-2" key={item.product_id}>
                       <SingleProducts
@@ -148,12 +148,11 @@ function WidgetsLoop({ widget }) {
                   return (
                     <div className={`pr-2`} key={item.banner_image_id}>
                       <Link
-                      
                       >
                         <img
                           alt={item.name}
                           src={
-                            `${window.config["site-url"]}/image/` +
+                            `https://www.ishtari.com/image/` +
                             item.image
                           }
                           width={item.banner_width}

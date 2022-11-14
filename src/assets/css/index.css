@@ -348,3 +348,24 @@
 .slick-track {
     margin-left: 0;
 }
+
+.selectors .slick-list{
+    display: flex;
+}
+
+
+.selectors .slick-slide {
+    width: 100px;
+    margin-inline: 4px;
+ }
+ .selectors .slick-track {
+    width: unset !important;
+    display: flex;
+    justify-content: center;
+ }
+
+
+ #selector_div .slick-slide {
+    width: 100px !important;
+ }
+

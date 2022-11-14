@@ -164,7 +164,7 @@ function TopSearch() {
               // setOverlay(false);
             }}
             
-            className="xl:block lg:block absolute top-14 left-32   z-20 w-8/12 "
+            className="xl:block lg:block absolute top-24 left-0 w-full md:top-14 md:left-32 z-20 md:w-8/12 text-sm md:text-d16"
             style={{backgroundColor: "#f8f7f7"}}
           >
             {results.length > 1 &&

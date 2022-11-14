@@ -108,10 +108,10 @@ function Login() {
     <div className="checkout-viewport bg-dgrey10">
       <div className="auth-register-mobile md:hidden flex justify-around text-center mt-1.5 items-center text-d24 font-semibold font-mono">
         <div 
-        className={`w-1/2  text-dbasenavy bg-grey-gradient ${ logindiv ? "font-semibold bg-dwhite1 bg-none border-b-8 border-dblue3" : "font-normal"} border-b-2 border-dgrey3  text-d20 py-5 flex justify-center relative text-center h-16`}
+        className={`w-1/2  text-dbasenavy bg-grey-gradient ${ logindiv ? "font-semibold bg-dwhite1 bg-none border-b-8 border-dblue3" : "font-normal border-b-2 border-dgrey3"}   text-d20 py-5 flex justify-center relative text-center h-16`}
         onClick={()=> setLogindiv(true)}
         >Login</div>
-        <div className={`w-1/2 ${ !logindiv ? "font-semibold bg-dwhite1 bg-none border-b-8 border-dblue3" : "font-normal"} text-dbasenavy bg-grey-gradient border-b-2 border-dgrey3 text-d20 py-5 flex justify-center relative text-center h-16`}
+        <div className={`w-1/2 ${ !logindiv ? "font-semibold bg-dwhite1 bg-none border-b-8 border-dblue3" : "font-normal border-b-2 border-dgrey3"} text-dbasenavy bg-grey-gradient  text-d20 py-5 flex justify-center relative text-center h-16`}
           onClick={()=> setLogindiv(false)}
         >
           Sign up
