@@ -23,11 +23,11 @@ function App() {
           {width > 650 && <HeaderCampaigns />}
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="category/:id" element={<Category />} />
-            {/* <Route
-              path={["/:name/c=:id", "/:name/m=:id", "/:name/s=:id"]}
+            <Route path="category" element={<Category />} />
+            <Route
+              path={"/:name/c=:id"}
               element={<Category />}   exact
-            /> */}
+            />
             <Route path="cart" element={<Cart />} />
             <Route path="login" element={<Login />} />
             <Route path="forgotmypassword" element={<ForgotMyPassword />} />
