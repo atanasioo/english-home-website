@@ -22,6 +22,16 @@ function Product() {
   const [storemenu, setStoremenu] = useState(false);
   const [returnPolicy, setReturnPolicy] = useState([]);
   const [activeImageOption, setImageActiveOption] = useState({});
+  const [successAdded, setSuccessAdded] = useState(false);
+  const [hasOption, setHasOption] = useState(false);
+  const [hasAddToCartError, setHasAddToCartError] = useState(false);
+  const [AddToCartError, setAddToCartError] = useState("");
+  const [countDownPointer, setCountDonwPointer] = useState();
+  const [addingToCart, setAddingToCart] = useState(false);
+  const [optionParent, setOptionParent] = useState("");
+  const [countDown, setCountDown] = useState();
+  const [activeOption, setActiveOption] = useState({});
+  const [activeImage, setActiveImage] = useState({});
   const width = window.innerWidth;
   const location = useLocation();
   let product_id = useParams().id;
@@ -47,9 +57,8 @@ function Product() {
   };
 
   useEffect(() => {
-
     window.scrollTo({
-      top: 0
+      top: 0,
       // behavior: "smooth",
     });
 
@@ -64,58 +73,139 @@ function Product() {
         });
 
         setImages(data?.images);
+        setHasOption(data?.options?.length > 0);
+        data.options.length > 0 &&
+          setOptionParent(data.options[0]["product_option_id"]);
       });
   }, [location]);
 
-  function incrementQuantity(quantity){
-   const newquantity = quantity + 1;
-   setQuantity(newquantity);
+  function incrementQuantity(quantity) {
+    const newquantity = quantity + 1;
+    setQuantity(newquantity);
   }
-  function decrementQuantity(quantity){
-    if(quantity == 1){
-      setQuantity(1)
-    }else{
-      const newquantity = quantity -1;
+  function decrementQuantity(quantity) {
+    if (quantity == 1) {
+      setQuantity(1);
+    } else {
+      const newquantity = quantity - 1;
       setQuantity(newquantity);
     }
   }
 
+  function addToCart(bundle) {
+    setCountDonwPointer(true);
 
-  // function setOption(option) {
-  //   const option_id = option["product_option_value_id"];
+    setHasAddToCartError(false);
+    setAddingToCart(true);
+    let obj = {
+      product_id,
+      quantity,
+    };
+    if (hasOption) {
+      let o = {};
+      const op = optionParent.toString();
+      o[op] = activeOption["product_option_value_id"];
+      obj["option"] = o;
+      console.log(o);
+    }
+    let error = "";
+    _axios
+      .post(
+        buildLink("cart", undefined, window.innerWidth),
+        bundle === undefined ? obj : bundle
+      )
+      .then((response) => {
+        const data = response.data;
+        if (data.success !== true) {
+          // There is an error
+          setHasAddToCartError(true);
+          if (!hasOption) {
+            error = data.errors;
+          } else {
+            error = data.errors[0].errorMsg;
+          }
+          setAddToCartError(error);
+          setAddingToCart(false);
+        } else {
+          setCountDown(true);
+          setCountDonwPointer(true);
+          setTimeout(() => {
+            setCountDonwPointer(false);
+          }, 1000);
+          setTimeout(() => {
+            setCountDown(false);
+          }, 3000);
+          dispatch({
+            type: "loading",
+            payload: true,
+          });
+          _axios
+            .get(buildLink("cart", undefined, window.innerWidth))
+            .then((response) => {
+              dispatch({
+                type: "setProducts",
+                payload: response.data.data.products,
+              });
 
-  //   var count = 0;
-  //   var i = 0;
-  //   while (i < images.length) {
-  //     if (images[i]?.product_option_value_id > 0) {
-  //       count++;
-  //     }
+              dispatch({
+                type: "setProductsCount",
+                payload: response.data.data.total_product_count,
+              });
+              dispatch({
+                type: "setTotals",
+                payload: response.data.data.totals,
+              });
+              dispatch({
+                type: "loading",
+                payload: false,
+              });
+            });
 
-  //     i++;
-  //   }
+          setSuccessAdded(true);
 
-  //   if (
-  //     images[1]?.product_option_value_id > 0 ||
-  //     productData?.options[0].option_value.length === count
-  //   ) {
-  //     for (const key in images) {
-  //       if (Object.hasOwnProperty.call(images, key)) {
-  //         const element = images[key];
-  //         if (element["product_option_value_id"] === option_id) {
-  //           setActiveOption(option);
-  //           setImageActiveOption(option);
-  //           setActiveImage({
-  //             popup: element["popup"],
-  //             thumb: element["thumb"],
-  //           });
-  //         }
-  //       }
-  //     }
-  //   }
-  //   setActiveOption(option);
+          setTimeout(() => {
+            // setCountDown(false)
+            setAddingToCart(false);
+          }, 3000);
+        }
+      });
+  }
 
-  //   // setImageActiveOption(option);
-  // }
+  function setOption(option) {
+    const option_id = option["product_option_value_id"];
+
+    var count = 0;
+    var i = 0;
+    while (i < images.length) {
+      if (images[i]?.product_option_value_id > 0) {
+        count++;
+      }
+
+      i++;
+    }
+
+    if (
+      images[1]?.product_option_value_id > 0 ||
+      productData?.options[0].option_value.length === count
+    ) {
+      for (const key in images) {
+        if (Object.hasOwnProperty.call(images, key)) {
+          const element = images[key];
+          if (element["product_option_value_id"] === option_id) {
+            setActiveOption(option);
+            setImageActiveOption(option);
+            setActiveImage({
+              popup: element["popup"],
+              thumb: element["thumb"],
+            });
+          }
+        }
+      }
+    }
+    setActiveOption(option);
+
+    // setImageActiveOption(option);
+  }
 
   function handleReturnPolicy() {
     _axios
@@ -196,9 +286,9 @@ function Product() {
         </div>
         <div className="flex flex-col md:flex-row">
           <div className="mr-4 relative" style={{ width: "57%" }}>
-            {images?.length >0 && (
+            {images?.length > 0 && (
               <NewZoom
-               // activeOption={activeImageOption.product_option_value_id}
+                // activeOption={activeImageOption.product_option_value_id}
                 images={images}
                 index={"zzzzz"}
               />
@@ -208,10 +298,12 @@ function Product() {
           <div className="w-5/12 p-1 ">
             <div className="wrapper">
               <div className="flex my-3">
-                <div className="font-mono md:font-mono font-semibold text-left	text-dborderblack2 text-d20 w-8/12"
-                  dangerouslySetInnerHTML={{ __html: productData?.heading_title}}
-                >
-                </div>
+                <div
+                  className="font-mono md:font-mono font-semibold text-left	text-dborderblack2 text-d20 w-8/12"
+                  dangerouslySetInnerHTML={{
+                    __html: productData?.heading_title,
+                  }}
+                ></div>
                 <div className="align-right w-8 mt-1 text-d25  ml-6 	text-dborderblack2 font-black	">
                   <FiShare />
                 </div>
@@ -241,11 +333,38 @@ function Product() {
                   <div className="flex flex-wrap w-full">
                     {productData["options"]["0"]["option_value"]?.map(
                       (option) => (
-                        <img
-                          src={option["image"]}
-                          className="border  w-14 h-10 mr-4 text-center "
-                          alt={option?.name}
-                        />
+                        <div className="mr-3" key={option.image}>
+                          {/* <p className="text-xs text-center">
+                                {option["name"]}
+                              </p> */}
+                          <div
+                            key={option.image}
+                            className={`p-1  mr-2 my-2 cursor-pointer w-10 md:w-14 md:h-10 relative `}
+                            onClick={() => {
+                              setOption(option);
+                            }}
+                          >
+                            {option.quantity === "0" && (
+                              <div className=" bg-dgrey bg-opacity-50 w-full h-full absolute top-0 left-0 flex items-center justify-center cursor-not-allowed">
+                                <div className=" text-dblack text-4xl font-bold">
+                                  X
+                                </div>
+                              </div>
+                            )}
+                            <img
+                              src={option["image"]}
+                              className={`border  w-14 h-10 mr-4 text-center 
+                              ${
+                                option.product_option_value_id ===
+                                activeOption.product_option_value_id
+                                  ? "border-2 border-dblack2"
+                                  : ""
+                              }
+                              `}
+                              alt={option?.name}
+                            />
+                          </div>
+                        </div>
                       )
                     )}
                   </div>
@@ -253,14 +372,56 @@ function Product() {
               )}
               <div className="flex  my-3">
                 <div className="w-3/12 flex flex-wrap align-middle text-center pt-3 text-d22 font-bold text-dborderblack2 pr-3 items-center">
-                  <button onClick={()=> decrementQuantity(quantity)}><span className="w-3/12">-</span></button>
-                  <span className="w-6/12 text-center ">{ quantity }</span>
-                  <button onClick={()=> incrementQuantity(quantity)}><span className="w-3/12">+</span></button>
+                  <button onClick={() => decrementQuantity(quantity)}>
+                    <span className="w-3/12">-</span>
+                  </button>
+                  <span className="w-6/12 text-center ">{quantity}</span>
+                  <button onClick={() => incrementQuantity(quantity)}>
+                    <span className="w-3/12">+</span>
+                  </button>
                 </div>
-                <button className="bg-dborderblack2 font-black	 text-white  py-4 w-8/12 text-d16">
-                  ADD TO BASKET
+                <button
+                  className="bg-dborderblack2 font-black	 text-white  py-4 w-8/12 text-d16"
+                  onClick={() =>
+                    productData["quantity"] === "0"
+                      ? console.log("yep no")
+                      : addToCart()
+                  }
+                >
+                  <span>
+                    {productData?.quantity === "0" ? (
+                      "Out Of Stock"
+                    ) : (
+                      <div>
+                        <p
+                          className={`absolute  transition duration-100 ease-in left-5 md:left-14 top-3 text-white ${
+                            successAdded && countDown && !countDownPointer
+                              ? "translate-x-0 "
+                              : "translate-x-full invisible"
+                          } `}
+                        >
+                          <span className="bg-white  px-2 rounded-full text-dblue">
+                            1
+                          </span>{" "}
+                          item Added to the Cart
+                        </p>
+                        <span className="">ADD TO BASKET </span>
+                      </div>
+                    )}
+                  </span>{" "}
                 </button>
               </div>
+              {hasAddToCartError && (
+                <div className=" bg-dred4 text-white text-center h-11 rounded bg-opacity-80 capitalize relative flex items-center justify-center mr-10">
+                  <span className="px-8">{AddToCartError}</span>
+                  <span
+                    onClick={() => setHasAddToCartError(false)}
+                    className=" rounded absolute top-0 right-0 cursor-pointer w-11 h-11 flex items-center justify-center hover:bg-white hover:text-dred4 border border-dred4 border-l-0"
+                  >
+                    <span className="text-xl">X</span>
+                  </span>
+                </div>
+              )}
               <div className="flex justify-end items-start">
                 <div className="">
                   <p className="w-full px-1 text-d12 text-dborderblack2 text-right">

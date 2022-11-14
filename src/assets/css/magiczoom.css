@@ -1596,7 +1596,7 @@ a[data-zoom-id] img,
 
 .mz-thumb img {
     width: 80px !important;
-    border-radius: 4px !important;
+    border-radius: 0px !important;
 }
 
 @media (max-width: 600px) {
@@ -1607,7 +1607,7 @@ a[data-zoom-id] img,
 }
 
 .mz-thumb.mz-thumb-selected img {
-    border: 1px solid #3866de;
+    border: 3px solid #000;
 }
 
 .selectors {
