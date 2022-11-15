@@ -267,7 +267,7 @@ function Product() {
               <Link
                 to={`/category/${breadcrumb.category_id}`}
                 className={` ${
-                  index == productData?.breadcrumbs?.category.length - 1
+                  index === productData?.breadcrumbs?.category.length - 1
                     ? "text-dblack2 font-semibold"
                     : ""
                 }`}

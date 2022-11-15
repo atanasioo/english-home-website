@@ -65,7 +65,7 @@ export default function SingleProduct(props) {
 
       <div className="flex flex-col md:mt-12 text-d17 font-mono">
         <span
-          className={`text-left font-normal h-14 capitalize ${
+          className={`text-left font-normal h-12 capitalize max-h-12  ${
             window.innerWidth > 650 ? "text-d15" : "text-d14"
           } `}
           dangerouslySetInnerHTML={{

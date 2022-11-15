@@ -95,6 +95,10 @@ module.exports = {
         dgrey11:{
           DEFAULT: "#999"  // for breadcrumbs
         },
+        dgrey12:{
+          DEFAULT: "#949494"
+        },
+
         dgreyTransp1: {
           DEFAULT: "rgba(255,255,255,0.9)" //slick arrow bg color
         },
