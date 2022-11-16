@@ -21,9 +21,7 @@ function App() {
       <CartProvider>
         <AccountProvider>
           <WishlistProvider>
-    
- 
-        
+            <Header />
           {width > 650 && <HeaderCampaigns />}
           <Routes>
             <Route path="/" element={<Home />} />
