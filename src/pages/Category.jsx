@@ -19,6 +19,26 @@ function Category() {
   const navigate = useNavigate();
   const pathname = location.pathname;
 
+  function ToSeoUrl(url) {
+        
+    // make the url lowercase         
+    var encodedUrl = url.toString().toLowerCase(); 
+  
+    // replace & with and           
+    encodedUrl = encodedUrl.split(/\&+/).join("-and-")
+  
+    // remove invalid characters 
+    encodedUrl = encodedUrl.split(/[^a-z0-9]/).join("-");       
+  
+    // remove duplicates 
+    encodedUrl = encodedUrl.split(/-+/).join("-");
+  
+    // trim leading & trailing characters 
+    encodedUrl = encodedUrl.trim('-'); 
+  
+    return encodedUrl; 
+  }
+  
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -131,6 +151,9 @@ function Category() {
 
   function parseFilter(typekey, filter) {
     setPointer(false)
+
+
+
     console.log("yes");
     const id = filter["id"];
     var last = "";
@@ -265,10 +288,10 @@ function Category() {
       }
     }
   }
-
+  
   return (
     <div>
-      <div className={`flex flex-row p-2 bg-dgrey10 ${!pointer && "pointer-events-none	opacity-25" }`}>
+      <div className={`flex flex-row p-2 bg-dgrey10   ${!pointer && "pointer-events-none select-none opacity-25" }`} >
         {window.innerWidth > 650 && (
           <div className="w-3/12 px-8">
             <div className="w-10/12 text-left text-d18  border-b border-b-dblack2 py-2">
@@ -318,7 +341,7 @@ function Category() {
                         </div>
                       ) : (
                         <div
-                          className={`text-left w-full hover:underline underline-offset-4	 ${checkFilter(
+                          className={`text-left w-full hover:underline underline-offset-4	pointer-events-auto ${checkFilter(
                             filters[key].id,
                             filter.name,
                             filter
