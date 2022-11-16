@@ -1,22 +1,39 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import _axios from "../axios";
 import buildLink from "../urls";
-import { useParams, Link, useLocation } from "react-router-dom";
-import { AiOutlineHeart } from "react-icons/ai";
+import { useParams, Link, useLocation, useNavigate } from "react-router-dom";
+import { AiOutlineHeart, AiFillHeart, AiOutlineMail } from "react-icons/ai";
 import { FiShare } from "react-icons/fi";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
+import { GrFormClose } from "react-icons/gr";
 import Slider from "react-slick";
 import NewZoom from "../components/NewZoom";
 import SingleProducts from "../components/SingleProduct";
 import CustomArrows from "../components/CustomArrows";
 import { CartContext } from "../contexts/CartContext";
+import { AccountContext } from "../contexts/AccountContext";
+import { WishlistContext } from "../contexts/WishlistContext";
+import TopCart from "../components/TopCart";
+import Overlay from "../components/Overlay";
+
+import { FaWhatsappSquare, FaTwitterSquare, FaWhatsapp } from "react-icons/fa";
+import { ImFacebook2 } from "react-icons/im";
+import {
+  EmailShareButton,
+  FacebookShareButton,
+  TwitterShareButton,
+  WhatsappShareButton,
+} from "react-share";
 
 function Product() {
   const [state, dispatch] = useContext(CartContext);
+  const [stateAccount, dispatchAccount] = useContext(AccountContext);
+  const [stateW, dispatchW] = useContext(WishlistContext);
   const [productData, setProductData] = useState();
   const [images, setImages] = useState();
   const [infomenu, setInfomenu] = useState(true);
   const [returnmenu, setReturnmenu] = useState(false);
+  const [returnmenuMob, setReturnmenuMob] = useState(false);
   const [deliverymenu, setDeliverymenu] = useState(false);
   const [paymentmenu, setPaymentmenu] = useState(false);
   const [storemenu, setStoremenu] = useState(false);
@@ -32,10 +49,20 @@ function Product() {
   const [countDown, setCountDown] = useState();
   const [activeOption, setActiveOption] = useState({});
   const [activeImage, setActiveImage] = useState({});
+  const [cartmenu, setCartmenu] = useState(false);
+  const [overlay, setOverlay] = useState(false);
+  const [fulloverlay, setFulloverlay] = useState(false);
+  const [share, setShare] = useState(false);
+  const [isWishlist, setIsWishlist] = useState(false);
+  const [popupW, setPopupW] = useState(false);
+  const [popupC, setPopupC] = useState(false);
   const width = window.innerWidth;
   const location = useLocation();
   let product_id = useParams().id;
+  const navigate = useNavigate();
   const [quantity, setQuantity] = useState(1);
+  const wrapperRef = useRef(null);
+  useOutsideAlerter(wrapperRef);
 
   const productSetting = {
     speed: 200,
@@ -55,12 +82,16 @@ function Product() {
     arrows: false,
     lazyLoad: true,
   };
+  console.log(stateW?.pIds.indexOf(product_id));
 
   useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      // behavior: "smooth",
-    });
+    window.scrollTo(
+      {
+        top: 0,
+        // behavior: "smooth",
+      },
+      []
+    );
 
     _axios
       .get(buildLink("product", undefined, undefined) + product_id)
@@ -90,6 +121,29 @@ function Product() {
       const newquantity = quantity - 1;
       setQuantity(newquantity);
     }
+  }
+
+  function useOutsideAlerter(ref) {
+    useEffect(() => {
+      /**
+       * Alert if clicked on outside of element
+       */
+
+      if (cartmenu) {
+        function handleClickOutside(event) {
+          if (ref.current && !ref.current.contains(event.target)) {
+            setTimeout(() => setCartmenu(false), 200);
+            setTimeout(() => setOverlay(false), 200);
+          }
+        }
+        // Bind the event listener
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+          // Unbind the event listener on clean up
+          document.removeEventListener("mousedown", handleClickOutside);
+        };
+      }
+    }, [ref, cartmenu]);
   }
 
   function addToCart(bundle) {
@@ -162,6 +216,12 @@ function Product() {
             });
 
           setSuccessAdded(true);
+          if (width > 650) {
+            setCartmenu(true);
+            setOverlay(true);
+          } else {
+            setPopupC(true);
+          }
 
           setTimeout(() => {
             // setCountDown(false)
@@ -170,6 +230,12 @@ function Product() {
         }
       });
   }
+  console.log(stateW);
+
+  useEffect(() => {
+    handleWishlist(0);
+    console.log("renedered");
+  }, [product_id]);
 
   function setOption(option) {
     const option_id = option["product_option_value_id"];
@@ -220,6 +286,10 @@ function Product() {
       });
   }
 
+  function togglereturnmenuMob(){
+    setReturnmenuMob(!returnmenuMob);
+  }
+
   function unescapeHTML(str) {
     if (!str) {
       return;
@@ -241,6 +311,112 @@ function Product() {
     });
   }
 
+  function handleWishlist(counter) {
+    if (counter < 1) {
+      if (stateW.pIds.indexOf(product_id) > -1) {
+        setIsWishlist(true);
+        counter++;
+      } else {
+        setIsWishlist(false);
+      }
+    } else {
+    }
+  }
+
+  function addToWishlist() {
+    if (!stateAccount.loged) {
+      navigate("/login");
+    } else {
+      if (stateW.pIds.indexOf(product_id) > -1) {
+        _axios
+          .delete(
+            buildLink("wishlist", undefined, window.innerWidth) +
+              "&id=" +
+              product_id
+          )
+          .then(() => {
+            _axios
+              .get(buildLink("wishlistCount", undefined, window.innerWidth))
+              .then((response) => {
+                if (response.data.success) {
+                  console.log("delete");
+                  dispatchW({
+                    type: "setProductsCount",
+                    payload: response.data.data.total,
+                  });
+                }
+              });
+          });
+
+        _axios
+          .get(buildLink("wishlist", undefined, window.innerWidth))
+          .then((response) => {
+            if (response.data.success) {
+              dispatchW({
+                type: "setProducts",
+                payload: response.data.data.products,
+              });
+              // dispatchW({
+              //   type: "setProductsCount",
+              //   payload: response.data.total_product_count,
+              // });
+              dispatchW({
+                type: "setTotals",
+                payload: response.data.data.totals,
+              });
+              const ids = response.data.data.products.map((p) => p.product_id);
+              dispatchW({
+                type: "setProductIds",
+                payload: ids,
+              });
+              dispatchW({
+                type: "loading",
+                payload: false,
+              });
+              setIsWishlist(false);
+            } else {
+              dispatch({
+                type: "setProductsCount",
+                payload: 0,
+              });
+
+              dispatch({
+                type: "loading",
+                payload: false,
+              });
+            }
+          });
+      } else {
+        dispatchW({
+          type: "setProductIds",
+          payload: [...stateW.pIds, product_id],
+        });
+
+        _axios
+          .post(
+            buildLink("wishlist", undefined, window.innerWidth) +
+              "&id=" +
+              product_id
+          )
+          .then(() => {
+            _axios
+              .get(buildLink("wishlistCount", undefined, window.innerWidth))
+              .then((response) => {
+                if (response.data.success) {
+                  console.log("hii");
+                  dispatchW({
+                    type: "setProductsCount",
+                    payload: response.data.data.total,
+                  });
+                  setIsWishlist(true);
+                  setPopupW(true);
+                }
+              });
+          });
+      }
+    }
+  }
+
   var htmlEntities = {
     nbsp: " ",
     cent: "¢",
@@ -257,7 +433,154 @@ function Product() {
   };
 
   return (
-    <div className="bg-dgrey10">
+    <div className="bg-dgrey10 ">
+      {cartmenu && width > 650 && (
+        <div ref={wrapperRef}>
+          <TopCart cartmenu={cartmenu} />
+        </div>
+      )}
+      {overlay && (
+        <div
+          ref={wrapperRef}
+          onClick={() => {
+            setOverlay(false);
+            setCartmenu(false);
+          }}
+        >
+          <Overlay />
+        </div>
+      )}
+      {fulloverlay && (
+        <div
+          className="fixed h-full w-full min-h-full z-20 bg-dblackOverlay top-0 left-0"
+          onClick={() => {
+            setShare(false);
+            setFulloverlay(false);
+          }}
+        ></div>
+      )}
+      {/* wishlist success popup */}
+      {popupW && (
+        <div
+          className="fixed bg-dblackOverlay top-0 lef-0 w-full h-full z-40 overflow-hidden"
+          onClick={() => {
+            setPopupW(false);
+          }}
+        >
+          <div className="text-center absolute w-full h-full left-0 top-0 px-2 box-border">
+            <div
+              className="cursor-auto w-80 md:w-96 bg-clip-padding py-2.5 px-7 my-10 mx-auto bg-dwhite1 box-border relative top-1/4 inline-block align-middle text-left z-50 rounded-lg"
+              style={{ minWidth: "290px" }}
+            >
+              <div className="block relative pt-6 md:pt-8 h-72 text-center">
+                <div className="icon-wrapper text-center mb-9 flex justify-center">
+                  <AiFillHeart className="text-black2 w-14 h-14" />
+                </div>
+                <div className="text-d15 font-bold text-center text-dblack2 font-mono">
+                  FAVORITE PRODUCT
+                </div>
+                <p className="text-d16 mt-2.5 text-center text-dblack2">
+                  You have added the product to your favorite list. You can view
+                  your entire list of favorite items by clicking the heart in
+                  the menu.
+                </p>
+                <button
+                  className="text-dblack2 font-bold h-14 text-d16 w-full underline"
+                  onClick={() => {
+                    setPopupW(false);
+                  }}
+                >
+                  close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* add to cart success popup on mobile */}
+      {popupC && width < 650 && (
+        <div className="fixed bg-dblackOverlay top-0 lef-0 w-full h-full z-30 overflow-hidden">
+          <div className="text-center absolute w-full h-full left-0 top-0 box-border">
+            <div
+              className="cursor-auto w-full md:w-96 bg-clip-padding py-2.5 px-7 my-10 mx-auto bg-dwhite1 box-border relative top-1/4 inline-block align-middle text-left z-40"
+              style={{ minWidth: "290px" }}
+            >
+              <div
+                className="icon-close h-5 w-5 absolute top2.5 right-2.5 cursor-pointer opacity-60 text-center leading-5 z-50"
+                onClick={() => {
+                  setPopupC(false);
+                }}
+              >
+                <GrFormClose className="w-6 h-6" />
+              </div>
+              <div className="block relative py-4 md:pt-8 h-68 text-center">
+                <div className="text-d20 font-semibold text-center text-dblack2 font-mono py-5">
+                  Basket
+                </div>
+                <p className="text-d13 mt-2.5 text-center text-dblack2 h-9">
+                  The product has been added to the cart.
+                </p>
+                <div className="buttons-wrapper flex flex-col items-center justify-center w-64 text-center mx-auto font-mono">
+                  <button
+                    className="text-dblue1 border border-dblue1 bg-dwhite1 h-10 text-d16 w-3/4 m-auto mb-2.5"
+                    onClick={() => {
+                      setPopupC(false);
+                    }}
+                  >
+                    CONTINUE SHOPPING
+                  </button>
+                  <Link className="text-dwhite1 border border-dblue1 bg-dblue1 h-10 text-d16 w-3/4 m-auto  mb-2.5 pt-1.5">
+                    GO TO CART
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* share button for social media */}
+      {share && (
+        <div className="fixed z-30 bottom-0 left-0 w-full">
+          <div className="left-0 md:left-1/2 bg-dwhite1 w-full md:w-2/5 relative z-30 rounded-t-md py-4 px-8 flex justify-between items-center md:-translate-x-1/2">
+            <div className="whatsapp items-center justify-center">
+              <a
+                href={`https://api.whatsapp.com/send?text=${window.location.href}`}
+                className="md:pl-1 flex flex-col items-center"
+              >
+                <FaWhatsapp className="w-10 h-10  bg-dwhatsapp text-white" />
+                <span className="leading-9">Whatsapp</span>
+              </a>
+            </div>
+            <div className="facebook items-center justify-center">
+              <FacebookShareButton url={window.location.href}>
+                <div className="pl-1 flex flex-col items-center">
+                  <ImFacebook2 className="w-10 h-10  text-dfacebook" />
+                  <span className="leading-9"> Facebook</span>
+                </div>
+              </FacebookShareButton>
+            </div>
+            <div className="twitter items-center justify-center">
+              <TwitterShareButton url={window.location.href}>
+                <div className="pl-1 flex flex-col items-center">
+                  <FaTwitterSquare className="w-11 h-11  text-dtwitter" />
+                  <span className="leading-9">Twitter</span>
+                </div>
+              </TwitterShareButton>
+            </div>
+            <div className="email items-center justify-center">
+              <EmailShareButton url={window.location.href}>
+                <div className="pl-1 flex flex-col items-center justify-center">
+                  <AiOutlineMail className="w-11 h-11 " />
+                  <span className="leading-9">Email</span>
+                </div>
+              </EmailShareButton>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="container py-5 ">
         <div className="text-d12 my-2.5 text-dgrey11 text-left flex items-center">
           <Link to={"/"}>{productData?.breadcrumbs?.text_home}</Link>
@@ -285,7 +608,7 @@ function Product() {
           ))}
         </div>
         <div className="flex flex-col md:flex-row">
-          <div className="mr-4 relative" style={{ width: "57%" }}>
+          <div className="mr-4 relative w-full md:w-577">
             {images?.length > 0 && (
               <NewZoom
                 // activeOption={activeImageOption.product_option_value_id}
@@ -295,20 +618,33 @@ function Product() {
             )}
           </div>
 
-          <div className="w-5/12 p-1 ">
+          <div className="w-full md:w-5/12 p-1 ">
             <div className="wrapper">
               <div className="flex my-3">
                 <div
-                  className="font-mono md:font-mono font-semibold text-left	text-dborderblack2 text-d20 w-8/12"
+                  className="font-mono md:font-mono font-semibold text-left	text-dborderblack2 text-d17 md:text-d20 w-8/12"
                   dangerouslySetInnerHTML={{
                     __html: productData?.heading_title,
                   }}
                 ></div>
-                <div className="align-right w-8 mt-1 text-d25  ml-6 	text-dborderblack2 font-black	">
+                <div
+                  className="align-right w-8 mt-1 text-d25  ml-6 text-dborderblack2 cursor-pointer"
+                  onClick={() => {
+                    setShare(true);
+                    setFulloverlay(true);
+                  }}
+                >
                   <FiShare />
                 </div>
-                <div className="align-right w-12 mt-1 text-d25 ml-2 	text-dborderblack2">
-                  <AiOutlineHeart />
+                <div
+                  className="align-right w-12 mt-1 text-d25 ml-2 	text-dborderblack2 cursor-pointer"
+                  onClick={() => addToWishlist()}
+                >
+                  {stateW?.pIds.indexOf(product_id) > -1 ? (
+                    <AiFillHeart className="text-dborderblack2" />
+                  ) : (
+                    <AiOutlineHeart />
+                  )}
                 </div>
               </div>
               <div className="flex my-3">
@@ -339,7 +675,7 @@ function Product() {
                               </p> */}
                           <div
                             key={option.image}
-                            className={`p-1  mr-2 my-2 cursor-pointer w-10 md:w-14 md:h-10 relative `}
+                            className={`p-1  mr-2 my-2 cursor-pointer w-14 md:h-10 relative `}
                             onClick={() => {
                               setOption(option);
                             }}
@@ -370,47 +706,92 @@ function Product() {
                   </div>
                 </div>
               )}
-              <div className="flex  my-3">
-                <div className="w-3/12 flex flex-wrap align-middle text-center pt-3 text-d22 font-bold text-dborderblack2 pr-3 items-center">
-                  <button onClick={() => decrementQuantity(quantity)}>
-                    <span className="w-3/12">-</span>
-                  </button>
-                  <span className="w-6/12 text-center ">{quantity}</span>
-                  <button onClick={() => incrementQuantity(quantity)}>
-                    <span className="w-3/12">+</span>
+              {width > 650 ? (
+                <div className="flex  my-3">
+                  <div className="w-3/12 flex flex-wrap align-middle text-center pt-3 text-d22 font-bold text-dborderblack2 pr-3 items-center">
+                    <button onClick={() => decrementQuantity(quantity)}>
+                      <span className="w-3/12">-</span>
+                    </button>
+                    <span className="w-6/12 text-center ">{quantity}</span>
+                    <button onClick={() => incrementQuantity(quantity)}>
+                      <span className="w-3/12">+</span>
+                    </button>
+                  </div>
+                  <button
+                    className="bg-dborderblack2 font-black	 text-white  py-4 w-8/12 text-d16"
+                    onClick={() =>
+                      productData["quantity"] === "0"
+                        ? console.log("yep no")
+                        : addToCart()
+                    }
+                  >
+                    <span>
+                      {productData?.quantity === "0" ? (
+                        "Out Of Stock"
+                      ) : (
+                        <div>
+                          {/* <p
+                            className={`absolute  transition duration-100 ease-in left-5 md:left-14 top-3 text-white ${
+                              successAdded && countDown && !countDownPointer
+                                ? "translate-x-0 "
+                                : "translate-x-full invisible"
+                            } `}
+                          >
+                            <span className="bg-white  px-2 rounded-full text-dblue">
+                              1
+                            </span>{" "}
+                            item Added to the Cart
+                          </p> */}
+                          <span className="">ADD TO BASKET </span>
+                        </div>
+                      )}
+                    </span>{" "}
                   </button>
                 </div>
-                <button
-                  className="bg-dborderblack2 font-black	 text-white  py-4 w-8/12 text-d16"
-                  onClick={() =>
-                    productData["quantity"] === "0"
-                      ? console.log("yep no")
-                      : addToCart()
-                  }
-                >
-                  <span>
-                    {productData?.quantity === "0" ? (
-                      "Out Of Stock"
-                    ) : (
-                      <div>
-                        <p
-                          className={`absolute  transition duration-100 ease-in left-5 md:left-14 top-3 text-white ${
-                            successAdded && countDown && !countDownPointer
-                              ? "translate-x-0 "
-                              : "translate-x-full invisible"
-                          } `}
-                        >
-                          <span className="bg-white  px-2 rounded-full text-dblue">
-                            1
-                          </span>{" "}
-                          item Added to the Cart
-                        </p>
-                        <span className="">ADD TO BASKET </span>
-                      </div>
-                    )}
-                  </span>{" "}
-                </button>
-              </div>
+              ) : (
+                <div className="w-full fixed -bottom-1 left-0 text-center z-10 flex items-center">
+                  <div className="w-1/3 flex  align-middle text-center py-3 mb-1 text-d22 font-bold text-dborderblack2 px-3 items-center bg-dwhite1 justify-center">
+                    <button onClick={() => decrementQuantity(quantity)}>
+                      <span className="w-3/12">-</span>
+                    </button>
+                    <span className="w-6/12 text-center ">{quantity}</span>
+                    <button onClick={() => incrementQuantity(quantity)}>
+                      <span className="w-3/12">+</span>
+                    </button>
+                  </div>
+                  <button
+                    className="bg-dborderblack2 font-black text-white py-4 w-8/12 text-d16"
+                    onClick={() =>
+                      productData["quantity"] === "0"
+                        ? console.log("yep no")
+                        : addToCart()
+                    }
+                  >
+                    <span>
+                      {productData?.quantity === "0" ? (
+                        "Out Of Stock"
+                      ) : (
+                        <div>
+                          {/* <p
+                            className={`absolute  transition duration-100 ease-in left-5 md:left-14 top-3 text-white ${
+                              successAdded && countDown && !countDownPointer
+                                ? "translate-x-0 "
+                                : "translate-x-full invisible"
+                            } `}
+                          >
+                            <span className="bg-white  px-2 rounded-full text-dblue">
+                              1
+                            </span>{" "}
+                            item Added to the Cart
+                          </p> */}
+                          <span className="">ADD TO BASKET </span>
+                        </div>
+                      )}
+                    </span>{" "}
+                  </button>
+                </div>
+              )}
+
               {hasAddToCartError && (
                 <div className=" bg-dred4 text-white text-center h-11 rounded bg-opacity-80 capitalize relative flex items-center justify-center mr-10">
                   <span className="px-8">{AddToCartError}</span>
@@ -434,7 +815,7 @@ function Product() {
                 />
               </div>
               <div className="w-full flex my-3">
-                <div className="text-dborderblack2 w-1/4 mr-1 p-3.5 text-d12 flex flex-col justify-center text-center font-bold items-center">
+                <div className="text-dborderblack2 w-1/4 mr-1 p-3.5 text-d8 md:text-d12 flex flex-col justify-center text-center font-bold items-center">
                   <img
                     src="https://akn-eh.b-cdn.net/cms/2021/02/08/08907807-82d0-41ca-b167-40f5f3a794ae.png"
                     alt=""
@@ -443,7 +824,7 @@ function Product() {
                   />
                   <p>150 TL and Over Free Shipping</p>
                 </div>
-                <div className="text-dborderblack2 w-1/4 mr-1 p-3.5 text-d12 flex flex-col justify-center text-center font-bold items-center">
+                <div className="text-dborderblack2 w-1/4 mr-1 p-3.5 text-d10 md:text-d12 flex flex-col justify-center text-center font-bold items-center">
                   <img
                     src="https://akn-eh.b-cdn.net/cms/2021/02/08/da3fd01a-66e9-450b-a09c-b9201ee4bd7c.png"
                     alt=""
@@ -452,7 +833,7 @@ function Product() {
                   />
                   <p>Shipping in 6 Days</p>
                 </div>
-                <div className="text-dborderblack2 w-1/4 mr-1 p-3.5 text-d12 flex flex-col justify-center text-center font-bold items-center">
+                <div className="text-dborderblack2 w-1/4 mr-1 p-3.5 text-d10 md:text-d12 flex flex-col justify-center text-center font-bold items-center">
                   <img
                     src="https://akn-eh.b-cdn.net/cms/2021/02/08/4ca462a2-a7e6-4cdb-b855-3648443b360c.png"
                     alt=""
@@ -461,7 +842,7 @@ function Product() {
                   />
                   <p>30 Days Return Guarantee</p>
                 </div>
-                <div className="text-dborderblack2 w-1/4 mr-1 p-3.5 text-d12 flex flex-col justify-center text-center font-bold items-center">
+                <div className="text-dborderblack2 w-1/4 mr-1 p-3.5 text-d10 md:text-d12 flex flex-col justify-center text-center font-bold items-center">
                   <img
                     src="https://akn-eh.b-cdn.net/cms/2021/02/08/3fe79e3b-6c64-4a39-85c7-f6321596a7b5.png"
                     alt=""
@@ -496,7 +877,53 @@ function Product() {
             <div className="product-share-popup hidden fixed bottom-0 left-0 z-40 w-screen"></div>
           </div>
         </div>
-        <div className="product-info-mobile md:hidden"></div>
+        <div className="product-info-mobile md:hidden">
+          <div className="product-infos py-2.5 px-7 mt-10 bg-dgrey1">
+            <div className="text-dblack1 text-d14">
+              <div className="title text-d15 font-bold py-3.5 text-dborderblack2 text-left">
+                PRODUCT INFORMATION
+              </div>
+              <div className="mx-1 flex flex-col-reverse md:flex-row">
+                <div className="w-1/2">
+                  <div className="product-information-conten text-left">
+                    <ul>
+                      <li className="text-d14 mb-6">
+                        <span className="text-d16 font-bold mb-2.5">Usage</span>
+                        <p>Hand washing with warm water is recommended.</p>
+                      </li>
+                      <li className="text-d14 mb-6">
+                        <span className="text-d16 font-bold mb-2.5">Care</span>
+                        <ul className="">
+                          <li className="flex items-center mb-2 text-d14 capitalize">
+                            No Ironing
+                          </li>
+                          <li className="flex items-center mb-2 text-d14 capitalize">
+                            No Dry Cleaning
+                          </li>
+                          <li className="flex items-center mb-2 text-d14 capitalize">
+                            Hand washable
+                          </li>
+                          <li className="flex items-center mb-2 text-d14 capitalize">
+                            Not machine washable
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div className="w-1/2 text-left">
+                  <div>
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: productData?.description,
+                      }}
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div>
           <div className="product-info-wrapper hidden md:block w-full mt-7">
             <div className="">
@@ -816,7 +1243,7 @@ function Product() {
                 width > 1920 && "mt-10"
               } md:mb-8 container`}
             >
-              <h2 className="font-semibold text-xl  text-dblack2 mb-1 md:mb-4 text-left">
+              <h2 className="font-semibold text-xl  text-dblack2 mb-1 md:mb-4 text-left font-mono uppercase">
                 Related products
               </h2>
               {width < 650 ? (
@@ -876,6 +1303,35 @@ function Product() {
             )}
         </div>
         {/* end recenty viewed */}
+
+        <div className="mobile-product-info block md:hidden ">
+          <div className="product-infos mb-16 py-2.5 px-5 mt-10 bg-dgrey1 text-left">
+            <div className="return text-d14 text-dblack1">
+              <div className="cursor-pointer relative text-d15 font-bold py-3.5 text-dborderblack2 uppercase flex items-center">
+                <p>CANCELLATION RETURN AND EXCHANGE TERMS</p>
+                <span
+                  className="text-d20"
+                  onClick={() => {
+                    handleReturnPolicy();
+                    togglereturnmenuMob();
+                  }}
+                >
+                  {returnmenuMob ? ( "x" ) : ( "+" )}
+                </span>
+              </div>
+              <div className={`collapse-content ${ returnmenuMob ? "block" : "hidden" } `}>
+                <div className="flex">
+                  <div
+                    className=""
+                    dangerouslySetInnerHTML={{
+                      __html: unescapeHTML(returnPolicy?.description),
+                    }}
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

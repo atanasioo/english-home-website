@@ -24,7 +24,7 @@ function Footer() {
   }, []);
 
   return (
-    <div className="overflow-x-hidden">
+    <div className="overflow-hidden">
       <div className="border-t-2 "></div>
       <div className="container">
         <div className={`flex flex-col  md:flex-row   px-auto ${ window.innerWidth < 650 ? "mt-2" : "  mt-16"}`}>
@@ -103,7 +103,7 @@ function Footer() {
       <div className="bg-dbasenavy h-12  text-white text-d22 text-left px-auto py-1">
         <div className="text-center md:text-left container font-serif"> ENGLISH HOME</div>
       </div>
-      <div className=" h-12  text-d14 px-24 py-4 w-full text-center">
+      <div className=" h-16 md:h-12  text-d14 px-24 py-4 w-full text-center">
         Copyright © 2008-2022 LEBANON HOME All rights reserved.
       </div>
     </div>

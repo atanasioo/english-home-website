@@ -29,8 +29,8 @@ function TopSearch() {
   const [query, setQuery] = useState("");
   const [showSearch, setShowSearch] = useState(false);
   const [state] = useContext(AccountContext);
-  const wrapperRef = useRef(null);
   const [message, setMessage] = useState();
+  const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef);
 
 //   let i=0;

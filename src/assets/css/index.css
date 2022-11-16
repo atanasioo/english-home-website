@@ -368,4 +368,20 @@
  #selector_div .slick-slide {
     width: 100px !important;
  }
+ .cart_slider .slick-next{
+    top: unset ;
+    bottom: -5px !important ;
+    left: 50% ;
+ }
+ .cart_slider .slick-prev{
+    top: -13px !important ;
+    left: 50% ;
+ }
+
+ .cart_slider .slick-slider .slick-track{
+    height: unset !important;
+  }
+  .cart_slider .slick-disabled {
+    display: none !important;
+  }
 

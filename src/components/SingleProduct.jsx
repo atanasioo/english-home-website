@@ -89,7 +89,7 @@ export default function SingleProduct(props) {
           </div>
         ) : (
           <div className="flex flex-col text-d14 ">
-            <span className="text-left  pt-3 flex-auto ">
+            <span className="text-left  pt-1 flex-auto bg-gray-100 mt-1">
               {" "}
               {props.item.special !== "0"
                 ? props.item.special
@@ -103,11 +103,11 @@ export default function SingleProduct(props) {
               </span>
             </button>
             <button
-              className={`py-3  text-dblue1 bottom-0  flex p-1 text-d16 bg-dgrey1   w-full  "`}
+              className={`py-3  text-dblue1 bottom-0  flex p-1 text-d12 bg-dgrey3   w-full  "`}
             >
               {" "}
-              <HiOutlineShoppingBag className="mt-1" />{" "}
-              <span className="ml-1 ">add to Basket</span>
+              {/* <HiOutlineShoppingBag className="mt-1" />{" "} */}
+              <span className="ml-1 whitespace-nowrap uppercase">add to Basket</span>
             </button>
           </div>
         )}

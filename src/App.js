@@ -10,6 +10,7 @@ import ForgotMyPassword from "./pages/ForgotMyPassword";
 import HeaderCampaigns from "./components/HeaderCampaigns";
 import { AccountContext, AccountProvider } from "./contexts/AccountContext";
 import { CartProvider } from "./contexts/CartContext";
+import { WishlistProvider } from "./contexts/WishlistContext";
 import Login from "./pages/Login";
 
 function App() {
@@ -19,22 +20,21 @@ function App() {
     <div className="App ">
       <CartProvider>
         <AccountProvider>
-          <Header />
-          {width > 650 && <HeaderCampaigns />}
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="category" element={<Category />} />
-            <Route
-              path={"/:name/c=:id"}
-              element={<Category />}   exact
-            />
-            <Route path="cart" element={<Cart />} />
-            <Route path="login" element={<Login />} />
-            <Route path="forgotmypassword" element={<ForgotMyPassword />} />
-            <Route path="product/:id" element={<Product />} />
-            <Route path="/:name/p=:id" element={<Product />} exact />
-          </Routes>
-          <Footer />
+          <WishlistProvider>
+            <Header />
+            {width > 650 && <HeaderCampaigns />}
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="category" element={<Category />} />
+              <Route path={"/:name/c=:id"} element={<Category />} exact />
+              <Route path="cart" element={<Cart />} />
+              <Route path="login" element={<Login />} />
+              <Route path="forgotmypassword" element={<ForgotMyPassword />} />
+              <Route path="product/:id" element={<Product />} />
+              <Route path="/:name/p=:id" element={<Product />} exact />
+            </Routes>
+            <Footer />
+          </WishlistProvider>
         </AccountProvider>
       </CartProvider>
     </div>

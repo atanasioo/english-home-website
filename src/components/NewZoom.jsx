@@ -28,8 +28,8 @@ function NewZoom(props) {
     dots: false,
     infinite: false,
     speed: 100,
-    slidesToShow: 4,
-    slidesToScroll: 1,
+    slidesToShow: 3,
+    slidesToScroll: 2,
     swipeToSlide: true,
     autoplay: false,
   };

@@ -43,7 +43,7 @@ function Header() {
   return (
     <div className="relative">
       <section className="hidden md:block h-10 bg-dgrey1">
-        <div className="container ">
+        <div className="container">
           <div className="row">
             <div className="topbar__links float-right">
               <Link className="text-dblack2 text-d12 ml-5 leading-10 font-bold hover:underline">

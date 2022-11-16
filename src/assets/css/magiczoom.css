@@ -1602,7 +1602,7 @@ a[data-zoom-id] img,
 @media (max-width: 600px) {
     .mz-thumb img {
         width: 100px;
-        border-radius: 4px !important;
+        border-radius: 0px !important;
     }
 }
 

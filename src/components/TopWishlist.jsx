@@ -1,8 +1,47 @@
 import React from "react";
-import { Link } from 'react-router-dom';
-import { SlHeart }  from "react-icons/sl";
+import { Link } from "react-router-dom";
+import { SlHeart } from "react-icons/sl";
+import { useContext, useEffect } from "react";
+import buildLink, { path } from "../urls";
+import _axios from "../axios";
+import { AccountContext } from "../contexts/AccountContext";
+import { WishlistContext } from "../contexts/WishlistContext";
 
 function TopWishlist() {
+  const [state, dispatch] = useContext(WishlistContext);
+  const [accountState] = useContext(AccountContext);
+
+  useEffect(() => {
+    dispatch({
+      type: "loading",
+      payload: true,
+    });
+
+    _axios
+      .get(buildLink("wishlist", undefined, window.innerWidth))
+      .then((response) => {
+        if (response.data.success) {
+          dispatch({
+            type: "setProducts",
+            payload: response.data.data.products,
+          });
+          dispatch({
+            type: "setTotals",
+            payload: response.data.data.totals,
+          });
+          const ids = response.data.data.products.map((p) => p.product_id);
+          dispatch({
+            type: "setProductIds",
+            payload: ids,
+          });
+          dispatch({
+            type: "loading",
+            payload: false,
+          });
+        }
+      });
+  }, [dispatch]);
+
   return (
     <div>
       <Link className="cursor-pointer">

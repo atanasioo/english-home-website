@@ -43,6 +43,7 @@ module.exports = {
 
         dh3: "1.3rem",
         d6: "6px",
+        d8: "8px",
         d22: "22px",
         xs: ".75rem",
         sm: ".875rem",
@@ -171,6 +172,15 @@ module.exports = {
         dblackOverlay: {
           DEFAULT: "rgba(0,0,0,0.5)"
         },
+        dwhatsapp: {
+          DEFAULT: "#25d366"
+        },
+        dfacebook: {
+          DEFAULT: "#4267B2"
+        },
+        dtwitter: {
+          DEFAULT: "#1DA1F2"
+        },
 
         
 
@@ -182,6 +192,7 @@ module.exports = {
       },
       width: {
         488: "48%",
+        577: "57%"
        
       }
     }
