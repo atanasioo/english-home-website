@@ -12,17 +12,42 @@ function Category() {
   const path = location.pathname;
   const [data, setData] = useState({});
   const [filters, setfilters] = useState({});
-  const [ userFilters, setUserFilters ] = useState({});
+  const [userFilters, setUserFilters] = useState({});
   const urlRef = useRef(location?.pathname);
   const navigate = useNavigate();
+  const pathname = location.pathname;
 
   useEffect(() => {
-    var type;
-    if (location.pathname.indexOf("c=") > 0) type = "category";
-    if (location.pathname.indexOf("m=") > 0) type = "manufacturer";
-    if (location.pathname.indexOf("s=") > 0) type = "seller";
-    if (location.pathname.indexOf("?has_filter") > 0) type = "product_filter";
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
 
+    var newPath;
+    var type;
+    var url = new URL(window.location);
+
+    if (window.location.href.indexOf("has_filter") > 0) {
+      type = "filter";
+      if (url.searchParams.get("filter_categories") != null)
+        newPath +=
+          "&filter_categories=" + url.searchParams.get("filter_categories");
+      if (url.searchParams.get("filter_sellers") != null)
+        newPath += "&filter_sellers=" + url.searchParams.get("filter_sellers");
+      if (url.searchParams.get("filter_manufacturers") != null)
+        newPath +=
+          "&filter_manufacturers=" +
+          url.searchParams.get("filter_manufacturers");
+      if (url.searchParams.get("filter_options") != null)
+        newPath += "&filter_options=" + url.searchParams.get("filter_options");
+      newPath = "&path=" + id + newPath;
+    } else {
+      newPath = id;
+      if (window.location.href.indexOf("c=") > 0) type = "category";
+      if (window.location.href.indexOf("m=") > 0) type = "manufacturer";
+      if (window.location.href.indexOf("s=") > 0) type = "seller";
+    }
+    // alert(type , newPath)
     if (location.pathname !== urlRef.current) {
       setUserFilters({
         filter_sellers: [],
@@ -33,8 +58,9 @@ function Category() {
       });
       urlRef.current = location.pathname;
     }
-    // console.log(navigate)
-    if (navigate) {
+    console.log(navigate);
+
+    if (1 === 1) {
       let sellerIndex;
       let brandIndex;
       let optionsIndex;
@@ -91,32 +117,38 @@ function Category() {
         });
       }
     }
-    _axios.post(buildLink(type, undefined, undefined) + id).then((response) => {
-      setData(response?.data?.data);
-      setfilters(response?.data?.data?.filters);
-    });
-  },[location]);
+
+    _axios
+      .post(buildLink(type, undefined, undefined) + newPath)
+      .then((response) => {
+        setData(response?.data?.data);
+        setfilters(response?.data?.data?.filters);
+      });
+  }, [location]);
 
   function parseFilter(typekey, filter) {
-  
+    console.log("yes");
     const id = filter["id"];
-    const last = filter["last"];
-    const type_key = typekey;
-    
-    //  console.log(userFilters['filter_categories'])
+    var last = "";
+    let type_key = typekey;
+    // var sort="";
+    // var order="";
+    // var limit ='';
+    last = filter["last"];
+
     let values_array = userFilters[type_key] || [];
     let c;
     let indexOfId = -1;
     let url1 = new URL(window.location);
-    var filter_type = type_key;
+    var filter_type = typekey;
     c = url1.searchParams.get(filter_type);
-console.log(c)
+
     if (c !== null) {
       indexOfId = c.split(",").indexOf(filter["id"]);
     }
     if (indexOfId < 0) {
+      // // console.log("Test from if");
       values_array.push(filter["id"]);
-    
 
       setUserFilters({
         ...userFilters,
@@ -139,15 +171,13 @@ console.log(c)
 
       q = decodeURIComponent(q);
       query += q;
-
+      console.log(path + query + "&last=" + last);
       navigate(path + query + "&last=" + last);
     } else {
       let query = type_key + "=" + id;
       let q = new URLSearchParams(query).toString();
       q = decodeURIComponent(q);
-      // console.log("q" + q);
 
-      // console.log("query" + query);
       let url1 = "?has_filter=false";
       values_array.pop();
       setUserFilters({
@@ -159,6 +189,7 @@ console.log(c)
         let c = "";
         var array;
         let lastLink;
+
         url1 = new URL(window.location);
 
         c = url1.searchParams.get(filter_type);
@@ -196,9 +227,43 @@ console.log(c)
             }
           }
         }
-        navigate(path + url1);
+        console.log(path + query + "&last=" + last);
+
+        navigate(pathname + url1);
       } else {
-        navigate(path);
+        navigate("/" + pathname);
+        console.log(path + query + "&last=" + last);
+      }
+    }
+  }
+  // Check filter
+  function checkFilter(type, name, filter) {
+    var url = new URL(window.location);
+    var c = url.searchParams.get(type);
+
+    let array = Array("");
+    array[type] = c?.split(",");
+    console.log("type, name, filter");
+    console.log(type, name, filter);
+    if (name === "Color" || name === "DIMENSIONS" || name === "Size") {
+      if (c !== null && array[type].includes(filter["id"]) === true) {
+        return "border border-dblue2 border text-dblue2";
+      } else {
+        return "";
+      }
+    }
+    //  else if (name === "DIMENSIONS" || name === "Size") {
+    //   if (c !== null && array[type].includes(filter["id"]) === true) {
+    //     return "text-dblue2 font-bold";
+    //   } else {
+    //     return "border  border-dgreyRate cursor-pointer hover:shadow p-2";
+    //   }
+    // } 
+    else {
+      if (c !== null && array[type].includes(filter["id"]) === true) {
+        return "text-dblue2 underline underline-offset-4";
+      } else {
+        return "";
       }
     }
   }
@@ -208,11 +273,11 @@ console.log(c)
       <div className="flex flex-row p-2 bg-dgrey10">
         {window.innerWidth > 650 && (
           <div className="w-3/12 px-8">
-            <div className="w-full text-left text-d18  border-b border-b-dblack2 py-2">
+            <div className="w-10/12 text-left text-d18  border-b border-b-dblack2 py-2">
               CATEGORIES
             </div>
-            <div className="w-full text-left py-2">FILTERS</div>
-            <div className="w-full">
+            <div className="w-10/12 text-left py-2">FILTERS</div>
+            <div className="w-10/12">
               {Object.keys(filters).map((key) => (
                 <div key={key} className="w-full">
                   <div className="w-full text-left text-dbasenavy font-bold py-2">
@@ -220,33 +285,55 @@ console.log(c)
                   </div>
                   {filters[key]?.items.length > 0 &&
                   filters[key].name === "Color" ? (
-                    <div className="grid grid-cols-4 w-3/4">
+                    <div className="h-36 overflow-y-auto">
+                    <div className="grid grid-cols-4 w-3/4 ">
                       {filters[key]?.items?.map((filter) => (
                         <div className="text-left w-full my-1">
                           <img
                             src={filter.image}
                             alt={filter.name}
-                            className="rounded-full w-8"
+                            className={`rounded-full w-8   ${checkFilter(
+                              filters[key].id,
+                              filters[key].name,
+                              filter
+                            )}`}
+                            onClick={() => parseFilter(filters[key].id, filter)}
                           />
                         </div>
                       ))}
                     </div>
+                    </div>
                   ) : (
-                    filters[key]?.items?.map((filter) =>
+                  <div className="h-36 overflow-y-auto">
+                    {filters[key]?.items?.map((filter) =>
                       filters[key].name === "DIMENSIONS" ||
                       filters[key].name === "Size" ? (
-                        <div className="w-full border bg-white my-1 py-1">
+                        <div
+                          className={`w-full border bg-white my-1 py-1 ${checkFilter(
+                            filters[key].id,
+                            filters[key].name,
+                            filter
+                          )}`}
+                          onClick={() => parseFilter(filters[key].id, filter)}
+                        >
                           {filter.name}
                         </div>
                       ) : (
                         <div
-                          className="text-left w-full hover:underline underline-offset-4	"
-                          onClick={parseFilter(filters[key].id, filter)}
+                          className={`text-left w-full hover:underline underline-offset-4	 ${checkFilter(
+                            filters[key].id,
+                            filter.name,
+                            filter
+                          )}`}
+                          onClick={() => parseFilter(filters[key].id, filter)}
                         >
                           {filter.name}
                         </div>
                       )
                     )
+                  }
+                  </div>
+                
                   )}
                 </div>
               ))}
