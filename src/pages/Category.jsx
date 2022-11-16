@@ -13,6 +13,8 @@ function Category() {
   const [data, setData] = useState({});
   const [filters, setfilters] = useState({});
   const [userFilters, setUserFilters] = useState({});
+  const [pointer, setPointer] = useState(true);
+
   const urlRef = useRef(location?.pathname);
   const navigate = useNavigate();
   const pathname = location.pathname;
@@ -123,10 +125,12 @@ function Category() {
       .then((response) => {
         setData(response?.data?.data);
         setfilters(response?.data?.data?.filters);
+        setPointer(true)
       });
   }, [location]);
 
   function parseFilter(typekey, filter) {
+    setPointer(false)
     console.log("yes");
     const id = filter["id"];
     var last = "";
@@ -264,7 +268,7 @@ function Category() {
 
   return (
     <div>
-      <div className="flex flex-row p-2 bg-dgrey10">
+      <div className={`flex flex-row p-2 bg-dgrey10 ${!pointer && "pointer-events-none	opacity-25" }`}>
         {window.innerWidth > 650 && (
           <div className="w-3/12 px-8">
             <div className="w-10/12 text-left text-d18  border-b border-b-dblack2 py-2">
