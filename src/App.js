@@ -21,21 +21,9 @@ function App() {
       <CartProvider>
         <AccountProvider>
           <WishlistProvider>
-            <Header />
-            {width > 650 && <HeaderCampaigns />}
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="category" element={<Category />} />
-              <Route path={"/:name/c=:id"} element={<Category />} exact />
-              <Route path="cart" element={<Cart />} />
-              <Route path="login" element={<Login />} />
-              <Route path="forgotmypassword" element={<ForgotMyPassword />} />
-              <Route path="product/:id" element={<Product />} />
-              <Route path="/:name/p=:id" element={<Product />} exact />
-            </Routes>
-            <Footer />
-          </WishlistProvider>
-          <Header />
+    
+ 
+        
           {width > 650 && <HeaderCampaigns />}
           <Routes>
             <Route path="/" element={<Home />} />
@@ -59,6 +47,7 @@ function App() {
             <Route path="/:name/p=:id" element={<Product />} exact />
           </Routes>
           <Footer />
+          </WishlistProvider>
         </AccountProvider>
       </CartProvider>
     </div>

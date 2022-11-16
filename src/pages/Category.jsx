@@ -252,13 +252,7 @@ function Category() {
         return "";
       }
     }
-    //  else if (name === "DIMENSIONS" || name === "Size") {
-    //   if (c !== null && array[type].includes(filter["id"]) === true) {
-    //     return "text-dblue2 font-bold";
-    //   } else {
-    //     return "border  border-dgreyRate cursor-pointer hover:shadow p-2";
-    //   }
-    // } 
+
     else {
       if (c !== null && array[type].includes(filter["id"]) === true) {
         return "text-dblue2 underline underline-offset-4";
@@ -285,7 +279,7 @@ function Category() {
                   </div>
                   {filters[key]?.items.length > 0 &&
                   filters[key].name === "Color" ? (
-                    <div className="h-36 overflow-y-auto">
+                    <div className={`${filters[key]?.items.length > 6 && "h-36 overflow-y-auto"}`}>
                     <div className="grid grid-cols-4 w-3/4 ">
                       {filters[key]?.items?.map((filter) => (
                         <div className="text-left w-full my-1">
@@ -304,7 +298,7 @@ function Category() {
                     </div>
                     </div>
                   ) : (
-                  <div className="h-36 overflow-y-auto">
+                  <div className={`${filters[key]?.items.length > 6 && "h-36 overflow-y-auto"}`}>
                     {filters[key]?.items?.map((filter) =>
                       filters[key].name === "DIMENSIONS" ||
                       filters[key].name === "Size" ? (
