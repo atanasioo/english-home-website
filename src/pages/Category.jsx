@@ -60,7 +60,7 @@ function Category() {
       });
       urlRef.current = location.pathname;
     }
-    console.log(navigate);
+   
 
     if (1 === 1) {
       let sellerIndex;
@@ -131,7 +131,7 @@ function Category() {
 
   function parseFilter(typekey, filter) {
     setPointer(false)
-    console.log("yes");
+
     const id = filter["id"];
     var last = "";
     let type_key = typekey;
@@ -151,7 +151,7 @@ function Category() {
       indexOfId = c.split(",").indexOf(filter["id"]);
     }
     if (indexOfId < 0) {
-      // // console.log("Test from if");
+
       values_array.push(filter["id"]);
 
       setUserFilters({
@@ -175,7 +175,7 @@ function Category() {
 
       q = decodeURIComponent(q);
       query += q;
-      console.log(path + query + "&last=" + last);
+
       navigate(path + query + "&last=" + last);
     } else {
       let query = type_key + "=" + id;
@@ -231,12 +231,12 @@ function Category() {
             }
           }
         }
-        console.log(path + query + "&last=" + last);
+        
 
         navigate(pathname + url1);
       } else {
         navigate("/" + pathname);
-        console.log(path + query + "&last=" + last);
+        
       }
     }
   }
@@ -247,8 +247,7 @@ function Category() {
 
     let array = Array("");
     array[type] = c?.split(",");
-    console.log("type, name, filter");
-    console.log(type, name, filter);
+
     if (name === "Color" || name === "DIMENSIONS" || name === "Size") {
       if (c !== null && array[type].includes(filter["id"]) === true) {
         return "border border-dblue2 border text-dblue2";

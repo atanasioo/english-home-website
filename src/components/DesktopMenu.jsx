@@ -54,6 +54,12 @@ function DesktopMenu() {
                   menuCategories2?.map((category) => (
                     <li className="inline-block" key={Math.random()}>
                       <Link
+                        to={`${path}/${category["title"].title
+                          .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                          .replace(/\s+/g, "-")
+                          .replace(/'/g, "")}/c=${
+                          category["title"].mobile_type_id
+                        }`}
                         className="bg-dwhite1 text-dblack2 text-d12 p-2.5 hover:bg-dgrey3 uppercase"
                         dangerouslySetInnerHTML={{
                           __html: category["title"].title,
@@ -113,7 +119,7 @@ function DesktopMenu() {
         <div
           className="navigation-submenu bg-dgrey3 pl-4 w-3/4 left-0 right-0 absolute top-full text-dblack1
                         z-50 text-left container "
-          onMouseEnter={()=> {
+          onMouseEnter={() => {
             setViewMenuCategories2(true);
           }}
           onMouseLeave={() => {
@@ -124,35 +130,52 @@ function DesktopMenu() {
             <div className="w-3/4 relative pt-7 bg-dgrey3 ">
               <div className="navigation-submenu-item  left-3 top-7 pb-7 pr-2.5 pl-3.5 w-52 border-r border-dgrey5 ">
                 <div className="text-d13 font-bold mb-1.5">
-                  <Link  className="uppercase"
+                  <Link
+                    to={`${path}/${selectedMenuCategory2["top-category"].name
+                      ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                      ?.replace(/\s+/g, "-")}/c=${
+                      selectedMenuCategory2["top-category"].category_id
+                    }`}
+                    className="uppercase"
                     dangerouslySetInnerHTML={{
-                        __html: selectedMenuCategory2["title"].title,
-                      }}
+                      __html: selectedMenuCategory2["title"].title,
+                    }}
                   ></Link>
                 </div>
                 <ul>
                   {selectedMenuCategory2["sub-categories"]?.map(
                     (subcategory) => (
-                      <li className="cursor-pointer hover:underline text-xs capitalize"
-                      dangerouslySetInnerHTML={{
-                        __html: subcategory.name,
-                      }}
-                      key={subcategory.category_id}
-                      ></li>
+                      <li>
+                        <Link
+                          to={`${path}/${subcategory.name
+                            .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                            .replace(/\s+/g, "-")}/c=${
+                            subcategory.category_id
+                          }`}
+                          className="cursor-pointer hover:underline text-xs capitalize"
+                          dangerouslySetInnerHTML={{
+                            __html: subcategory.name,
+                          }}
+                          key={subcategory.category_id}
+                        ></Link>
+                      </li>
                     )
                   )}
                 </ul>
               </div>
             </div>
             <div className="w-1/4 pt-7 ">
-                <div className="dropdown-extra-content">
-                    <Link>
-                      <img src={`https://www.ishtari.com/image/${selectedMenuCategory2["top-category"].image}`} alt={selectedMenuCategory2["top-category"].name} />
-                    </Link>
-                    <p className="title"></p>
-                    <p className="subtitle"></p>
-                    <Link></Link>
-                </div>
+              <div className="dropdown-extra-content">
+                <Link>
+                  <img
+                    src={`https://www.ishtari.com/image/${selectedMenuCategory2["top-category"].image}`}
+                    alt={selectedMenuCategory2["top-category"].name}
+                  />
+                </Link>
+                <p className="title"></p>
+                <p className="subtitle"></p>
+                <Link></Link>
+              </div>
             </div>
           </div>
         </div>

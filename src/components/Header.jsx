@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import DesktopMenu from "./DesktopMenu";
 import TopWishlist from "./TopWishlist";
@@ -9,6 +9,7 @@ import { IoMdMenu, IoMdClose } from "react-icons/io";
 import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
 import _axios from "../axios";
 import buildLink, { path } from "../urls";
+import { AccountContext } from "../contexts/AccountContext";
 
 function Header() {
   const width = window.innerWidth;
@@ -19,6 +20,7 @@ function Header() {
   const [categories, setCategories] = useState([]);
   const [activeCategory, setActiveCategory] = useState({});
   const [viewLevel2, setViewLevel2] = useState(false);
+  const [state, dispatch] = useContext(AccountContext);
 
   useEffect(() => {
     if (width < 650) {
@@ -99,7 +101,10 @@ function Header() {
               <div className="flex justify-between">
                 <div className="header__logo flex items-center">
                   <div className="m-menu-opener-wrapper">
-                    <Link className="m-menu-opener float-left relative  h-4 ml-4 mr-1.5" onClick={()=> setViewMenu(true)}>
+                    <Link
+                      className="m-menu-opener float-left relative  h-4 ml-4 mr-1.5"
+                      onClick={() => setViewMenu(true)}
+                    >
                       <IoMdMenu className="w-6 h-6" />
                     </Link>
                     <Link className=""></Link>
@@ -132,7 +137,11 @@ function Header() {
         </div>
       </div>
       <DesktopMenu />
-      <div className={`mobile-header-menu ${viewmenu ? "right-0" : "right-full"} right-0 h-full w-full fixed top-0 shadow-md z-40 transition-all bg-dblackOverlay`}>
+      <div
+        className={`mobile-header-menu ${
+          viewmenu ? "right-0" : "right-full"
+        } right-0 h-full w-full fixed top-0 shadow-md z-40 transition-all bg-dblackOverlay`}
+      >
         {width < 650 && (
           <>
             <div className="menu-link h-11 flex items-center text-dbasenavy border-b border-dbordergrey bg-dgrey2 justify-between">
@@ -145,10 +154,13 @@ function Header() {
               <div className="menu-link-area w-60 flex justify-end items-center mr-4">
                 <div className="h-11 flex items-center text-dbasenavy border-b border-dbordergrey bg-dgrey2 justify-between">
                   <span className="font-bold  w-full text-left">
-                    <IoMdClose className="w-5 h-5" onClick={()=> {
-                      setViewMenu(false);
-                      setViewLevel2(false);
-                      }}/>
+                    <IoMdClose
+                      className="w-5 h-5"
+                      onClick={() => {
+                        setViewMenu(false);
+                        setViewLevel2(false);
+                      }}
+                    />
                   </span>
                 </div>
               </div>
@@ -183,6 +195,21 @@ function Header() {
                   >
                     <div className="menu-item--box flex items-center justify-between px-5 h-full ">
                       <Link
+                        to={`${
+                          state.admin
+                            ? path + "/category/" + category.category_id
+                            : category.name.length > 0
+                            ? "/" +
+                              category.name
+                                .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                                .replace(/\s+/g, "-") +
+                              "/c=" +
+                              category.category_id
+                            : "cat/c=" + category.category_id
+                        }`}
+                        onClick={()=>{
+                          setViewMenu(false)
+                        }}
                         className="menu-item--title relative flex items-center uppercase text-d16 font-bold text-dbasenavy text-left font-mono"
                         dangerouslySetInnerHTML={{ __html: category?.name }}
                       ></Link>
@@ -205,12 +232,15 @@ function Header() {
                 >
                   <Link className="menu-subitem--title bg-dgrey4 text-dbasenavy w-full text-d16 font-bold py-5 px-7 block uppercase">
                     <div className="flex items-center">
-                      <BsChevronLeft className="w-5 h-5 mr-2" onClick={()=>setViewLevel2(false)}/>
-                    <p
-                      dangerouslySetInnerHTML={{
-                        __html: activeCategory?.name,
-                      }}
-                    ></p>
+                      <BsChevronLeft
+                        className="w-5 h-5 mr-2"
+                        onClick={() => setViewLevel2(false)}
+                      />
+                      <p
+                        dangerouslySetInnerHTML={{
+                          __html: activeCategory?.name,
+                        }}
+                      ></p>
                     </div>
                   </Link>
                   <Link className="menu-subitem--all block py-4  pr-4 pl-8 font-bold">
@@ -224,7 +254,25 @@ function Header() {
                           className="font-d16 p-4 border-t border-dbordergrey4 flex items-center"
                           key={subcategory?.category_id}
                         >
-                          <Link className="menu-subitem--link flex items-center">
+                          <Link
+                            to={`${
+                              state.admin
+                                ? path + "/category/" + subcategory.category_id
+                                : subcategory.name.length > 0
+                                ? "/" +
+                                subcategory.name
+                                    .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                                    .replace(/\s+/g, "-") +
+                                  "/c=" +
+                                  subcategory.category_id
+                                : "cat/c=" + subcategory.category_id
+                            }`}
+                            onClick={()=>{
+                              setViewMenu(false)
+                              setViewLevel2(false)
+                            }}
+                            className="menu-subitem--link flex items-center"
+                          >
                             <span
                               className="js-menu-subitem--link-text mr-2 uppercase"
                               dangerouslySetInnerHTML={{
