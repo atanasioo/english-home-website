@@ -14,7 +14,7 @@ function Category() {
   const [filters, setfilters] = useState({});
   const [userFilters, setUserFilters] = useState({});
   const [pointer, setPointer] = useState(true);
-
+  const [sort, selectSort] = useState(false);
   const urlRef = useRef(location?.pathname);
   const navigate = useNavigate();
   const pathname = location.pathname;
@@ -22,7 +22,7 @@ function Category() {
   useEffect(() => {
     window.scrollTo({
       top: 0,
-      behavior: "smooth",
+      behavior: "smooth"
     });
 
     var newPath;
@@ -125,7 +125,7 @@ function Category() {
       .then((response) => {
         setData(response?.data?.data);
         setfilters(response?.data?.data?.filters);
-        setPointer(true)
+        setPointer(true);
       });
   }, [location]);
 
@@ -254,9 +254,7 @@ function Category() {
       } else {
         return "";
       }
-    }
-
-    else {
+    } else {
       if (c !== null && array[type].includes(filter["id"]) === true) {
         return "text-dblue2 underline underline-offset-4";
       } else {
@@ -265,72 +263,85 @@ function Category() {
     }
   }
 
+
   return (
     <div>
-      <div className={`flex flex-row p-2 bg-dgrey10 ${!pointer && "pointer-events-none	opacity-25" }`}>
+      <div
+        className={`flex flex-row p-2 bg-dgrey10   ${
+          !pointer && "pointer-events-none select-none opacity-25"
+        }`}
+      >
         {window.innerWidth > 650 && (
           <div className="w-3/12 px-8">
             <div className="w-10/12 text-left text-d18  border-b border-b-dblack2 py-2">
               CATEGORIES
             </div>
             <div className="w-10/12 text-left py-2">FILTERS</div>
-            <div className="w-10/12">
+            <div className="w-10/12 ">
               {Object.keys(filters).map((key) => (
                 <div key={key} className="w-full">
-                  <div className="w-full text-left text-dbasenavy font-bold py-2">
+                  <div className="w-full text-left text-dblack2 uppercase  py-2">
                     {filters[key]?.items.length > 0 && filters[key].name}
                   </div>
                   {filters[key]?.items.length > 0 &&
                   filters[key].name === "Color" ? (
-                    <div className={`${filters[key]?.items.length > 6 && "h-36 overflow-y-auto"}`}>
-                    <div className="grid grid-cols-4 w-3/4 ">
-                      {filters[key]?.items?.map((filter) => (
-                        <div className="text-left w-full my-1">
-                          <img
-                            src={filter.image}
-                            alt={filter.name}
-                            className={`rounded-full w-8   ${checkFilter(
+                    <div
+                      className={`${
+                        filters[key]?.items.length > 6 && "h-36 overflow-y-auto"
+                      }`}
+                    >
+                      <div className="grid grid-cols-4 w-3/4 ">
+                        {filters[key]?.items?.map((filter) => (
+                          <div className="text-left w-full my-1">
+                            <img
+                              src={filter.image}
+                              alt={filter.name}
+                              className={`rounded-full w-8   ${checkFilter(
+                                filters[key].id,
+                                filters[key].name,
+                                filter
+                              )}`}
+                              onClick={() =>
+                                parseFilter(filters[key].id, filter)
+                              }
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ) : (
+                    <div
+                      className={`${
+                        filters[key]?.items.length > 6 && "h-36 overflow-y-auto"
+                      }`}
+                    >
+                      {filters[key]?.items?.map((filter) =>
+                        filters[key].name === "DIMENSIONS" ||
+                        filters[key].name === "Size" ? (
+                          <div
+                            className={`w-full border bg-white my-1 text-dborderblack0 text-d15 py-1 ${checkFilter(
                               filters[key].id,
                               filters[key].name,
                               filter
                             )}`}
                             onClick={() => parseFilter(filters[key].id, filter)}
-                          />
-                        </div>
-                      ))}
+                          >
+                            {filter.name}
+                          </div>
+                        ) : (
+                          <div
+                            className={`text-left w-full hover:underline underline-offset-4 text-dborderblack0 text-d15 pointer-events-auto ${checkFilter(
+                              filters[key].id,
+                              filter.name,
+                              filter
+                            )}`}
+                            onClick={() => parseFilter(filters[key].id, filter)}
+                          >
+                            {filter.name}
+                          </div>
+                        )
+                      )}
                     </div>
-                    </div>
-                  ) : (
-                  <div className={`${filters[key]?.items.length > 6 && "h-36 overflow-y-auto"}`}>
-                    {filters[key]?.items?.map((filter) =>
-                      filters[key].name === "DIMENSIONS" ||
-                      filters[key].name === "Size" ? (
-                        <div
-                          className={`w-full border bg-white my-1 py-1 ${checkFilter(
-                            filters[key].id,
-                            filters[key].name,
-                            filter
-                          )}`}
-                          onClick={() => parseFilter(filters[key].id, filter)}
-                        >
-                          {filter.name}
-                        </div>
-                      ) : (
-                        <div
-                          className={`text-left w-full hover:underline underline-offset-4	 ${checkFilter(
-                            filters[key].id,
-                            filter.name,
-                            filter
-                          )}`}
-                          onClick={() => parseFilter(filters[key].id, filter)}
-                        >
-                          {filter.name}
-                        </div>
-                      )
-                    )
-                  }
-                  </div>
-                
                   )}
                 </div>
               ))}
@@ -340,6 +351,23 @@ function Category() {
 
         {window.innerWidth > 650 ? (
           <div className="w-9/12">
+            <div className="flex w-full">
+              <div className="w-1/2 text-left pl-4">VIEW</div>
+              <div className="w-1/2 text-left">
+                SORT <div className=""></div>
+                <div className="w-1/6  bg-white absolute z-10">
+                  {data?.sorts?.map((sort) => (
+                    <div
+                      className="pl-5 py-1"
+                      onClick={() => sort(sort.value)}
+                      dangerouslySetInnerHTML={{
+                        __html: sort.text
+                      }}
+                    ></div>
+                  ))}
+                </div>
+              </div>
+            </div>
             <div className="grid grid-cols-3">
               {data?.products?.map((product) => (
                 <div className="p-">

@@ -109,6 +109,9 @@ module.exports = {
         dwhite1: {
           DEFAULT: "#FFF"
         },
+        dborderblack0: {
+          DEFAULT: "#686869"
+        },
         dborderblack1: {
           DEFAULT: "#0d143c"
         },
