@@ -11,17 +11,28 @@ export default function SingleProducCategory(props) {
     isHovered(false);
     // isHovered1(false);
   }
-
+  function ToSeoUrl(url) {
+        
+    // make the url lowercase         
+    var encodedUrl = url.toString().toLowerCase(); 
+  
+    // replace & with and           
+    encodedUrl = encodedUrl.split(/\&+/).join("-and-")
+  
+    // remove invalid characters 
+    encodedUrl = encodedUrl.split(/[^a-z0-9]/).join("-");       
+  
+    // remove duplicates 
+    encodedUrl = encodedUrl.split(/-+/).join("-");
+  
+    // trim leading & trailing characters 
+    encodedUrl = encodedUrl.trim('-'); 
+  
+    return encodedUrl; 
+  }
   return (
     <Link
-      to={`${path}/${props.item.name
-        .replaceAll(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
-        .replaceAll(/\s+/g, "-")
-        .replaceAll("..", "")
-        .replaceAll("/", "-")
-        .replaceAll("---", "-")
-        .replaceAll("--", "-")
-        .replaceAll("/", "")}/p=${props.item.product_id}`}
+      to={`${path}/${ToSeoUrl(props.item.name)}/p=${props.item.product_id}`}
       className="relative w-full "
       onMouseEnter={() => isHovered(true)}
       onMouseLeave={onMouseLeave}
