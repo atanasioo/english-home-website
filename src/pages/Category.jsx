@@ -1,20 +1,25 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useLocation, useParams, useNavigate } from "react-router-dom";
+import { useLocation, useParams, useNavigate, Link } from "react-router-dom";
 import _axios from "../axios";
 import SingleProductCategory from "../components/SingleProductCategory";
 import buildLink from "../urls";
 import { useFiltersContext } from "../contexts/FiltersContext";
+import queryString from "query-string";
+import { VscPrimitiveSquare } from "react-icons/vsc";
 
 function Category() {
   const location = useLocation();
+  const params = useParams();
   const id = useParams().id;
-  const title = useParams().c;
   const path = location.pathname;
   const [data, setData] = useState({});
   const [filters, setfilters] = useState({});
   const [userFilters, setUserFilters] = useState({});
   const [pointer, setPointer] = useState(true);
-  const [sort, selectSort] = useState(false);
+  const [sort, setSort] = useState("Default");
+  const [showSort, setShowSort] = useState(false);
+  const [view, setView] = useState(3);
+
   const urlRef = useRef(location?.pathname);
   const navigate = useNavigate();
   const pathname = location.pathname;
@@ -60,7 +65,7 @@ function Category() {
       });
       urlRef.current = location.pathname;
     }
-   
+    // console.log(navigate);
 
     if (1 === 1) {
       let sellerIndex;
@@ -120,6 +125,8 @@ function Category() {
       }
     }
 
+    // navigate(pathname)
+
     _axios
       .post(buildLink(type, undefined, undefined) + newPath)
       .then((response) => {
@@ -127,11 +134,69 @@ function Category() {
         setfilters(response?.data?.data?.filters);
         setPointer(true);
       });
-  }, [location]);
+  }, [location, sort]);
 
+  function getType() {
+    if (window.location.href.indexOf("c=") > 0) return "category";
+    if (window.location.href.indexOf("m=") > 0) return "manufacturer";
+    if (window.location.href.indexOf("s=") > 0) return "seller";
+  }
+  function pageSetter(page) {
+    const new_page = parseInt(page["selected"]) + 1;
+    pushRoute({ page: new_page });
+  }
+  // Set Sort
+  function sortSetter(sort) {
+    setSort(sort);
+    setShowSort(false);
+    let val = sort["value"];
+    let order = "";
+    let _sort = "";
+    const i_o = val.indexOf("-");
+    _sort = val.substring(0, i_o);
+    order = val.substring(i_o + 1);
+    const obj = { sort: _sort, order: order };
+    pushRoute(obj);
+  }
+  // Set limit
+  function limitSetter(limit) {
+    // setLimit(limit);
+    // setShowLimit(false);
+    pushRoute({ limit: limit.value });
+  }
+
+  // Push Route
+  function pushRoute(data) {
+    const q_s = queryString.parse(location.search);
+    for (const key in data) {
+      if (Object.hasOwnProperty.call(data, key)) {
+        const element = data[key];
+        q_s[key] = element;
+      }
+    }
+    navigate("&" + queryString.stringify(q_s).replaceAll("%2C", ","));
+  }
+  // function setState(sort) {
+  //   console.log(sort);
+  //   setSort(sort.text);
+  //   let val = sort["value"];
+  //   let order = "";
+  //   let _sort = "";
+  //   const i_o = val.indexOf("-");
+  //   _sort = val.substring(0, i_o);
+  //   order = val.substring(i_o + 1);
+  //   var i_sort = pathname.indexOf("&sort=");
+  //   if(i_sort > -1){
+  //     var l = path.substring(0, i_sort);
+  //   }
+  //   // var l = path.substring(0, i_sort);
+  //   setShowSort(false);
+  //   navigate(l + "&sort=" + _sort + "&order=" + order);
+  // }
   function parseFilter(typekey, filter) {
     setPointer(false)
 
+    // console.log("yes");
     const id = filter["id"];
     var last = "";
     let type_key = typekey;
@@ -151,7 +216,7 @@ function Category() {
       indexOfId = c.split(",").indexOf(filter["id"]);
     }
     if (indexOfId < 0) {
-
+      // // // console.log("Test from if");
       values_array.push(filter["id"]);
 
       setUserFilters({
@@ -175,7 +240,7 @@ function Category() {
 
       q = decodeURIComponent(q);
       query += q;
-
+      // console.log(path + query + "&last=" + last);
       navigate(path + query + "&last=" + last);
     } else {
       let query = type_key + "=" + id;
@@ -231,12 +296,12 @@ function Category() {
             }
           }
         }
-        
+        // console.log(path + query + "&last=" + last);
 
         navigate(pathname + url1);
       } else {
         navigate("/" + pathname);
-        
+        // console.log(path + query + "&last=" + last);
       }
     }
   }
@@ -247,7 +312,8 @@ function Category() {
 
     let array = Array("");
     array[type] = c?.split(",");
-
+    // console.log("type, name, filter");
+    // console.log(type, name, filter);
     if (name === "Color" || name === "DIMENSIONS" || name === "Size") {
       if (c !== null && array[type].includes(filter["id"]) === true) {
         return "border border-dblue2 border text-dblue2";
@@ -263,11 +329,27 @@ function Category() {
     }
   }
 
-
   return (
-    <div>
+    <div className=" bg-dgrey10 pt-1">
+      <div className="  xl:flex lg:flex pt-2 pb-2 pl-12 items-center text-xs ">
+        <div className="flex items-center ">
+          <Link
+            to="/"
+            className="hidden md:block text-dborderblack0 font-light truncate text-d11 md:text-tiny mr-2 hover:text-dblue"
+            dangerouslySetInnerHTML={{
+              __html: "Home"
+            }}
+          />{" "}
+          <i className="icon icon-angle-right"></i>
+        </div>
+        {data?.breadcrumbs?.map((bread) => (
+          <div className="flex items-center text-dborderblack0" key={bread.text}>
+            <p className=" mx-2">{bread.text.replace("&amp;", "&")}</p>
+          </div>
+        ))}
+      </div>
       <div
-        className={`flex flex-row p-2 bg-dgrey10   ${
+        className={`flex flex-row p-2 border border-t-1 mt-2 ${
           !pointer && "pointer-events-none select-none opacity-25"
         }`}
       >
@@ -351,15 +433,77 @@ function Category() {
 
         {window.innerWidth > 650 ? (
           <div className="w-9/12">
-            <div className="flex w-full">
-              <div className="w-1/2 text-left pl-4">VIEW</div>
-              <div className="w-1/2 text-left">
-                SORT <div className=""></div>
-                <div className="w-1/6  bg-white absolute z-10">
+            <div className="flex w-full border-b-2 pb-2">
+              <div className="flex w-9/12 text-left pl-4">
+                VIEW{" "}
+                <div
+                  className={`flex ml-4 ${
+                    view === 2
+                      ? "text-d25 text-dborderblack1 -top-1"
+                      : "ml-3 pt-1 text-dbordergrey"
+                  }`}
+                  onClick={() => setView(2)}
+                >
+                  <VscPrimitiveSquare />
+                  <VscPrimitiveSquare
+                    className={`${view === 2 ? "-ml-3" : "-ml-2"}`}
+                  />
+                </div>
+                <div
+                  className={`flex ${
+                    view === 3
+                      ? "text-d25 text-dborderblack1 -top-1"
+                      : "ml-3 pt-1 text-dbordergrey"
+                  }`}
+                  onClick={() => setView(3)}
+                >
+                  <VscPrimitiveSquare />
+                  <VscPrimitiveSquare
+                    className={`${view === 3 ? "-mx-3" : "-mx-2"}`}
+                  />
+                  <VscPrimitiveSquare />
+                </div>{" "}
+                <div
+                  className={`flex   ${
+                    view === 4
+                      ? "text-d25 text-dborderblack1"
+                      : "pt-1  text-dbordergrey"
+                  }`}
+                  onClick={() => setView(4)}
+                >
+                  <VscPrimitiveSquare />
+                  <VscPrimitiveSquare
+                    className={view === 4 ? "-mx-3" : "-mx-2"}
+                  />
+                  <VscPrimitiveSquare
+                    className={view === 4 ? "-mr-3" : "-mr-2"}
+                  />
+                  <VscPrimitiveSquare />
+                </div>
+              </div>
+              <div className="w-3/12 text-left">
+                <div className="flex">
+                  <div className="">sort</div>
+                  <div
+                    className=" ml-3 text-center bg-white border border-dbgrey1 w-44"
+                    onClick={() => setShowSort(!showSort ? true : false)}
+                  >
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: sort
+                      }}
+                    ></div>
+                  </div>
+                </div>
+                <div
+                  className={`w-44	 bg-white absolute z-10 ml-10 ${
+                    !showSort && "hidden"
+                  }`}
+                >
                   {data?.sorts?.map((sort) => (
                     <div
-                      className="pl-5 py-1"
-                      onClick={() => sort(sort.value)}
+                      className="pl-5 py-1 "
+                      onClick={() => sortSetter(sort)}
                       dangerouslySetInnerHTML={{
                         __html: sort.text
                       }}
@@ -368,7 +512,7 @@ function Category() {
                 </div>
               </div>
             </div>
-            <div className="grid grid-cols-3">
+            <div className={`grid grid-cols-${view}`}>
               {data?.products?.map((product) => (
                 <div className="p-">
                   <SingleProductCategory item={product}></SingleProductCategory>
