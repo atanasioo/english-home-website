@@ -2,16 +2,18 @@ import React, { useEffect, useState, useRef } from "react";
 import { useLocation, useParams, useNavigate, Link } from "react-router-dom";
 import _axios from "../axios";
 import SingleProductCategory from "../components/SingleProductCategory";
-import buildLink from "../urls";
 import { useFiltersContext } from "../contexts/FiltersContext";
 import queryString from "query-string";
 import { VscPrimitiveSquare } from "react-icons/vsc";
+import { GiSquare } from "react-icons/gi";
+import buildLink, { path, pixelID } from "../urls";
+import { type } from "@testing-library/user-event/dist/type";
 
 function Category() {
   const location = useLocation();
   const params = useParams();
   const id = useParams().id;
-  const path = location.pathname;
+  const path1 = location.pathname;
   const [data, setData] = useState({});
   const [filters, setfilters] = useState({});
   const [userFilters, setUserFilters] = useState({});
@@ -156,7 +158,7 @@ function Category() {
     _sort = val.substring(0, i_o);
     order = val.substring(i_o + 1);
     const obj = { sort: _sort, order: order };
-    pushRoute(obj);
+    setState(sort);
   }
   // Set limit
   function limitSetter(limit) {
@@ -168,31 +170,47 @@ function Category() {
   // Push Route
   function pushRoute(data) {
     const q_s = queryString.parse(location.search);
+    console.log(data);
     for (const key in data) {
       if (Object.hasOwnProperty.call(data, key)) {
         const element = data[key];
         q_s[key] = element;
       }
     }
-    navigate("&" + queryString.stringify(q_s).replaceAll("%2C", ","));
+    alert(pathname);
+
+    navigate(
+      pathname + "&" + queryString.stringify(q_s).replaceAll("%2C", ",")
+    );
   }
-  // function setState(sort) {
-  //   console.log(sort);
-  //   setSort(sort.text);
-  //   let val = sort["value"];
-  //   let order = "";
-  //   let _sort = "";
-  //   const i_o = val.indexOf("-");
-  //   _sort = val.substring(0, i_o);
-  //   order = val.substring(i_o + 1);
-  //   var i_sort = pathname.indexOf("&sort=");
-  //   if(i_sort > -1){
-  //     var l = path.substring(0, i_sort);
-  //   }
-  //   // var l = path.substring(0, i_sort);
-  //   setShowSort(false);
-  //   navigate(l + "&sort=" + _sort + "&order=" + order);
-  // }
+  function setState(sort) {
+    console.log(sort);
+    setSort(sort.text);
+    let val = sort["value"];
+    let order = "";
+    let _sort = "";
+    const i_o = val.indexOf("-");
+    _sort = val.substring(0, i_o);
+    order = val.substring(i_o + 1);
+    var i_sort = pathname.indexOf("&sort=");
+    var l = "";
+    if (i_sort > -1) {
+      l = path.substring(0, i_sort);
+    } else {
+      l = pathname;
+    }
+    console.log(l);
+
+    if(location.search.indexOf("has_filter=true")> 0){
+      l= location.search
+          console.log(l);
+
+    }
+    console.log(l);
+    // var l = path.substring(0, i_sort);
+    setShowSort(false);
+    navigate((l + "&sort=" + _sort + "&order=" + order).replaceAll("/&", "&"));
+  }
   function parseFilter(typekey, filter) {
     setPointer(false)
 
@@ -240,7 +258,9 @@ function Category() {
 
       q = decodeURIComponent(q);
       query += q;
-      // console.log(path + query + "&last=" + last);
+
+       console.log(params.name+ '/'+ getType().slice(0,1)+ '=' + id + query + "&last=" + last);
+
       navigate(path + query + "&last=" + last);
     } else {
       let query = type_key + "=" + id;
@@ -300,7 +320,7 @@ function Category() {
 
         navigate(pathname + url1);
       } else {
-        navigate("/" + pathname);
+        navigate("/" + path1);
         // console.log(path + query + "&last=" + last);
       }
     }
@@ -343,7 +363,10 @@ function Category() {
           <i className="icon icon-angle-right"></i>
         </div>
         {data?.breadcrumbs?.map((bread) => (
-          <div className="flex items-center text-dborderblack0" key={bread.text}>
+          <div
+            className="flex items-center text-dborderblack0"
+            key={bread.text}
+          >
             <p className=" mx-2">{bread.text.replace("&amp;", "&")}</p>
           </div>
         ))}
@@ -437,48 +460,44 @@ function Category() {
               <div className="flex w-9/12 text-left pl-4">
                 VIEW{" "}
                 <div
-                  className={`flex ml-4 ${
+                  className={`flex ml-4 pt-1.5 ${
                     view === 2
-                      ? "text-d25 text-dborderblack1 -top-1"
-                      : "ml-3 pt-1 text-dbordergrey"
+                      ? "text-d14  text-dborderblack1 "
+                      : "ml-3  text-dbordergrey"
                   }`}
                   onClick={() => setView(2)}
                 >
-                  <VscPrimitiveSquare />
-                  <VscPrimitiveSquare
-                    className={`${view === 2 ? "-ml-3" : "-ml-2"}`}
+                  <GiSquare />
+                  <GiSquare
+                    className={`${view === 2 ? "-ml-0.5" : "-ml-0.5"}`}
                   />
                 </div>
                 <div
-                  className={`flex ${
+                  className={`flex pt-1.5 ${
                     view === 3
-                      ? "text-d25 text-dborderblack1 -top-1"
-                      : "ml-3 pt-1 text-dbordergrey"
+                      ? "text-d16 text-dborderblack1 mx-3 -top-1"
+                      : "mx-2  text-dbordergrey"
                   }`}
                   onClick={() => setView(3)}
                 >
-                  <VscPrimitiveSquare />
-                  <VscPrimitiveSquare
-                    className={`${view === 3 ? "-mx-3" : "-mx-2"}`}
+                  <GiSquare />
+                  <GiSquare
+                    className={`${view === 3 ? "-mx-0.5" : "-mx-0.5"}`}
                   />
-                  <VscPrimitiveSquare />
+                  <GiSquare />
                 </div>{" "}
                 <div
-                  className={`flex   ${
+                  className={`flex  pt-1.5 ${
                     view === 4
-                      ? "text-d25 text-dborderblack1"
-                      : "pt-1  text-dbordergrey"
+                      ? "text-d16 text-dborderblack1"
+                      : " text-dbordergrey"
                   }`}
                   onClick={() => setView(4)}
                 >
-                  <VscPrimitiveSquare />
-                  <VscPrimitiveSquare
-                    className={view === 4 ? "-mx-3" : "-mx-2"}
-                  />
-                  <VscPrimitiveSquare
-                    className={view === 4 ? "-mr-3" : "-mr-2"}
-                  />
-                  <VscPrimitiveSquare />
+                  <GiSquare />
+                  <GiSquare className={view === 4 ? "-mx-0.5" : "-mx-0.5"} />
+                  <GiSquare className={view === 4 ? "-mr-0.5" : "-mx-0.5"} />
+                  <GiSquare />
                 </div>
               </div>
               <div className="w-3/12 text-left">
@@ -490,7 +509,7 @@ function Category() {
                   >
                     <div
                       dangerouslySetInnerHTML={{
-                        __html: sort
+                        __html: sort.text
                       }}
                     ></div>
                   </div>
