@@ -195,19 +195,17 @@ function Category() {
     var i_sort = pathname.indexOf("&sort=");
     var l = "";
     if (i_sort > -1) {
-      l = path.substring(0, i_sort);
+      l = path1.substring(0, i_sort);
+      alert(l)
     } else {
       l = pathname;
     }
-    console.log(l);
 
-    if(location.search.indexOf("has_filter=true")> 0){
+    if(location.search.indexOf("has_filter=true") > -1  && i_sort > -1){
       l= location.search
-          console.log(l);
 
     }
-    console.log(l);
-    // var l = path.substring(0, i_sort);
+console.log(l)
     setShowSort(false);
     navigate((l + "&sort=" + _sort + "&order=" + order).replaceAll("/&", "&"));
   }
