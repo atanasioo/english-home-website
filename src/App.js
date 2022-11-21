@@ -7,6 +7,7 @@ import Cart from "./pages/Cart";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import ForgotMyPassword from "./pages/ForgotMyPassword";
+import Checkout from "./pages/Checkout";
 import HeaderCampaigns from "./components/HeaderCampaigns";
 import { AccountContext, AccountProvider } from "./contexts/AccountContext";
 import { CartProvider } from "./contexts/CartContext";
@@ -39,6 +40,7 @@ function App() {
               element={<Category />}   exact
             />
             <Route path="cart" element={<Cart />} />
+            <Route path="checkout" element={<Checkout />} />
             <Route path="login" element={<Login />} />
             <Route path="forgotmypassword" element={<ForgotMyPassword />} />
             <Route path="product/:id" element={<Product />} />

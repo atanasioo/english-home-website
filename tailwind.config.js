@@ -99,6 +99,9 @@ module.exports = {
         dgrey12:{
           DEFAULT: "#949494"
         },
+        dgrey13:{
+          DEFAULT: "#C0C0C0"
+        },
 
         dgreyTransp1: {
           DEFAULT: "rgba(255,255,255,0.9)" //slick arrow bg color

@@ -50,9 +50,6 @@ function TopSearch() {
     setViewResults("");
   }
 
-
-
-
   function navigateSearch(e) {
     if (e.keyCode === 13) {
       const query = e.target.value;

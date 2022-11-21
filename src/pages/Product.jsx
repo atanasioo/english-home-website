@@ -417,6 +417,8 @@ function Product() {
     }
   }
 
+  
+
   var htmlEntities = {
     nbsp: " ",
     cent: "¢",

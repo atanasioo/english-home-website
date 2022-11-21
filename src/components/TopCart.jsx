@@ -249,7 +249,9 @@ function TopCart(props) {
               </div>
               <div>
                 <div className="header__basket__buttons flex my-5 mr-2.5 h-10">
-                  <Link className="mx-2 text-d12 p-2.5 text-center  w-full bg-dwhite1 text-dblue1 border border-dblue1 uppercase">
+                  <Link 
+                  to={"/cart"}
+                  className="mx-2 text-d12 p-2.5 text-center  w-full bg-dwhite1 text-dblue1 border border-dblue1 uppercase">
                     View cart
                   </Link>
                   <Link className="text-d12 p-2.5 text-center  w-full bg-dblue1 hover:bg-dblack2 transition-all ease-in-out text-dwhite1 tracking-tighter z-20 uppercase">
@@ -344,7 +346,9 @@ function TopCart(props) {
           </div>
           <div>
             <div className="header__basket__buttons flex my-5 mr-2.5 h-10">
-              <Link className="mx-2 text-d12 p-2.5 text-center  w-full bg-dwhite1 text-dblue1 border border-dblue1 uppercase">
+              <Link
+              to={"/cart"}
+              className="mx-2 text-d12 p-2.5 text-center  w-full bg-dwhite1 text-dblue1 border border-dblue1 uppercase">
                 View cart
               </Link>
               <Link className="text-d12 p-2.5 text-center  w-full bg-dblue1 hover:bg-dblack2 transition-all ease-in-out text-dwhite1 tracking-tighter z-20 uppercase">
