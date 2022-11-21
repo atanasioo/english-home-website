@@ -13,7 +13,9 @@ import { AccountContext, AccountProvider } from "./contexts/AccountContext";
 import { CartProvider } from "./contexts/CartContext";
 import { WishlistProvider } from "./contexts/WishlistContext";
 import Login from "./pages/Login";
-
+import Account from "./pages/Account";
+import Order from "./pages/Orders";
+import Profile from './pages/Profile'
 function App() {
   const width = window.innerWidth;
 
@@ -45,6 +47,14 @@ function App() {
             <Route path="forgotmypassword" element={<ForgotMyPassword />} />
             <Route path="product/:id" element={<Product />} />
             <Route path="/:name/p=:id" element={<Product />} exact />
+
+            <Route path="account" element={<Account />} />
+            <Route path="users/orders" element={<Order />} />
+            <Route path="users/profile" element={<Profile />} />
+            <Route path="account/address" element={<Account />} />
+
+
+
           </Routes>
           <Footer />
           </WishlistProvider>
