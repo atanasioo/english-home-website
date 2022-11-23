@@ -6,6 +6,8 @@ import { useFiltersContext } from "../contexts/FiltersContext";
 import queryString from "query-string";
 import { VscPrimitiveSquare } from "react-icons/vsc";
 import { GiSquare } from "react-icons/gi";
+import { CiFilter } from "react-icons/ci";
+import { BiSortAlt2 } from "react-icons/bi";
 import buildLink, { path, pixelID } from "../urls";
 import { type } from "@testing-library/user-event/dist/type";
 
@@ -23,6 +25,7 @@ function Category() {
   const [view, setView] = useState(3);
   const [filterMobile, setFilterMobile] = useState([]);
   const [filterMobileShow, setFilterMobileShow] = useState(false);
+  const [mobileSort, setMobileSort] = useState(false);
 
 
   const urlRef = useRef(location?.pathname);
@@ -181,7 +184,7 @@ function Category() {
         q_s[key] = element;
       }
     }
-    alert(pathname);
+    // alert(pathname);
 
     navigate(
       pathname + "&" + queryString.stringify(q_s).replaceAll("%2C", ",")
@@ -200,7 +203,7 @@ function Category() {
     var l = "";
     if (i_sort > -1) {
       l = path1.substring(0, i_sort);
-      alert(l);
+      // alert(l);
     } else {
       l = pathname;
     }
@@ -472,8 +475,8 @@ function Category() {
                 <div
                   className={`flex ml-4 pt-1.5 ${
                     view === 2
-                      ? "text-d14  text-dborderblack1 "
-                      : "ml-3  text-dbordergrey"
+                      ? "text-d16  text-dborderblack1 "
+                      : "ml-3 text-d14 text-dbordergrey"
                   }`}
                   onClick={() => setView(2)}
                 >
@@ -486,7 +489,7 @@ function Category() {
                   className={`flex pt-1.5 ${
                     view === 3
                       ? "text-d16 text-dborderblack1 mx-3 -top-1"
-                      : "mx-2  text-dbordergrey"
+                      : "mx-2 text-d14 text-dbordergrey"
                   }`}
                   onClick={() => setView(3)}
                 >
@@ -500,13 +503,13 @@ function Category() {
                   className={`flex  pt-1.5 ${
                     view === 4
                       ? "text-d16 text-dborderblack1"
-                      : " text-dbordergrey"
+                      : "text-d14 text-dbordergrey"
                   }`}
                   onClick={() => setView(4)}
                 >
                   <GiSquare />
                   <GiSquare className={view === 4 ? "-mx-0.5" : "-mx-0.5"} />
-                  <GiSquare className={view === 4 ? "-mr-0.5" : "-mx-0.5"} />
+                  <GiSquare className={view === 4 ? "-mr-0.5" : "-mr-0.5"} />
                   <GiSquare />
                 </div>
               </div>
@@ -519,13 +522,13 @@ function Category() {
                   >
                     <div
                       dangerouslySetInnerHTML={{
-                        __html: sort.text
+                        __html: sort?.text ? sort?.text : sort
                       }}
                     ></div>
                   </div>
                 </div>
                 <div
-                  className={`w-44	 bg-white absolute z-10 ml-10 ${
+                  className={`w-44 bg-white absolute z-10 ml-10 ${
                     !showSort && "hidden"
                   }`}
                 >
@@ -556,11 +559,43 @@ function Category() {
         ) : (
           <div>
             <div className="grid grid-cols-2 grid-2">
-              <div className="" onClick={()=>setFilterMobileShow(true)}>Filter
-                </div>
-                <div className="">Sort
+              <div
+                className="flex w-full "
+                onClick={() => setFilterMobileShow(true)}
+              >
+                <span className="w-2/6"></span>
+                <span>Filter</span>
+                <span className="mt-1 mx-4">
+                  <CiFilter />
+                </span>
+              </div>
+              <div
+                className="border-l flex w-full"
+                onClick={() => setShowSort(showSort ? false : true)}
+              >
+
+                <span className="w-2/6"></span>
+                <span>Sort</span>
+                <span className="mt-1 mx-4">
+                  <BiSortAlt2 />
+                </span>
+                <div
+                  className={`w-52 bg-white absolute z-20 top-48  -mt-3 text-left border border-dblack1 ${
+                    !showSort && "hidden"
+                  }`}
+                >
+                  {data?.sorts?.map((sort) => (
+                    <div
+                      className="pl-5 py-2 "
+                      onClick={() => sortSetter(sort)}
+                      dangerouslySetInnerHTML={{
+                        __html: sort.text
+                      }}
+                    ></div>
+                  ))}
                 </div>
               </div>
+            </div>
             <div className="grid grid-cols-2 ">
               {data?.products?.map((product) => (
                 <div className="">
@@ -568,96 +603,146 @@ function Category() {
                 </div>
               ))}
             </div>
-            <div className={` absolute z-50 top-36 bg-white w-3/4 mx-12 p-3 ${!filterMobileShow && "invisible"}`}>
-              {Object.keys(filters).map((key) => (
-                <div key={key} className="w-full">
-                  <div
-                    className={`w-full text-left text-dblack2 uppercase p-2 border border-collapse mt-5`}
-                    onClick={() =>
-                      !filterMobile.includes(filters[key].id)
-                        ? setFilterMobile((filterMobile) => [
-                            ...filterMobile,
-                            filters[key].id
-                          ])
-                        : setFilterMobile((filterMobile) =>
-                            filterMobile.filter(
-                              (filterMobile) => filterMobile !== filters[key].id
+         
+       
+               
+          
+            <div
+              className={`absolute z-50 top-36  bg-white w-3/4 h-4/6 mx-12 pb-2 overflow-y-scroll  ${
+                !filterMobileShow && "invisible"
+              }`}
+            >
+              <div className="text-left w-full py-3 px-3  text-dbasenavy text-d18 font-bold bg-dyellow2 ">
+                Filter
+              </div>
+              {}
+              {Object.keys(filters).map(
+                (key) =>
+                  filters[key]?.items.length > 0 && (
+                    <div
+                      key={key}
+                      className=" border border-dbordergrey3 p-3 m-3  text-d14"
+                    >
+                      {
+                        <div
+                          className={`flex w-full text-left text-dblack2 uppercase `}
+                          onClick={() =>
+                            !filterMobile.includes(filters[key].id)
+                              ? setFilterMobile((filterMobile) => [
+                                  ...filterMobile,
+                                  filters[key].id
+                                ])
+                              : setFilterMobile((filterMobile) =>
+                                  filterMobile.filter(
+                                    (filterMobile) =>
+                                      filterMobile !== filters[key].id
+                                  )
+                                )
+                          }
+                        >
+                          <div className="w-11/12">{filters[key].name} </div>
+                          <div className="text-black font-medium">
+                            {filterMobile.includes(filters[key].id) ? "-" : "+"}
+                          </div>
+                        </div>
+                      }
+                      {filters[key].name === "Color" ? (
+                        <div
+                          className={` my-5 ${
+                            filters[key]?.items.length > 6 &&
+                            !filterMobile.includes(filters[key].id) &&
+                            " overflow-y-auto h-36 px-2"
+                          }  ${
+                            !filterMobile.includes(filters[key].id)
+                              ? "hidden"
+                              : ""
+                          }}`}
+                        >
+                          <div className="grid grid-cols-4 w-3/4 ">
+                            {filters[key]?.items?.map((filter) => (
+                              <div className="text-left w-full my-1">
+                                <img
+                                  src={filter.image}
+                                  alt={filter.name}
+                                  className={`rounded-full w-8   ${checkFilter(
+                                    filters[key].id,
+                                    filters[key].name,
+                                    filter
+                                  )}`}
+                                  onClick={() =>
+                                    parseFilter(filters[key].id, filter)
+                                  }
+                                />
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      ) : (
+                        <div
+                          className={`my-5 ${
+                            filters[key]?.items.length > 6 &&
+                            "overflow-y-auto h-36 px-2"
+                          }  ${
+                            !filterMobile.includes(filters[key].id)
+                              ? "hidden"
+                              : ""
+                          }`}
+                        >
+                          {filters[key]?.items?.map((filter) =>
+                            filters[key].name === "DIMENSIONS" ||
+                            filters[key].name === "Size" ? (
+                              <div
+                                className={`w-full border bg-white my-1 text-dborderblack0 text-d15 py-1 ${checkFilter(
+                                  filters[key].id,
+                                  filters[key].name,
+                                  filter
+                                )}`}
+                                onClick={() =>
+                                  parseFilter(filters[key].id, filter)
+                                }
+                              >
+                                {filter.name}
+                              </div>
+                            ) : (
+                              <div
+                                className={`text-left w-full hover:underline underline-offset-4 text-dborderblack0 text-d15 pointer-events-auto ${checkFilter(
+                                  filters[key].id,
+                                  filter.name,
+                                  filter
+                                )}`}
+                                onClick={() =>
+                                  parseFilter(filters[key].id, filter)
+                                }
+                              >
+                                {filter.name}
+                              </div>
                             )
-                          )
-                    }
-                  >
-                    {filters[key]?.items.length > 0 && filters[key].name}
-                  </div>
-                  {filters[key]?.items.length > 0 &&
-                  filters[key].name === "Color" ? (
-                    <div
-                      className={` my-5 ${
-                        filters[key]?.items.length > 6 &&
-                        !filterMobile.includes(filters[key].id) &&
-                        " overflow-y-auto h-36"
-                      }  ${
-                        !filterMobile.includes(filters[key].id) ? "hidden" : ""
-                      }}`}
-                    >
-                      <div className="grid grid-cols-4 w-3/4 ">
-                        {filters[key]?.items?.map((filter) => (
-                          <div className="text-left w-full my-1">
-                            <img
-                              src={filter.image}
-                              alt={filter.name}
-                              className={`rounded-full w-8   ${checkFilter(
-                                filters[key].id,
-                                filters[key].name,
-                                filter
-                              )}`}
-                              onClick={() =>
-                                parseFilter(filters[key].id, filter)
-                              }
-                            />
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  ) : (
-                    <div
-                      className={` ${
-                        filters[key]?.items.length > 6 && "overflow-y-auto h-36"
-                      }  ${
-                        !filterMobile.includes(filters[key].id) ? "hidden" : ""
-                      }`}
-                    >
-                      {filters[key]?.items?.map((filter) =>
-                        filters[key].name === "DIMENSIONS" ||
-                        filters[key].name === "Size" ? (
-                          <div
-                            className={`w-full border bg-white my-1 text-dborderblack0 text-d15 py-1 ${checkFilter(
-                              filters[key].id,
-                              filters[key].name,
-                              filter
-                            )}`}
-                            onClick={() => parseFilter(filters[key].id, filter)}
-                          >
-                            {filter.name}
-                          </div>
-                        ) : (
-                          <div
-                            className={`text-left w-full hover:underline underline-offset-4 text-dborderblack0 text-d15 pointer-events-auto ${checkFilter(
-                              filters[key].id,
-                              filter.name,
-                              filter
-                            )}`}
-                            onClick={() => parseFilter(filters[key].id, filter)}
-                          >
-                            {filter.name}
-                          </div>
-                        )
+                          )}
+                        </div>
                       )}
                     </div>
-                  )}
-                </div>
-              ))}
+                  )
+              )}
             </div>
-            {filterMobileShow && <div className="w-screen h-screen	 absolute z-20 top-0 bg-dborderblack3 opacity-50 -ml-2"></div>}
+            {filterMobileShow && (
+              <div className="w-screen h-screen	 fixed z-20 top-0 bg-dborderblack3 opacity-50 -ml-2"></div>
+            )}
+            {filterMobileShow && (
+              <div className="flex w-screen z-30 bottom-0 bg-white -ml-2 fixed p-3 font-bold uppercase">
+                <button
+                  className="text-center border text-dborderblack5 mx-2 w-1/2 p-3"
+                  onClick={() => setFilterMobileShow(false)}
+                >
+                  GIVE UP
+                </button>
+                <button
+                  className="text-center border bg-dblack1 p-3 mx-1 text-white w-1/2"
+                  onClick={() => setFilterMobileShow(false)}
+                >
+                  APPLY
+                </button>
+              </div>
+            )}
           </div>
         )}
       </div>

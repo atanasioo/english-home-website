@@ -15,7 +15,8 @@ import { WishlistProvider } from "./contexts/WishlistContext";
 import Login from "./pages/Login";
 import Account from "./pages/Account";
 import Order from "./pages/Orders";
-import Profile from './pages/Profile'
+import Profile from './pages/Profile';
+
 function App() {
   const width = window.innerWidth;
 
