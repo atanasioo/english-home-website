@@ -127,6 +127,9 @@ module.exports = {
         dborderblack4: {
           DEFAULT: "#343a40"
         },
+        dborderblack5: {
+          DEFAULT: "#4a4a4a"
+        },
         dbordergrey: {
           DEFAULT: "#D3D3D1"
         },
