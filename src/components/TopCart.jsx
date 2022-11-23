@@ -1,6 +1,5 @@
-import React, { useState } from "react";
-import { useContext, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useState,  useContext, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { BsCart3, BsChevronDown, BsChevronUp } from "react-icons/bs";
 import { GrClose } from "react-icons/gr";
 import { CartContext } from "../contexts/CartContext";
@@ -14,6 +13,7 @@ function TopCart(props) {
   const [state, dispatch] = useContext(CartContext);
   const [accountState] = useContext(AccountContext);
   const [showmenu, setShowmenu] = useState(false);
+  const location= useLocation();
 
   const upArrow = (
     <div className="absolute z-50 top-0  cursor-pointer">
@@ -22,8 +22,8 @@ function TopCart(props) {
   );
 
   const downArrow = (
-    <div className="absolute z-50 bottom-0 left-1/2cursor-pointer">
-      <BsChevronDown className="w-8 h-7 text-dgrey6  absolute z-50 bottom-0  cursor-pointer" />
+    <div className="absolute z-50 bottom-0 left-1/2 cursor-pointer ">
+      <BsChevronDown className="w-8 h-7 text-dgrey6  absolute z-50 bottom-0 cursor-pointer" />
     </div>
   );
 
@@ -96,6 +96,9 @@ function TopCart(props) {
         }
       });
   }
+
+
+  
 
   function updateQuantity(key, quantity) {
     const obj = { key, quantity };
@@ -205,7 +208,7 @@ function TopCart(props) {
                             className="flex flex-col justify-between pl-2.5 text-left font-mono w-full"
                             style={{ maxWidth: "200px" }}
                           >
-                            <p className="header__basket__item__text__product__name text-sm">
+                            <p className="header__basket__item__text__product__name text-sm line-clamp-3">
                               {product?.name}
                             </p>
                             <div className="product-quantity-area text-sm">
@@ -222,7 +225,7 @@ function TopCart(props) {
                               </div>
                             </div>
                           </Link>
-                          <div className="absolute top-3 right-2 block w-2.5 h-2.5 text-d20 text-dblack2"
+                          <div className="absolute top-3 right-2 block w-2.5 h-2.5 text-d20 text-dblack2 cursor-pointer"
                             onClick={() => updateQuantity(product?.cart_id, 0)}
                           >
                             <GrClose />
@@ -274,10 +277,10 @@ function TopCart(props) {
                 </div>
               </div>
             </div>
-          )}
+           )}
         </div>
       ) : (
-        <div className="absolute z-20 w-80 top-36 -mt-2 right-16 bg-dwhite1 shadow-lg">
+        <div className="absolute z-20 w-80 top-36 -mt-2 right-16 bg-dwhite1 shadow-lg" ref={props.wrapper}>
           <div className="text-d16 border-b border-dbordergrey3 py-2.5 pr-2.5 pl-6 text-dblack2 bg-dbordergrey2 text-left">
             You have {state?.productsCount} items in your cart
           </div>
@@ -302,7 +305,7 @@ function TopCart(props) {
                         className="flex flex-col justify-between pl-2.5 text-left font-mono w-full"
                         style={{ maxWidth: "200px" }}
                       >
-                        <p className="header__basket__item__text__product__name text-sm">
+                        <p className="header__basket__item__text__product__name text-sm line-clamp-3">
                           {product?.name}
                         </p>
                         <div className="product-quantity-area text-sm">
@@ -319,7 +322,7 @@ function TopCart(props) {
                           </div>
                         </div>
                       </Link>
-                      <div className="absolute top-3 right-2 block w-2.5 h-2.5 text-d20 text-dblack2"
+                      <div className="absolute top-3 right-2 block w-2.5 h-2.5 text-d20 text-dblack2 cursor-pointer"
                         onClick={() => updateQuantity(product?.cart_id, 0)}
                       >
                         <GrClose />

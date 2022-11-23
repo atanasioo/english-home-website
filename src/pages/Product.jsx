@@ -132,6 +132,7 @@ function Product() {
       if (cartmenu) {
         function handleClickOutside(event) {
           if (ref.current && !ref.current.contains(event.target)) {
+            console.log(ref.current.contains(event.target))
             setTimeout(() => setCartmenu(false), 200);
             setTimeout(() => setOverlay(false), 200);
           }
@@ -438,16 +439,16 @@ function Product() {
     <div className="bg-dgrey10 ">
       {cartmenu && width > 650 && (
         <div ref={wrapperRef}>
-          <TopCart cartmenu={cartmenu} />
+          <TopCart cartmenu={cartmenu}/>
         </div>
       )}
       {overlay && (
         <div
-          ref={wrapperRef}
-          onClick={() => {
-            setOverlay(false);
-            setCartmenu(false);
-          }}
+          // ref={wrapperRef}
+          // onClick={() => {
+          //   setOverlay(false);
+          //   setCartmenu(false);
+          // }}
         >
           <Overlay />
         </div>
@@ -596,8 +597,10 @@ function Product() {
                     ? "text-dblack2 font-semibold"
                     : ""
                 }`}
+                dangerouslySetInnerHTML={{
+                  __html: breadcrumb?.name,
+                }}
               >
-                {breadcrumb.name}
               </Link>
               <BsChevronRight
                 className={`mx-2 mt-0.5 ${

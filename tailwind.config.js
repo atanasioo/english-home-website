@@ -182,6 +182,9 @@ module.exports = {
         dblackOverlay: {
           DEFAULT: "rgba(0,0,0,0.5)"
         },
+        dblackOverlay2: {
+          DEFAULT: "rgba(74,74,74,0.3)"
+        },
         dwhatsapp: {
           DEFAULT: "#25d366"
         },
@@ -191,9 +194,6 @@ module.exports = {
         dtwitter: {
           DEFAULT: "#1DA1F2"
         },
-
-        
-
         
       },
       height: {
@@ -202,8 +202,8 @@ module.exports = {
       },
       width: {
         488: "48%",
-        577: "57%"
-       
+        577: "57%",
+        5000:"500px",
       }
     }
   },
@@ -219,6 +219,7 @@ module.exports = {
           //overflow: "hidden"
         }
       });
-    }
+    },
+    require("@tailwindcss/line-clamp")
   ]
 };
