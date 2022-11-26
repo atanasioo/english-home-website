@@ -29,14 +29,14 @@ var config = {};
       "https://play.google.com/store/apps/details?id=com.smartdevision.app.ishtari",
 
     "admin-product-url":
-      "https://www.ishtari.com/control/admin/index.php?route=catalog/product/update&product_id=",
-    'site-url': "https://www.ishtari.com",
+      "http://www.englishhome.com.lb/control/admin/index.php?route=catalog/product/update&product_id=",
+    'site-url': "http://www.englishhome.com.lb",
     "admin-products-url":
-      "https://www.ishtari.com/control/admin/index.php?route=catalog/product_one&token=",
+      "http://www.englishhome.com.lb/control/admin/index.php?route=catalog/product_one&token=",
     "admin-orders-url":
-      "https://www.ishtari.com/control/admin/index.php?route=sale/order_one&token=",
+      "http://www.englishhome.com.lb/control/admin/index.php?route=sale/order_one&token=",
     "admin-update-product":
-      "https://www.ishtari.com/control/admin/index.php?route=catalog/product/update&product_id=",
+      "http://www.englishhome.com.lb/control/admin/index.php?route=catalog/product/update&product_id=",
     facebook: "https://www.facebook.com/ishtari.lebanon",
     instagram: "https://www.instagram.com/ishtaricom/",
     youtube: "https://www.youtube.com/channel/UCZ9aa_BjFF2oWVEtC4f6PDA",

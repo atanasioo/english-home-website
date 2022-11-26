@@ -231,7 +231,6 @@ function Product() {
         }
       });
   }
-  console.log(stateW);
 
   useEffect(() => {
     handleWishlist(0);

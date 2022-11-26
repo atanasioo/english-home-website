@@ -22,9 +22,31 @@ function Checkout() {
   const [err, setErr] = useState(false);
   const [deletemenu, setDeletemenu] = useState(false);
   const [editAddress, setEditAddress] = useState(false);
+  const [paymenttab, setPaymenttab] = useState(false);
+  const [addresstab, setAddresstab] = useState(true);
+  const [cartData, setCartData] = useState({});
+  const [firstAttemp, setFirstAttemp] = useState(true);
+  const [customerId, setCustomerId] = useState("0");
+  const [loading, setLoading] = useState(true);
+  const [activePaymentMethod, setActivePaymentMethod] = useState("cod");
+  const [emptyCart, setEmptyCart] = useState(false);
+  const [addr1, setAddr1] = useState("");
+  const [addr2, setAddr2] = useState("");
+  const [tel, setTel] = useState("");
+  const [zn, setZn] = useState("");
+  const [znId, setZnId] = useState("");
+  const [fn, setFn] = useState("");
+  const [ln, setLn] = useState("");
+  const [loged, setloged] = useState();
   const navigate = useNavigate();
   const location = useLocation();
   const pathname = location.pathname;
+  const width = window.innerWidth;
+  const cid = localStorage.getItem("cid");
+  const town = useRef({
+    id: 0,
+    name: "",
+  });
 
   //user details
   const firstname = useRef("");
@@ -32,16 +54,28 @@ function Checkout() {
   const address_1 = useRef("");
   const address_2 = useRef("");
   const telephone = useRef("");
+  const coupon = useRef("");
   const zone_id = useRef("");
 
   const country_id = window.config["zone"];
   const city = "";
   const postcode = "";
 
+  const email = useRef("");
+  const comment = useRef("");
+
   const zone = useRef({
     id: window.config["initial-zone"].id,
     name: window.config["initial-zone"].name,
   });
+
+  const [confirmDisable, setConfirmDisalbe] = useState(false);
+
+  // Manual
+  const [manualResponse, setManualResponse] = useState({});
+  const manualErrors = useRef({});
+  const [manualCart, setManualCart] = useState([]);
+  const [subTotal, setsubTotal] = useState(0);
 
   //get addresses
   useEffect(() => {
@@ -61,7 +95,6 @@ function Checkout() {
         }
       });
   }, [dispatchAccount, stateAccount.loged]);
-  console.log(addresses);
 
   // Add Address
   function addAddress(e) {
@@ -84,53 +117,31 @@ function Checkout() {
       setphoneValidate("must be 9 numbers");
       return;
     }
-    // if (isEdit) {
-    //   _axios
-    //     .put(
-    //       buildLink("address", undefined, window.innerWidth) +
-    //         "&address_id=" +
-    //         address_id,
-    //       obj
-    //     )
-    //     .then((response) => {
-    //       if (response.data.success) {
-    //         if (fromCheckout) {
-    //           history.push({
-    //             pathname: "/checkout"
-    //           });
-    //         } else {
-    //           setMessage(
-    //             "Address Edited Successfully, you will be redirected to addresses page."
-    //           );
-    //           setTimeout(() => {
-    //             history.push({
-    //               pathname: "/account/addresses"
-    //             });
-    //           }, 3000);
-    //         }
-    //       }
-    //     });
-    // }
-    else {
+    if (editAddress) {
+      _axios
+        .put(
+          buildLink("address", undefined, window.innerWidth) +
+            "&address_id=" +
+            activeAddress.address_id,
+          obj
+        )
+        .then((response) => {
+          if (response.data.success) {
+            setAddressmenu(false);
+            setEditAddress(false);
+            window.location.reload();
+          }
+        });
+    } else {
       _axios
         .post(buildLink("address", undefined, window.innerWidth), obj)
         .then((response) => {
           if (response.data.success) {
             setAddressmenu(false);
+            window.location.reload();
             // setMessage(
             //   "Address Added Successfully, you will be redirected to addresses page."
             // );
-            // if (fromCheckout) {
-            // //   history.push({
-            // //     pathname: "/checkout"
-            // //   });
-            // } else {
-            // //   setTimeout(() => {
-            // //     history.push({
-            // //       pathname: "/account/addresses"
-            // //     });
-            // //   }, 3000);
-            // }
           }
         });
     }
@@ -148,36 +159,78 @@ function Checkout() {
         )
         .then((response) => {
           setAddresses(addresses.filter((a) => a.address_id !== address_id));
+          window.location.reload();
         });
     }
   }
 
-  useEffect(() => {
+  //get cart
+  function getCart() {
     _axios
       .get(buildLink("cart", undefined, window.innerWidth))
       .then((response) => {
-        // console.log("response"+response.data.success)
+        const data = response.data;
+        if (!data.success) {
+          setEmptyCart(true);
+        } else {
+          setsubTotal(response.data.sub_total);
 
-        if (response.data.success) {
-          dispatch({
-            type: "setProducts",
-            payload: response.data.data.products,
-          });
+          if (data) {
+            let productArray;
+            data.data.products?.map((p, index) => {
+              if (index === data?.data?.products.length - 1) {
+                productArray += p.product_id;
+              } else {
+                productArray = p.product_id + ",";
+              }
+            });
+          }
+          let temp = [];
+          const dt = data.data.products;
+          for (let index = 0; index < dt.length; index++) {
+            let new_product = {};
+            let product_option = {};
+            new_product.product_id = dt[index]["product_id"];
+            new_product.quantity = dt[index]["quantity"];
+            if (dt[index]["option"].length !== 0) {
+              product_option["type"] = "radio";
+              product_option["product_option_id"] =
+                dt[index]["option"][0]["product_option_id"];
+              product_option["product_option_value_id"] =
+                dt[index]["option"][0]["product_option_value_id"];
 
-          dispatch({
-            type: "setProductsCount",
-            payload: response.data.data.total_product_count,
-          });
-          dispatch({
-            type: "setTotals",
-            payload: response.data.data.totals,
-          });
-          dispatch({
-            type: "loading",
-            payload: false,
-          });
+              new_product.order_option = [product_option];
+            }
+            temp.push(new_product);
+          }
+
+          setManualCart(temp);
+          manual(temp, zone, activePaymentMethod, false);
+          setCartData(response.data.data);
         }
+
+        dispatch({
+          type: "setProducts",
+          payload: response.data.data.products,
+        });
+
+        dispatch({
+          type: "setProductsCount",
+          payload: response.data.data.total_product_count,
+        });
+        dispatch({
+          type: "setTotals",
+          payload: response.data.data.totals,
+        });
+        dispatch({
+          type: "loading",
+          payload: false,
+        });
       });
+  }
+
+  useEffect(() => {
+    getCart();
   }, []);
 
   useEffect(() => {
@@ -235,6 +288,16 @@ function Checkout() {
       });
   }
 
+  useEffect(() => {
+    if (!stateAccount?.loged) {
+      _axios
+        .get(buildLink("zone", undefined, window.innerWidth) + "118")
+        .then((response) => {
+          setZones(response?.data?.data?.zones);
+        });
+    }
+  }, []);
+
   const phoneHanlder = (childData, isValid) => {
     if (isValid === true) {
       telephone.current.value = childData;
@@ -247,33 +310,326 @@ function Checkout() {
   };
 
   // set active address from address list
-  function changeAddress(address, index) {
+  function changeAddress(address, _manual) {
     setActiveAddress(address);
-    // const radio = document.getElementById("chosen-address"+address.address_id);
-    // if(activeAddress.address_id === address.address_id){
-    //   radio.setAttribute("checked", true);
-    // }else{
-    //   radio.setAttribute("checked", false);
-    // }
-
-    //console.log(radio)
     const obj = {
       name: address.zone,
       value: address.zone_id,
     };
     zone.current.name = address.zone;
     zone.current.id = address.zone_id;
-    // if (_manual) {
-    //   setTimeout(() => {
-    //     manual(
-    //       manualCart,
-    //       obj,
-    //       activePaymentMethod,
-    //       false,
-    //       coupon.current.value
-    //     );
-    //   }, 500);
+    if (_manual) {
+      setTimeout(() => {
+        manual(
+          manualCart,
+          obj,
+          activePaymentMethod,
+          false,
+          coupon.current.value
+        );
+      }, 500);
+    }
+  }
+
+  useEffect(() => {
+    localStorage.setItem("cid", 0);
+
+    _axios
+      .get(buildLink("get_account", undefined, window.innerWidth))
+      .then((response) => {
+        const data = response.data;
+        if (!data.success) {
+          setloged(false);
+          getCart();
+          if (cid < 1) {
+            if (!state.admin) {
+              dispatchAccount({ type: "setShowOver", payload: true });
+              dispatchAccount({ type: "setShowLogin", payload: true });
+            }
+          }
+        } else {
+          setloged(true);
+          _axios
+            .get(buildLink("login", undefined, window.innerWidth))
+            .then((response) => {
+              setCustomerId(response.data.customer_id);
+              localStorage.setItem("cid", response.data.customer_id);
+            });
+          _axios
+            .get(buildLink("address", undefined, window.innerWidth))
+            .then((response) => {
+              if (!response.data.success) {
+                // history.push({
+                //   pathname: "/account/address/add",
+                //   search: "from-checkout=true"
+                // });
+              } else {
+                zone.current.name = response.data.data[0].city;
+                zone.current.id = response.data.data[0].zone_id;
+                town.current.id = response.data.data[0].town_id;
+                town.current.name = response.data.data[0].town_name;
+                setAddresses(response.data.data);
+                changeAddress(response.data.data[0], false);
+                getCart();
+              }
+            });
+        }
+      });
+    // End account check
+    // window.alertHello()
+  }, []);
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    console.log("hii");
+    const btn = document.getElementById("savebtn");
+    if (stateAccount?.loged) {
+      if (JSON.stringify(activeAddress) === "{}") {
+        btn.disabled = true;
+      } else {
+        btn.disabled = false;
+        setAddresstab(false);
+        setPaymenttab(true);
+      }
+    } else {
+      if (
+        address_1.current.value !== "" &&
+        firstname.current.value !== "" &&
+        lastname.current.value !== "" &&
+        telephone.current.value !== "" &&
+        zone.current.name !== ""
+      ) {
+        console.log("hii");
+        btn.disabled = false;
+        setAddr1(address_1.current.value);
+        setAddr2(address_2.current.value);
+        setFn(firstname.current.value);
+        setLn(lastname.current.value);
+        setTel(telephone.current.value);
+        setZn(zone.current.name);
+        setZnId(zone_id.current.value);
+        setAddresstab(false);
+        setPaymenttab(true);
+      } else {
+        btn.disabled = true;
+      }
+    }
+  }
+
+  // Zone changed
+
+  function zoneChanged(e) {
+    const sel = e.target;
+    const obj = {
+      name: sel.options[sel.selectedIndex].text,
+      value: sel.value,
+    };
+    zone.current.id = sel.value;
+    zone.current.name = sel.options[sel.selectedIndex].text;
+    manual(manualCart, obj, activePaymentMethod, false);
+
+    // _axios
+    //   .get(buildLink("town", undefined, window.innerWidth) + zone.current.id)
+    //   .then((response) => {
+    //     if (response.data.success) {
+    //       setTownes(response.data.data);
+    //       //  setLoadingtown(false)
+    //     }
+    //     setLoadingtown(false);
+    //   });
+  }
+
+  function handlePaymentClick() {
+    if (JSON.stringify(activeAddress) !== "{}") {
+      setPaymenttab(true);
+      setAddresstab(false);
+    }
+  }
+
+  function manual(manualCartProducts, _zone, paymentcode, confirm) {
+    setLoading(true);
+    window.scroll(0, 0);
+    let body = {};
+    // if it's first attemp
+    if (firstAttemp) {
+      body = {
+        order_product: manualCartProducts,
+        customer_id: customerId,
+        firstname: "initial firstname",
+        lastname: "initial lastname",
+        email: "initialmail@mail.com",
+        address_1: "initial address one",
+        telephone: "00000000",
+        address_2: "",
+        city: "",
+        shipping_method: "Delivery ( 1-4 days )",
+        shipping_code: "ultimate_shipping.ultimate_shipping_0",
+        payment_method: "Cash On Delivery",
+        payment_code: "cod",
+        comment: "",
+        country_id: window.config["zone"],
+        payment_session: "",
+        zone_id: stateAccount.loged ? activeAddress.zone_id : zone.current.id,
+        zone: stateAccount.loged ? activeAddress.zone : zone.current.name,
+        town_id: stateAccount.loged ? activeAddress.town_id : town.current.id,
+        town: stateAccount.loged ? activeAddress.town_name : town.current.name,
+        is_web: true,
+        //   Cookies.get("change") === "false" || Cookies.get("change") === false
+        //     ? false
+        //     : true,
+        source_id: 1,
+        coupon: "",
+        code_version: window.innerWidth > 600 ? "web_desktop" : "web_mobile",
+      };
+    } else {
+      body = {
+        order_product: manualCartProducts,
+        customer_id: customerId,
+        firstname: stateAccount.loged ? activeAddress.firstname : fn || "",
+        lastname: stateAccount.loged ? activeAddress.lastname : ln || "",
+        email: email.current?.value || "",
+        address_1: stateAccount.loged ? activeAddress.address_1 : addr1 || "",
+        telephone: stateAccount.loged
+          ? activeAddress.telephone
+          : tel.replace("-", "") || "",
+        address_2: stateAccount.loged ? activeAddress.address_2 : addr2 || "",
+        city: "",
+        shipping_method: "Delivery ( 1-4 days )",
+        shipping_code: "ultimate_shipping.ultimate_shipping_0",
+        payment_method: "Cash On Delivery",
+        payment_code: paymentcode,
+        comment: comment.current?.value || "",
+        country_id: window.config["zone"],
+        zone_id: _zone?.value || zone.current.id,
+        zone: _zone?.name || zone.current.name,
+
+        town_id: town.current.id,
+        town: town.current.name,
+        is_web:
+          Cookies.get("change") === "false" || Cookies.get("change") === false
+            ? false
+            : true,
+        payment_session: manualResponse.payment_session,
+        source_id: 1,
+        coupon: coupon.current.value || "",
+        code_version: window.innerWidth > 600 ? "web_desktop" : "web_mobile",
+      };
+      const adminId = Cookies.get("user_id");
+      if (typeof adminId != "undefined") {
+        body["user_id"] = adminId;
+      }
+    }
+    _axios
+      .post(buildLink("manual", undefined, window.innerWidth), body)
+      .then((response) => {
+        setManualResponse(response.data.data);
+
+        const data = response.data;
+
+        if (response?.data?.success === false) {
+          manualErrors.current = response.data.errors;
+          // paymentForm(confirm, paymentcode);
+          setLoading(false);
+          setConfirmDisalbe(false);
+        } else {
+          manualErrors.current = "";
+          paymentForm(confirm, paymentcode);
+          setLoading(false);
+
+          if (firstAttemp) setFirstAttemp(false);
+        }
+      });
+
+    // if (cid < 1) {
+    //  navigate('/login')
     // }
+  }
+
+
+   console.log(state);
+
+  //submit form
+  function submitForm(e) {
+    e.preventDefault();
+
+    setConfirmDisalbe(true);
+
+    manual(manualCart, zone, activePaymentMethod, true);
+
+    setConfirmDisalbe(true);
+  }
+
+  function confirmOrder(c_url, s_url) {
+    _axios.post(c_url).then((response) => {
+      const data = response.data;
+      if (data.success) {
+        successOrder(s_url);
+      }
+    });
+  }
+
+  function successOrder(url) {
+    _axios.get(url).then((response) => {
+      const data = response.data;
+      if (data.success) {
+      }
+    });
+  }
+
+  function handleCouponChange() {
+    if (coupon.current.value.length < 1) {
+      manualErrors.current = "";
+    }
+  }
+
+  // HandleCoupon
+  function setCoupon() {
+    const obj = {
+      name: zone.current.name,
+      value: zone.current.id,
+    };
+    if (coupon.current.value.length > 1) {
+      manual(manualCart, obj, activePaymentMethod, false);
+    }
+  }
+
+  // Payment form
+  function paymentForm(confirm, p_m) {
+    setLoading(true);
+    _axios
+      .post(buildLink("payment_form"), { payment_method: p_m })
+      .then((response) => {
+        const data = response.data;
+        try {
+          document.getElementById("simp-id").outerHTML = "";
+        } catch (e) {}
+        const script = document.createElement("script");
+        script.src = "https://www.simplify.com/commerce/simplify.pay.js";
+        script.async = false;
+        script.id = "simp-id";
+        document.body.appendChild(script);
+
+        // Developer hint [here you must call the function to complete payment (incase backend payment changed)]
+        if (data.success) {
+          if ((p_m === "zenithbank_global_pay" || p_m === "momo") && confirm) {
+            window.location.href = data.payment_url;
+          }
+          if (p_m === "mpgs" && confirm) {
+            _axios
+              .get(
+                "https://www.ishtari-mobile.com/v1/index.php/?route=payment/mpgs/getSessionId"
+              )
+              .then((res) => {
+                window.paymentStart(res.data.payment_session);
+              });
+          }
+          if (p_m === "cod" && confirm) {
+            if (Object.keys(manualErrors.current).length === 0) {
+              confirmOrder(data.confirm_url, data.success_url);
+            }
+          }
+        }
+      });
   }
 
   return (
@@ -337,7 +693,11 @@ function Checkout() {
                     id=""
                     required
                     className="address-modal__input"
-                    defaultValue={stateAccount?.username}
+                    defaultValue={`${
+                      editAddress
+                        ? activeAddress.firstname
+                        : stateAccount?.username
+                    }`}
                   />
                 </div>
                 <div className="w-488">
@@ -351,7 +711,11 @@ function Checkout() {
                     required
                     id=""
                     className="address-modal__input"
-                    defaultValue={stateAccount?.username}
+                    defaultValue={`${
+                      editAddress
+                        ? activeAddress.lastname
+                        : stateAccount?.username
+                    }`}
                   />
                 </div>
               </div>
@@ -360,17 +724,18 @@ function Checkout() {
                   Mobile phone *
                 </label>
                 <br />
-                <div className="flex">
+                <div className="flex items-center">
                   <input
                     type="text"
                     name=""
                     id=""
                     value={"+961"}
                     disabled
-                    className="bg-transparent w-1/12"
+                    className="bg-transparent w-1/6 md:w-1/12 mt-1 "
                   />
                   <HandlePhoneModel
                     phone={telephone}
+                    nb={`${editAddress ? activeAddress.telephone : ""}`}
                     phoneHanlder={phoneHanlder}
                   />
                 </div>
@@ -489,18 +854,25 @@ function Checkout() {
           </div>
         </div>
       )}
-
       {/* end delete confirmation modal */}
 
       <div className="checkout-viewport -mt-9 bg-dgrey10">
         <div className="container overflow-hidden">
           <div className="mt-7 -mx-1 flex flex-col md:flex-row">
             {/* <div className='w-full notify'></div> */}
-            <div className="w-2/3 mr-5">
+            <div className="w-full md:w-2/3 mr-5">
               <div className="">
                 <div className="checkout-tabs flex justify-between bg-dwhite1 cursor-pointer">
-                  <div className="bg-dblue1 text-dwhite1 pt-3.5 pr-12 pb-14 pl-3.5 relative w-1/2">
-                    <div className="text-d16 font-mono tracking-wide mb-2.5 uppercase flex items-center">
+                  <div
+                    className={` pt-3.5 pr-12 md:pb-14 pl-3.5 relative w-1/2 ${
+                      addresstab ? "bg-dblue1 text-dwhite1" : ""
+                    }`}
+                    onClick={() => {
+                      setPaymenttab(false);
+                      setAddresstab(true);
+                    }}
+                  >
+                    <div className="text-d11 font-bold md:font-normal md:text-d16 text-left font-mono tracking-wide mb-2.5 uppercase flex items-center">
                       <span className="text-dblack2 bg-dwhite1 font-semibold text-d13 border border-dblack2 py-1 px-2 rounded-full mr-2">
                         1
                       </span>
@@ -508,11 +880,11 @@ function Checkout() {
                     </div>
 
                     {addresses.length < 1 ? (
-                      <div className="text-left text-sm">
+                      <div className="text-left text-sm hidden md:block">
                         Please select a delivery address.
                       </div>
                     ) : (
-                      <div className="text-left">
+                      <div className="text-left hidden md:block">
                         <div className="checkout-address-line-desc line-clamp-3 text-sm">
                           <p>
                             {activeAddress?.address_2} {activeAddress?.zone}{" "}
@@ -526,173 +898,426 @@ function Checkout() {
                     )}
                   </div>
                   <div
-                    className="pt-3.5 pr-12 pb-14 pl-3.5 relative w-1/2"
+                    className={`pt-3.5 pr-12 md:pb-14 pl-3.5 relative w-1/2 ${
+                      paymenttab ? "bg-dblue1 text-dwhite1" : ""
+                    }`}
                     style={{ minWidth: "120px" }}
+                    onClick={() => {
+                      handlePaymentClick();
+                    }}
                   >
-                    <div className="text-d16 font-mono mb-2.5 uppercase flex items-center">
+                    <div className="text-d11 font-bold md:font-normal md:text-d16 font-mono mb-2.5 uppercase flex items-center">
                       <span className="text-dblack2 bg-dwhite1 font-semibold text-d13 border border-dblack2 py-1 px-2 rounded-full mr-2">
                         2
                       </span>
                       <p>payment options</p>
                     </div>
-                    <div className="text-left text-sm">
+                    <div className="hidden md:block text-left text-sm">
                       You can safely make your payment by bank or credit card.
                     </div>
                   </div>
                 </div>
+
                 <div className="checkout-tabs-content bg-dwhite1">
-                  <div className="checkout-tab-address border border-dgrey3">
-                    <div className="address-delivery-tab">
-                      <div className="address-content flex">
-                        <div className="bg-dwhite1 w-2/3">
-                          <div className="text-d16 py-3.5 px-7 text-dblack2 border-b border-dgrey3 flex items-center justify-between">
-                            <div className="uppercase">Delivery address</div>
-                            <div className="text-dblack2 text-d14">
-                              <label htmlFor="">
-                                <input
-                                  type="checkbox"
-                                  name=""
-                                  id=""
-                                  defaultChecked
-                                />
-                                <span className="align-baseline ml-1">
-                                  Same as my billing address
-                                </span>
-                              </label>
+                  {/* address tab */}
+                  {addresstab && (
+                    <div className="checkout-tab-address border border-dgrey3">
+                      <div className="address-delivery-tab">
+                        <div className="address-content flex flex-col md:flex-row text-left">
+                          <div className="bg-dwhite1 w-full md:w-2/3">
+                            <div className="text-d13 md:text-d16 py-3.5 px-7 text-dblack2 border-b border-dgrey3 flex items-center justify-between">
+                              <div className="uppercase">Delivery address</div>
+                              <div className="text-dblack2 text-d14">
+                                <label htmlFor="">
+                                  <input
+                                    type="checkbox"
+                                    name=""
+                                    id=""
+                                    defaultChecked
+                                  />
+                                  <span className="align-baseline ml-1">
+                                    Same as my billing address
+                                  </span>
+                                </label>
+                              </div>
                             </div>
-                          </div>
-                          <div className="checkout-address px-5">
-                            <div className="my-6 mx-1 flex justify-between items-center text-sm">
-                              Please select a delivery address.
-                            </div>
-                            <div className="-mx-1">
-                              <div></div>
-                              <div className="flex flex-wrap">
-                                {addresses?.map((addr, index) => (
-                                  <div className="w-488 mr-2.5">
-                                    <div
-                                      className={`bg-dwhite1  p-5 h-44 mb-4 relative transition ease-in duration-200 hover:border-2 hover:border-dblue1 hover:shadow-lg cursor-pointer overflow-hidden
+                            {/* only if user is loged */}
+                            {stateAccount?.loged ? (
+                              <div className="checkout-address px-5">
+                                <div className="my-6 mx-1 flex justify-between items-center text-sm">
+                                  Please select a delivery address.
+                                </div>
+                                <div className="-mx-1">
+                                  <div></div>
+                                  <div className="flex flex-wrap">
+                                    {addresses?.map((addr, index) => (
+                                      <div className="w-full md:w-488 mr-2.5">
+                                        <div
+                                          className={`bg-dwhite1  p-5 h-44 mb-4 relative transition ease-in duration-200 hover:border-2 hover:border-dblue1 hover:shadow-lg cursor-pointer overflow-hidden
                                       ${
                                         activeAddress === addr
                                           ? "border-2 border-dblue1"
                                           : "border border-dgrey3 opacity-50"
                                       }`}
-                                      onClick={() => {
-                                        changeAddress(addr, index);
-                                      }}
-                                    >
+                                          onClick={() => {
+                                            changeAddress(addr, index);
+                                          }}
+                                        >
+                                          <input
+                                            type="radio"
+                                            name="chosen-address"
+                                            id={`chosen-address${addr.address_id}`}
+                                            checked={`${
+                                              activeAddress === addr
+                                                ? "checked"
+                                                : ""
+                                            }`}
+                                          />
+                                          <span className="uppercase ml-2.5 leading-6 text-d16">
+                                            ADDRESS YOU CHOOSE
+                                          </span>
+                                          <div className="checkout-address-text text-dblack1 mt-2.5 text-ellipsis overflow-hidden text-left">
+                                            <p className="font-bold">
+                                              {addr?.firstname}
+                                            </p>
+                                            <div className="checkout-address-line-desc line-clamp-3 text-sm">
+                                              <p>
+                                                {addr?.address_2} {addr?.zone}{" "}
+                                                {addr?.postcode}
+                                              </p>
+                                            </div>
+                                            <div className="text-sm">
+                                              <p>Tel: {addr?.telephone}</p>
+                                            </div>
+                                          </div>
+                                          <div className="text-right text-xs">
+                                            <u
+                                              className="mr-4"
+                                              onClick={() =>
+                                                setDeletemenu(true)
+                                              }
+                                            >
+                                              delete
+                                            </u>
+                                            <span>|</span>
+                                            <u
+                                              onClick={() => {
+                                                getZones();
+                                                setAddressmenu(true);
+                                                setEditAddress(true);
+                                              }}
+                                              className="inline-block mt-2.5 text-dblue1 ml-4"
+                                            >
+                                              edit
+                                            </u>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    ))}
+                                    <div className="w-full md:w-488">
+                                      <div
+                                        className="bg-dwhite1 border border-dgrey3 p-5 h-44 mb-4 relative transition ease-in duration-200 hover:border-2 hover:border-dblue1 hover:p-2.5 hover:shadow-lg cursor-pointer"
+                                        onClick={() => {
+                                          getZones();
+                                          setAddressmenu(true);
+                                        }}
+                                      >
+                                        <div className="absolute top-1/2 right-5 left-16 -translate-y-1/2 text-d14 text-center text-dblack2 flex items-center">
+                                          <GoPlus className="w-4 h-4 mr-1" />
+                                          <p>create new address</p>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div className="w1/2 hidden px-2 ">
+                                    <Link>
                                       <input
                                         type="radio"
-                                        name="chosen-address"
-                                        id={`chosen-address${addr.address_id}`}
-                                        checked={`${
-                                          activeAddress === addr
-                                            ? "checked"
-                                            : ""
-                                        }`}
+                                        name=""
+                                        id=""
+                                        defaultChecked
                                       />
-                                      <span className="uppercase ml-2.5 leading-6 text-d16">
-                                        ADDRESS YOU CHOOSE
-                                      </span>
-                                      <div className="checkout-address-text text-dblack1 mt-2.5 text-ellipsis overflow-hidden text-left">
-                                        <p className="font-bold">
-                                          {addr?.firstname}
-                                        </p>
-                                        <div className="checkout-address-line-desc line-clamp-3 text-sm">
-                                          <p>
-                                            {addr?.address_2} {addr?.zone}{" "}
-                                            {addr?.postcode}
-                                          </p>
-                                        </div>
-                                        <div className="text-sm">
-                                          <p>Tel: {addr?.telephone}</p>
-                                        </div>
-                                      </div>
-                                      <div className="text-right text-xs">
-                                        <u
-                                          className="mr-4"
-                                          onClick={() => setDeletemenu(true)}
-                                        >
-                                          delete
-                                        </u>
-                                        <span>|</span>
-                                        <u
-                                          onClick={() => {
-                                            getZones();
-                                            setAddressmenu(true);
-                                            setEditAddress(true);
-                                          }}
-                                          className="inline-block mt-2.5 text-dblue1 ml-4"
-                                        >
-                                          edit
-                                        </u>
-                                      </div>
-                                    </div>
-                                  </div>
-                                ))}
-                                <div className="w-488">
-                                  <div
-                                    className="bg-dwhite1 border border-dgrey3 p-5 h-44 mb-4 relative transition ease-in duration-200 hover:border-2 hover:border-dblue1 hover:p-2.5 hover:shadow-lg cursor-pointer"
-                                    onClick={() => {
-                                      getZones();
-                                      setAddressmenu(true);
-                                    }}
-                                  >
-                                    <div className="absolute top-1/2 right-5 left-16 -translate-y-1/2 text-d14 text-center text-dblack2 flex items-center">
-                                      <GoPlus className="w-4 h-4 mr-1" />
-                                      <p>create new address</p>
-                                    </div>
+                                      <div className="text-dblack2 relative left-0 top-12 -translate-y-1/2 font-bold text-d14"></div>
+                                    </Link>
                                   </div>
                                 </div>
+                                <div className="hidden"></div>
                               </div>
-
-                              <div className="w1/2 hidden px-2 ">
-                                <Link>
+                            ) : (
+                              <div className="mx-5 my-5">
+                                <div className="title flex flex-col items-start">
+                                  <label
+                                    htmlFor="title"
+                                    className="w-full mt-2.5"
+                                  >
+                                    Address *
+                                  </label>
                                   <input
-                                    type="radio"
-                                    name=""
+                                    type="text"
+                                    name="title"
+                                    ref={address_1}
+                                    required
+                                    defaultValue={addr1}
                                     id=""
-                                    defaultChecked
+                                    placeholder="eg: home, work..."
+                                    className="address-modal__input"
                                   />
-                                  <div className="text-dblack2 relative left-0 top-12 -translate-y-1/2 font-bold text-d14"></div>
-                                </Link>
+                                </div>
+                                <div className="fn-ln flex mt-2">
+                                  <div className="w-488 mr-4 ">
+                                    <label
+                                      htmlFor=""
+                                      className="w-full top-2.5 "
+                                    >
+                                      First Name *
+                                    </label>
+                                    <input
+                                      type="text"
+                                      name="first_name"
+                                      ref={firstname}
+                                      id=""
+                                      required
+                                      className="address-modal__input"
+                                      defaultValue={`${fn}`}
+                                    />
+                                  </div>
+                                  <div className="w-488">
+                                    <label
+                                      htmlFor=""
+                                      className="w-full top-2.5 "
+                                    >
+                                      Last Name *
+                                    </label>
+                                    <input
+                                      type="text"
+                                      name="first_name"
+                                      ref={lastname}
+                                      required
+                                      id=""
+                                      className="address-modal__input"
+                                      defaultValue={`${ln}`}
+                                    />
+                                  </div>
+                                </div>
+                                <div className="phone-nb mt-2">
+                                  <label
+                                    htmlFor="phone"
+                                    className="w-full top-2.5"
+                                  >
+                                    Mobile phone *
+                                  </label>
+                                  <br />
+                                  <div className="flex items-center">
+                                    <input
+                                      type="text"
+                                      name=""
+                                      id=""
+                                      value={"+961"}
+                                      disabled
+                                      className="bg-transparent w-1/6 md:w-1/12 mt-1 "
+                                    />
+                                    <HandlePhoneModel
+                                      phone={telephone}
+                                      nb={`${tel}`}
+                                      phoneHanlder={phoneHanlder}
+                                    />
+                                  </div>
+                                </div>
+                                <div className="zone mt-2">
+                                  <div className="zone ">
+                                    <label htmlFor="" className="w-full mt-2.5">
+                                      Zone *
+                                    </label>
+                                    <select
+                                      name="zone"
+                                      required
+                                      ref={zone_id}
+                                      id=""
+                                      className="address-modal__input border border-dgrey6"
+                                      onChange={(e) => zoneChanged(e)}
+                                    >
+                                      {zones?.map((zone) => (
+                                        <option
+                                          value={zone.zone_id}
+                                          key={zone.zone_id}
+                                          selected={`${
+                                            znId === zone.zone_id
+                                              ? "selected"
+                                              : ""
+                                          }`}
+                                        >
+                                          {zone.name}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                </div>
+                                <div className="address mt-2 flex flex-col pb-1">
+                                  <label htmlFor="address">
+                                    More Address Details *
+                                  </label>
+                                  <textarea
+                                    name="address_details"
+                                    id=""
+                                    cols="30"
+                                    rows="10"
+                                    ref={address_2}
+                                    maxLength={256}
+                                    defaultValue={addr2}
+                                    className="address-modal__input h-24 p-2.5"
+                                    placeholder={
+                                      "Please enter your other address information such as neighborhood, street, apartment name and number."
+                                    }
+                                  ></textarea>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                          <div className="bg-dwhite1 w-full md:w-1/3 border-l border-dgrey3">
+                            <div
+                              onSubmit={(e) => handleSubmit(e)}
+                              className={`${
+                                stateAccount?.loged &&
+                                JSON.stringify(activeAddress) === "{}"
+                                  ? "opacity-30"
+                                  : "opacity-100"
+                              }`}
+                            >
+                              <div className="text-d16 py-3.5 px-7 text-dblack2 uppercase borer-b border-dgrey3">
+                                {" "}
+                                Cargo company
+                              </div>
+                              <div className="px-5"></div>
+                              <div className="checkout-error text-left whitespace-nowrap mb-2.5 px-5 mt-1 text-dred4 text-d12"></div>
+                              <div className="py-2.5 px-3.5 mb-5">
+                                <button
+                                  id="savebtn"
+                                  //type="submit"
+                                  onClick={(e) => handleSubmit(e)}
+                                  className="text-d14 tracking-tight uppercase mt-3.5 h-11 text-center w-full bg-dblue1 text-dwhite1 flex items-center justify-center hover:bg-dblack1 transition ease in duration-300"
+                                >
+                                  <span>SAVE AND CONTINUE</span>
+                                  <BsChevronRight className="w-3 h-3 ml-0.5" />
+                                </button>
                               </div>
                             </div>
-                            <div className="hidden"></div>
+                            <div></div>
                           </div>
                         </div>
-                        <div className="bg-dwhite1 w-1/3 border-l border-dgrey3">
-                          <form className="opacity-30">
-                            <div className="text-d16 py-3.5 px-7 text-dblack2 uppercase borer-b border-dgrey3">
-                              {" "}
-                              Cargo company
-                            </div>
-                            <div className="px-5"></div>
-                            <div className="checkout-error text-left whitespace-nowrap mb-2.5 px-5 mt-1 text-dred4 text-d12"></div>
-                            <div className="py-2.5 px-3.5 mb-5">
-                              <button
-                                className="text-d14 tracking-tight uppercase mt-3.5 h-11 text-center w-full bg-dblue1 text-dwhite1 flex items-center justify-center hover:bg-dblack1 transition ease in duration-300"
-                                disabled
-                              >
-                                <span>SAVE AND CONTINUE</span>
-                                <BsChevronRight className="w-3 h-3 ml-0.5" />
-                              </button>
-                            </div>
-                          </form>
-                          <div></div>
+                      </div>
+                      <div className="shop-delivery-tab"></div>
+                    </div>
+                  )}
+                  {paymenttab && (
+                    <div className="checkout-tab-payment relative ">
+                      <div className="payment-tabs  mt-3  flex items-start">
+                        <div className="font-semibold text-dwhite1 bg-dblue1 inline-block cursor-pointer leading-7 h-12 border border-dgrey3 text-center whitespace-nowrap text-d13 pt-2 px-1 overflow-hidden">
+                          Cach on delivery
                         </div>
                       </div>
+                      <div className="payment-type-content block">
+                        <form action="" className="flex flex-col md:flex-row">
+                          <div className="w-full md:w-1/2 border border-dgrey3">
+                            <div className="text-d13 md:text-d16 px-3.5 py-7 text-dblack2 uppercase border-b border-dgrey3 w-full text-left">
+                              {" "}
+                              Payment options
+                            </div>
+                            <div className="px-7">
+                              <div className="my-6 mx-1 flex justify-start items-center">
+                                <input type="radio" name="" id="" checked />
+                                <p className="ml-2 text-d18">
+                                  Cash on delivery
+                                </p>
+                              </div>
+                              <div className="px-1 pb-14"></div>
+                            </div>
+                          </div>
+                          <div className=" w-full md:w-1/2 bg-dwhite1 border border-dgrey3">
+                            <div className="text-d13 md:text-d16 px-3.5 py-7 text-dblack2 uppercase border-b border-dgrey3 w-full text-left">
+                              {" "}
+                              Payment options
+                            </div>
+                            <div className="checkout-button py-2.5 px-3.5 mb-5">
+                              <div className="checkout-sticky-area  w-full  bg-dwhite1">
+                                <div className="m-1 w-full items-center text-d14 font-bold md:hidden"></div>
+                                <div className="coupon-div flex items-center w-full">
+                                  <input
+                                    type="text"
+                                    name="coupon"
+                                    id=""
+                                    className="address-modal__input"
+                                    placeholder="Coupon Code or Gift Card"
+                                    ref={coupon}
+                                    onChange={() => handleCouponChange()}
+                                  />
+                                  <span
+                                    className="bg-dblue1 text-dwhite1 h-9 mt-1 py-1 px-1.5"
+                                    onClick={() => setCoupon()}
+                                  >
+                                    Apply
+                                  </span>
+                                </div>
+                                {/* <button className="text-d14 tracking-tight uppercase mt-3.5 h-11 text-center w-full bg-dblue1 text-dwhite1 flex items-center justify-center hover:bg-dblack1 transition ease in duration-300">
+                                  checkout
+                                </button> */}
+                                {window.config["loginRequired"] &&
+                                !stateAccount.loged ? (
+                                  <a
+                                    href
+                                    disabled="true"
+                                    className="hidden md:block text-center h-12 bg-dblue1 hover:bg-dblack2 transition ease in duration-300  text-white  w-full mt-4 pt-3"
+                                    onClick={() => {
+                                      navigate("/login");
+                                    }}
+                                  >
+                                    {" "}
+                                    CONFIRM ORDER{" "}
+                                  </a>
+                                ) : (
+                                  <button
+                                    onClick={(e) => submitForm(e)}
+                                    disabled={confirmDisable}
+                                    className={`hidden md:block text-center h-12  ${
+                                      confirmDisable
+                                        ? `bg-dgrey1 cursor-not-allowed hover:bg-dgrey1`
+                                        : `bg-dblue1 hover:bg-dblack2 transition ease in duration-300`
+                                    } text-white  w-full mt-4 `}
+                                  >
+                                    CONFIRM ORDER
+                                  </button>
+                                )}
+                              </div>
+                              <div className="checkout-total-price text-dred4 m-2.5 "></div>
+                            </div>
+                          </div>
+                          {width < 650 && (
+                            <div className="fixed z-20 bottom-0 left-0 w-full">
+                              <div className="flex items-center">
+                                {state?.totals?.map((total, index)=> (
+                                  <button className={` ${index === state?.totals.length -1 ? "block" : "hidden"} font-bold text-d15 tracking-tight  mt-3.5 h-11 text-center w-1/2 bg-dwhite1 text-dblack2 flex items-center justify-center hover:bg-dblack1 transition ease in duration-300`}>
+                                  Total Amount {total.text}
+                                </button>
+                                ))}
+                                
+                                <button className="text-d14 font-bold  tracking-tight uppercase mt-3.5 h-11 text-center w-1/2 bg-dblue1 text-dwhite1 flex items-center justify-center hover:bg-dblack1 transition ease in duration-300">
+                                  checkout
+                                </button>
+                              </div>
+                            </div>
+                          )}
+                        </form>
+                      </div>
                     </div>
-                    <div className="shop-delivery-tab"></div>
-                  </div>
-                  <div className="checkout-tab-payment hidden"></div>
+                  )}
+
                   <div className="checkout-contract py-5 bg-dgrey3">
                     <div className="bg-dwhite1 border border-dgrey3 p-3.5 flex flex-col items-center hidden"></div>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="w-full md:w-1/3">
+            <div className="hidden w-full md:w-1/3 md:block">
               <div>
                 <div className="analytics-data hidden"></div>
                 <div className="checkout-summary border border-dgrey3 bg-dwhite1">
@@ -720,7 +1345,12 @@ function Checkout() {
                                 </div>
                                 <div className="summary-product-item-info text-d12 table-cell align-top pr-1">
                                   <div className="text-left">
-                                    <Link to={``}>{product?.name}</Link>
+                                    <Link
+                                      to={``}
+                                      dangerouslySetInnerHTML={{
+                                        __html: product?.name,
+                                      }}
+                                    ></Link>
                                   </div>
                                   <div className="summary-product-item-count hidden"></div>
                                 </div>
@@ -730,24 +1360,37 @@ function Checkout() {
                           </div>
                         </div>
                         <div className="summary-list table w-full py-5">
-                          <div className="summary-item flex justify-between font-mono text-d15 text-dblack2">
-                            <div>Total of {state?.productsCount} Items</div>
-                            <div>{state?.totals["1"]?.text}</div>
-                          </div>
+                          {/* <div className="summary-item flex justify-between font-mono text-d15 text-dblack2"> */}
+                            {/* <div>Total of {state?.productsCount} Items</div>
+                            <div>${cartData?.sub_total}</div> */}
+                            {manualResponse.order_total?.map((total, index) => (
+                              <div
+                                className={`flex items-center justify-between mb-1 ${
+                                  total.code === "ultimate_coupons"
+                                    ? "text-dblue1"
+                                    : "text-dblack2"
+                                } ${ index ===  manualResponse.order_total.length -1 ? " border-t border-dgrey4 mt-4 pt-4 " : ""} `}
+                                key={total.title}
+                              >
+                                <span> {total.title} </span>{" "}
+                                <span> {total.text} </span>{" "}
+                              </div>
+                            ))}{" "}
+                          {/* </div> */}
                           <div className="hidden"></div>
-                          <div className="discount flex justify-between text-dblue2">
+                          {/* <div className="discount flex justify-between text-dblue2">
                             <div className="table-cell text-sm text-dblue1 font-mono">
                               Free Shipping for 200 TL and Over
                             </div>
-                          </div>
+                          </div> */}
                         </div>
                       </div>
-                      <div className="total-area border-t border-dgrey3 pt-6 inline-block w-full">
+                      {/* <div className="total-area border-t border-dgrey3 pt-6 inline-block w-full">
                         <p className="text-d14 text-dblack1 flex justify-between font-mono">
                           <span>Amount to be paid</span>
-                          <span>{state?.totals["1"]?.text}</span>
+                          <span>${cartData?.sub_total}</span>
                         </p>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                   <div className="hidden mx-6 bg-dwhite1 border-t border-dgrey3"></div>
@@ -767,6 +1410,8 @@ function Checkout() {
         <div className="container"></div>
         <div></div>
       </div>
+
+      {/* end address tab */}
     </div>
   );
 }

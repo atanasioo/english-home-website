@@ -4,7 +4,7 @@ import { AccountContext } from "../contexts/AccountContext";
 import buildLink from "../urls";
 
 function HandlePhoneModel(props) {
-  const { phone, phoneHanlder, AdminPhoneHandler, setConfirmDisalbe, parentData } = props;
+  const { phone, phoneHanlder, AdminPhoneHandler, setConfirmDisalbe, parentData, nb } = props;
   const [state, dispatch] = useContext(AccountContext);
   const [valid, setValid] = useState(true);
   const [data, setData] = useState();
@@ -151,7 +151,8 @@ function HandlePhoneModel(props) {
             id="phoneUser"
             autoComplete={false}
             ref={phone}
-            defaultValue={parentData?.telephone}
+            //defaultValue={parentData?.telephone}
+            defaultValue={nb}
             className={` text-d14 font-light address-modal__input  ${
               !valid && `${red} !important`
             }`}

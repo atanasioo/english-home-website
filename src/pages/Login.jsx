@@ -24,10 +24,6 @@ function Login() {
   const navigate= useNavigate();
   const width = window.innerWidth;
 
-  console.log(state);
-
-  
-
 
   //sign up
   function signup(e) {
@@ -74,7 +70,7 @@ function Login() {
           const data = response.data;
           if (!data.success) {
             setShowLoginError(true);
-            setLoginError(data?.error?.warning);
+            setLoginError(data?.errors["0"]?.errorMsg);
           } else {
             checkLogin();
            // window.location.reload();

@@ -352,9 +352,7 @@ function Cart() {
                               <div className="product-price block md:hidden font-bold text-d17 text-dblue2 ">
                                 ${product?.net_price}
                               </div>
-                              <p className="text-d14 text-dgrey12 md:text-dblue2">
-                                {product?.name}
-                              </p>
+                              <p className="text-d14 text-dgrey12 md:text-dblue2" dangerouslySetInnerHTML={{__html: product?.name}}></p>
                               {product?.option.map((op) => (
                                 <p key={op.product_option_value_id}>
                                   <span className="mr-3">{op?.name}:</span>

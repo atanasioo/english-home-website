@@ -23,7 +23,7 @@ function Header() {
   const [state, dispatch] = useContext(AccountContext);
   const location = useLocation();
 
-  console.log(location);
+  
 
   useEffect(() => {
     if (width < 650) {
@@ -309,14 +309,14 @@ function Header() {
       ) : (
         <div className="checkout-header overflow-hidden">
           <div className="container">
-            <div className="fix-header border-b border-dgrey3 mb-9 pb-7  w-full z-10 bg-dwhite1 flex items-center justify-between">
+            <div className="fix-header border-b border-dgrey3 mb-9 pb-7  w-full z-10 bg-dwhite1 flex items-center justify-center md:justify-between">
               <Link
                 to={"/cart"}
-                className="mt-5 mr-10 text-d30 text-dborderblack2 font-serif"
+                className="mt-5 md:mr-10 text-d30 text-dborderblack2 font-serif"
               >
                 ENGLISH HOME
               </Link>
-              <div className="checkout-header-tel pt-5">
+              <div className="checkout-header-tel pt-5 hidden md:block">
                 <p className="text-d18 font-light text-dborderblack0">
                   {" "}
                   tel nb{" "}
