@@ -1363,7 +1363,7 @@ function Checkout() {
                           {/* <div className="summary-item flex justify-between font-mono text-d15 text-dblack2"> */}
                             {/* <div>Total of {state?.productsCount} Items</div>
                             <div>${cartData?.sub_total}</div> */}
-                            {manualResponse.order_total?.map((total, index) => (
+                            {manualResponse?.order_total?.map((total, index) => (
                               <div
                                 className={`flex items-center justify-between mb-1 ${
                                   total.code === "ultimate_coupons"

@@ -16,6 +16,7 @@ import Login from "./pages/Login";
 import Account from "./pages/Account";
 import Order from "./pages/Orders";
 import Profile from './pages/Profile';
+import Search from "./pages/Search";
 
 function App() {
   const width = window.innerWidth;
@@ -53,8 +54,7 @@ function App() {
             <Route path="users/orders" element={<Order />} />
             <Route path="users/profile" element={<Profile />} />
             <Route path="account/address" element={<Account />} />
-
-
+            <Route path="search" element={<Search />}/>
 
           </Routes>
           <Footer />

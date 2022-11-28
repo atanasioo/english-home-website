@@ -1,10 +1,22 @@
-import React from "react";
+import { React, useContext } from "react";
 import Slider from "react-slick";
 import { Link } from "react-router-dom";
 import CustomArrows from "./CustomArrows";
 import SingleProducts from "./SingleProduct";
+import { AccountContext } from "../contexts/AccountContext";
+import { path } from "../urls";
 
 function WidgetsLoop({ widget }) {
+  const [accountState] = useContext(AccountContext);
+
+  const types = {
+    1: "product",
+    2: "category",
+    3: "manufacturer",
+    4: "seller",
+  };
+  console.log(widget.title);
+
   const setting = {
     dots: true,
     infinite: true,
@@ -14,8 +26,8 @@ function WidgetsLoop({ widget }) {
     lazyLoad: true,
     autoplay: true,
     autoplaySpeed: 4000,
-    prevArrow: <CustomArrows direction={"l"}      type={"slider"}  />,
-    nextArrow: <CustomArrows direction={"r"}      type={"slider"} />
+    prevArrow: <CustomArrows direction={"l"} type={"slider"} />,
+    nextArrow: <CustomArrows direction={"r"} type={"slider"} />,
   };
 
   const carousal = {
@@ -27,10 +39,9 @@ function WidgetsLoop({ widget }) {
     lazyLoad: true,
     // autoplay: true,
     // autoplaySpeed: 4000,
-    prevArrow: <CustomArrows direction={"l"}   type={"carousel"}  />,
-    nextArrow: <CustomArrows direction={"r"}  type={"carousel"} />
+    prevArrow: <CustomArrows direction={"l"} type={"carousel"} />,
+    nextArrow: <CustomArrows direction={"r"} type={"carousel"} />,
   };
-
 
   const grid = {
     // dots: true,
@@ -41,8 +52,8 @@ function WidgetsLoop({ widget }) {
     lazyLoad: true,
     // autoplay: true,
     // autoplaySpeed: 4000,
-    prevArrow: <CustomArrows direction={"l"}   type={"grid"}  />,
-    nextArrow: <CustomArrows direction={"r"}  type={"grid"} />
+    prevArrow: <CustomArrows direction={"l"} type={"grid"} />,
+    nextArrow: <CustomArrows direction={"r"} type={"grid"} />,
   };
   const productMobile = {
     dots: false,
@@ -71,30 +82,63 @@ function WidgetsLoop({ widget }) {
   return (
     <div className="container">
       {widget.display === "slider" && (
-        <Slider {...setting} >
-          {widget?.items?.map((item, index) => (
-            <Link key={index} >
-              <img
-                className="w-full"
-                src={"https://www.ishtari.com/image/" + item.image}
-                alt={item.name}
-                height={item.banner_height}
-              />
-            </Link>
-          ))}
+        <Slider {...setting}>
+          {widget?.items?.map((item, index) =>
+            item.mobile_type_id === "0" ? (
+              <div data-index={index} key={`slider` + index}>
+                <img
+                  alt={item.name}
+                  src={`${window.config["site-url"]}/image/` + item.image}
+                  className="w-full"
+                  height={item.banner_height}
+                />
+              </div>
+            ) : (
+              <Link
+                key={index}
+                to={
+                  accountState.admin
+                    ? `${path}/${types[item.mobile_type]}/${
+                        item.mobile_type_id
+                      }`
+                    : item.name.length > 0
+                    ? "/" +
+                      item.name
+                        .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                        .replace(/\s+/g, "-")
+                        .replace("/", "-")
+                        .replace("%", "") +
+                      "/" +
+                      types[item.mobile_type].slice(0, 1) +
+                      "=" +
+                      item.mobile_type_id
+                    : "cat/c=" + item.mobile_type_id
+                }
+              >
+                <img
+                  className="w-full"
+                  src={"https://www.ishtari.com/image/" + item.image}
+                  alt={item.name}
+                  height={item.banner_height}
+                />
+              </Link>
+            )
+          )}
         </Slider>
       )}
       {widget.display === "carousel" && (
-          <div className="">
+        <div className="">
           {window.innerWidth > 650 ? (
-            <Slider {...productSetting}
-             className="carousel" 
-            >
+            <Slider {...productSetting} className="carousel">
               {widget.items?.map((item) => {
                 if (item.product_id) {
                   return (
-                    <div className=" grid grid-flow-col  p-3" key={item.product_id}>
-                      <SingleProducts className=""
+                    <div
+                      className=" grid grid-flow-col  p-3"
+                      key={item.product_id}
+                    >
+                      <SingleProducts
+                        className=""
                         // likedData={likedData}
                         item={item}
                         // click={handleOnItemClick}
@@ -109,7 +153,26 @@ function WidgetsLoop({ widget }) {
                       key={item.banner_image_id}
                     >
                       <Link
-                 
+                        to={`${
+                          accountState.admin
+                            ? path +
+                              "/" +
+                              types[item.mobile_type] +
+                              "/" +
+                              item.mobile_type_id
+                            : item.name.length > 0
+                            ? "/" +
+                              item.name
+                                .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                                .replace(/\s+/g, "-")
+                                .replace("/", "-")
+                                .replace("/", "-") +
+                              "/" +
+                              types[item.mobile_type].slice(0, 1) +
+                              "=" +
+                              item.mobile_type_id
+                            : "cat/c=" + item.mobile_type_id
+                        }`}
                       >
                         <img
                           alt={item.name}
@@ -117,10 +180,7 @@ function WidgetsLoop({ widget }) {
                           //   `${window.config["site-url"]}/image/` +
                           //   item.image
                           // }
-                          src={
-                            `https://www.ishtari.com/image/` +
-                            item.image
-                          }
+                          src={`https://www.ishtari.com/image/` + item.image}
                           width={item.banner_width}
                           height={item.banner_height}
                           title={item.name}
@@ -147,19 +207,14 @@ function WidgetsLoop({ widget }) {
                 } else {
                   return (
                     <div className={`pr-2`} key={item.banner_image_id}>
-                      <Link
-                      >
+                      <Link>
                         <img
                           alt={item.name}
-                          src={
-                            `https://www.ishtari.com/image/` +
-                            item.image
-                          }
+                          src={`https://www.ishtari.com/image/` + item.image}
                           width={item.banner_width}
                           height={item.banner_height}
                           title={item.name}
                         />
-                        
                       </Link>
                     </div>
                   );
@@ -169,28 +224,98 @@ function WidgetsLoop({ widget }) {
           )}
         </div>
       )}
-     
 
-     
       {widget.display === "grid" && widget.items.length > 1 && (
         <Slider {...carousal}>
-          {widget?.items?.map((item, index) => (
-            <div key={index}>
-              <img
-                className="w-full"
-                src={"https://www.ishtari.com/image/" + item.image}
-                alt={item.name}
-                // height={item.banner_height}
-              />
-            </div>
-          ))}
+          {widget?.items?.map((item, index) =>
+            item.mobile_type_id !== "0" ? (
+              <Link
+                to={
+                  accountState.admin
+                    ? `${path}/${types[item.mobile_type]}/${
+                        item?.mobile_type_id
+                      }`
+                    : item?.name?.length > 0
+                    ? "/" +
+                      item?.name
+                        ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                        .replace("%", "")
+                        .replace(/\s+/g, "-")
+                        .replace("/", "-") +
+                      "/" +
+                      types[item.mobile_type]?.slice(0, 1) +
+                      "=" +
+                      item.mobile_type_id
+                    : "cat/c=" + item.mobile_type_id
+                }
+                // onClick={() => {
+                //   if (types[item.mobile_type]?.slice(0, 1) === "p") {
+                //     setProductHolder(item);
+                //   }
+                // }}
+              >
+                <img
+                  alt={item.name}
+                  src={`https://www.ishtari.com/image/` + item.image}
+                  width={item.banner_width}
+                  height={item.banner_height}
+                  // title={item.name}
+                  // placeholdersrc={""}
+                />
+              </Link>
+            ) : (
+              <div key={index}>
+                <img
+                  className="w-full"
+                  src={"https://www.ishtari.com/image/" + item.image}
+                  alt={item.name}
+                  // height={item.banner_height}
+                />
+              </div>
+            )
+          )}
         </Slider>
       )}
 
       {widget.display === "grid" &&
         widget.items.length < 2 &&
         widget?.items?.map((item, index) => (
-          <div key={index}>
+          item.mobile_type_id !== "0" ? (
+            <Link
+            to={
+              accountState.admin
+                ? `${path}/${types[item.mobile_type]}/${
+                    item?.mobile_type_id
+                  }`
+                : item?.name?.length > 0
+                ? "/" +
+                  item?.name
+                    ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                    .replace("%", "")
+                    .replace(/\s+/g, "-")
+                    .replace("/", "-") +
+                  "/" +
+                  types[item.mobile_type]?.slice(0, 1) +
+                  "=" +
+                  item.mobile_type_id
+                : "cat/c=" + item.mobile_type_id
+            }
+            // onClick={() => {
+            //   if (types[item.mobile_type]?.slice(0, 1) === "p") {
+            //     setProductHolder(item);
+            //   }
+            // }}
+          >
+            <img
+              alt={item.name}
+              src={`https://www.ishtari.com/image/` + item.image}
+              width={item.banner_width}
+              height={item.banner_height}
+              title={item.name}
+            />
+          </Link>
+          ):(
+            <div key={index}>
             <img
               className="w-full"
               src={"https://www.ishtari.com/image/" + item.image}
@@ -198,6 +323,8 @@ function WidgetsLoop({ widget }) {
               height={item.banner_height}
             />
           </div>
+          )
+          
         ))}
     </div>
   );

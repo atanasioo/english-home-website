@@ -144,6 +144,8 @@ function TopCart(props) {
       });
   }
 
+  console.log(state);
+
   return (
     <div>
       {!props.cartmenu ? (
@@ -237,8 +239,8 @@ function TopCart(props) {
                 </div>
               </div>
               <div className="text-right border-t border-dgrey5">
-                <div className="header__basket--total flex justify-between mx-4 font-sans">
-                  <div className="text-left mt-1 text-d16 text-dblack2 ">
+                <div className="header__basket--total mx-4 font-sans">
+                  {/* <div className="text-left mt-1 text-d16 text-dblack2 ">
                     Total
                   </div>
                   <div className="flex">
@@ -246,7 +248,13 @@ function TopCart(props) {
                       150
                     </div>
                     <div className="mt-1 text-dblue1"> 100</div>
-                  </div>
+                  </div> */}
+                  {state?.totals?.map((total, index)=>(
+                    <div className={`${ index === state?.totals.length - 1 ? "block" : "hidden" } flex justify-between items-center`}>
+                      <div> {total.title} </div>
+                      <div>{total.text}</div> 
+                    </div>
+                  ))}
                 </div>
                 <div className="clear"></div>
               </div>
