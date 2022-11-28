@@ -9,10 +9,10 @@ export default function VerticalNav() {
         <Link className='pb-2' to="">All My Orders</Link>
 
         <div className="font-semibold py-3 text-d14"> My Profile / Personal Information </div>
-        <Link className='pb-2' to="account/profile/">my profile</Link>
-        <Link className='pb-2' to="account/addresses/">Address book</Link>
-        <Link className='pb-2' to="account/change-email/">Change  Email</Link>
-        <Link className='pb-2' to="account/change-password/">Change  Password</Link>
+        <Link className='pb-2' to="../account/profile">my profile</Link>
+        <Link className='pb-2' to="../account/addresses">Address book</Link>
+        <Link className='pb-2' to="../account/change-email">Change  Email</Link>
+        <Link className='pb-2' to="../account/change-password/">Change  Password</Link>
 
 
 
