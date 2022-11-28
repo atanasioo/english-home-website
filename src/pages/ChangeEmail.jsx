@@ -73,10 +73,6 @@ function saveDetails(event){
             <div className="text-d13 w-full text-left" ><input className="bg-white text-left w-full p-2  border" ref={confirmEmailRef}  /></div>
             <div className="text-d13 w-full text-left py-2" > Passowrd </div>
             <div className="text-d13 w-full text-left" ><input type="text" className="bg-white text-left w-full p-2  border" ref={oldEmailRef}   /></div>
-            {/* <div className="text-d13 text-left py-2" >Date of birth</div>
-            <div className="text-d13 w-full text-left" ><input className="bg-white text-left w-5/12 p-2 border" /> </div>
-            <div className="text-d13 text-left p-2 border bg-white w-1/4" ><input type="radio" /> I do not want to specify</div>
-            <div className="flex text-d13 text-left py-3 h-12" > Gender   <div className="mt-0.5 mx-1" ><input type="radio" name="gender" className="bg-white text-left  border" /></div>women <div className="mt-0.5 mx-1" ><input type="radio" name="gender" className="bg-white text-left  border" /></div> men <div className="mt-0.5 mx-1" ><input type="radio" name="gender" className="bg-white text-left  border" /></div> I do Not Want To Specify</div> */}
             <div className="text-d13 text-left py-2" ><button className="bg-black text-white px-10 py-2 text-d15 mt-1">SEND</button></div>
           </div>
           </form>
