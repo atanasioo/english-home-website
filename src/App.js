@@ -52,7 +52,7 @@ function App() {
 
             <Route path="account" element={<Account />} />
             <Route path="users/orders" element={<Order />} />
-            <Route path="users/profile" element={<Profile />} />
+            <Route path="account/profile" element={<Profile />} />
             <Route path="account/address" element={<Account />} />
             <Route path="search" element={<Search />}/>
 
