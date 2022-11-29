@@ -14,12 +14,12 @@ import { CartProvider } from "./contexts/CartContext";
 import { WishlistProvider } from "./contexts/WishlistContext";
 import Login from "./pages/Login";
 import Account from "./pages/Account";
-import Order from "./pages/Orders";
+import Orders from "./pages/Orders";
 import Profile from './pages/Profile';
 import Search from "./pages/Search";
-
+import OrderDetails from "./pages/OrderDetails"
 import ChangeEmail from "./pages/ChangeEmail";
-import ChangePassword from "./pages/changePassword";
+import ChangePassword from "./pages/ChangePassword";
 function App() {
   const width = window.innerWidth;
 
@@ -53,12 +53,15 @@ function App() {
             <Route path="/:name/p=:id" element={<Product />} exact />
 
             <Route path="account" element={<Account />} />
-            <Route path="users/orders" element={<Order />} />
+            <Route path="account/orders" element={<Orders />} />
             <Route path="account/profile" element={<Profile />} />
             <Route path="account/address" element={<Account />} />
+
             <Route path="search" element={<Search />}/>
             <Route path="account/change-email" element={<ChangeEmail />} />
             <Route path="account/change-password" element={<ChangePassword />} />
+            <Route path="account/order-details" element={<OrderDetails />} />
+
 
 
 

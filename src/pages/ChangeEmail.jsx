@@ -33,8 +33,11 @@ function saveDetails(event){
   event.preventDefault()
 
   var obj= {
+    firstname: data.firstname,
+    last: data.firstname,
+
     Email: oldEmailRef.current.value,
-    new_Email: newEmailRef.current.value,
+    password: newEmailRef.current.value,
 
   }
 

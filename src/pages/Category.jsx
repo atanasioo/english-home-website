@@ -1,5 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useLocation, useParams, useNavigate, Link } from "react-router-dom";
+import {
+  useLocation,
+  useParams,
+  useNavigate,
+  Link,
+  useNavigationType
+} from "react-router-dom";
 import _axios from "../axios";
 import SingleProductCategory from "../components/SingleProductCategory";
 import { useFiltersContext } from "../contexts/FiltersContext";
@@ -30,6 +36,8 @@ function Category() {
 
   const urlRef = useRef(location?.pathname);
   const navigate = useNavigate();
+  const navigateType = useNavigationType();
+
   const pathname = location.pathname;
 
   useEffect(() => {
@@ -76,7 +84,7 @@ function Category() {
     }
     // console.log(navigate);
 
-    if (1 === 1) {
+    if ("pop" === "pop") {
       let sellerIndex;
       let brandIndex;
       let optionsIndex;
@@ -219,7 +227,7 @@ function Category() {
     setPointer(false);
 
     // console.log("yes");
-    const id = filter["id"];
+    const filter_id = filter["id"];
     var last = "";
     let type_key = typekey;
     // var sort="";
@@ -227,7 +235,7 @@ function Category() {
     // var limit ='';
     last = filter["last"];
 
-    let values_array = userFilters[type_key] || [];
+    let values_array = userFilters[type_key];
     let c;
     let indexOfId = -1;
     let url1 = new URL(window.location);
@@ -235,11 +243,11 @@ function Category() {
     c = url1.searchParams.get(filter_type);
 
     if (c !== null) {
-      indexOfId = c.split(",").indexOf(filter["id"]);
+      indexOfId = c.split(",").indexOf(filter_id);
     }
     if (indexOfId < 0) {
       // // // console.log("Test from if");
-      values_array.push(filter["id"]);
+      values_array.push(filter_id);
 
       setUserFilters({
         ...userFilters,
@@ -268,13 +276,22 @@ function Category() {
           "/" +
           getType().slice(0, 1) +
           "=" +
-          id +
+          filter_id +
           query +
           "&last=" +
           last
       );
 
-      navigate(path + query + "&last=" + last);
+      navigate(
+        params.name +
+          "/" +
+          getType().slice(0, 1) +
+          "=" +
+          id +
+          query +
+          "&last=" +
+          last
+      );
     } else {
       let query = type_key + "=" + id;
       let q = new URLSearchParams(query).toString();
