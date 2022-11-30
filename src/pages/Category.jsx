@@ -31,7 +31,6 @@ function Category() {
   const urlRef = useRef(location?.pathname);
   const navigate = useNavigate();
   const navigateType = useNavigationType();
-
   const pathname = location.pathname;
 
   useEffect(() => {
