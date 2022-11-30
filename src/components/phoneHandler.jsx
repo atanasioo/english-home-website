@@ -3,7 +3,7 @@ import _axios from "../axios";
 import { AccountContext } from "../contexts/AccountContext";
 import buildLink from "../urls";
 
-function HandlePhoneModel(props) {
+function PhoneHandler(props) {
   const { phone, phoneHanlder, AdminPhoneHandler, setConfirmDisalbe, parentData, nb } = props;
   const [state, dispatch] = useContext(AccountContext);
   const [valid, setValid] = useState(true);
@@ -136,7 +136,7 @@ function HandlePhoneModel(props) {
             autoComplete={false}
             onFocus={(e) => setShow(e.target.value.length > 1)}
             onBlur={() => setShow(false)}
-            required
+            // required
             ref={phone}
             defaultValue={parentData?.telephone}
             className={`text-d14 font-light ${!valid && `${red} !important`}`}
@@ -158,7 +158,7 @@ function HandlePhoneModel(props) {
             }`}
             placeholder={"Write in the format  xxxxxxxx"}
             minLength={7}
-            required
+            // required
             type="text"
             maxLength={8}
             onChange={(e) => onChangeHandler(e.target.value)}
@@ -194,4 +194,4 @@ function HandlePhoneModel(props) {
   );
 }
 
-export default HandlePhoneModel;
+export default PhoneHandler;

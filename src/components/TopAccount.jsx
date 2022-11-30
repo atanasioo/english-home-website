@@ -152,31 +152,35 @@ function TopAccount() {
           <div className="text-dborderblack3 bg-dgrey7 h-12 pt-1 px-3.5 leading-10 text-d15">
             {state?.username}
           </div>
-          <Link
+          <Link to="account/profile"
             className="cursor-pointer w-full text-left h-9 leading-3 p-3  text-d14 text-dblack2 border-b
          border-dgrey5 hover:text-dblue1 hover:underline transition-all"
           >
             My Account
           </Link>
           <Link
+            to="account/orders"
             className="cursor-pointer w-full text-left h-9 leading-3 p-3  text-d14 text-dblack2 border-b
          border-dgrey5 hover:text-dblue1 hover:underline transition-all"
           >
             My Orders
           </Link>
           <Link
+          to="account/orders"
             className="cursor-pointer w-full text-left h-9 leading-3 p-3  text-d14 text-dblack2 border-b
          border-dgrey5 hover:text-dblue1 hover:underline transition-all"
           >
             My User Information
           </Link>
-          <Link
+          {/* <Link
+
             className="cursor-pointer w-full text-left h-9 leading-3 p-3  text-d14 text-dblack2 border-b
          border-dgrey5 hover:text-dblue1 hover:underline transition-all"
           >
             My Discount Coupons
-          </Link>
+          </Link> */}
           <Link
+            to="account/addresses"
             className="cursor-pointer w-full text-left h-9 leading-3 p-3  text-d14 text-dblack2 border-b
          border-dgrey5 hover:text-dblue1 hover:underline transition-all"
           >

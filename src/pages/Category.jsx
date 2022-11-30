@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useLocation, useParams, useNavigate, Link } from "react-router-dom";
+import { useLocation, useParams, useNavigate, Link, useNavigationType } from "react-router-dom";
 import _axios from "../axios";
 import SingleProductCategory from "../components/SingleProductCategory";
 import { useFiltersContext } from "../contexts/FiltersContext";
@@ -10,6 +10,7 @@ import { CiFilter } from "react-icons/ci";
 import { BiSortAlt2 } from "react-icons/bi";
 import buildLink, { path, pixelID } from "../urls";
 import { type } from "@testing-library/user-event/dist/type";
+import { RiArrowRightSLine } from "react-icons/ri";
 
 function Category() {
   const location = useLocation();
@@ -27,11 +28,10 @@ function Category() {
   const [filterMobileShow, setFilterMobileShow] = useState(false);
   const [mobileSort, setMobileSort] = useState(false);
 
-  console.log(location.search);
-
-
   const urlRef = useRef(location?.pathname);
   const navigate = useNavigate();
+  const navigateType = useNavigationType();
+
   const pathname = location.pathname;
 
   useEffect(() => {
@@ -78,7 +78,7 @@ function Category() {
     }
     // console.log(navigate);
 
-    if (1 === 1) {
+    if ("pop" === 'pop') {
       let sellerIndex;
       let brandIndex;
       let optionsIndex;
@@ -363,31 +363,44 @@ function Category() {
       }
     }
   }
+  function showMobilefilter() {
+    setFilterMobileShow(true);
+    setShowSort(false);
+  }
 
   return (
     <div className=" bg-dgrey10 pt-1">
-      <div className="  xl:flex lg:flex pt-2 pb-2 pl-12 items-center text-xs ">
-        <div className="flex items-center ">
-          <Link
-            to="/"
-            className="hidden md:block text-dborderblack0 font-light truncate text-d11 md:text-tiny mr-2 hover:text-dblue"
-            dangerouslySetInnerHTML={{
-              __html: "Home"
-            }}
-          />{" "}
-          <i className="icon icon-angle-right"></i>
-        </div>
-        {data?.breadcrumbs?.map((bread) => (
-          <div
-            className="flex items-center text-dborderblack0"
-            key={bread.text}
-          >
-            <p className=" mx-2">{bread.text.replace("&amp;", "&")}</p>
+      <div className="  flex  pt-4 pb-2 pl-8 items-center text-d16 text-dblack1 capitalize">
+        <div className=" flex w-3/12">
+          <div className="flex items-center ">
+            <Link
+              to="/"
+              className=" md:block text-dborderblack0 font-light truncate text-d16 md:text-tiny mr-2 hover:text-dblue"
+              dangerouslySetInnerHTML={{
+                __html: "Home"
+              }}
+            />{" "}
+            <RiArrowRightSLine className="text-d22 font-light mt-0.5 -mx-2 " />
           </div>
-        ))}
+          {data?.breadcrumbs?.map((bread) => (
+            <div
+              className="flex items-center text-dborderblack0"
+              key={bread.text}
+            >
+              <p className=" mx-2">{bread.text.replace("&amp;", "&")}</p>
+            </div>
+          ))}
+        </div>
+        {window.innerWidth > 650 && (
+          <div className="w-1/2 text-left text-d14">
+            Showing {data?.products?.length} products
+          </div>
+        )}
       </div>
+      <div className="border border-t-0 ml-8 mr-5"></div>
+
       <div
-        className={`flex flex-row p-2 border border-t-1 mt-2 ${
+        className={`flex flex-row p-2 mt-2 ${
           !pointer && "pointer-events-none select-none opacity-25"
         }`}
       >
@@ -471,7 +484,7 @@ function Category() {
 
         {window.innerWidth > 650 ? (
           <div className="w-9/12">
-            <div className="flex w-full border-b-2 pb-2">
+            <div className="flex w-full  pb-2">
               <div className="flex w-9/12 text-left pl-4">
                 VIEW{" "}
                 <div
@@ -546,6 +559,8 @@ function Category() {
                 </div>
               </div>
             </div>
+            <div className="border border-t-0 mx-3"></div>
+
             <div
               className={`grid ${
                 view !== 2 && view !== 4 ? "grid-cols-3" : "grid-cols-" + view
@@ -561,10 +576,7 @@ function Category() {
         ) : (
           <div>
             <div className="grid grid-cols-2 grid-2">
-              <div
-                className="flex w-full "
-                onClick={() => setFilterMobileShow(true)}
-              >
+              <div className="flex w-full " onClick={showMobilefilter}>
                 <span className="w-2/6"></span>
                 <span>Filter</span>
                 <span className="mt-1 mx-4">
@@ -575,14 +587,13 @@ function Category() {
                 className="border-l flex w-full"
                 onClick={() => setShowSort(showSort ? false : true)}
               >
-
                 <span className="w-2/6"></span>
                 <span>Sort</span>
                 <span className="mt-1 mx-4">
                   <BiSortAlt2 />
                 </span>
                 <div
-                  className={`w-52 bg-white absolute z-20 top-48  -mt-3 text-left border border-dblack1 ${
+                  className={`w-52 bg-white absolute z-20 top-52  -mt-3 text-left border border-dblack1 ${
                     !showSort && "hidden"
                   }`}
                 >
@@ -605,13 +616,10 @@ function Category() {
                 </div>
               ))}
             </div>
-         
-       
-               
-          
+
             <div
               className={`absolute z-50 top-36  bg-white w-3/4 h-4/6 mx-12 pb-2 overflow-y-scroll  ${
-                !filterMobileShow && "invisible"
+                !filterMobileShow && "hidden"
               }`}
             >
               <div className="text-left w-full py-3 px-3  text-dbasenavy text-d18 font-bold bg-dyellow2 ">
