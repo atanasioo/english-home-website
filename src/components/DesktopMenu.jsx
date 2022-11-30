@@ -145,7 +145,7 @@ function DesktopMenu() {
                 <ul>
                   {selectedMenuCategory2["sub-categories"]?.map(
                     (subcategory) => (
-                      <li>
+                      <li key={subcategory.category_id}>
                         <Link
                           to={`${path}/${subcategory.name
                             .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")

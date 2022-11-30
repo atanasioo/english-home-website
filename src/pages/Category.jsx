@@ -27,6 +27,8 @@ function Category() {
   const [filterMobileShow, setFilterMobileShow] = useState(false);
   const [mobileSort, setMobileSort] = useState(false);
 
+  console.log(location.search);
+
 
   const urlRef = useRef(location?.pathname);
   const navigate = useNavigate();

@@ -144,7 +144,6 @@ function TopCart(props) {
       });
   }
 
-  console.log(state);
 
   return (
     <div>

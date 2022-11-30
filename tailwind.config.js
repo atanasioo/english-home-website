@@ -188,6 +188,9 @@ module.exports = {
         dblackOverlay2: {
           DEFAULT: "rgba(74,74,74,0.3)"
         },
+        dbeige: {
+          DEFAULT: "#f5f3ee"
+        },
         dwhatsapp: {
           DEFAULT: "#25d366"
         },
@@ -207,6 +210,7 @@ module.exports = {
         488: "48%",
         577: "57%",
         5000:"500px",
+        unset: "unset"
       }
     }
   },
