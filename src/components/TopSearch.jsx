@@ -9,7 +9,7 @@ import Cookies from "js-cookie";
 
 
 function TopSearch() {
-  const history = useNavigate();
+  const navigate = useNavigate();
   const location = useLocation();
   useEffect(() => {
     setResults([]);
@@ -55,11 +55,7 @@ function TopSearch() {
       const query = e.target.value;
       setQuery("");
       setLoading(false);
-      history.push({
-        pathname: "/search",
-        search: "?keyword=" + query,
-        state: location.pathname,
-      });
+      navigate("/search" + "?keyword=" + query)
     }
   }
 

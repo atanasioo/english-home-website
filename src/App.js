@@ -21,6 +21,7 @@ import OrderDetails from "./pages/OrderDetails"
 import ChangeEmail from "./pages/ChangeEmail";
 import ChangePassword from "./pages/ChangePassword";
 import Addresses from "./pages/Addresses";
+import Information from "./pages/Information";
 function App() {
   const width = window.innerWidth;
 
@@ -57,6 +58,7 @@ function App() {
             <Route path="account/orders" element={<Orders />} />
             <Route path="account/profile" element={<Profile />} />
             <Route path="account/addresses" element={<Addresses />} />
+            <Route path="/information/:id" element={<Information />} />
 
             <Route path="search" element={<Search />}/>
             <Route path="account/change-email" element={<ChangeEmail />} />
