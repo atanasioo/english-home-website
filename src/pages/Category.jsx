@@ -1,5 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useLocation, useParams, useNavigate, Link, useNavigationType } from "react-router-dom";
+import {
+  useLocation,
+  useParams,
+  useNavigate,
+  Link,
+  useNavigationType
+} from "react-router-dom";
 import _axios from "../axios";
 import SingleProductCategory from "../components/SingleProductCategory";
 import { useFiltersContext } from "../contexts/FiltersContext";
@@ -32,9 +38,8 @@ function Category() {
   const navigate = useNavigate();
   const navigateType = useNavigationType();
   const pathname = location.pathname;
-
+  const navType = useNavigationType();
   useEffect(() => {
-    console.log(filterMobile);
     window.scrollTo({
       top: 0,
       behavior: "smooth"
@@ -64,7 +69,7 @@ function Category() {
       if (window.location.href.indexOf("m=") > 0) type = "manufacturer";
       if (window.location.href.indexOf("s=") > 0) type = "seller";
     }
-    // alert(type , newPath)
+
     if (location.pathname !== urlRef.current) {
       setUserFilters({
         filter_sellers: [],
@@ -75,9 +80,9 @@ function Category() {
       });
       urlRef.current = location.pathname;
     }
-    // console.log(navigate);
 
-    if ("pop" === 'pop') {
+
+    if (navType === "POP") {
       let sellerIndex;
       let brandIndex;
       let optionsIndex;
@@ -134,8 +139,6 @@ function Category() {
         });
       }
     }
-
-    // navigate(pathname)
 
     _axios
       .post(buildLink(type, undefined, undefined) + newPath)
@@ -202,16 +205,23 @@ function Category() {
     order = val.substring(i_o + 1);
     var i_sort = pathname.indexOf("&sort=");
     var l = "";
-    if (i_sort > -1) {
+
+    if (window.location.href.indexOf("has_filter=true") <0 ){ 
+    if (i_sort < 0) {
       l = path1.substring(0, i_sort);
-      // alert(l);
     } else {
-      l = pathname;
+      l = path1;
+    }
+  }else{
+    if (i_sort > -1) {
+      l = location.search;
+    }else{
+     l=  window.location.search
+     alert(l)
     }
 
-    if (location.search.indexOf("has_filter=true") > -1 && i_sort > -1) {
-      l = location.search;
-    }
+  }
+   
     console.log(l);
     setShowSort(false);
     navigate((l + "&sort=" + _sort + "&order=" + order).replaceAll("/&", "&"));
@@ -228,7 +238,8 @@ function Category() {
     // var limit ='';
     last = filter["last"];
 
-    let values_array = userFilters[type_key] || [];
+    let values_array = userFilters[type_key] ;
+   console.log(values_array);
     let c;
     let indexOfId = -1;
     let url1 = new URL(window.location);
@@ -264,18 +275,38 @@ function Category() {
       q = decodeURIComponent(q);
       query += q;
 
-      console.log(
-        params.name +
-          "/" +
-          getType().slice(0, 1) +
-          "=" +
-          id +
-          query +
-          "&last=" +
-          last
-      );
 
-      navigate(path + query + "&last=" + last);
+
+      const i_o = window.location.pathname.indexOf("&sort");
+      if(i_o > 0){
+        var  l = window.location.pathname.substring(0, i_o);
+// alert(l)
+// alert(query)
+        navigate( 
+         l + query+
+                "&last=" +
+                last
+            );
+        }else{
+          navigate( 
+     
+                 path + query +
+                  "&last=" +
+                  last
+              );
+        }
+   
+      // console.log(
+      //   params.name +
+      //     "/" +
+      //     getType().slice(0, 1) +
+      //     "=" +
+      //     id +
+      //     query +
+      //     "&last=" +
+      //     last
+      // );
+  
     } else {
       let query = type_key + "=" + id;
       let q = new URLSearchParams(query).toString();
@@ -283,6 +314,7 @@ function Category() {
 
       let url1 = "?has_filter=false";
       values_array.pop();
+
       setUserFilters({
         ...userFilters,
         type_key: values_array
