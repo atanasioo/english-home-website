@@ -287,7 +287,7 @@ function TopCart(props) {
            )}
         </div>
       ) : (
-        <div className="absolute z-20 w-80 top-0 -mt-2 right-16 bg-dred4 shadow-lg" ref={props.wrapper}>
+        <div className="absolute z-20 w-80 top-36 -mt-2 right-16 bg-dwhite1 shadow-lg" ref={props.wrapper}>
           <div className="text-d16 border-b border-dbordergrey3 py-2.5 pr-2.5 pl-6 text-dblack2 bg-dbordergrey2 text-left">
             You have {state?.productsCount} items in your cart
           </div>

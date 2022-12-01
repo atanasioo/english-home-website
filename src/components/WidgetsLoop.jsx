@@ -6,7 +6,7 @@ import SingleProducts from "./SingleProduct";
 import { AccountContext } from "../contexts/AccountContext";
 import { path } from "../urls";
 
-function WidgetsLoop({ widget }) {
+function WidgetsLoop({ widget, showCartmenu }) {
   const [accountState] = useContext(AccountContext);
 
   const types = {
@@ -141,6 +141,7 @@ function WidgetsLoop({ widget }) {
                         className=""
                         // likedData={likedData}
                         item={item}
+                        showCartmenu= {showCartmenu}
                         // click={handleOnItemClick}
                         // dragging={dragging}
                       ></SingleProducts>

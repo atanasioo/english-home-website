@@ -128,12 +128,13 @@ export default function SingleProduct(props) {
 
           setSuccessAdded(true);
           if (width > 650) {
-            setCartmenu(true);
+           // setCartmenu(true);
+           props.showCartmenu();
             setOverlay(true);
-            // window.scrollTo({
-            //   top: 0,
-            //   behavior: "smooth",
-            // });
+            window.scrollTo({
+              top: 0,
+              behavior: "smooth",
+            });
           } else {
             setPopupC(true);
           }
@@ -148,13 +149,13 @@ export default function SingleProduct(props) {
 
   return (
     <>
-      {cartmenu && width > 650 && (
+      {/* {cartmenu && width > 650 && (
         <div>
           <div ref={wrapperRef}>
             <TopCart cartmenu={cartmenu} />
           </div>
         </div>
-      )}
+      )} */}
 
       <Link
         to={`${path}/${props.item.name
