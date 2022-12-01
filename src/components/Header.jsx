@@ -21,9 +21,8 @@ function Header() {
   const [activeCategory, setActiveCategory] = useState({});
   const [viewLevel2, setViewLevel2] = useState(false);
   const [state, dispatch] = useContext(AccountContext);
+  const [info, setInfo] = useState([]);
   const location = useLocation();
-
-  
 
   useEffect(() => {
     if (width < 650) {
@@ -45,6 +44,23 @@ function Header() {
     }
   }, []);
 
+  console.log(info);
+
+  async function getInfo() {
+    _axios
+      .get(buildLink("information", undefined, window.innerWidth))
+      .then((response) => {
+        try {
+          const data = response.data.data.informations;
+          setInfo(data);
+        } catch (e) {}
+      });
+  }
+
+  useEffect(() => {
+    getInfo();
+  }, []);
+
   return (
     <div className="relative">
       {location?.pathname !== "/checkout" ? (
@@ -53,7 +69,7 @@ function Header() {
             <div className="container">
               <div className="row">
                 <div className="topbar__links float-right">
-                  <Link className="text-dblack2 text-d12 ml-5 leading-10 font-bold hover:underline">
+                  {/* <Link className="text-dblack2 text-d12 ml-5 leading-10 font-bold hover:underline">
                     Easy Returns
                   </Link>
                   <Link className="text-dblack2 text-d12 ml-5 leading-10 font-bold hover:underline">
@@ -64,7 +80,19 @@ function Header() {
                   </Link>
                   <Link className="text-dblack2 text-d12 ml-5 leading-10 font-bold hover:underline">
                     Mails
-                  </Link>
+                  </Link> */}
+                  {info?.map(
+                    (i) =>
+                      i.status === "1" && (
+                        <Link
+                          key={i.id}
+                          className="text-dblack2 text-d12 ml-5 leading-10 font-bold hover:underline"
+                          to={`/information/${i.id}`}
+                        >
+                          {i.title}
+                        </Link>
+                      )
+                  )}
                 </div>
               </div>
             </div>

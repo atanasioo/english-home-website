@@ -111,12 +111,18 @@ module.exports = {
         dgrey13:{
           DEFAULT: "#C0C0C0"
         },
+        dgrey14:{
+          DEFAULT: "#576b89"
+        },
 
         dgreyTransp1: {
           DEFAULT: "rgba(255,255,255,0.9)" //slick arrow bg color
         },
         dgreyTransp2: {
           DEFAULT: "rgba(255,255,255,0.7)" //hover on carousel cart
+        },
+        dgreen:{
+          DEFAULT: "#06ac9e"
         },
         dwhite1: {
           DEFAULT: "#FFF"

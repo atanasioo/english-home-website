@@ -39,6 +39,8 @@ export default function Profile() {
     setIsValid(isValid);
   };
 
+  console.log(data);
+
   function saveDetails(event) {
     event.preventDefault();
 

@@ -38,6 +38,7 @@ function Checkout() {
   const [fn, setFn] = useState("");
   const [ln, setLn] = useState("");
   const [loged, setloged] = useState();
+  const [accountData, setAccountData]= useState([]);
   const navigate = useNavigate();
   const location = useLocation();
   const pathname = location.pathname;
@@ -95,6 +96,8 @@ function Checkout() {
         }
       });
   }, [dispatchAccount, stateAccount.loged]);
+
+  console.log(accountData);
 
   // Add Address
   function addAddress(e) {
@@ -341,14 +344,9 @@ function Checkout() {
         if (!data.success) {
           setloged(false);
           getCart();
-          if (cid < 1) {
-            if (!state.admin) {
-              dispatchAccount({ type: "setShowOver", payload: true });
-              dispatchAccount({ type: "setShowLogin", payload: true });
-            }
-          }
         } else {
           setloged(true);
+          setAccountData(data.data)
           _axios
             .get(buildLink("login", undefined, window.innerWidth))
             .then((response) => {
@@ -735,7 +733,7 @@ function Checkout() {
                   />
                   <HandlePhoneModel
                     phone={telephone}
-                    nb={`${editAddress ? activeAddress.telephone : ""}`}
+                    nb={`${editAddress ? activeAddress?.telephone.substring(3) : ""}`}
                     phoneHanlder={phoneHanlder}
                   />
                 </div>

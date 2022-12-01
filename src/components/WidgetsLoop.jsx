@@ -15,7 +15,7 @@ function WidgetsLoop({ widget }) {
     3: "manufacturer",
     4: "seller",
   };
-  console.log(widget.title);
+
 
   const setting = {
     dots: true,
