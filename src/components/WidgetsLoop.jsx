@@ -13,9 +13,8 @@ function WidgetsLoop({ widget, showCartmenu }) {
     1: "product",
     2: "category",
     3: "manufacturer",
-    4: "seller",
+    4: "seller"
   };
-
 
   const setting = {
     dots: true,
@@ -27,7 +26,7 @@ function WidgetsLoop({ widget, showCartmenu }) {
     autoplay: true,
     autoplaySpeed: 4000,
     prevArrow: <CustomArrows direction={"l"} type={"slider"} />,
-    nextArrow: <CustomArrows direction={"r"} type={"slider"} />,
+    nextArrow: <CustomArrows direction={"r"} type={"slider"} />
   };
 
   const carousal = {
@@ -40,7 +39,7 @@ function WidgetsLoop({ widget, showCartmenu }) {
     // autoplay: true,
     // autoplaySpeed: 4000,
     prevArrow: <CustomArrows direction={"l"} type={"carousel"} />,
-    nextArrow: <CustomArrows direction={"r"} type={"carousel"} />,
+    nextArrow: <CustomArrows direction={"r"} type={"carousel"} />
   };
 
   const grid = {
@@ -53,7 +52,7 @@ function WidgetsLoop({ widget, showCartmenu }) {
     // autoplay: true,
     // autoplaySpeed: 4000,
     prevArrow: <CustomArrows direction={"l"} type={"grid"} />,
-    nextArrow: <CustomArrows direction={"r"} type={"grid"} />,
+    nextArrow: <CustomArrows direction={"r"} type={"grid"} />
   };
   const productMobile = {
     dots: false,
@@ -67,7 +66,7 @@ function WidgetsLoop({ widget, showCartmenu }) {
     swipeToSlide: true,
     infinite: false,
     arrows: false,
-    lazyLoad: true,
+    lazyLoad: true
   };
   const productSetting = {
     dots: true,
@@ -77,7 +76,7 @@ function WidgetsLoop({ widget, showCartmenu }) {
     slidesToScroll: 4,
     infinite: true,
     prevArrow: <CustomArrows direction={"l"} />,
-    nextArrow: <CustomArrows direction={"r"} />,
+    nextArrow: <CustomArrows direction={"r"} />
   };
   return (
     <div className="container">
@@ -129,7 +128,7 @@ function WidgetsLoop({ widget, showCartmenu }) {
       {widget.display === "carousel" && (
         <div className="">
           {window.innerWidth > 650 ? (
-            <Slider {...productSetting} className="carousel">
+            <Slider {...productSetting} className="carousel place-items-center">
               {widget.items?.map((item) => {
                 if (item.product_id) {
                   return (
@@ -150,7 +149,7 @@ function WidgetsLoop({ widget, showCartmenu }) {
                 } else {
                   return (
                     <div
-                      className={`p-1 cursor-pointer hover:opacity-80 w-1/${widget.column_number} md:w-1/${widget.column_number}`}
+                      className={`p-1 cursor-pointer hover:opacity-80  place-items-center w-1/${widget.column_number} md:w-1/${widget.column_number} `}
                       key={item.banner_image_id}
                     >
                       <Link
@@ -227,10 +226,11 @@ function WidgetsLoop({ widget, showCartmenu }) {
       )}
 
       {widget.display === "grid" && widget.items.length > 1 && (
-        <Slider {...carousal}>
+        <div className="flex">
           {widget?.items?.map((item, index) =>
             item.mobile_type_id !== "0" ? (
               <Link
+                className={` w-1/${widget.column_number} md:w-1/${widget.column_number} `}
                 to={
                   accountState.admin
                     ? `${path}/${types[item.mobile_type]}/${
@@ -256,6 +256,7 @@ function WidgetsLoop({ widget, showCartmenu }) {
                 // }}
               >
                 <img
+                  className="w-full"
                   alt={item.name}
                   src={`https://www.ishtari.com/image/` + item.image}
                   width={item.banner_width}
@@ -275,58 +276,51 @@ function WidgetsLoop({ widget, showCartmenu }) {
               </div>
             )
           )}
-        </Slider>
+        </div>
       )}
 
       {widget.display === "grid" &&
         widget.items.length < 2 &&
-        widget?.items?.map((item, index) => (
+        widget?.items?.map((item, index) =>
           item.mobile_type_id !== "0" ? (
             <Link
-            to={
-              accountState.admin
-                ? `${path}/${types[item.mobile_type]}/${
-                    item?.mobile_type_id
-                  }`
-                : item?.name?.length > 0
-                ? "/" +
-                  item?.name
-                    ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
-                    .replace("%", "")
-                    .replace(/\s+/g, "-")
-                    .replace("/", "-") +
-                  "/" +
-                  types[item.mobile_type]?.slice(0, 1) +
-                  "=" +
-                  item.mobile_type_id
-                : "cat/c=" + item.mobile_type_id
-            }
-            // onClick={() => {
-            //   if (types[item.mobile_type]?.slice(0, 1) === "p") {
-            //     setProductHolder(item);
-            //   }
-            // }}
-          >
-            <img
-              alt={item.name}
-              src={`https://www.ishtari.com/image/` + item.image}
-              width={item.banner_width}
-              height={item.banner_height}
-              title={item.name}
-            />
-          </Link>
-          ):(
+              to={
+                accountState.admin
+                  ? `${path}/${types[item.mobile_type]}/${item?.mobile_type_id}`
+                  : item?.name?.length > 0
+                  ? "/" +
+                    item?.name
+                      ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                      .replace("%", "")
+                      .replace(/\s+/g, "-")
+                      .replace("/", "-") +
+                    "/" +
+                    types[item.mobile_type]?.slice(0, 1) +
+                    "=" +
+                    item.mobile_type_id
+                  : "cat/c=" + item.mobile_type_id
+              }
+            >
+              <img
+                className="w-full"
+                alt={item.name}
+                src={`https://www.ishtari.com/image/` + item.image}
+                width={item.banner_width}
+                height={item.banner_height}
+                title={item.name}
+              />
+            </Link>
+          ) : (
             <div key={index}>
-            <img
-              className="w-full"
-              src={"https://www.ishtari.com/image/" + item.image}
-              alt={item.name}
-              height={item.banner_height}
-            />
-          </div>
+              <img
+                className="w-full"
+                src={"https://www.ishtari.com/image/" + item.image}
+                alt={item.name}
+                height={item.banner_height}
+              />
+            </div>
           )
-          
-        ))}
+        )}
     </div>
   );
 }
