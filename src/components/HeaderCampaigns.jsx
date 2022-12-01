@@ -7,7 +7,7 @@ function HeaderCampaigns() {
   return (
     <>
       {location.pathname !== "/checkout" && (
-        <div className="header-campaigns bg-dyellow2 text-center text-dred2 py-2.5 text-sm">
+        <div className="header-campaigns bg-dyellow2 text-center text-dred2 py-2.5 text-sm md:mt-3.5 lg:mt-0">
           <div className="container flex flex-wrap justify-center">
             <div className="campaign-item flex items-center">
               <Link className="hover:underline">

@@ -131,7 +131,7 @@ function TopSearch() {
   return(
      <div className="flex items-center mt-2.5 mx-2.5 md:mx-0">
         <input type="text" name="search_text" id="top_search_input"
-        className="h-9 text-dblack2 pl-4 relative z-10 border-2 border-dbasenavy md:border  md:border-dbordergrey4 outline-none rounded-none "  
+        className="h-9 text-dblack2 pl-4 w-4500 md:w-64 lg:w-4500  relative z-10 border-2 border-dbasenavy md:border  md:border-dbordergrey4 outline-none rounded-none "  
         style={{width: "450px"}} 
         placeholder="What are you looking for?"
         onChange={(e) => {

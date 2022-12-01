@@ -62,7 +62,7 @@ function Header() {
   }, []);
 
   return (
-    <div className="relative">
+    <div className="relative mb-2">
       {location?.pathname !== "/checkout" ? (
         <>
           <section className="hidden md:block h-10 bg-dgrey1">
@@ -105,10 +105,18 @@ function Header() {
               <div className="back-bar hidden"></div>
               {width > 650 ? (
                 <>
-                  <div className="header__logo float-left">
-                    <div></div>
-                    <Link to={"/"} className=" text-d30 ">
-                      <span className="icon-logo text-xl md:text-4xl font-serif text-dbasenavy md:text-dblack1">
+                  <div className="header__logo float-left md:flex md:items-center lg:block">
+                    <div className="md:block lg:hidden m-menu-opener-wrapper">
+                      <Link
+                        className="m-menu-opener float-left relative  h-4 ml-4 mr-1.5"
+                        onClick={() => setViewMenu(true)}
+                      >
+                        <IoMdMenu className="w-6 h-6" />
+                      </Link>
+                      <Link className=""></Link>
+                    </div>
+                    <Link to={"/"} className="text-d30 ">
+                      <span className="icon-logo text-xl md:text-2xl lg:text-4xl font-serif text-dbasenavy md:text-dblack1">
                         ENGLISH HOME
                       </span>
                     </Link>

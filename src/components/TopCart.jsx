@@ -1,4 +1,4 @@
-import React, { useState,  useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { BsCart3, BsChevronDown, BsChevronUp } from "react-icons/bs";
 import { GrClose } from "react-icons/gr";
@@ -13,7 +13,7 @@ function TopCart(props) {
   const [state, dispatch] = useContext(CartContext);
   const [accountState] = useContext(AccountContext);
   const [showmenu, setShowmenu] = useState(false);
-  const location= useLocation();
+  const location = useLocation();
 
   const upArrow = (
     <div className="absolute z-50 top-0  cursor-pointer">
@@ -97,9 +97,6 @@ function TopCart(props) {
       });
   }
 
-
-  
-
   function updateQuantity(key, quantity) {
     const obj = { key, quantity };
     dispatch({
@@ -144,7 +141,6 @@ function TopCart(props) {
       });
   }
 
-
   return (
     <div>
       {!props.cartmenu ? (
@@ -159,8 +155,8 @@ function TopCart(props) {
             onMouseLeave={() => setShowmenu(false)}
           >
             <div>
-              <div className="h-9 w-6 md:w-10 leading-8 mx-auto md:border md:border-dblue1 text-dbasenavy md:text-dblue1 hover:text-dwhite1 hover:bg-dblue1 flex justify-center items-center mb-1">
-                <span className="absolute -top-0.5 md:-top-2 -left-1.5 w-4 h-4 leading-4 bg-dbasenavy md:bg-dblue1 text-dwhite1 text-center rounded-full text-d11 font-bold ">
+              <div className="h-9 w-6 md:w-10 leading-8 mx-auto lg:border lg:border-dblue1 text-dbasenavy lg:text-dblue1 hover:text-dwhite1 hover:bg-dblue1 flex justify-center items-center mb-1">
+                <span className="absolute -top-0.5 md:-top-1 lg:-top-2 -left-1.5 w-4 h-4 leading-4 bg-dbasenavy md:bg-dblue1 text-dwhite1 text-center rounded-full text-d11 font-bold ">
                   {state?.productsCount}
                 </span>
                 <BsCart3 className="h-5 w-5 md:h-6 md:w-6" />
@@ -226,7 +222,8 @@ function TopCart(props) {
                               </div>
                             </div>
                           </Link>
-                          <div className="absolute top-3 right-2 block w-2.5 h-2.5 text-d20 text-dblack2 cursor-pointer"
+                          <div
+                            className="absolute top-3 right-2 block w-2.5 h-2.5 text-d20 text-dblack2 cursor-pointer"
                             onClick={() => updateQuantity(product?.cart_id, 0)}
                           >
                             <GrClose />
@@ -248,10 +245,14 @@ function TopCart(props) {
                     </div>
                     <div className="mt-1 text-dblue1"> 100</div>
                   </div> */}
-                  {state?.totals?.map((total, index)=>(
-                    <div className={`${ index === state?.totals.length - 1 ? "block" : "hidden" } flex justify-between items-center`}>
+                  {state?.totals?.map((total, index) => (
+                    <div
+                      className={`${
+                        index === state?.totals.length - 1 ? "block" : "hidden"
+                      } flex justify-between items-center`}
+                    >
                       <div> {total.title} </div>
-                      <div>{total.text}</div> 
+                      <div>{total.text}</div>
                     </div>
                   ))}
                 </div>
@@ -259,12 +260,16 @@ function TopCart(props) {
               </div>
               <div>
                 <div className="header__basket__buttons flex my-5 mr-2.5 h-10">
-                  <Link 
-                  to={"/cart"}
-                  className="mx-2 text-d12 p-2.5 text-center  w-full bg-dwhite1 text-dblue1 border border-dblue1 uppercase">
+                  <Link
+                    to={"/cart"}
+                    className="mx-2 text-d12 p-2.5 text-center  w-full bg-dwhite1 text-dblue1 border border-dblue1 uppercase"
+                  >
                     View cart
                   </Link>
-                  <Link className="text-d12 p-2.5 text-center  w-full bg-dblue1 hover:bg-dblack2 transition-all ease-in-out text-dwhite1 tracking-tighter z-20 uppercase">
+                  <Link
+                    to={"/checkout"}
+                    className="text-d12 p-2.5 text-center  w-full bg-dblue1 hover:bg-dblack2 transition-all ease-in-out text-dwhite1 tracking-tighter z-20 uppercase"
+                  >
                     Complete shopping
                   </Link>
                 </div>
@@ -284,10 +289,13 @@ function TopCart(props) {
                 </div>
               </div>
             </div>
-           )}
+          )}
         </div>
       ) : (
-        <div className="absolute z-20 w-80 top-36 -mt-2 right-16 bg-dwhite1 shadow-lg" ref={props.wrapper}>
+        <div
+          className="absolute z-20 w-80 top-36 -mt-2 right-16 bg-dwhite1 shadow-lg"
+          ref={props.wrapper}
+        >
           <div className="text-d16 border-b border-dbordergrey3 py-2.5 pr-2.5 pl-6 text-dblack2 bg-dbordergrey2 text-left">
             You have {state?.productsCount} items in your cart
           </div>
@@ -329,7 +337,8 @@ function TopCart(props) {
                           </div>
                         </div>
                       </Link>
-                      <div className="absolute top-3 right-2 block w-2.5 h-2.5 text-d20 text-dblack2 cursor-pointer"
+                      <div
+                        className="absolute top-3 right-2 block w-2.5 h-2.5 text-d20 text-dblack2 cursor-pointer"
                         onClick={() => updateQuantity(product?.cart_id, 0)}
                       >
                         <GrClose />
@@ -357,11 +366,15 @@ function TopCart(props) {
           <div>
             <div className="header__basket__buttons flex my-5 mr-2.5 h-10">
               <Link
-              to={"/cart"}
-              className="mx-2 text-d12 p-2.5 text-center  w-full bg-dwhite1 text-dblue1 border border-dblue1 uppercase">
+                to={"/cart"}
+                className="mx-2 text-d12 p-2.5 text-center  w-full bg-dwhite1 text-dblue1 border border-dblue1 uppercase"
+              >
                 View cart
               </Link>
-              <Link className="text-d12 p-2.5 text-center  w-full bg-dblue1 hover:bg-dblack2 transition-all ease-in-out text-dwhite1 tracking-tighter z-20 uppercase">
+              <Link
+                to={"/checkout"}
+                className="text-d12 p-2.5 text-center  w-full bg-dblue1 hover:bg-dblack2 transition-all ease-in-out text-dwhite1 tracking-tighter z-20 uppercase"
+              >
                 Complete shopping
               </Link>
             </div>

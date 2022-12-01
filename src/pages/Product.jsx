@@ -584,7 +584,7 @@ function Product() {
       )}
 
       <div className="container py-5 ">
-        <div className="text-d12 my-2.5 text-dgrey11 text-left flex items-center">
+        <div className="text-d12 my-2.5 text-dgrey11 text-left flex flex-wrap items-center">
           <Link to={"/"}>{productData?.breadcrumbs?.text_home}</Link>
           <BsChevronRight className="mx-2 mt-0.5" />
           {productData?.breadcrumbs?.category.map((breadcrumb, index) => (
@@ -753,7 +753,7 @@ function Product() {
                   </button>
                 </div>
               ) : (
-                <div className="w-full fixed -bottom-1 left-0 text-center z-10 flex items-center">
+                <div className="w-full fixed -bottom-1 left-0 text-center z-10 flex items-center overflow-x-hidden">
                   <div className="w-1/3 flex  align-middle text-center py-3 mb-1 text-d22 font-bold text-dborderblack2 px-3 items-center bg-dwhite1 justify-center">
                     <button onClick={() => decrementQuantity(quantity)}>
                       <span className="w-3/12">-</span>

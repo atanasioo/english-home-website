@@ -570,6 +570,7 @@ function Checkout() {
     _axios.get(url).then((response) => {
       const data = response.data;
       if (data.success) {
+        navigate("/success")
       }
     });
   }

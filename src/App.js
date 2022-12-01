@@ -22,6 +22,7 @@ import ChangeEmail from "./pages/ChangeEmail";
 import ChangePassword from "./pages/ChangePassword";
 import Addresses from "./pages/Addresses";
 import Information from "./pages/Information";
+import Success from "./pages/Success";
 function App() {
   const width = window.innerWidth;
 
@@ -64,6 +65,7 @@ function App() {
             <Route path="account/change-email" element={<ChangeEmail />} />
             <Route path="account/change-password" element={<ChangePassword />} />
             <Route path="account/order-details" element={<OrderDetails />} />
+            <Route path="success" element={<Success />} />
 
 
 

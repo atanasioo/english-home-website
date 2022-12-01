@@ -201,15 +201,15 @@ export default function SingleProduct(props) {
 
         <div className="flex flex-col md:mt-12 text-d17 font-mono">
           <span
-            className={`text-left font-normal h-12 capitalize max-h-12  ${
-              window.innerWidth > 650 ? "text-d15" : "text-d14"
+            className={`text-left font-normal md:h-12 capitalize max-h-12 line-clamp-2 md:line-clamp-none  ${
+              window.innerWidth > 650 ? "text-d15" : "text-d13"
             } `}
             dangerouslySetInnerHTML={{
               __html: props.item.name,
             }}
           ></span>
           {window.innerWidth > 650 ? (
-            <div className="flex flex-row">
+            <div className="flex flex-col lg:flex-row">
               <span className="text-left  pt-3 flex-auto ">
                 {" "}
                 {props.item.special !== "0"
@@ -218,14 +218,14 @@ export default function SingleProduct(props) {
               </span>
               <span></span>
 
-              <button className="border-gray-200 border-2 p-3 flex-auto  ">
+              <button className="border-gray-200 border-2 p-3 flex-auto text-sm">
                 in the basket{" "}
                 <span className="font-bold">{props.item.price}</span>
               </button>
             </div>
           ) : (
             <div className="flex flex-col text-d14 ">
-              <span className="text-left  pt-1 flex-auto bg-gray-100 mt-1">
+              <span className="text-left  pt-1 flex-auto  mt-1">
                 {" "}
                 {props.item.special !== "0"
                   ? props.item.special
