@@ -8,6 +8,7 @@ import WidgetsLoopMobile from "../components/WidgetsLoopMobile";
 import buildLink from "../urls";
 import TopCart from "../components/TopCart";
 import Loader from "../components/Loader";
+import PointsLoader from "../components/PointsLoader";
 
 function Home() {
   const [data, setData] = useState();
@@ -91,7 +92,7 @@ function Home() {
         : data?.map((widget) => {
             return <WidgetsLoop widget={widget} showCartmenu={showCart} />;
           })}
-          {loading && <Loader />}
+          {loading && <PointsLoader />}
     </div>
   );
 }

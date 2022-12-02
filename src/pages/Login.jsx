@@ -92,6 +92,7 @@ function Login() {
           dispatch({ type: "setLoged", payload: true });
           dispatch({ type: "setUsername", payload: data.username });
           navigate('/');
+          window.location.reload();
         } else {
           dispatch({ type: "setLoged", payload: false });
         }
