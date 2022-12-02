@@ -25,7 +25,7 @@ function Header() {
   const location = useLocation();
 
   useEffect(() => {
-    if (width < 650) {
+    if (width < 1000) {
       _axios
         .get(buildLink("all_categories", undefined, window.innerWidth))
         .then((response) => {
@@ -183,7 +183,7 @@ function Header() {
               viewmenu ? "right-0" : "right-full"
             } right-0 h-full w-full fixed top-0 shadow-md z-40 transition-all bg-dblackOverlay`}
           >
-            {width < 650 && (
+            {width < 1000 && (
               <>
                 <div className="menu-link h-11 flex items-center text-dbasenavy border-b border-dbordergrey bg-dgrey2 justify-between">
                   <Link
@@ -322,7 +322,7 @@ function Header() {
                                     __html: subcategory?.name,
                                   }}
                                 ></span>
-                                <BsChevronRight className="w-5 h-5" />
+                                {/* <BsChevronRight className="w-5 h-5" /> */}
                               </Link>
                               {/* <div
                             className={`bg-dwhite1 text-dbasenavy fixed transition-all ${

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 // import { Helmet } from "react-helmet";
 import { useParams } from "react-router";
 import _axios from "../axios";
+import Loader from "../components/Loader";
 import buildLink from "../urls";
 // import PointsLoader from "../components/PointsLoader";
 var htmlEntities = {
@@ -73,12 +74,16 @@ function Information() {
       {/* <Helmet>
         <title>{data?.title}</title>
       </Helmet> */}
-
-      <div className="text-left"
-        dangerouslySetInnerHTML={{
-          __html: unescapeHTML(data.description),
-        }}
-      />
+      {loading ? (
+        <Loader />
+      ) : (
+        <div
+          className="text-left"
+          dangerouslySetInnerHTML={{
+            __html: unescapeHTML(data.description),
+          }}
+        />
+      )}
     </div>
   );
 }

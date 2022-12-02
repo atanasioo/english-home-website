@@ -56,6 +56,7 @@ function Product() {
   const [isWishlist, setIsWishlist] = useState(false);
   const [popupW, setPopupW] = useState(false);
   const [popupC, setPopupC] = useState(false);
+  const [showCartmenu, setShowCartmenu] = useState(false);
   const width = window.innerWidth;
   const location = useLocation();
   let product_id = useParams().id;
@@ -230,6 +231,11 @@ function Product() {
           }, 3000);
         }
       });
+  }
+
+  function showCart() {
+    setCartmenu(true);
+    setOverlay(true);
   }
 
   useEffect(() => {
@@ -435,7 +441,7 @@ function Product() {
   };
 
   return (
-    <div className="bg-dgrey10 ">
+    <div className="bg-dgrey10">
       {cartmenu && width > 650 && (
         <div ref={wrapperRef}>
           <TopCart cartmenu={cartmenu}/>
@@ -1005,7 +1011,7 @@ function Product() {
                 >
                   PAYMENT OPTIONS
                 </li>
-                <li
+                {/* <li
                   className={`border border-dgrey5 flex justify-center items-center text-d14 text-dborderblack2 text-center p-5  cursor-pointer
                  ${
                    storemenu
@@ -1022,7 +1028,7 @@ function Product() {
                   }}
                 >
                   IN WHICH STORE IS IT AVAILABLE?
-                </li>
+                </li> */}
               </ul>
             </div>
             <div className="w-full p-6 border border-dgrey5 border-t-0 -mb-1">
@@ -1032,7 +1038,7 @@ function Product() {
                 }`}
               >
                 <div className="-mx-1 flex flex-col-reverse md:flex-row">
-                  <div className="w-1/2">
+                  {/* <div className="w-1/2">
                     <div className="product-information-conten text-left">
                       <div className="content-titles text-d22 font-bold mb-5">
                         DESCRIPTIONS
@@ -1065,8 +1071,8 @@ function Product() {
                         </li>
                       </ul>
                     </div>
-                  </div>
-                  <div className="w-1/2 text-left">
+                  </div> */}
+                  <div className="w-full text-left">
                     <div>
                       <div className="text-d22 font-bold mb-5">FEATURES</div>
                       <div
@@ -1082,6 +1088,7 @@ function Product() {
                 className={`text-dborderblack4 text-left ${
                   returnmenu ? "block" : "hidden"
                 }`}
+                style={{minHeight: "380px"}}
               >
                 <div className="flex">
                   <div
@@ -1230,11 +1237,11 @@ function Product() {
                   <div className="hidden"></div>
                 </div>
               </div>
-              <div
+              {/* <div
                 className={`text-dborderblack4 ${
                   storemenu ? "block" : "hidden"
                 }`}
-              ></div>
+              ></div> */}
             </div>
           </div>
         </div>
@@ -1264,7 +1271,7 @@ function Product() {
                 <Slider {...productSetting}>
                   {productData?.product_related?.map((item) => (
                     <div className="pr-2" key={item.product_id}>
-                      <SingleProducts item={item} />
+                      <SingleProducts item={item} showCartmenu= {showCart}/>
                     </div>
                   ))}
                 </Slider>

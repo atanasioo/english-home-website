@@ -7,12 +7,14 @@ import WidgetsLoopMobile from "../components/WidgetsLoopMobile";
 
 import buildLink from "../urls";
 import TopCart from "../components/TopCart";
+import Loader from "../components/Loader";
 
 function Home() {
   const [data, setData] = useState();
   const [state, dispatch] = useContext(AccountContext);
   const [showCartmenu, setShowCartmenu] = useState(false);
   const [overlay, setOverlay] = useState(false);
+  const [loading, setLoading]= useState(true);
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef);
 
@@ -31,6 +33,7 @@ function Home() {
         // alert(response?.data?.success)
         if (response?.data?.success) {
           setData(response?.data?.data?.widgets);
+          setLoading(false);
         }
       })
       .catch((e) => {});
@@ -88,6 +91,7 @@ function Home() {
         : data?.map((widget) => {
             return <WidgetsLoop widget={widget} showCartmenu={showCart} />;
           })}
+          {loading && <Loader />}
     </div>
   );
 }

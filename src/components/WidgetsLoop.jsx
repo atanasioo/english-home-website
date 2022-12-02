@@ -1,4 +1,4 @@
-import { React, useContext } from "react";
+import { React, useContext, useState, useCallback } from "react";
 import Slider from "react-slick";
 import { Link } from "react-router-dom";
 import CustomArrows from "./CustomArrows";
@@ -8,12 +8,13 @@ import { path } from "../urls";
 
 function WidgetsLoop({ widget, showCartmenu }) {
   const [accountState] = useContext(AccountContext);
+  const [dragging, setDragging] = useState(false);
 
   const types = {
     1: "product",
     2: "category",
     3: "manufacturer",
-    4: "seller"
+    4: "seller",
   };
 
   const setting = {
@@ -26,7 +27,7 @@ function WidgetsLoop({ widget, showCartmenu }) {
     autoplay: true,
     autoplaySpeed: 4000,
     prevArrow: <CustomArrows direction={"l"} type={"slider"} />,
-    nextArrow: <CustomArrows direction={"r"} type={"slider"} />
+    nextArrow: <CustomArrows direction={"r"} type={"slider"} />,
   };
 
   const carousal = {
@@ -39,7 +40,7 @@ function WidgetsLoop({ widget, showCartmenu }) {
     // autoplay: true,
     // autoplaySpeed: 4000,
     prevArrow: <CustomArrows direction={"l"} type={"carousel"} />,
-    nextArrow: <CustomArrows direction={"r"} type={"carousel"} />
+    nextArrow: <CustomArrows direction={"r"} type={"carousel"} />,
   };
 
   const grid = {
@@ -52,7 +53,7 @@ function WidgetsLoop({ widget, showCartmenu }) {
     // autoplay: true,
     // autoplaySpeed: 4000,
     prevArrow: <CustomArrows direction={"l"} type={"grid"} />,
-    nextArrow: <CustomArrows direction={"r"} type={"grid"} />
+    nextArrow: <CustomArrows direction={"r"} type={"grid"} />,
   };
   const productMobile = {
     dots: false,
@@ -66,7 +67,7 @@ function WidgetsLoop({ widget, showCartmenu }) {
     swipeToSlide: true,
     infinite: false,
     arrows: false,
-    lazyLoad: true
+    lazyLoad: true,
   };
   const productSetting = {
     dots: true,
@@ -76,8 +77,27 @@ function WidgetsLoop({ widget, showCartmenu }) {
     slidesToScroll: 4,
     infinite: true,
     prevArrow: <CustomArrows direction={"l"} />,
-    nextArrow: <CustomArrows direction={"r"} />
+    nextArrow: <CustomArrows direction={"r"} />,
   };
+
+  const handleBeforeChange = useCallback(() => {
+    setDragging(true);
+  }, [setDragging]);
+
+  const handleAfterChange = useCallback(() => {
+    setDragging(false);
+  }, [setDragging]);
+
+  const handleOnItemClick = useCallback(
+    (e) => {
+      if (dragging) {
+        // e.stopPropagation()
+        e.preventDefault();
+      }
+    },
+    [dragging]
+  );
+
   return (
     <div className="container">
       {widget.display === "slider" && (
@@ -128,7 +148,12 @@ function WidgetsLoop({ widget, showCartmenu }) {
       {widget.display === "carousel" && (
         <div className="">
           {window.innerWidth > 650 ? (
-            <Slider {...productSetting} className="carousel place-items-center">
+            <Slider
+              {...productSetting}
+              beforeChange={handleBeforeChange}
+              afterChange={handleAfterChange}
+              className="carousel place-items-center"
+            >
               {widget.items?.map((item) => {
                 if (item.product_id) {
                   return (
@@ -140,9 +165,9 @@ function WidgetsLoop({ widget, showCartmenu }) {
                         className=""
                         // likedData={likedData}
                         item={item}
-                        showCartmenu= {showCartmenu}
-                        // click={handleOnItemClick}
-                        // dragging={dragging}
+                        showCartmenu={showCartmenu}
+                        click={handleOnItemClick}
+                        dragging={dragging}
                       ></SingleProducts>
                     </div>
                   );
@@ -173,6 +198,7 @@ function WidgetsLoop({ widget, showCartmenu }) {
                               item.mobile_type_id
                             : "cat/c=" + item.mobile_type_id
                         }`}
+                        onClickCapture={handleOnItemClick}
                       >
                         <img
                           alt={item.name}

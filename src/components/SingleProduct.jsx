@@ -98,7 +98,6 @@ export default function SingleProduct(props) {
           setAddToCartError(error);
           setAddingToCart(false);
         } else {
-          console.log("hello");
           dispatch({
             type: "loading",
             payload: true,
@@ -169,6 +168,7 @@ export default function SingleProduct(props) {
         className="relative w-full m-3"
         onMouseEnter={() => isHovered(true)}
         onMouseLeave={onMouseLeave}
+        onClickCapture={props.click}
       >
         <div className="relative m-2.5">
           <img
