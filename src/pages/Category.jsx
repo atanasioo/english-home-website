@@ -4,7 +4,7 @@ import {
   useParams,
   useNavigate,
   Link,
-  useNavigationType,
+  useNavigationType
 } from "react-router-dom";
 import _axios from "../axios";
 import SingleProductCategory from "../components/SingleProductCategory";
@@ -18,6 +18,8 @@ import buildLink, { path, pixelID } from "../urls";
 import { type } from "@testing-library/user-event/dist/type";
 import { RiArrowRightSLine } from "react-icons/ri";
 import Loader from "../components/Loader";
+import ReactPaginate from "react-paginate";
+import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 
 function Category() {
   const location = useLocation();
@@ -41,10 +43,13 @@ function Category() {
   const navigateType = useNavigationType();
   const pathname = location.pathname;
   const navType = useNavigationType();
+  const width = window.innerWidth;
+  const parsedQueryString = queryString.parse(location.search);
+
   useEffect(() => {
     window.scrollTo({
       top: 0,
-      behavior: "smooth",
+      behavior: "smooth"
     });
 
     var newPath;
@@ -78,7 +83,7 @@ function Category() {
         filter_categories: [],
         filter_manufacturers: [],
         adv_filters: [],
-        filter_options: [],
+        filter_options: []
       });
       urlRef.current = location.pathname;
     }
@@ -109,7 +114,7 @@ function Category() {
           filter_options: [],
           filter_categories: [],
           filter_manufacturers: [],
-          adv_filters: [],
+          adv_filters: []
         });
       }
       if (value === categoryIndex) {
@@ -118,7 +123,7 @@ function Category() {
           filter_options: [],
           filter_manufacturers: [],
           filter_sellers: [],
-          adv_filters: [],
+          adv_filters: []
         });
       }
       if (value === brandIndex) {
@@ -127,7 +132,7 @@ function Category() {
           filter_sellers: [],
           filter_categories: [],
           filter_options: [],
-          adv_filters: [],
+          adv_filters: []
         });
       }
       if (value === advfiltersIndex) {
@@ -136,7 +141,7 @@ function Category() {
           filter_sellers: [],
           filter_categories: [],
           filter_manufacturers: [],
-          filter_options: [],
+          filter_options: []
         });
       }
     }
@@ -144,6 +149,11 @@ function Category() {
     _axios
       .post(buildLink(type, undefined, undefined) + newPath)
       .then((response) => {
+        // setData((prevData) => {
+        //   return [
+        //     ...new Set([...prevData, ...response?.data?.data]),
+        //   ];
+        // });
         setData(response?.data?.data);
         setfilters(response?.data?.data?.filters);
         setPointer(true);
@@ -255,7 +265,7 @@ function Category() {
 
       setUserFilters({
         ...userFilters,
-        type_key: values_array,
+        type_key: values_array
       });
 
       let active_filters = {};
@@ -305,7 +315,7 @@ function Category() {
 
       setUserFilters({
         ...userFilters,
-        type_key: values_array,
+        type_key: values_array
       });
 
       if (location.search.indexOf(id) > -1) {
@@ -400,7 +410,7 @@ function Category() {
                   to="/"
                   className=" md:block text-dborderblack0 font-light truncate text-d16 md:text-tiny mr-2 hover:text-dblue"
                   dangerouslySetInnerHTML={{
-                    __html: "Home",
+                    __html: "Home"
                   }}
                 />{" "}
                 <RiArrowRightSLine className="text-d22 font-light mt-0.5 -mx-2 " />
@@ -570,7 +580,7 @@ function Category() {
                       >
                         <div
                           dangerouslySetInnerHTML={{
-                            __html: sort?.text ? sort?.text : sort,
+                            __html: sort?.text ? sort?.text : sort
                           }}
                         ></div>
                       </div>
@@ -585,7 +595,7 @@ function Category() {
                           className="pl-5 py-1 "
                           onClick={() => sortSetter(sort)}
                           dangerouslySetInnerHTML={{
-                            __html: sort.text,
+                            __html: sort.text
                           }}
                         ></div>
                       ))}
@@ -609,6 +619,26 @@ function Category() {
                     </div>
                   ))}
                 </div>
+                {/* Pagination */}
+                {Math.ceil(data["product_total"] / 50) > 1 && (
+                  <ReactPaginate
+                    pageCount={Math.ceil(data["product_total"] / 50)}
+                    containerClassName={"category-pagination"}
+                    onPageChange={pageSetter}
+                    pageRangeDisplayed={width > 650 ? 2 : 1}
+                    marginPagesDisplayed={width > 650 ? 1 : 1}
+                    previousLabel={<BsChevronLeft className="mt-1 pt-0.5" />}
+                    previousLinkClassName={"arrowLink"}
+                    nextLinkClassName={"arrowLink"}
+                    nextLabel={<BsChevronRight className="mt-1 pt-0.5" />}
+                    activeClassName={"active-pagination-category"}
+                    forcePage={
+                      parsedQueryString.page
+                        ? parseInt(parsedQueryString.page) - 1
+                        : 0
+                    }
+                  ></ReactPaginate>
+                )}
               </div>
             ) : (
               <div>
@@ -639,7 +669,7 @@ function Category() {
                           className="pl-5 py-2 "
                           onClick={() => sortSetter(sort)}
                           dangerouslySetInnerHTML={{
-                            __html: sort.text,
+                            __html: sort.text
                           }}
                         ></div>
                       ))}
@@ -655,7 +685,26 @@ function Category() {
                     </div>
                   ))}
                 </div>
-
+                {/* Pagination */}
+                {Math.ceil(data["product_total"] / 50) > 1 && (
+                  <ReactPaginate
+                    pageCount={Math.ceil(data["product_total"] / 50)}
+                    containerClassName={"category-pagination"}
+                    onPageChange={pageSetter}
+                    pageRangeDisplayed={width > 650 ? 2 : 1}
+                    marginPagesDisplayed={width > 650 ? 1 : 1}
+                    previousLabel={<BsChevronLeft className="mt-1 pt-0.5" />}
+                    previousLinkClassName={"arrowLink"}
+                    nextLinkClassName={"arrowLink"}
+                    nextLabel={<BsChevronRight className="mt-1 pt-0.5" />}
+                    activeClassName={"active-pagination-category"}
+                    forcePage={
+                      parsedQueryString.page
+                        ? parseInt(parsedQueryString.page) - 1
+                        : 0
+                    }
+                  ></ReactPaginate>
+                )}
                 <div
                   className={`absolute z-50 top-36  bg-white w-3/4 h-4/6 mx-12 pb-2 overflow-y-scroll  ${
                     !filterMobileShow && "hidden"
@@ -679,7 +728,7 @@ function Category() {
                                 !filterMobile.includes(filters[key].id)
                                   ? setFilterMobile((filterMobile) => [
                                       ...filterMobile,
-                                      filters[key].id,
+                                      filters[key].id
                                     ])
                                   : setFilterMobile((filterMobile) =>
                                       filterMobile.filter(
@@ -777,6 +826,7 @@ function Category() {
                       )
                   )}
                 </div>
+
                 {filterMobileShow && (
                   <div className="w-screen h-screen	 fixed z-20 top-0 bg-dborderblack3 opacity-50 -ml-2"></div>
                 )}
