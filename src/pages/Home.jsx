@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext, useRef } from "react";
+import React, { useEffect, useState, useContext, useRef, useCallback } from "react";
 import { AccountContext } from "../contexts/AccountContext";
 import { Link } from "react-router-dom";
 import _axios from "../axios";
@@ -16,29 +16,63 @@ function Home() {
   const [showCartmenu, setShowCartmenu] = useState(false);
   const [overlay, setOverlay] = useState(false);
   const [loading, setLoading]= useState(true);
+  const [loadingW, setLoadingw]= useState(false);
+  const [page, setPage] = useState(1);
+  const [hasMore, setIsHasMore] = useState(false);
+  const [widgets, setWidgets] = useState([]);
+  const observer = useRef();
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef);
+
+ console.log(observer);
+
+  const lastElementRef = useCallback(
+    (node) => {
+      if (loading) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMore) {
+          setPage((prevPage) => prevPage + 1);
+          console.log("hello");
+        }
+      });
+      if (node) observer.current.observe(node);
+    },
+    [loading, hasMore]
+  );
+
+  console.log(page);
+  console.log(widgets);
 
   console.log(state);
   useEffect(() => {
     getData();
-  }, []);
+  }, [page, window.innerWidth]);
   async function getData() {
-    //  var plusHome = state.admin ?  '&nocahe=true' : ''
+    setLoading(true);
     await _axios({
       method: "post",
       url: buildLink("home", undefined, window.innerWidth),
-      data: { view: "web_desktop", limit: 20, page: 1 },
+      data: { view: "web_desktop", limit: 20, page: page },
     })
       .then((response) => {
         // alert(response?.data?.success)
         if (response?.data?.success) {
-          setData(response?.data?.data?.widgets);
-          setLoading(false);
+          setWidgets((prevWidgets) => {
+            return [
+              ...new Set([...prevWidgets, ...response?.data?.data?.widgets]),
+            ];
+          });
+          //setData(response?.data?.data?.widgets);
         }
+        setLoading(false)
+        if (page >= response?.data?.data?.meta?.total_pages) setIsHasMore(false);
+        else setIsHasMore(true);
       })
       .catch((e) => {});
   }
+
+
 
   function useOutsideAlerter(ref) {
     useEffect(() => {
@@ -70,7 +104,7 @@ function Home() {
   }
 
   return (
-    <div className="container pt-3">
+    <div className="container pt-3 min-h-screen">
       {showCartmenu && (
         <div ref={wrapperRef}>
           <TopCart cartmenu={showCartmenu} />
@@ -86,13 +120,26 @@ function Home() {
       )}
 
       {window.innerWidth < 650
-        ? data?.map((widget) => {
+        ? widgets?.map((widget) => {
             return <WidgetsLoopMobile widget={widget} />;
           })
-        : data?.map((widget) => {
-            return <WidgetsLoop widget={widget} showCartmenu={showCart} />;
+        : widgets?.map((widget, index) => {
+          if (widgets.length === index + 1) {
+            return (
+              <div className="theHome" ref={lastElementRef} key={widget}>
+                <WidgetsLoop widget={widget} showCartmenu={showCart} />
+              </div>
+            )
+          }else {
+            return (
+              <div className="">
+                <WidgetsLoop showCartmenu={showCart} widget={widget} />
+              </div>
+            );
+          }
           })}
-          {loading && <PointsLoader />}
+          {/* {loading && <PointsLoader />} */}
+          {loading && <PointsLoader/>}
     </div>
   );
 }

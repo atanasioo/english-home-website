@@ -1,4 +1,4 @@
-function PointsLoader() {
+function PointsLoader({loadingW}) {
     var mystyle = {};
    
       mystyle = {
@@ -7,7 +7,7 @@ function PointsLoader() {
  
   
     return (
-      <div className="text-center w-full min-h-screen">
+      <div className={`text-center w-full `}>
         <div className="ldds-ellipsis text-dbasenavy ">
           <div style={mystyle}></div>
           <div style={mystyle}></div>
