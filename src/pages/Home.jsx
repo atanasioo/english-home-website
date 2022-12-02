@@ -83,7 +83,7 @@ function Home() {
           }}
         ></div>
       )}
-43e
+
       {window.innerWidth < 650
         ? data?.map((widget) => {
             return <WidgetsLoopMobile widget={widget} />;
