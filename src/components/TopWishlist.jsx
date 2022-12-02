@@ -44,7 +44,9 @@ function TopWishlist() {
 
   return (
     <div>
-      <Link className="cursor-pointer">
+      <Link 
+      to={"/account/wishlist"}
+      className="cursor-pointer">
         <div className="h-9 w-6 md:w-10 leading-8 mx-auto lg:border lg:border-dblue1 text-dbasenavy lg:text-dblue1 hover:text-dwhite1 hover:bg-dblue1 flex justify-center items-center mb-1">
           <SlHeart className="h-5 w-5 md:h-6 md:w-6 " />
         </div>

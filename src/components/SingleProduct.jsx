@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { HiOutlineShoppingBag } from "react-icons/hi";
 import buildLink, { path } from "../urls";
 import { CartContext } from "../contexts/CartContext";
+import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import _axios from "../axios";
 import TopCart from "./TopCart";
 
@@ -55,7 +56,6 @@ export default function SingleProduct(props) {
     }, [ref, cartmenu]);
   }
 
-
   function addToCart(e, product_id) {
     e.preventDefault();
     setHasAddToCartError(false);
@@ -64,7 +64,7 @@ export default function SingleProduct(props) {
       product_id,
       quantity,
     };
-   
+
     // if (hasOption) {
     //   let o = {};
     //   const op = optionParent.toString();
@@ -123,12 +123,11 @@ export default function SingleProduct(props) {
                 payload: false,
               });
             });
-            
 
           setSuccessAdded(true);
           if (width > 650) {
-           // setCartmenu(true);
-           props.showCartmenu();
+            // setCartmenu(true);
+            props.showCartmenu();
             setOverlay(true);
             window.scrollTo({
               top: 0,
@@ -181,7 +180,7 @@ export default function SingleProduct(props) {
             <>
               {" "}
               <button
-                onClick={(e) => addToCart(e, props.item.product_id)} 
+                onClick={(e) => addToCart(e, props.item.product_id)}
                 className={`place-content-center text-dblue1 -bottom-2.5 flex items-center absolute h-12 ${
                   hovered
                     ? "  bottom-0.5  inset-x-0  opacity-100 text-d16 bg-dgreyTransp2 hover:bg-black hover:opacity-70 hover:text-white w-full  duration-300 delay-100"
@@ -208,6 +207,7 @@ export default function SingleProduct(props) {
               __html: props.item.name,
             }}
           ></span>
+          {props?.wishlist && <AiFillHeart onClick={(e)=> props.removeW(e, props.item.product_id)} className="w-5 h-5" />}
           {window.innerWidth > 650 ? (
             <div className="flex flex-col lg:flex-row">
               <span className="text-left  pt-3 flex-auto ">
@@ -216,7 +216,6 @@ export default function SingleProduct(props) {
                   ? props.item.special
                   : props.item.price}
               </span>
-              <span></span>
 
               <button className="border-gray-200 border-2 p-3 flex-auto text-sm">
                 in the basket{" "}
