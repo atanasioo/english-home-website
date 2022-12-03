@@ -44,7 +44,7 @@ function Header() {
     }
   }, []);
 
-  console.log(info);
+
 
   async function getInfo() {
     _axios
@@ -215,7 +215,9 @@ function Header() {
                             className="navigation-item w-full h-full"
                             style={{ listStyle: "none" }}
                           >
-                            <Link className="special-item bg-transparent flex justify-between items-center  h-11">
+                            <Link 
+                            to={"/latest"}
+                            className="special-item bg-transparent flex justify-between items-center  h-11">
                               <span className="align-middle p-0.5 flex justify-center items-center text-d16 font-bold text-dbasenavy uppercase font-mono">
                                 New products
                               </span>

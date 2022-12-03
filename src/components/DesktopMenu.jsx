@@ -37,7 +37,7 @@ function DesktopMenu() {
           <div className="flex flex-col xl:flex-row justify-center items-center mx-auto">
             <ul className="navigation relative text-center  flex  justify-center">
               <li className="inline-block">
-                <Link className="bg-dwhite1 text-dblack2 text-d12 p-2.5">
+                <Link to={"/latest"} className="bg-dwhite1 text-dblack2 text-d12 p-2.5">
                   NEW PRODUCTS
                 </Link>
               </li>

@@ -4,7 +4,7 @@ import {
   useParams,
   useNavigate,
   Link,
-  useNavigationType
+  useNavigationType,
 } from "react-router-dom";
 import _axios from "../axios";
 import SingleProductCategory from "../components/SingleProductCategory";
@@ -20,6 +20,7 @@ import { RiArrowRightSLine } from "react-icons/ri";
 import Loader from "../components/Loader";
 import ReactPaginate from "react-paginate";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
+import TopCart from "../components/TopCart";
 
 function Category() {
   const location = useLocation();
@@ -37,6 +38,9 @@ function Category() {
   const [filterMobileShow, setFilterMobileShow] = useState(false);
   const [mobileSort, setMobileSort] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [showCartmenu, setShowCartmenu] = useState(false);
+  const [overlay, setOverlay] = useState(false);
+  const wrapperRef = useRef(null);
 
   const urlRef = useRef(location?.pathname);
   const navigate = useNavigate();
@@ -46,10 +50,15 @@ function Category() {
   const width = window.innerWidth;
   const parsedQueryString = queryString.parse(location.search);
 
+  function showCart() {
+    setShowCartmenu(true);
+    setOverlay(true);
+  }
+
   useEffect(() => {
     window.scrollTo({
       top: 0,
-      behavior: "smooth"
+      behavior: "smooth",
     });
 
     var newPath;
@@ -83,7 +92,7 @@ function Category() {
         filter_categories: [],
         filter_manufacturers: [],
         adv_filters: [],
-        filter_options: []
+        filter_options: [],
       });
       urlRef.current = location.pathname;
     }
@@ -114,7 +123,7 @@ function Category() {
           filter_options: [],
           filter_categories: [],
           filter_manufacturers: [],
-          adv_filters: []
+          adv_filters: [],
         });
       }
       if (value === categoryIndex) {
@@ -123,7 +132,7 @@ function Category() {
           filter_options: [],
           filter_manufacturers: [],
           filter_sellers: [],
-          adv_filters: []
+          adv_filters: [],
         });
       }
       if (value === brandIndex) {
@@ -132,7 +141,7 @@ function Category() {
           filter_sellers: [],
           filter_categories: [],
           filter_options: [],
-          adv_filters: []
+          adv_filters: [],
         });
       }
       if (value === advfiltersIndex) {
@@ -141,7 +150,7 @@ function Category() {
           filter_sellers: [],
           filter_categories: [],
           filter_manufacturers: [],
-          filter_options: []
+          filter_options: [],
         });
       }
     }
@@ -265,7 +274,7 @@ function Category() {
 
       setUserFilters({
         ...userFilters,
-        type_key: values_array
+        type_key: values_array,
       });
 
       let active_filters = {};
@@ -315,7 +324,7 @@ function Category() {
 
       setUserFilters({
         ...userFilters,
-        type_key: values_array
+        type_key: values_array,
       });
 
       if (location.search.indexOf(id) > -1) {
@@ -403,6 +412,20 @@ function Category() {
         <Loader />
       ) : (
         <>
+          {showCartmenu && (
+            <div ref={wrapperRef}>
+              <TopCart cartmenu={showCartmenu} />
+            </div>
+          )}
+          {overlay && (
+            <div
+              className="fixed h-full w-full min-h-full z-10 bg-dblackOverlay2 top-0 left-0"
+              onClick={() => {
+                setOverlay(false);
+                setShowCartmenu(false)
+              }}
+            ></div>
+          )}
           <div className="  flex  pt-4 pb-2 pl-8 items-center text-d16 text-dblack1 capitalize">
             <div className=" flex w-3/12">
               <div className="flex items-center ">
@@ -410,7 +433,7 @@ function Category() {
                   to="/"
                   className=" md:block text-dborderblack0 font-light truncate text-d16 md:text-tiny mr-2 hover:text-dblue"
                   dangerouslySetInnerHTML={{
-                    __html: "Home"
+                    __html: "Home",
                   }}
                 />{" "}
                 <RiArrowRightSLine className="text-d22 font-light mt-0.5 -mx-2 " />
@@ -580,7 +603,7 @@ function Category() {
                       >
                         <div
                           dangerouslySetInnerHTML={{
-                            __html: sort?.text ? sort?.text : sort
+                            __html: sort?.text ? sort?.text : sort,
                           }}
                         ></div>
                       </div>
@@ -595,7 +618,7 @@ function Category() {
                           className="pl-5 py-1 "
                           onClick={() => sortSetter(sort)}
                           dangerouslySetInnerHTML={{
-                            __html: sort.text
+                            __html: sort.text,
                           }}
                         ></div>
                       ))}
@@ -615,6 +638,7 @@ function Category() {
                     <div className="">
                       <SingleProductCategory
                         item={product}
+                        showCartmenu={showCart}
                       ></SingleProductCategory>
                     </div>
                   ))}
@@ -669,7 +693,7 @@ function Category() {
                           className="pl-5 py-2 "
                           onClick={() => sortSetter(sort)}
                           dangerouslySetInnerHTML={{
-                            __html: sort.text
+                            __html: sort.text,
                           }}
                         ></div>
                       ))}
@@ -728,7 +752,7 @@ function Category() {
                                 !filterMobile.includes(filters[key].id)
                                   ? setFilterMobile((filterMobile) => [
                                       ...filterMobile,
-                                      filters[key].id
+                                      filters[key].id,
                                     ])
                                   : setFilterMobile((filterMobile) =>
                                       filterMobile.filter(

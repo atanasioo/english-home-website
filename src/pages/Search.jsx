@@ -1,4 +1,4 @@
-import { React, useContext, useEffect, useState } from "react";
+import { React, useContext, useEffect, useState, useRef } from "react";
 import {
   Link,
   useLocation,
@@ -16,6 +16,7 @@ import SingleProductCategory from "../components/SingleProductCategory";
 import { GoPlus } from "react-icons/go";
 import { AiOutlineMinus } from "react-icons/ai";
 import Loader from "../components/Loader";
+import TopCart from "../components/TopCart";
 
 function Search() {
   const location = useLocation();
@@ -37,8 +38,16 @@ function Search() {
   const [mobileFilter, setShowMobileFilter] = useState(false);
   const [filterMobile, setFilterMobile] = useState([]);
   const [baseURL, setBaseURL] = useState(location?.search);
+  const [showCartmenu, setShowCartmenu] = useState(false);
+  const [overlay, setOverlay] = useState(false);
+  const wrapperRef = useRef(null);
   const navType = useNavigationType();
   const width = window.innerWidth;
+
+  function showCart() {
+    setShowCartmenu(true);
+    setOverlay(true);
+  }
 
   console.log(filterMobile);
 
@@ -327,6 +336,20 @@ function Search() {
         </div>
       ) : (
         <div className="list">
+          {showCartmenu && (
+            <div ref={wrapperRef}>
+              <TopCart cartmenu={showCartmenu} />
+            </div>
+          )}
+          {overlay && (
+            <div
+              className="fixed h-full w-full min-h-full z-10 bg-dblackOverlay2 top-0 left-0"
+              onClick={() => {
+                setOverlay(false);
+                setShowCartmenu(false)
+              }}
+            ></div>
+          )}
           <div className="md:container">
             <div className="flex flex-col">
               <div
@@ -590,6 +613,7 @@ function Search() {
                             <div className="" key={product.product_id}>
                               <SingleProductCategory
                                 item={product}
+                                showCartmenu={showCart}
                               ></SingleProductCategory>
                             </div>
                           ))}

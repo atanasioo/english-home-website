@@ -24,6 +24,7 @@ import Addresses from "./pages/Addresses";
 import Information from "./pages/Information";
 import Success from "./pages/Success";
 import Wishlist from "./pages/Wishlist";
+import Latest from "./pages/Latest";
 function App() {
   const width = window.innerWidth;
 
@@ -63,6 +64,7 @@ function App() {
             <Route path="/information/:id" element={<Information />} />
 
             <Route path="search" element={<Search />}/>
+            <Route path="latest" element={<Latest />}/>
             <Route path="account/change-email" element={<ChangeEmail />} />
             <Route path="account/change-password" element={<ChangePassword />} />
             <Route path="account/order-details" element={<OrderDetails />} />

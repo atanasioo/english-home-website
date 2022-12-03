@@ -41,10 +41,6 @@ function Home() {
     [loading, hasMore]
   );
 
-  console.log(page);
-  console.log(widgets);
-
-  console.log(state);
   useEffect(() => {
     getData();
   }, [page, window.innerWidth]);

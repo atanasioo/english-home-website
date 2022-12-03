@@ -2,6 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+
+@media (max-width: 768px) {
+  body {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}
+html, body {
+  overflow-x:hidden;
+  width:100%;
+}
+
 .googlePlay {
     background-image: url(https://www.ishtari.com/img/sprite.25850177.png);
     background-position-x: 0px;
@@ -19,6 +31,7 @@
     padding: 0 20px;
     height: 40px;
   }
+
   
   .appleStore {
     display: inline-block;
@@ -464,5 +477,22 @@ input[type="number"] {
     100% {
       transform: translate(24px, 0);
     }
+  }
+
+  .pagination {
+    @apply flex justify-center w-full my-4;
+  }
+  
+  .pagination li {
+    @apply mr-0 md:mr-2;
+  }
+  
+  .pagination li a {
+    @apply block w-12 h-9 text-center leading-9 text-dgrey6 cursor-pointer border border-transparent;
+  }
+  
+  .pagination li a:hover,
+  .active-pagination a {
+    @apply bg-white border border-dblack1 !important;
   }
 
