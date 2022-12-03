@@ -216,6 +216,9 @@ function Header() {
                             style={{ listStyle: "none" }}
                           >
                             <Link 
+                            onClick={() => {
+                              setViewMenu(false);
+                            }}
                             to={"/latest"}
                             className="special-item bg-transparent flex justify-between items-center  h-11">
                               <span className="align-middle p-0.5 flex justify-center items-center text-d16 font-bold text-dbasenavy uppercase font-mono">

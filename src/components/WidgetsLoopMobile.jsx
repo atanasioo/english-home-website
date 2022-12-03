@@ -1,10 +1,21 @@
-import React from "react";
+import { React, useContext } from "react";
 import Slider from "react-slick";
 import { Link } from "react-router-dom";
 import CustomArrows from "./CustomArrows";
 import SingleProducts from "./SingleProduct";
+import { AccountContext } from "../contexts/AccountContext";
+import { path } from "../urls";
 
-function WidgetsLoopMobile({ widget }) {
+function WidgetsLoopMobile({ widget, showCartmenuMob }) {
+  const [accountState] = useContext(AccountContext);
+
+  const types = {
+    1: "product",
+    2: "category",
+    3: "manufacturer",
+    4: "seller",
+  };
+
   const setting = {
     // dots: true,
     infinite: true,
@@ -13,7 +24,7 @@ function WidgetsLoopMobile({ widget }) {
     slidesToScroll: 1,
     lazyLoad: true,
     autoplay: true,
-    autoplaySpeed: 4000
+    autoplaySpeed: 4000,
   };
 
   const carousal = {
@@ -21,7 +32,7 @@ function WidgetsLoopMobile({ widget }) {
     speed: 1000,
     slidesToShow: 2.5,
     slidesToScroll: 1,
-    lazyLoad: true
+    lazyLoad: true,
   };
 
   const grid = {
@@ -32,7 +43,7 @@ function WidgetsLoopMobile({ widget }) {
     lazyLoad: true,
 
     prevArrow: <CustomArrows direction={"l"} type={"grid"} />,
-    nextArrow: <CustomArrows direction={"r"} type={"grid"} />
+    nextArrow: <CustomArrows direction={"r"} type={"grid"} />,
   };
   const productMobile = {
     dots: false,
@@ -46,7 +57,7 @@ function WidgetsLoopMobile({ widget }) {
     swipeToSlide: true,
     infinite: false,
     arrows: false,
-    lazyLoad: true
+    lazyLoad: true,
   };
   const productSetting = {
     dots: true,
@@ -56,14 +67,33 @@ function WidgetsLoopMobile({ widget }) {
     slidesToScroll: 4,
     infinite: true,
     prevArrow: <CustomArrows direction={"l"} />,
-    nextArrow: <CustomArrows direction={"r"} />
+    nextArrow: <CustomArrows direction={"r"} />,
   };
+
   return (
     <div className="py-1">
       {widget.display === "slider" && (
         <Slider {...setting}>
           {widget?.items?.map((item, index) => (
-            <Link key={index}>
+            <Link
+              to={
+                accountState.admin
+                  ? `${path}/${types[item.mobile_type]}/${item.mobile_type_id}`
+                  : item.name.length > 0
+                  ? "/" +
+                    item.name
+                      .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                      .replace(/\s+/g, "-")
+                      .replace("/", "-")
+                      .replace("%", "") +
+                    "/" +
+                    types[item.mobile_type].slice(0, 1) +
+                    "=" +
+                    item.mobile_type_id
+                  : "cat/c=" + item.mobile_type_id
+              }
+              key={index}
+            >
               <img
                 className="w-full"
                 src={"https://www.ishtari.com/image/" + item.image}
@@ -100,7 +130,28 @@ function WidgetsLoopMobile({ widget }) {
                       className={`p-2 cursor-pointer hover:opacity-80 w-1/${widget.column_number} md:w-1/${widget.column_number}`}
                       key={item.banner_image_id}
                     >
-                      <Link>
+                      <Link
+                        to={`${
+                          accountState.admin
+                            ? path +
+                              "/" +
+                              types[item.mobile_type] +
+                              "/" +
+                              item.mobile_type_id
+                            : item.name.length > 0
+                            ? "/" +
+                              item.name
+                                .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                                .replace(/\s+/g, "-")
+                                .replace("/", "-")
+                                .replace("/", "-") +
+                              "/" +
+                              types[item.mobile_type].slice(0, 1) +
+                              "=" +
+                              item.mobile_type_id
+                            : "cat/c=" + item.mobile_type_id
+                        }`}
+                      >
                         <img
                           alt={item.name}
                           src={
@@ -126,18 +177,38 @@ function WidgetsLoopMobile({ widget }) {
                       <SingleProducts
                         // likedData={likedData}
                         item={item}
+                        showCartmenuMob={showCartmenuMob}
                       ></SingleProducts>
                     </div>
                   );
                 } else {
                   return (
                     <div className={`pr-2`} key={item.banner_image_id}>
-                      <Link>
+                      <Link
+                        to={`${
+                          accountState.admin
+                            ? path +
+                              "/" +
+                              types[item.mobile_type] +
+                              "/" +
+                              item.mobile_type_id
+                            : item.name.length > 0
+                            ? "/" +
+                              item.name
+                                .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                                .replace(/\s+/g, "-")
+                                .replace("/", "-")
+                                .replace("/", "-") +
+                              "/" +
+                              types[item.mobile_type].slice(0, 1) +
+                              "=" +
+                              item.mobile_type_id
+                            : "cat/c=" + item.mobile_type_id
+                        }`}
+                      >
                         <img
                           alt={item.name}
-                          src={
-                            `https://www.ishtari.com/image/` + item.image
-                          }
+                          src={`https://www.ishtari.com/image/` + item.image}
                           width={item.banner_width}
                           height={item.banner_height}
                           title={item.name}
@@ -156,16 +227,49 @@ function WidgetsLoopMobile({ widget }) {
         <div className="">
           {widget.mobile_widget_id > 0 ? (
             <Slider {...carousal}>
-              {widget?.items?.map((item, index) => (
-                <div key={index} className="p-1">
-                  <img
-                    className="w-full"
-                    src={"https://www.ishtari.com/image/" + item.image}
-                    alt={item.name}
-                    // height={item.banner_height}
-                  />
-                </div>
-              ))}
+              {widget?.items?.map((item, index) =>
+                item.mobile_type_id !== "0" ? (
+                  <Link
+                    to={
+                      accountState.admin
+                        ? `${path}/${types[item.mobile_type]}/${
+                            item?.mobile_type_id
+                          }`
+                        : item?.name?.length > 0
+                        ? "/" +
+                          item?.name
+                            ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                            .replace("%", "")
+                            .replace(/\s+/g, "-")
+                            .replace("/", "-") +
+                          "/" +
+                          types[item.mobile_type]?.slice(0, 1) +
+                          "=" +
+                          item.mobile_type_id
+                        : "cat/c=" + item.mobile_type_id
+                    }
+                  >
+                    <img
+                      className="w-full"
+                      alt={item.name}
+                      src={`https://www.ishtari.com/image/` + item.image}
+                      width={item.banner_width}
+                      height={item.banner_height}
+                      // title={item.name}
+                      // placeholdersrc={""}
+                    />
+                  </Link>
+                ) : (
+                  <div key={index} className="p-1">
+                    <img
+                      className="w-full"
+                      src={"https://www.ishtari.com/image/" + item.image}
+                      alt={item.name}
+                      // height={item.banner_height}
+                    />
+                  </div>
+                )
+              )}
             </Slider>
           ) : (
             <div className="grid justify-between grid-cols-2">
@@ -186,16 +290,46 @@ function WidgetsLoopMobile({ widget }) {
 
       {widget.display === "grid" &&
         widget.items.length < 2 &&
-        widget?.items?.map((item, index) => (
-          <div key={index} className="p-1">
-            <img
-              className="w-full"
-              src={"https://www.ishtari.com/image/" + item.image}
-              alt={item.name}
-              height={item.banner_height}
-            />
-          </div>
-        ))}
+        widget?.items?.map((item, index) =>
+          item.mobile_type_id !== "0" ? (
+            <Link
+              to={
+                accountState.admin
+                  ? `${path}/${types[item.mobile_type]}/${item?.mobile_type_id}`
+                  : item?.name?.length > 0
+                  ? "/" +
+                    item?.name
+                      ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                      .replace("%", "")
+                      .replace(/\s+/g, "-")
+                      .replace("/", "-") +
+                    "/" +
+                    types[item.mobile_type]?.slice(0, 1) +
+                    "=" +
+                    item.mobile_type_id
+                  : "cat/c=" + item.mobile_type_id
+              }
+            >
+              <img
+                className="w-full"
+                alt={item.name}
+                src={`https://www.ishtari.com/image/` + item.image}
+                width={item.banner_width}
+                height={item.banner_height}
+                title={item.name}
+              />
+            </Link>
+          ) : (
+            <div key={index} className="p-1">
+              <img
+                className="w-full"
+                src={"https://www.ishtari.com/image/" + item.image}
+                alt={item.name}
+                height={item.banner_height}
+              />
+            </div>
+          )
+        )}
     </div>
   );
 }

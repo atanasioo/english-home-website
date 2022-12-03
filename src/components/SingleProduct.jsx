@@ -134,6 +134,8 @@ export default function SingleProduct(props) {
               behavior: "smooth",
             });
           } else {
+            props.showCartmenuMob();
+            console.log("hii");
             setPopupC(true);
           }
 
@@ -238,12 +240,12 @@ export default function SingleProduct(props) {
                 </span>
               </button>
               <button
-                className={`py-3  text-dblue1 bottom-0  flex p-1 text-d12 bg-dgrey3 w-full"`}
-                onClick={() => addToCart(props.item.product_id)}
+                className={`py-3  text-dblue1 bottom-0  flex p-1 text-d12 bg-dgrey3 w-full justify-center items-center"`}
+                onClick={(e) => addToCart(e, props.item.product_id)}
               >
                 {" "}
                 {/* <HiOutlineShoppingBag className="mt-1" />{" "} */}
-                <span className="ml-1 whitespace-nowrap uppercase">
+                <span className="ml-1 whitespace-nowrap uppercase ">
                   add to Basket
                 </span>
               </button>

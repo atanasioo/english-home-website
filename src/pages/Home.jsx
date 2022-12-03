@@ -9,11 +9,13 @@ import buildLink from "../urls";
 import TopCart from "../components/TopCart";
 import Loader from "../components/Loader";
 import PointsLoader from "../components/PointsLoader";
+import CartmenuMobile from "../components/CartmenuMobile";
 
 function Home() {
   const [data, setData] = useState();
   const [state, dispatch] = useContext(AccountContext);
   const [showCartmenu, setShowCartmenu] = useState(false);
+  const [showCartmenuMob, setShowCartmenuMob] = useState(false);
   const [overlay, setOverlay] = useState(false);
   const [loading, setLoading]= useState(true);
   const [loadingW, setLoadingw]= useState(false);
@@ -24,7 +26,6 @@ function Home() {
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef);
 
- console.log(observer);
 
   const lastElementRef = useCallback(
     (node) => {
@@ -33,7 +34,6 @@ function Home() {
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting && hasMore) {
           setPage((prevPage) => prevPage + 1);
-          console.log("hello");
         }
       });
       if (node) observer.current.observe(node);
@@ -95,8 +95,18 @@ function Home() {
   }
 
   function showCart() {
-    setShowCartmenu(true);
+    if(window.innerWidth > 650){
+      setShowCartmenu(true);
+    }else{
+      setShowCartmenuMob(true)
+    }
+    
     setOverlay(true);
+  }
+
+  function closeCartMobMenu(){
+    setShowCartmenuMob(false);
+    setOverlay(false);
   }
 
   return (
@@ -106,18 +116,24 @@ function Home() {
           <TopCart cartmenu={showCartmenu} />
         </div>
       )}
+      {showCartmenuMob && (
+        <div>
+          <CartmenuMobile closemenu={closeCartMobMenu} />
+        </div>
+      )}
        {overlay && (
         <div
           className="fixed h-full w-full min-h-full z-10 bg-dblackOverlay2 top-0 left-0"
           onClick={() => {
             setOverlay(false);
+            setShowCartmenuMob(false)
           }}
         ></div>
       )}
 
       {window.innerWidth < 650
         ? widgets?.map((widget) => {
-            return <WidgetsLoopMobile widget={widget} />;
+            return <WidgetsLoopMobile widget={widget} showCartmenuMob={showCart}/>;
           })
         : widgets?.map((widget, index) => {
           if (widgets.length === index + 1) {

@@ -14,6 +14,7 @@ function TopCart(props) {
   const [accountState] = useContext(AccountContext);
   const [showmenu, setShowmenu] = useState(false);
   const location = useLocation();
+  const width= window.innerWidth
 
   const upArrow = (
     <div className="absolute z-50 top-0  cursor-pointer">
@@ -155,7 +156,7 @@ function TopCart(props) {
             onMouseLeave={() => setShowmenu(false)}
           >
             <div>
-              <div className="h-9 w-6 md:w-10 leading-8 mx-auto lg:border lg:border-dblue1 text-dbasenavy lg:text-dblue1 hover:text-dwhite1 hover:bg-dblue1 flex justify-center items-center mb-1">
+              <div className="h-9 w-6 md:w-10 leading-8 mx-auto lg:border lg:border-dblue1 text-dbasenavy lg:text-dblue1 lg:hover:text-dwhite1 lg:hover:bg-dblue1 flex justify-center items-center mb-1">
                 <span className="absolute -top-0.5 md:-top-1 lg:-top-2 -left-1.5 w-4 h-4 leading-4 bg-dbasenavy md:bg-dblue1 text-dwhite1 text-center rounded-full text-d11 font-bold ">
                   {state?.productsCount}
                 </span>
@@ -168,7 +169,7 @@ function TopCart(props) {
           </Link>
           {showmenu && accountState.loged && (
             <div
-              className="absolute z-20 w-80 top-full -mt-2 -right-4 bg-dwhite1 shadow-lg"
+              className="hidden md:block absolute z-20 w-80 top-full -mt-2 -right-4 bg-dwhite1 shadow-lg"
               onMouseEnter={() => setShowmenu(true)}
               onMouseLeave={() => setShowmenu(false)}
             >
