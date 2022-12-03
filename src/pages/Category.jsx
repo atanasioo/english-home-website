@@ -68,17 +68,21 @@ function Category() {
     if (window.location.href.indexOf("has_filter") > 0) {
       type = "filter";
       if (url.searchParams.get("filter_categories") != null)
-        newPath +=
-          "&filter_categories=" + url.searchParams.get("filter_categories");
+        newPath +=  "&filter_categories=" + url.searchParams.get("filter_categories");
       if (url.searchParams.get("filter_sellers") != null)
         newPath += "&filter_sellers=" + url.searchParams.get("filter_sellers");
       if (url.searchParams.get("filter_manufacturers") != null)
-        newPath +=
-          "&filter_manufacturers=" +
-          url.searchParams.get("filter_manufacturers");
+        newPath += "&filter_manufacturers=" + url.searchParams.get("filter_manufacturers");
+      if (url.searchParams.get("adv_filters") != null)
+        newPath +=  "&adv_filters=" + url.searchParams.get("adv_filters");
       if (url.searchParams.get("filter_options") != null)
         newPath += "&filter_options=" + url.searchParams.get("filter_options");
-      newPath = "&path=" + id + newPath;
+     
+        newPath = "&path=" + id + newPath;
+
+      if (window.location.href.indexOf("last")) {
+        newPath += "&last=" + url.searchParams.get("last");
+      }
     } else {
       newPath = id;
       if (window.location.href.indexOf("c=") > 0) type = "category";
@@ -156,7 +160,9 @@ function Category() {
     }
 
     _axios
-      .post(buildLink(type, undefined, undefined) + newPath)
+      .post(
+        buildLink(type, undefined, undefined) + newPath.replace("undefined", "")
+      )
       .then((response) => {
         // setData((prevData) => {
         //   return [
@@ -208,11 +214,43 @@ function Category() {
         q_s[key] = element;
       }
     }
-    // alert(pathname);
+    // alert(window.location.search);
+    const params = new URLSearchParams(window.location.href);
+    params.get("page");
 
-    navigate(
-      pathname + "&" + queryString.stringify(q_s).replaceAll("%2C", ",")
-    );
+    if (params.get("page") > 0) {
+      // alert(pathname);
+      const paramPage = new URLSearchParams(queryString.stringify(q_s));
+
+      // alert(paramPage.get("page"));
+      // alert(
+      //   pathname +
+      //     "+" +
+      //     window.location.search.replace(
+      //       "page=" + params.get("page"),
+      //       "page=" + paramPage.get("page")
+      //     )
+      // );
+
+      // alert(params.get("page"));
+      navigate(
+        pathname +
+          "+" +
+          window.location.search.replace(
+            "page=" + params.get("page"),
+            "page=" + paramPage.get("page")
+          )
+      );
+    } else {
+      navigate(
+        pathname.replaceAll("&has_filter=true", "?has_filter=true") +
+          "&" +
+          queryString
+            .stringify(q_s)
+            .replaceAll("%2C", ",")
+            .replaceAll("&has_filter=true", "?has_filter=true")
+      );
+    }
   }
   function setState(sort) {
     console.log(sort);
@@ -237,7 +275,7 @@ function Category() {
         l = location.search;
       } else {
         l = window.location.search;
-        alert(l);
+        // alert(l);
       }
     }
 
@@ -248,13 +286,10 @@ function Category() {
   function parseFilter(typekey, filter) {
     setPointer(false);
 
-    // console.log("yes");
     const id = filter["id"];
     var last = "";
     let type_key = typekey;
-    // var sort="";
-    // var order="";
-    // var limit ='';
+
     last = filter["last"];
 
     let values_array = userFilters[type_key];
@@ -263,13 +298,16 @@ function Category() {
     let indexOfId = -1;
     let url1 = new URL(window.location);
     var filter_type = typekey;
+    // alert(filter_type)
     c = url1.searchParams.get(filter_type);
 
     if (c !== null) {
       indexOfId = c.split(",").indexOf(filter["id"]);
     }
     if (indexOfId < 0) {
-      // // // console.log("Test from if");
+      if(filter_type ==="adv_filters")
+      values_array = userFilters[type_key].push(filter["id"]);
+      else
       values_array.push(filter["id"]);
 
       setUserFilters({
@@ -287,22 +325,29 @@ function Category() {
           }
         }
       }
-
+      var l = window.location.pathname;
       let query = "?has_filter=true&";
       let q = new URLSearchParams(active_filters).toString();
 
       q = decodeURIComponent(q);
       query += q;
 
+      const i_p = window.location.pathname.indexOf("&page");
+      if (i_p > 0) {
+        l = l.substring(0, i_p);
+      }
       const i_o = window.location.pathname.indexOf("&sort");
-      if (i_o > 0) {
-        var l = window.location.pathname.substring(0, i_o);
-        // alert(l)
-        // alert(query)
+
+      if (i_o > 0 || i_p > 0) {
+        if (i_o > 0) {
+          l = l.substring(0, i_o);
+        }
+
         navigate(l + query + "&last=" + last);
       } else {
-        navigate(path + query + "&last=" + last);
+        navigate(window.location.pathname + query + "&last=" + last);
       }
+      // const  = window.location.pathname.indexOf("&page");
 
       // console.log(
       //   params.name +
@@ -331,9 +376,9 @@ function Category() {
         let c = "";
         var array;
         let lastLink;
-
+        // alert(window.location)
+        // alert(window.location.search)
         url1 = new URL(window.location);
-
         c = url1.searchParams.get(filter_type);
         if (c != null) {
           array = c.split(",");
@@ -644,9 +689,9 @@ function Category() {
                   ))}
                 </div>
                 {/* Pagination */}
-                {Math.ceil(data["product_total"] / 50) > 1 && (
+                {Math.ceil(data["product_total"] / data.limit) > 1 && (
                   <ReactPaginate
-                    pageCount={Math.ceil(data["product_total"] / 50)}
+                    pageCount={Math.ceil(data["product_total"] / data.limit)}
                     containerClassName={"category-pagination"}
                     onPageChange={pageSetter}
                     pageRangeDisplayed={width > 650 ? 2 : 1}
@@ -710,9 +755,9 @@ function Category() {
                   ))}
                 </div>
                 {/* Pagination */}
-                {Math.ceil(data["product_total"] / 50) > 1 && (
+                {Math.ceil(data["product_total"] / data.limit) > 1 && (
                   <ReactPaginate
-                    pageCount={Math.ceil(data["product_total"] / 50)}
+                    pageCount={Math.ceil(data["product_total"] / data.limit)}
                     containerClassName={"category-pagination"}
                     onPageChange={pageSetter}
                     pageRangeDisplayed={width > 650 ? 2 : 1}
