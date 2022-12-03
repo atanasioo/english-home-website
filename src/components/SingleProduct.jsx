@@ -166,7 +166,7 @@ export default function SingleProduct(props) {
           .replace("---", "-")
           .replace("--", "-")
           .replace("/", "")}/p=${props.item.product_id}`}
-        className="relative w-full m-3"
+        className="relative w-full md:m-3"
         onMouseEnter={() => isHovered(true)}
         onMouseLeave={onMouseLeave}
         onClickCapture={props.click}

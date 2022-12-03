@@ -226,8 +226,8 @@ function WidgetsLoopMobile({ widget, showCartmenuMob }) {
       {widget.display === "grid" && widget.items.length > 1 && (
         <div className="">
           {widget.mobile_widget_id > 0 ? (
-            <Slider {...carousal}>
-              {widget?.items?.map((item, index) =>
+            
+              widget?.items?.map((item, index) =>
                 item.mobile_type_id !== "0" ? (
                   <Link
                     to={
@@ -269,8 +269,8 @@ function WidgetsLoopMobile({ widget, showCartmenuMob }) {
                     />
                   </div>
                 )
-              )}
-            </Slider>
+              )
+           
           ) : (
             <div className="grid justify-between grid-cols-2">
               {widget?.items?.map((item, index) => (

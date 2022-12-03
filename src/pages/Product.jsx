@@ -24,6 +24,7 @@ import {
   TwitterShareButton,
   WhatsappShareButton,
 } from "react-share";
+import CartmenuMobile from "../components/CartmenuMobile";
 
 function Product() {
   const [state, dispatch] = useContext(CartContext);
@@ -57,6 +58,7 @@ function Product() {
   const [popupW, setPopupW] = useState(false);
   const [popupC, setPopupC] = useState(false);
   const [showCartmenu, setShowCartmenu] = useState(false);
+  const [showCartmenuMob, setShowCartmenuMob] = useState(false);
   const width = window.innerWidth;
   const location = useLocation();
   let product_id = useParams().id;
@@ -234,8 +236,18 @@ function Product() {
   }
 
   function showCart() {
-    setCartmenu(true);
+    if(width > 650){
+      setShowCartmenu(true);
+    }else{
+      setShowCartmenuMob(true);
+    }
+    
     setOverlay(true);
+  }
+
+  function closeCartMobMenu(){
+    setShowCartmenuMob(false);
+    setOverlay(false);
   }
 
   useEffect(() => {
@@ -445,6 +457,11 @@ function Product() {
       {cartmenu && width > 650 && (
         <div ref={wrapperRef}>
           <TopCart cartmenu={cartmenu}/>
+        </div>
+      )}
+      {showCartmenuMob && (
+        <div>
+          <CartmenuMobile closemenu={closeCartMobMenu} />
         </div>
       )}
       {overlay && (
@@ -1262,7 +1279,7 @@ function Product() {
                   {productData?.product_related?.map((item, index) => {
                     return (
                       <div className="pr-2" key={item.product_id}>
-                        <SingleProducts item={item} />
+                        <SingleProducts item={item} showCartmenuMob={showCart}/>
                       </div>
                     );
                   })}

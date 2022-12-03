@@ -349,9 +349,18 @@ function Cart() {
                           </div>
                           <div className="product-info flex-1 flex flex-col md:flex-row items-start md:items-center text-d14 text-dblue2">
                             <div className="details px-4 w-52 md:w-60 text-left ">
+                            <div className="flex justify-between items-center">
                               <div className="product-price block md:hidden font-bold text-d17 text-dblue2 ">
                                 ${product?.net_price}
                               </div>
+                              <button
+                              className="ml-7 pr-5 bg-transparent md:hidden"
+                              onClick={() => updateQuantity(product.cart_id, 0)}
+                            >
+                              <AiOutlineClose className="w-4 h-4" />
+                            </button>
+                            </div>
+                              
                               <p className="text-d14 text-dgrey12 md:text-dblue2" dangerouslySetInnerHTML={{__html: product?.name}}></p>
                               {product?.option.map((op) => (
                                 <p key={op.product_option_value_id}>

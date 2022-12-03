@@ -6,13 +6,16 @@ import SingleProducts from "../components/SingleProduct";
 import TopCart from "../components/TopCart";
 import Loader from "../components/Loader";
 import { WishlistContext } from "../contexts/WishlistContext";
+import CartmenuMobile from "../components/CartmenuMobile";
 
 const Wishlist = () => {
   const [products, setProducts] = useState([]);
   const [showCartmenu, setShowCartmenu] = useState(false);
+  const [showCartmenuMob, setShowCartmenuMob] = useState(false);
   const [overlay, setOverlay] = useState(false);
   const [loading, setLoading] = useState(true);
   const [stateW, dispatchW] = useContext(WishlistContext);
+  const width= window.innerWidth;
 
   useEffect(() => {
     _axios
@@ -29,8 +32,18 @@ const Wishlist = () => {
   }, []);
 
   function showCart() {
-    setShowCartmenu(true);
+    if(width > 650){
+      setShowCartmenu(true);
+    }else{
+      setShowCartmenuMob(true);
+    }
+    
     setOverlay(true);
+  }
+
+  function closeCartMobMenu(){
+    setShowCartmenuMob(false);
+    setOverlay(false);
   }
 
     // Remove
@@ -66,6 +79,11 @@ const Wishlist = () => {
            cartmenu={showCartmenu} />
         </div>
       )}
+      {showCartmenuMob && (
+        <div>
+          <CartmenuMobile closemenu={closeCartMobMenu} />
+        </div>
+      )}
       {overlay && (
         <div
           className="fixed h-full w-full min-h-full z-10 bg-dblackOverlay2 top-0 left-0"
@@ -91,7 +109,7 @@ const Wishlist = () => {
         {loading ? (
             <Loader />
         ):(
-          <div className="grid grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
           {products.length > 0 &&
             products.map((product) => (
               <SingleProducts
@@ -99,6 +117,7 @@ const Wishlist = () => {
                 item={product}
                 wishlist= {true}
                 removeW= {remove}
+                showCartmenuMob={showCart}
               ></SingleProducts>
             ))}
         </div>  
