@@ -50,6 +50,7 @@ function Home() {
   useEffect(() => {
     getData();
   }, [page, window.innerWidth]);
+
   async function getData() {
     setLoading(true);
     await _axios({
@@ -74,7 +75,6 @@ function Home() {
       })
       .catch((e) => {});
   }
-
   function useOutsideAlerter(ref) {
     useEffect(() => {
       /**
