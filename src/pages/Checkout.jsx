@@ -30,13 +30,17 @@ function Checkout() {
   const [loading, setLoading] = useState(true);
   const [activePaymentMethod, setActivePaymentMethod] = useState("cod");
   const [emptyCart, setEmptyCart] = useState(false);
-  const [addr1, setAddr1] = useState("");
-  const [addr2, setAddr2] = useState("");
-  const [tel, setTel] = useState("");
-  const [zn, setZn] = useState("");
-  const [znId, setZnId] = useState("");
-  const [fn, setFn] = useState("");
-  const [ln, setLn] = useState("");
+  const [paymentMeth, setPaymentMeth]= useState("");
+  const [error, setError]= useState("");
+  const [addrInfo, setAddrInfo]= useState({
+    addr1: "",
+    addr2: "",
+    tel: "",
+    zn: "",
+    znId: "",
+    fn: "",
+    ln:""
+  })
   const [loged, setloged] = useState();
   const [accountData, setAccountData]= useState([]);
   const navigate = useNavigate();
@@ -96,8 +100,6 @@ function Checkout() {
         }
       });
   }, [dispatchAccount, stateAccount.loged]);
-
-  console.log(accountData);
 
   // Add Address
   function addAddress(e) {
@@ -232,9 +234,7 @@ function Checkout() {
       });
   }
 
-  useEffect(() => {
-    getCart();
-  }, []);
+
 
   useEffect(() => {
     dispatchAccount({ type: "setAdminLoading", payload: true });
@@ -379,10 +379,9 @@ function Checkout() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log("hii");
     const btn = document.getElementById("savebtn");
     if (stateAccount?.loged) {
-      if (JSON.stringify(activeAddress) === "{}") {
+      if (JSON.stringify(activeAddress) === "{}") { 
         btn.disabled = true;
       } else {
         btn.disabled = false;
@@ -390,27 +389,11 @@ function Checkout() {
         setPaymenttab(true);
       }
     } else {
-      if (
-        address_1.current.value !== "" &&
-        firstname.current.value !== "" &&
-        lastname.current.value !== "" &&
-        telephone.current.value !== "" &&
-        zone.current.name !== ""
-      ) {
         console.log("hii");
         btn.disabled = false;
-        setAddr1(address_1.current.value);
-        setAddr2(address_2.current.value);
-        setFn(firstname.current.value);
-        setLn(lastname.current.value);
-        setTel(telephone.current.value);
-        setZn(zone.current.name);
-        setZnId(zone_id.current.value);
-        setAddresstab(false);
-        setPaymenttab(true);
-      } else {
-        btn.disabled = true;
-      }
+        console.log(addrInfo);
+        console.log(firstname.current.value);
+        manual(manualCart, zone, paymentMeth, false);
     }
   }
 
@@ -483,18 +466,18 @@ function Checkout() {
       body = {
         order_product: manualCartProducts,
         customer_id: customerId,
-        firstname: stateAccount.loged ? activeAddress.firstname : fn || "",
-        lastname: stateAccount.loged ? activeAddress.lastname : ln || "",
+        firstname: stateAccount.loged ? activeAddress.firstname : addrInfo.fn ,
+        lastname: stateAccount.loged ? activeAddress.lastname : addrInfo.ln ,
         email: email.current?.value || "",
-        address_1: stateAccount.loged ? activeAddress.address_1 : addr1 || "",
+        address_1: stateAccount.loged ? activeAddress.address_1 : addrInfo.addr1 ,
         telephone: stateAccount.loged
           ? activeAddress.telephone
-          : tel.replace("-", "") || "",
-        address_2: stateAccount.loged ? activeAddress.address_2 : addr2 || "",
+          : addrInfo.tel.replace("-", "") ,
+        address_2: stateAccount.loged ? activeAddress.address_2 : addrInfo.addr2 ,
         city: "",
         shipping_method: "Delivery ( 1-4 days )",
         shipping_code: "ultimate_shipping.ultimate_shipping_0",
-        payment_method: "Cash On Delivery",
+        payment_method: paymentMeth,
         payment_code: paymentcode,
         comment: comment.current?.value || "",
         country_id: window.config["zone"],
@@ -509,7 +492,7 @@ function Checkout() {
             : true,
         payment_session: manualResponse.payment_session,
         source_id: 1,
-        coupon: coupon.current.value || "",
+        coupon: coupon?.current?.value || "",
         code_version: window.innerWidth > 600 ? "web_desktop" : "web_mobile",
       };
       const adminId = Cookies.get("user_id");
@@ -529,6 +512,11 @@ function Checkout() {
           // paymentForm(confirm, paymentcode);
           setLoading(false);
           setConfirmDisalbe(false);
+          if(manualErrors.current["0"].errorCode === "payment_method"){
+            setAddresstab(false);
+            setPaymenttab(true);
+            setPaymentMeth("Cash On Delivery")
+           }
         } else {
           manualErrors.current = "";
           paymentForm(confirm, paymentcode);
@@ -543,8 +531,18 @@ function Checkout() {
     // }
   }
 
+  function handleInputs(){
+      setAddrInfo({
+        addr1: address_1.current.value,
+        addr2: address_2.current.value,
+        fn: firstname.current.value,
+        ln: lastname.current.value,
+        tel: telephone.current.value,
+        zn: zone.current.name,
+        znId: zone_id.current.value
+      })
+  }
 
-   console.log(state);
 
   //submit form
   function submitForm(e) {
@@ -1043,8 +1041,17 @@ function Checkout() {
                                 </div>
                                 <div className="hidden"></div>
                               </div>
-                            ) : (
+                            ) : (  
+                              // user is not loged
                               <div className="mx-5 my-5">
+                                {/* error div */}
+                                {manualErrors.current.length > 0 && (
+                                  <div className={`text-dred4 text-sm 
+                                  ${manualErrors.current["0"].errorCode === "payment_method" ? "hidden" : ""}`}>
+                                    {manualErrors.current["0"].errorMsg}
+                                  </div>
+                                )}
+                                
                                 <div className="title flex flex-col items-start">
                                   <label
                                     htmlFor="title"
@@ -1057,10 +1064,13 @@ function Checkout() {
                                     name="title"
                                     ref={address_1}
                                     required
-                                    defaultValue={addr1}
+                                    defaultValue={addrInfo.addr1}
                                     id=""
                                     placeholder="eg: home, work..."
                                     className="address-modal__input"
+                                    onChange={()=> 
+                                      handleInputs()
+                                    }
                                   />
                                 </div>
                                 <div className="fn-ln flex mt-2">
@@ -1078,7 +1088,10 @@ function Checkout() {
                                       id=""
                                       required
                                       className="address-modal__input"
-                                      defaultValue={`${fn}`}
+                                      defaultValue={`${addrInfo.fn}`}
+                                      onChange={()=> 
+                                        handleInputs()
+                                      }
                                     />
                                   </div>
                                   <div className="w-488">
@@ -1095,7 +1108,10 @@ function Checkout() {
                                       required
                                       id=""
                                       className="address-modal__input"
-                                      defaultValue={`${ln}`}
+                                      defaultValue={`${addrInfo.ln}`}
+                                      onChange={()=> 
+                                        handleInputs()
+                                      }
                                     />
                                   </div>
                                 </div>
@@ -1114,12 +1130,14 @@ function Checkout() {
                                       id=""
                                       value={"+961"}
                                       disabled
-                                      className="bg-transparent w-1/6 md:w-1/12 mt-1 "
+                                      className="bg-transparent w-1/6 md:w-1/12 mt-1"
                                     />
                                     <HandlePhoneModel
                                       phone={telephone}
-                                      nb={`${tel}`}
+                                      nb={`${addrInfo.tel}`}
                                       phoneHanlder={phoneHanlder}
+                                      handleInputs={handleInputs}
+                                      fromCheckout={true}
                                     />
                                   </div>
                                 </div>
@@ -1134,14 +1152,17 @@ function Checkout() {
                                       ref={zone_id}
                                       id=""
                                       className="address-modal__input border border-dgrey6"
-                                      onChange={(e) => zoneChanged(e)}
+                                      onChange={(e) => {
+                                        zoneChanged(e);
+                                        handleInputs()
+                                      }}
                                     >
                                       {zones?.map((zone) => (
                                         <option
                                           value={zone.zone_id}
                                           key={zone.zone_id}
                                           selected={`${
-                                            znId === zone.zone_id
+                                            addrInfo.znId === zone.zone_id
                                               ? "selected"
                                               : ""
                                           }`}
@@ -1163,10 +1184,13 @@ function Checkout() {
                                     rows="10"
                                     ref={address_2}
                                     maxLength={256}
-                                    defaultValue={addr2}
+                                    defaultValue={addrInfo.addr2}
                                     className="address-modal__input h-24 p-2.5"
                                     placeholder={
                                       "Please enter your other address information such as neighborhood, street, apartment name and number."
+                                    }
+                                    onChange={()=> 
+                                      handleInputs()
                                     }
                                   ></textarea>
                                 </div>

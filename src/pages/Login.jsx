@@ -148,7 +148,7 @@ function Login() {
                       />
                     </div>
                     <div className={`error-password text-dred4 hidden`}></div>
-                    
+                    <div className={`error-field text-left text-sm text-dred4 ${loginError ? "block mt-2" : "hidden"} `}>{loginError}</div>
                     <input type="hidden" name="" />
                     <div className="clear hidden overflow-hidden "></div>
                     <div className="flex justify-between items-baseline -mt-2 -mb-3 relative ">
@@ -192,7 +192,7 @@ function Login() {
                         </span>
                       </a>
                     </div>
-                    <div className={`error-field text-dred4 ${loginError ? "block mt-2" : "hidden"} `}>{loginError}</div>
+                    
                     <div className="clear hidden overflow-hidden "></div>
                   </form>
                 </div>
@@ -353,7 +353,7 @@ function Login() {
                           )}
                         </button>
                         {signupError && (
-                          <div className={`error-password text-dred4 mt-2`}>{signupError}</div>
+                          <div className={`error-password text-dred4 mt-2 text-sm`}>{signupError}</div>
                         )}
                       </div>
                     </form>
