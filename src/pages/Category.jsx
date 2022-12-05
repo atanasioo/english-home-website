@@ -40,6 +40,7 @@ function Category() {
   const [loading, setLoading] = useState(true);
   const [showCartmenu, setShowCartmenu] = useState(false);
   const [overlay, setOverlay] = useState(false);
+  const [hoveredCart, setHoveredCart] = useState(false);
   const wrapperRef = useRef(null);
 
   const urlRef = useRef(location?.pathname);
@@ -53,6 +54,10 @@ function Category() {
   function showCart() {
     setShowCartmenu(true);
     setOverlay(true);
+    setTimeout(() => {
+      setShowCartmenu(false);
+      setOverlay(false);
+    }, 3000);
   }
 
   useEffect(() => {
@@ -68,17 +73,20 @@ function Category() {
     if (window.location.href.indexOf("has_filter") > 0) {
       type = "filter";
       if (url.searchParams.get("filter_categories") != null)
-        newPath +=  "&filter_categories=" + url.searchParams.get("filter_categories");
+        newPath +=
+          "&filter_categories=" + url.searchParams.get("filter_categories");
       if (url.searchParams.get("filter_sellers") != null)
         newPath += "&filter_sellers=" + url.searchParams.get("filter_sellers");
       if (url.searchParams.get("filter_manufacturers") != null)
-        newPath += "&filter_manufacturers=" + url.searchParams.get("filter_manufacturers");
+        newPath +=
+          "&filter_manufacturers=" +
+          url.searchParams.get("filter_manufacturers");
       if (url.searchParams.get("adv_filters") != null)
-        newPath +=  "&adv_filters=" + url.searchParams.get("adv_filters");
+        newPath += "&adv_filters=" + url.searchParams.get("adv_filters");
       if (url.searchParams.get("filter_options") != null)
         newPath += "&filter_options=" + url.searchParams.get("filter_options");
-     
-        newPath = "&path=" + id + newPath;
+
+      newPath = "&path=" + id + newPath;
 
       if (window.location.href.indexOf("last")) {
         newPath += "&last=" + url.searchParams.get("last");
@@ -305,10 +313,9 @@ function Category() {
       indexOfId = c.split(",").indexOf(filter["id"]);
     }
     if (indexOfId < 0) {
-      if(filter_type ==="adv_filters")
-      values_array = userFilters[type_key].push(filter["id"]);
-      else
-      values_array.push(filter["id"]);
+      if (filter_type === "adv_filters")
+        values_array = userFilters[type_key].push(filter["id"]);
+      else values_array.push(filter["id"]);
 
       setUserFilters({
         ...userFilters,
@@ -458,16 +465,37 @@ function Category() {
       ) : (
         <>
           {showCartmenu && (
-            <div ref={wrapperRef}>
+            <div ref={wrapperRef} onMouseEnter={() => setHoveredCart(true)}>
               <TopCart cartmenu={showCartmenu} />
             </div>
+          )}
+          {hoveredCart && (
+            <>
+              <div
+                onMouseEnter={() => {
+                  setHoveredCart(true);
+                }}
+                onMouseLeave={() => {
+
+                  setHoveredCart(false);
+                  
+                }}
+              >
+                <TopCart cartmenu={hoveredCart} />
+              </div>
+              {/* <div
+                className={`fixed h-full w-full min-h-full z-10 ${
+                  showCartmenu ? "bg-transparent" : "bg-dblackOverlay2"
+                }  top-0 left-0`}
+              ></div> */}
+            </>
           )}
           {overlay && (
             <div
               className="fixed h-full w-full min-h-full z-10 bg-dblackOverlay2 top-0 left-0"
               onClick={() => {
                 setOverlay(false);
-                setShowCartmenu(false)
+                setShowCartmenu(false);
               }}
             ></div>
           )}

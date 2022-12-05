@@ -132,22 +132,18 @@ function Home() {
             ref={wrapperRef}
             onMouseEnter={() => {
               setHoveredCart(true);
-              setOverlay(true);
             }}
             onMouseLeave={() => {
-              setTimeout(() => {
-                setHoveredCart(false);
-                setOverlay(false);
-              }, 2000);
+              setHoveredCart(false);
             }}
           >
             <TopCart cartmenu={hoveredCart} />
           </div>
-          <div
+          {/* <div
             className={`fixed h-full w-full min-h-full z-10 ${
               showCartmenu ? "bg-transparent" : "bg-dblackOverlay2"
             }  top-0 left-0`}
-          ></div>
+          ></div> */}
         </>
       )}
 

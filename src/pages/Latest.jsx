@@ -32,12 +32,17 @@ function Latest() {
   const [total, setTotal] = useState(0);
   const navigate = useNavigate();
   const [showCartmenu, setShowCartmenu] = useState(false);
+  const [hoveredCart, setHoveredCart] = useState(false);
   const [overlay, setOverlay] = useState(false);
   const wrapperRef = useRef(null);
 
   function showCart() {
     setShowCartmenu(true);
     setOverlay(true);
+    setTimeout(() => {
+      setShowCartmenu(false);
+      setOverlay(false);
+    }, 3000);
   }
 
   useEffect(() => {
@@ -86,9 +91,6 @@ function Latest() {
     setPage(page["selected"] + 1);
   }
 
-  console.log(view);
-  console.log(data);
-  console.log(width);
 
   return (
     <div className="w-full bg-dgrey10">
@@ -143,9 +145,28 @@ function Latest() {
       ) : (
         <div className="container">
           {showCartmenu && (
-            <div ref={wrapperRef}>
+            <div ref={wrapperRef} onMouseEnter={() => setHoveredCart(true)}>
               <TopCart cartmenu={showCartmenu} />
             </div>
+          )}
+          {hoveredCart && (
+            <>
+              <div
+                onMouseEnter={() => {
+                  setHoveredCart(true);
+                }}
+                onMouseLeave={() => {
+                  setHoveredCart(false);
+                }}
+              >
+                <TopCart cartmenu={hoveredCart} />
+              </div>
+              {/* <div
+                className={`fixed h-full w-full min-h-full z-10 ${
+                  showCartmenu ? "bg-transparent" : "bg-dblackOverlay2"
+                }  top-0 left-0`}
+              ></div> */}
+            </>
           )}
           {overlay && (
             <div

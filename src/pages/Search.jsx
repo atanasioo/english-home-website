@@ -39,6 +39,7 @@ function Search() {
   const [filterMobile, setFilterMobile] = useState([]);
   const [baseURL, setBaseURL] = useState(location?.search);
   const [showCartmenu, setShowCartmenu] = useState(false);
+  const [hoveredCart, setHoveredCart] = useState(false);
   const [overlay, setOverlay] = useState(false);
   const wrapperRef = useRef(null);
   const navType = useNavigationType();
@@ -47,6 +48,10 @@ function Search() {
   function showCart() {
     setShowCartmenu(true);
     setOverlay(true);
+    setTimeout(() => {
+      setShowCartmenu(false);
+      setOverlay(false);
+    }, 3000);
   }
 
   console.log(filterMobile);
@@ -337,16 +342,35 @@ function Search() {
       ) : (
         <div className="list">
           {showCartmenu && (
-            <div ref={wrapperRef}>
+            <div ref={wrapperRef} onMouseEnter={() => setHoveredCart(true)}>
               <TopCart cartmenu={showCartmenu} />
             </div>
+          )}
+          {hoveredCart && (
+            <>
+              <div
+                onMouseEnter={() => {
+                  setHoveredCart(true);
+                }}
+                onMouseLeave={() => {
+                  setHoveredCart(false);
+                }}
+              >
+                <TopCart cartmenu={hoveredCart} />
+              </div>
+              {/* <div
+                className={`fixed h-full w-full min-h-full z-10 ${
+                  showCartmenu ? "bg-transparent" : "bg-dblackOverlay2"
+                }  top-0 left-0`}
+              ></div> */}
+            </>
           )}
           {overlay && (
             <div
               className="fixed h-full w-full min-h-full z-10 bg-dblackOverlay2 top-0 left-0"
               onClick={() => {
                 setOverlay(false);
-                setShowCartmenu(false)
+                setShowCartmenu(false);
               }}
             ></div>
           )}

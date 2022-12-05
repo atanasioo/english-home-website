@@ -60,6 +60,7 @@ function Product() {
   const [popupC, setPopupC] = useState(false);
   const [showCartmenu, setShowCartmenu] = useState(false);
   const [showCartmenuMob, setShowCartmenuMob] = useState(false);
+  const [hoveredCart, setHoveredCart] = useState(false);
   const width = window.innerWidth;
   const location = useLocation();
   let product_id = useParams().id;
@@ -238,12 +239,16 @@ function Product() {
 
   function showCart() {
     if (width > 650) {
-      setShowCartmenu(true);
+      setCartmenu(true);
+      setOverlay(true);
+      setTimeout(() => {
+        setCartmenu(false);
+        setOverlay(false);
+      }, 3000);
     } else {
       setShowCartmenuMob(true);
+      setOverlay(true);
     }
-
-    setOverlay(true);
   }
 
   function closeCartMobMenu() {
@@ -454,9 +459,28 @@ function Product() {
   return (
     <div className="bg-dgrey10">
       {cartmenu && width > 650 && (
-        <div ref={wrapperRef}>
+        <div ref={wrapperRef} onMouseEnter={() => setHoveredCart(true)}>
           <TopCart cartmenu={cartmenu} />
         </div>
+      )}
+      {hoveredCart && (
+        <>
+          <div
+            onMouseEnter={() => {
+              setHoveredCart(true);
+            }}
+            onMouseLeave={() => {
+              setHoveredCart(false);
+            }}
+          >
+            <TopCart cartmenu={hoveredCart} />
+          </div>
+          {/* <div
+                className={`fixed h-full w-full min-h-full z-10 ${
+                  showCartmenu ? "bg-transparent" : "bg-dblackOverlay2"
+                }  top-0 left-0`}
+              ></div> */}
+        </>
       )}
       {showCartmenuMob && (
         <div>
@@ -613,7 +637,9 @@ function Product() {
             <div className="flex items-center" key={breadcrumb.category_id}>
               <Link
                 // to={`/category/${breadcrumb.category_id}`}
-                to={ path +"/"+
+                to={
+                  path +
+                  "/" +
                   breadcrumb?.name
                     .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
                     .replace(/\s+/g, "-")

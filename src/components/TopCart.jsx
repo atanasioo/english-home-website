@@ -206,8 +206,8 @@ function TopCart(props) {
                             className="flex flex-col justify-between pl-2.5 text-left font-mono w-full"
                             style={{ maxWidth: "200px" }}
                           >
-                            <p className="header__basket__item__text__product__name text-sm line-clamp-3">
-                              {product?.name}
+                            <p className="header__basket__item__text__product__name text-sm line-clamp-3" 
+                            dangerouslySetInnerHTML={{__html: product?.name}}>
                             </p>
                             <div className="product-quantity-area text-sm">
                               Quantity: {product?.quantity}
