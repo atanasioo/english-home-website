@@ -15,6 +15,7 @@ import { AccountContext } from "../contexts/AccountContext";
 import { WishlistContext } from "../contexts/WishlistContext";
 import TopCart from "../components/TopCart";
 import Overlay from "../components/Overlay";
+import { path } from "../urls";
 
 import { FaWhatsappSquare, FaTwitterSquare, FaWhatsapp } from "react-icons/fa";
 import { ImFacebook2 } from "react-icons/im";
@@ -135,7 +136,7 @@ function Product() {
       if (cartmenu) {
         function handleClickOutside(event) {
           if (ref.current && !ref.current.contains(event.target)) {
-            console.log(ref.current.contains(event.target))
+            console.log(ref.current.contains(event.target));
             setTimeout(() => setCartmenu(false), 200);
             setTimeout(() => setOverlay(false), 200);
           }
@@ -236,16 +237,16 @@ function Product() {
   }
 
   function showCart() {
-    if(width > 650){
+    if (width > 650) {
       setShowCartmenu(true);
-    }else{
+    } else {
       setShowCartmenuMob(true);
     }
-    
+
     setOverlay(true);
   }
 
-  function closeCartMobMenu(){
+  function closeCartMobMenu() {
     setShowCartmenuMob(false);
     setOverlay(false);
   }
@@ -304,7 +305,7 @@ function Product() {
       });
   }
 
-  function togglereturnmenuMob(){
+  function togglereturnmenuMob() {
     setReturnmenuMob(!returnmenuMob);
   }
 
@@ -435,8 +436,6 @@ function Product() {
     }
   }
 
-  
-
   var htmlEntities = {
     nbsp: " ",
     cent: "¢",
@@ -456,7 +455,7 @@ function Product() {
     <div className="bg-dgrey10">
       {cartmenu && width > 650 && (
         <div ref={wrapperRef}>
-          <TopCart cartmenu={cartmenu}/>
+          <TopCart cartmenu={cartmenu} />
         </div>
       )}
       {showCartmenuMob && (
@@ -466,11 +465,11 @@ function Product() {
       )}
       {overlay && (
         <div
-          // ref={wrapperRef}
-          // onClick={() => {
-          //   setOverlay(false);
-          //   setCartmenu(false);
-          // }}
+        // ref={wrapperRef}
+        // onClick={() => {
+        //   setOverlay(false);
+        //   setCartmenu(false);
+        // }}
         >
           <Overlay />
         </div>
@@ -613,22 +612,30 @@ function Product() {
           {productData?.breadcrumbs?.category.map((breadcrumb, index) => (
             <div className="flex items-center" key={breadcrumb.category_id}>
               <Link
-                to={`/category/${breadcrumb.category_id}`}
+                // to={`/category/${breadcrumb.category_id}`}
+                to={ path +"/"+
+                  breadcrumb?.name
+                    .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                    .replace(/\s+/g, "-")
+                    .replace("/", "-")
+                    .replace("%", "") +
+                  "/c=" +
+                  breadcrumb.category_id
+                }
                 className={` ${
                   index === productData?.breadcrumbs?.category.length - 1
                     ? "text-dblack2 font-semibold"
-                    : ""
+                    : "hidden"
                 }`}
                 dangerouslySetInnerHTML={{
                   __html: breadcrumb?.name,
                 }}
-              >
-              </Link>
+              ></Link>
               <BsChevronRight
                 className={`mx-2 mt-0.5 ${
                   index == productData?.breadcrumbs?.category.length - 1
                     ? "hidden"
-                    : "block"
+                    : "hidden"
                 }`}
               />
             </div>
@@ -1105,7 +1112,7 @@ function Product() {
                 className={`text-dborderblack4 text-left ${
                   returnmenu ? "block" : "hidden"
                 }`}
-                style={{minHeight: "380px"}}
+                style={{ minHeight: "380px" }}
               >
                 <div className="flex">
                   <div
@@ -1279,7 +1286,10 @@ function Product() {
                   {productData?.product_related?.map((item, index) => {
                     return (
                       <div className="pr-2" key={item.product_id}>
-                        <SingleProducts item={item} showCartmenuMob={showCart}/>
+                        <SingleProducts
+                          item={item}
+                          showCartmenuMob={showCart}
+                        />
                       </div>
                     );
                   })}
@@ -1288,7 +1298,7 @@ function Product() {
                 <Slider {...productSetting}>
                   {productData?.product_related?.map((item) => (
                     <div className="pr-2" key={item.product_id}>
-                      <SingleProducts item={item} showCartmenu= {showCart}/>
+                      <SingleProducts item={item} showCartmenu={showCart} />
                     </div>
                   ))}
                 </Slider>
@@ -1344,10 +1354,14 @@ function Product() {
                     togglereturnmenuMob();
                   }}
                 >
-                  {returnmenuMob ? ( "x" ) : ( "+" )}
+                  {returnmenuMob ? "x" : "+"}
                 </span>
               </div>
-              <div className={`collapse-content ${ returnmenuMob ? "block" : "hidden" } `}>
+              <div
+                className={`collapse-content ${
+                  returnmenuMob ? "block" : "hidden"
+                } `}
+              >
                 <div className="flex">
                   <div
                     className=""

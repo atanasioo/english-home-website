@@ -108,6 +108,10 @@ const Wishlist = () => {
       <div className="container">
         {loading ? (
             <Loader />
+        ):( products.length === 0 ? (
+          <div className="h-80 flex flex-col justify-center items-center text-d20 font-semibold">
+            Your Wishlist is empty!
+          </div>
         ):(
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
           {products.length > 0 &&
@@ -121,6 +125,8 @@ const Wishlist = () => {
               ></SingleProducts>
             ))}
         </div>  
+        )
+          
         )}
         
       </div>

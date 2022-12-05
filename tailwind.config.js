@@ -21,6 +21,7 @@ module.exports = {
       //   "2xl": "1536px"
       // },
       screens: {
+        xs: "320px",
         'tablet': '640px',
         // => @media (min-width: 640px) { ... }
   

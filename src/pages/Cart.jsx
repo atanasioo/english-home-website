@@ -327,7 +327,7 @@ function Cart() {
                     <div className="basket-items">
                       {state?.products?.map((product, i) => (
                         <div
-                          className={`pb-5 flex justify-between items-center overflow-hidden ${
+                          className={`pb-5 flex flex-col xs:flex-row justify-between items-center  ${
                             i !== 0 ? "border-t border-dgrey5 pt-5" : ""
                           }`}
                           key={product?.product_id}
@@ -347,7 +347,7 @@ function Cart() {
                               <img src={product?.thumb} alt="" />
                             </Link>
                           </div>
-                          <div className="product-info flex-1 flex flex-col md:flex-row items-start md:items-center text-d14 text-dblue2">
+                          <div className="product-info flex-1 flex flex-col lg:flex-row items-start md:items-center text-d14 text-dblue2">
                             <div className="details px-4 w-52 md:w-60 text-left ">
                             <div className="flex justify-between items-center">
                               <div className="product-price block md:hidden font-bold text-d17 text-dblue2 ">
@@ -526,7 +526,7 @@ function Cart() {
               </div>
             ) : (
               <div className="basket-empty py-28 text-center w-full">
-                <div className="mb-6 text-dborderblack2 text-d30 font-bold leading-4">
+                <div className="mb-6 text-dborderblack2 text-d30 font-bold md:leading-4">
                   Your Shopping Bag is Empty!
                 </div>
                 <Link
