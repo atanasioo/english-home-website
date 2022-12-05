@@ -1,10 +1,4 @@
-import React, {
-  useEffect,
-  useState,
-  useContext,
-  useRef,
-  useCallback,
-} from "react";
+import React, { useEffect, useState, useContext, useRef, useCallback } from "react";
 import { AccountContext } from "../contexts/AccountContext";
 import { Link } from "react-router-dom";
 import _axios from "../axios";
@@ -23,15 +17,15 @@ function Home() {
   const [showCartmenu, setShowCartmenu] = useState(false);
   const [showCartmenuMob, setShowCartmenuMob] = useState(false);
   const [overlay, setOverlay] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [loadingW, setLoadingw] = useState(false);
+  const [loading, setLoading]= useState(true);
+  const [loadingW, setLoadingw]= useState(false);
   const [page, setPage] = useState(1);
   const [hasMore, setIsHasMore] = useState(false);
   const [widgets, setWidgets] = useState([]);
-  const [hoveredCart, setHoveredCart] = useState(false);
   const observer = useRef();
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef);
+
 
   const lastElementRef = useCallback(
     (node) => {
@@ -50,7 +44,6 @@ function Home() {
   useEffect(() => {
     getData();
   }, [page, window.innerWidth]);
-
   async function getData() {
     setLoading(true);
     await _axios({
@@ -68,13 +61,15 @@ function Home() {
           });
           //setData(response?.data?.data?.widgets);
         }
-        setLoading(false);
-        if (page >= response?.data?.data?.meta?.total_pages)
-          setIsHasMore(false);
+        setLoading(false)
+        if (page >= response?.data?.data?.meta?.total_pages) setIsHasMore(false);
         else setIsHasMore(true);
       })
       .catch((e) => {});
   }
+
+
+
   function useOutsideAlerter(ref) {
     useEffect(() => {
       /**
@@ -100,6 +95,7 @@ function Home() {
   }
 
   function showCart() {
+<<<<<<< HEAD
     if (window.innerWidth > 650) {
       setShowCartmenu(true);
       setTimeout(() => {
@@ -108,21 +104,26 @@ function Home() {
       }, 3000);
     } else {
       setShowCartmenuMob(true);
+=======
+    if(window.innerWidth > 650){
+      setShowCartmenu(true);
+    }else{
+      setShowCartmenuMob(true)
+>>>>>>> dd835d8 (no message)
     }
-
+    
     setOverlay(true);
   }
 
-  function closeCartMobMenu() {
+  function closeCartMobMenu(){
     setShowCartmenuMob(false);
     setOverlay(false);
   }
-  console.log(hoveredCart);
 
   return (
     <div className="container pt-3 min-h-screen">
       {showCartmenu && (
-        <div ref={wrapperRef} onMouseEnter={() => setHoveredCart(true)}>
+        <div ref={wrapperRef}>
           <TopCart cartmenu={showCartmenu} />
         </div>
       )}
@@ -156,39 +157,37 @@ function Home() {
           <CartmenuMobile closemenu={closeCartMobMenu} />
         </div>
       )}
-      {overlay && (
+       {overlay && (
         <div
           className="fixed h-full w-full min-h-full z-10 bg-dblackOverlay2 top-0 left-0"
           onClick={() => {
             setOverlay(false);
-            setShowCartmenuMob(false);
+            setShowCartmenuMob(false)
           }}
         ></div>
       )}
 
       {window.innerWidth < 650
         ? widgets?.map((widget) => {
-            return (
-              <WidgetsLoopMobile widget={widget} showCartmenuMob={showCart} />
-            );
+            return <WidgetsLoopMobile widget={widget} showCartmenuMob={showCart}/>;
           })
         : widgets?.map((widget, index) => {
-            if (widgets.length === index + 1) {
-              return (
-                <div className="theHome" ref={lastElementRef} key={widget}>
-                  <WidgetsLoop widget={widget} showCartmenu={showCart} />
-                </div>
-              );
-            } else {
-              return (
-                <div className="">
-                  <WidgetsLoop showCartmenu={showCart} widget={widget} />
-                </div>
-              );
-            }
+          if (widgets.length === index + 1) {
+            return (
+              <div className="theHome" ref={lastElementRef} key={widget}>
+                <WidgetsLoop widget={widget} showCartmenu={showCart} />
+              </div>
+            )
+          }else {
+            return (
+              <div className="">
+                <WidgetsLoop showCartmenu={showCart} widget={widget} />
+              </div>
+            );
+          }
           })}
-      {/* {loading && <PointsLoader />} */}
-      {loading && <PointsLoader />}
+          {/* {loading && <PointsLoader />} */}
+          {loading && <PointsLoader/>}
     </div>
   );
 }
