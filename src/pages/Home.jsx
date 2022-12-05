@@ -50,7 +50,6 @@ function Home() {
   useEffect(() => {
     getData();
   }, [page, window.innerWidth]);
-
   async function getData() {
     setLoading(true);
     await _axios({
@@ -75,6 +74,7 @@ function Home() {
       })
       .catch((e) => {});
   }
+
   function useOutsideAlerter(ref) {
     useEffect(() => {
       /**
@@ -117,6 +117,7 @@ function Home() {
     setShowCartmenuMob(false);
     setOverlay(false);
   }
+// hii
 
   return (
     <div className="container pt-3 min-h-screen">
