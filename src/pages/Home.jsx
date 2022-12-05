@@ -117,7 +117,6 @@ function Home() {
     setShowCartmenuMob(false);
     setOverlay(false);
   }
-  console.log(hoveredCart);
 
   return (
     <div className="container pt-3 min-h-screen">
@@ -187,7 +186,7 @@ function Home() {
               );
             }
           })}
-      {/* {loading && <PointsLoader />} */}
+    
       {loading && <PointsLoader />}
     </div>
   );
