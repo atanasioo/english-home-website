@@ -95,21 +95,10 @@ function Home() {
   }
 
   function showCart() {
-<<<<<<< HEAD
-    if (window.innerWidth > 650) {
-      setShowCartmenu(true);
-      setTimeout(() => {
-        setShowCartmenu(false);
-        setOverlay(false);
-      }, 3000);
-    } else {
-      setShowCartmenuMob(true);
-=======
     if(window.innerWidth > 650){
       setShowCartmenu(true);
     }else{
       setShowCartmenuMob(true)
->>>>>>> dd835d8 (no message)
     }
     
     setOverlay(true);
@@ -127,31 +116,6 @@ function Home() {
           <TopCart cartmenu={showCartmenu} />
         </div>
       )}
-      {hoveredCart && (
-        <>
-          <div
-            ref={wrapperRef}
-            onMouseEnter={() => {
-              setHoveredCart(true);
-              setOverlay(true);
-            }}
-            onMouseLeave={() => {
-              setTimeout(() => {
-                setHoveredCart(false);
-                setOverlay(false);
-              }, 2000);
-            }}
-          >
-            <TopCart cartmenu={hoveredCart} />
-          </div>
-          <div
-            className={`fixed h-full w-full min-h-full z-10 ${
-              showCartmenu ? "bg-transparent" : "bg-dblackOverlay2"
-            }  top-0 left-0`}
-          ></div>
-        </>
-      )}
-
       {showCartmenuMob && (
         <div>
           <CartmenuMobile closemenu={closeCartMobMenu} />
