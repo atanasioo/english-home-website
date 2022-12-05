@@ -99,46 +99,13 @@ function Home() {
     }, [ref, showCartmenu]);
   }
 
-  useEffect(()=>{
-    function showCart() {
-      console.log("hii");
-      if (window.innerWidth > 650) {
-        setShowCartmenu(true);
-        if (!hoveredCart) {
-          console.log("entered");
-          setTimeout(() => {
-            setOverlay(false);
-            setShowCartmenu(false);
-          }, 3000);
-        }else{
-          setShowCartmenu(true)
-          setOverlay(true)
-          console.log("heyy");
-        }
-      } else {
-        setShowCartmenuMob(true);
-      }
-  
-      setOverlay(true);
-    }
-    showCart()
-  },[hoveredCart])
-
   function showCart() {
-    console.log("hii");
     if (window.innerWidth > 650) {
       setShowCartmenu(true);
-      if (!hoveredCart) {
-        console.log("entered");
-        setTimeout(() => {
-          setOverlay(false);
-          setShowCartmenu(false);
-        }, 3000);
-      }else{
-        setShowCartmenu(true)
-        setOverlay(true)
-        console.log("heyy");
-      }
+      setTimeout(() => {
+        setShowCartmenu(false);
+        setOverlay(false);
+      }, 3000);
     } else {
       setShowCartmenuMob(true);
     }
@@ -155,22 +122,35 @@ function Home() {
   return (
     <div className="container pt-3 min-h-screen">
       {showCartmenu && (
-        <div
-          ref={wrapperRef}
-          onMouseEnter={() => {
-            setHoveredCart(true);
-            
-          }}
-          onMouseLeave={() =>
-            setTimeout(() => {
-              setOverlay(false);
-              setShowCartmenu(false);
-            }, 4000)
-          }
-        >
+        <div ref={wrapperRef} onMouseEnter={() => setHoveredCart(true)}>
           <TopCart cartmenu={showCartmenu} />
         </div>
       )}
+      {hoveredCart && (
+        <>
+          <div
+            ref={wrapperRef}
+            onMouseEnter={() => {
+              setHoveredCart(true);
+              setOverlay(true);
+            }}
+            onMouseLeave={() => {
+              setTimeout(() => {
+                setHoveredCart(false);
+                setOverlay(false);
+              }, 2000);
+            }}
+          >
+            <TopCart cartmenu={hoveredCart} />
+          </div>
+          <div
+            className={`fixed h-full w-full min-h-full z-10 ${
+              showCartmenu ? "bg-transparent" : "bg-dblackOverlay2"
+            }  top-0 left-0`}
+          ></div>
+        </>
+      )}
+
       {showCartmenuMob && (
         <div>
           <CartmenuMobile closemenu={closeCartMobMenu} />
