@@ -98,7 +98,7 @@ function Header() {
             </div>
           </section>
           <div
-            className="header__action  md:pt-6 bg-dwhite1 "
+            className="header__action  md:pt-6 bg-dwhite1 container"
             style={{ height: "85px" }}
           >
             <div className="md:container header__action-container relative mt-2.5 ">

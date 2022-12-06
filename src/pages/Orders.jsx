@@ -38,13 +38,13 @@ export default function Orders() {
         </div>
       </div>
 
-      <div className="flex">
+      <div className="flex w-full">
         <div className="">
         {window.innerWidth > 650 &&
           <VerticalNav />
         }
         </div>
-        <div className="sm:w-9/12   border">
+        <div className="w-full md:w-9/12   border">
           <div className="w-full  overflow-y-auto px-2  md:py-10 ">
             {/* Header */}
             <div className="flex items-center mb-8">
@@ -57,7 +57,7 @@ export default function Orders() {
               data?.orders?.map((data) => (
                 <div className="bg-white rounded-md pt-2 pb-5 mt-5">
                   <div className="md:mt-5  md:pb-5 ">
-                    <div className="flex flex-col justify-start items-center text-dblue sm:flex-row cart-header text-cente text-white bg-dbasenavy">
+                    <div className="flex flex-col justify-start items-center text-dblue sm:flex-row cart-header text-cente text-white bg-dbasenavy h-8">
                       <div className="md:w-6/12 md:text-left sm:text-center  md:ml-6"> #{data.order_id} </div>
 
                       <div className="md:w-6/12   sm:text-center text-right justify-end  md:ml-96 md md:pl-12">
