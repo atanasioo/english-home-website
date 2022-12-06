@@ -161,7 +161,7 @@ function PhoneHandler(props) {
             }`}
             placeholder={"Write in the format  xxxxxxxx"}
             minLength={7}
-            // required
+            required
             type="text"
             maxLength={8}
             onChange={(e) => onChangeHandler(e.target.value)}

@@ -14,7 +14,7 @@ function TopCart(props) {
   const [accountState] = useContext(AccountContext);
   const [showmenu, setShowmenu] = useState(false);
   const location = useLocation();
-  const width= window.innerWidth
+  const width = window.innerWidth;
 
   const upArrow = (
     <div className="absolute z-50 top-0  cursor-pointer">
@@ -186,7 +186,11 @@ function TopCart(props) {
       </div> */}
               <div
                 className="overflow-x-hidden overflow-y-hidden "
-                style={{ maxHeight: "270px", maxWidth: "320px" }}
+                style={{
+                  maxHeight: "270px",
+                  minHeight: "270px",
+                  maxWidth: "320px",
+                }}
               >
                 <div className="table w-full p-4">
                   <div className="table-row-group cart_slider">
@@ -198,17 +202,38 @@ function TopCart(props) {
                           key={product?.product_id}
                         >
                           <div className="table-cell align-top w-16">
-                            <Link className="header__basket__item__img">
+                            <Link
+                              to={`${path}/${product?.name
+                                .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                                .replace(/\s+/g, "-")
+                                .replace("..", "")
+                                .replace("/", "-")
+                                .replace("---", "-")
+                                .replace("--", "-")
+                                .replace("/", "")}/p=${product?.product_id}`}
+                              className="header__basket__item__img"
+                            >
                               <img src={product?.thumb} alt="" />
                             </Link>
                           </div>
                           <Link
+                            to={`${path}/${product?.name
+                              .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                              .replace(/\s+/g, "-")
+                              .replace("..", "")
+                              .replace("/", "-")
+                              .replace("---", "-")
+                              .replace("--", "-")
+                              .replace("/", "")}/p=${product?.product_id}`}
                             className="flex flex-col justify-between pl-2.5 text-left font-mono w-full"
                             style={{ maxWidth: "200px" }}
                           >
-                            <p className="header__basket__item__text__product__name text-sm line-clamp-3" 
-                            dangerouslySetInnerHTML={{__html: product?.name}}>
-                            </p>
+                            <p
+                              className="header__basket__item__text__product__name text-sm line-clamp-3"
+                              dangerouslySetInnerHTML={{
+                                __html: product?.name,
+                              }}
+                            ></p>
                             <div className="product-quantity-area text-sm">
                               Quantity: {product?.quantity}
                             </div>
@@ -302,7 +327,11 @@ function TopCart(props) {
           </div>
           <div
             className="overflow-x-hidden overflow-y-hidden -mr-2"
-            style={{ maxHeight: "270px", maxWidth: "320px" }}
+            style={{
+              maxHeight: "270px",
+              minHeight: "270px",
+              maxWidth: "320px",
+            }}
           >
             <div className="table w-full p-4">
               <div className="table-row-group cart_slider">

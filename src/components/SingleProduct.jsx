@@ -135,7 +135,6 @@ export default function SingleProduct(props) {
             });
           } else {
             props.showCartmenuMob();
-            console.log("hii");
             setPopupC(true);
           }
 

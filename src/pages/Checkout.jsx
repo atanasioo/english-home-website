@@ -135,6 +135,8 @@ function Checkout() {
             setAddressmenu(false);
             setEditAddress(false);
             window.location.reload();
+          }else{
+            setError(response.data.errors["0"].errorMsg)
           }
         });
     } else {
@@ -662,7 +664,9 @@ function Checkout() {
                 </div>
               </div>
               <div className="-mx-5 border border-b border-dgrey3"></div>
-              <input type="text" name="" id="" />
+              {error && (
+                <div className="text-dred4 text-sm">{error}</div>
+              )}
               <div className="title flex flex-col items-start">
                 <label htmlFor="title" className="w-full mt-2.5">
                   Address *
@@ -673,6 +677,7 @@ function Checkout() {
                   ref={address_1}
                   defaultValue={editAddress ? activeAddress.address_1 : ""}
                   id=""
+                  required
                   placeholder="eg: home, work..."
                   className="address-modal__input"
                   style={{ maxWidth: "225px" }}
@@ -746,6 +751,7 @@ function Checkout() {
                     name="zone"
                     ref={zone_id}
                     id=""
+                    required
                     className="address-modal__input border border-dgrey6"
                   >
                     {zones?.map((zone) => (

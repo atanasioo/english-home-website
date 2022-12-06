@@ -583,7 +583,7 @@ function Category() {
                             filters[key].name === "DIMENSIONS" ||
                             filters[key].name === "Size" ? (
                               <div
-                                className={`w-full border bg-white my-1 text-dborderblack0 text-d15 py-1 ${checkFilter(
+                                className={`w-full border bg-white my-1 text-dborderblack0 text-d15 py-1 cursor-pointer ${checkFilter(
                                   filters[key].id,
                                   filters[key].name,
                                   filter
@@ -596,7 +596,7 @@ function Category() {
                               </div>
                             ) : (
                               <div
-                                className={`text-left w-full hover:underline underline-offset-4 text-dborderblack0 text-d15 pointer-events-auto ${checkFilter(
+                                className={`text-left w-full hover:underline underline-offset-4 text-dborderblack0 text-d15 pointer-events-auto cursor-pointer ${checkFilter(
                                   filters[key].id,
                                   filter.name,
                                   filter
