@@ -120,7 +120,7 @@ function Home() {
 // hii
 
   return (
-    <div className="container pt-3 min-h-screen">
+    <div className="mx-1 md:mx-auto md:container pt-3 min-h-screen">
       {showCartmenu && (
         <div ref={wrapperRef} onMouseEnter={() => setHoveredCart(true)}>
           <TopCart cartmenu={showCartmenu} />
