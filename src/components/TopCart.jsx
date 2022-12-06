@@ -342,11 +342,29 @@ function TopCart(props) {
                       key={product?.product_id}
                     >
                       <div className="table-cell align-top w-16">
-                        <Link className="header__basket__item__img">
+                        <Link
+                          to={`${path}/${product?.name
+                            .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                            .replace(/\s+/g, "-")
+                            .replace("..", "")
+                            .replace("/", "-")
+                            .replace("---", "-")
+                            .replace("--", "-")
+                            .replace("/", "")}/p=${product?.product_id}`}
+                          className="header__basket__item__img"
+                        >
                           <img src={product?.thumb} alt="" />
                         </Link>
                       </div>
                       <Link
+                        to={`${path}/${product?.name
+                          .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                          .replace(/\s+/g, "-")
+                          .replace("..", "")
+                          .replace("/", "-")
+                          .replace("---", "-")
+                          .replace("--", "-")
+                          .replace("/", "")}/p=${product?.product_id}`}
                         className="flex flex-col justify-between pl-2.5 text-left font-mono w-full"
                         style={{ maxWidth: "200px" }}
                       >

@@ -186,7 +186,8 @@ function TopSearch() {
                          // onError={(event) => (event.target.src = sq)}
                           width="24"
                           height="24"
-                          //src={`${window.config["site-url"]}/image/${img}`}
+                          src={`${window.config["site-url"]}/image/${img}`}
+                          //src={`https://www.ishtari.com/image/${img}`}
                           alt=""
                         />
                       ) : types[type] === "seller" ||
