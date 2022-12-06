@@ -22,7 +22,8 @@ export default function Orders() {
   }, [window.location.href]);
 
   return (
-    <div className="relative -top-2  pt-5 px-12">
+    <div className="relative -top-2  pt-5 md:px-12 sm:px-2">
+  
       <div className="flex py-5 bg-dyellow2 my-5 mx-12">
         <div className="w-1/3"></div>
         <div className="flex flex-col w-full items-center">
@@ -36,12 +37,15 @@ export default function Orders() {
           </Link>
         </div>
       </div>
+
       <div className="flex">
         <div className="">
+        {window.innerWidth > 650 &&
           <VerticalNav />
+        }
         </div>
-        <div className="w-9/12  border">
-          <div className="w-full  overflow-y-auto px-2  md:py-10">
+        <div className="sm:w-9/12   border">
+          <div className="w-full  overflow-y-auto px-2  md:py-10 ">
             {/* Header */}
             <div className="flex items-center mb-8">
               <div>
@@ -53,10 +57,10 @@ export default function Orders() {
               data?.orders?.map((data) => (
                 <div className="bg-white rounded-md pt-2 pb-5 mt-5">
                   <div className="md:mt-5  md:pb-5 ">
-                    <div className="flex flex-col justify-start items-center text-dblue sm:flex-row cart-header text-center sm:text-white bg-dbasenavy">
-                      <div className="w-8/12 text-left ml-6"> #{data.order_id} </div>
+                    <div className="flex flex-col justify-start items-center text-dblue sm:flex-row cart-header text-cente text-white bg-dbasenavy">
+                      <div className="md:w-6/12 md:text-left sm:text-center  md:ml-6"> #{data.order_id} </div>
 
-                      <div className="mx-4 text-right justify-end ">
+                      <div className="md:w-6/12   sm:text-center text-right justify-end  md:ml-96 md md:pl-12">
                         <Link
                           className="flex mx-4"
                           to={{
@@ -109,7 +113,7 @@ export default function Orders() {
                     <div className="cart-body">
                       <div className="flex md:px-2 py-1 justify-between items-center mt-4 md:ml-5 bg-white">
                         <div className="focus:text-dblue flex-row  items-center space-y-4  border-dblue">
-                          <p className="flex space-x-1 text-sm">
+                          <p className="flex space-x-1 text-sm text-left">
                             <span>Name:</span> <span>{data.name}</span>
                           </p>
                           <p className="flex items-center text-center space-x-1 text-sm">
