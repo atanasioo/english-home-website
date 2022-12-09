@@ -59,8 +59,8 @@ var urls = {
 
 
   pixelID = "668318187192045";
-  host = "https://www.ishtari.com/";
-  path1 = "motor/";
+  host = "https://www.englishhome.com.lb/api/";
+  //path1 = "motor/";
 
 
 function buildLink(link, payload, width) {
