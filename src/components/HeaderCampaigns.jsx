@@ -1,12 +1,15 @@
 import React from "react";
+import { useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { AccountContext } from "../contexts/AccountContext";
 
 function HeaderCampaigns() {
   const location = useLocation();
+  const [state, dispatch] = useContext(AccountContext);
 
   return (
     <>
-      {location.pathname !== "/checkout" && (
+      {state?.admin && location.pathname !== "/checkout" && (
         <div className="header-campaigns bg-dyellow2 text-center text-dred2 py-2.5 text-sm md:mt-3.5 lg:mt-0">
           <div className="container flex flex-wrap justify-center">
             <div className="campaign-item flex items-center">

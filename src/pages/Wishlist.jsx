@@ -128,7 +128,7 @@ const Wishlist = () => {
           Favorites
         </div>
       </div>
-      <div className="container">
+      <div className="mx-1 md:mx-auto md:container">
         {loading ? (
           <Loader />
         ) : products.length === 0 ? (

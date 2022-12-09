@@ -28,12 +28,13 @@ import Latest from "./pages/Latest";
 function App() {
   const width = window.innerWidth;
 
+
   return (
     <div className="App ">
       <CartProvider>
         <AccountProvider>
           <WishlistProvider>
-            <Header />
+          <Header />   
           {width > 650 && <HeaderCampaigns />}
           <Routes>
             <Route path="/" element={<Home />} />
@@ -70,12 +71,6 @@ function App() {
             <Route path="account/order-details" element={<OrderDetails />} />
             <Route path="account/wishlist" element={<Wishlist />} />
             <Route path="success" element={<Success />} />
-
-
-
-
-
-
           </Routes>
           <Footer />
           </WishlistProvider>

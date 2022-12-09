@@ -459,439 +459,106 @@ function Category() {
   }
 
   return (
-    <div className=" bg-dgrey10 pt-1">
-      {!data?.products ? (
-        <Loader />
-      ) : (
-        <>
-          {showCartmenu && (
-            <div ref={wrapperRef} onMouseEnter={() => setHoveredCart(true)}>
-              <TopCart cartmenu={showCartmenu} />
-            </div>
-          )}
-          {hoveredCart && (
-            <>
-              <div
-                onMouseEnter={() => {
-                  setHoveredCart(true);
-                }}
-                onMouseLeave={() => {
-
-                  setHoveredCart(false);
-                  
-                }}
-              >
-                <TopCart cartmenu={hoveredCart} />
+    <div className=" bg-dgrey10 pt-1 w-full">
+      <div className="md:container">
+        {!data?.products ? (
+          <Loader />
+        ) : (
+          <>
+            {showCartmenu && (
+              <div ref={wrapperRef} onMouseEnter={() => setHoveredCart(true)}>
+                <TopCart cartmenu={showCartmenu} />
               </div>
-              {/* <div
+            )}
+            {hoveredCart && (
+              <>
+                <div
+                  onMouseEnter={() => {
+                    setHoveredCart(true);
+                  }}
+                  onMouseLeave={() => {
+                    setHoveredCart(false);
+                  }}
+                >
+                  <TopCart cartmenu={hoveredCart} />
+                </div>
+                {/* <div
                 className={`fixed h-full w-full min-h-full z-10 ${
                   showCartmenu ? "bg-transparent" : "bg-dblackOverlay2"
                 }  top-0 left-0`}
               ></div> */}
-            </>
-          )}
-          {overlay && (
-            <div
-              className="fixed h-full w-full min-h-full z-10 bg-dblackOverlay2 top-0 left-0"
-              onClick={() => {
-                setOverlay(false);
-                setShowCartmenu(false);
-              }}
-            ></div>
-          )}
-          <div className="  flex  pt-4 pb-2 pl-8 items-center text-d16 text-dblack1 capitalize">
-            <div className=" flex w-3/12">
-              <div className="flex items-center ">
-                <Link
-                  to="/"
-                  className=" md:block text-dborderblack0 font-light truncate text-d16 md:text-tiny mr-2 hover:text-dblue"
-                  dangerouslySetInnerHTML={{
-                    __html: "Home",
-                  }}
-                />{" "}
-                <RiArrowRightSLine className="text-d22 font-light mt-0.5 -mx-2 " />
-              </div>
-              {data?.breadcrumbs?.map((bread) => (
-                <div
-                  className="flex items-center text-dborderblack0"
-                  key={bread.text}
-                >
-                  <p className=" mx-2">{bread.text.replace("&amp;", "&")}</p>
-                </div>
-              ))}
-            </div>
-            {window.innerWidth > 650 && (
-              <div className="w-1/2 text-left text-d14">
-                Showing {data?.products?.length} products
-              </div>
+              </>
             )}
-          </div>
-          <div className="border border-t-0 ml-8 mr-5"></div>
-
-          <div
-            className={`flex flex-row p-2 mt-2 ${
-              !pointer && "pointer-events-none select-none opacity-25"
-            }`}
-          >
-            {window.innerWidth > 650 && (
-              <div className="w-3/12 px-8">
-                <div className="w-10/12 text-left text-d18  border-b border-b-dblack2 py-2">
-                  CATEGORIES
-                </div>
-                <div className="w-10/12 text-left py-2">FILTERS</div>
-                <div className="w-10/12 ">
-                  {Object.keys(filters).map((key) => (
-                    <div key={key} className="w-full">
-                      <div className="w-full text-left text-dblack2 uppercase  py-2">
-                        {filters[key]?.items.length > 0 && filters[key].name}
-                      </div>
-                      {filters[key]?.items.length > 0 &&
-                      filters[key].name === "Color" ? (
-                        <div
-                          className={`${
-                            filters[key]?.items.length > 6 &&
-                            "h-36 overflow-y-auto"
-                          }`}
-                        >
-                          <div className="grid grid-cols-4 w-3/4 ">
-                            {filters[key]?.items?.map((filter) => (
-                              <div className="text-left w-full my-1">
-                                <img
-                                  src={filter.image}
-                                  alt={filter.name}
-                                  className={`rounded-full w-8   ${checkFilter(
-                                    filters[key].id,
-                                    filters[key].name,
-                                    filter
-                                  )}`}
-                                  onClick={() =>
-                                    parseFilter(filters[key].id, filter)
-                                  }
-                                />
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      ) : (
-                        <div
-                          className={`${
-                            filters[key]?.items.length > 6 &&
-                            "h-36 overflow-y-auto"
-                          }`}
-                        >
-                          {filters[key]?.items?.map((filter) =>
-                            filters[key].name === "DIMENSIONS" ||
-                            filters[key].name === "Size" ? (
-                              <div
-                                className={`w-full border bg-white my-1 text-dborderblack0 text-d15 py-1 cursor-pointer ${checkFilter(
-                                  filters[key].id,
-                                  filters[key].name,
-                                  filter
-                                )}`}
-                                onClick={() =>
-                                  parseFilter(filters[key].id, filter)
-                                }
-                              >
-                                {filter.name}
-                              </div>
-                            ) : (
-                              <div
-                                className={`text-left w-full hover:underline underline-offset-4 text-dborderblack0 text-d15 pointer-events-auto cursor-pointer ${checkFilter(
-                                  filters[key].id,
-                                  filter.name,
-                                  filter
-                                )}`}
-                                onClick={() =>
-                                  parseFilter(filters[key].id, filter)
-                                }
-                              >
-                                {filter.name}
-                              </div>
-                            )
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
+            {overlay && (
+              <div
+                className="fixed h-full w-full min-h-full z-10 bg-dblackOverlay2 top-0 left-0"
+                onClick={() => {
+                  setOverlay(false);
+                  setShowCartmenu(false);
+                }}
+              ></div>
             )}
-
-            {window.innerWidth > 650 ? (
-              <div className="w-9/12">
-                <div className="flex w-full  pb-2">
-                  <div className="flex w-9/12 text-left pl-4">
-                    VIEW{" "}
-                    <div
-                      className={`flex ml-4 pt-1.5 ${
-                        view === 2
-                          ? "text-d16  text-dborderblack1 "
-                          : "ml-3 text-d14 text-dbordergrey"
-                      }`}
-                      onClick={() => setView(2)}
-                    >
-                      <GiSquare />
-                      <GiSquare
-                        className={`${view === 2 ? "-ml-0.5" : "-ml-0.5"}`}
-                      />
-                    </div>
-                    <div
-                      className={`flex pt-1.5 ${
-                        view === 3
-                          ? "text-d16 text-dborderblack1 mx-3 -top-1"
-                          : "mx-2 text-d14 text-dbordergrey"
-                      }`}
-                      onClick={() => setView(3)}
-                    >
-                      <GiSquare />
-                      <GiSquare
-                        className={`${view === 3 ? "-mx-0.5" : "-mx-0.5"}`}
-                      />
-                      <GiSquare />
-                    </div>{" "}
-                    <div
-                      className={`flex  pt-1.5 ${
-                        view === 4
-                          ? "text-d16 text-dborderblack1"
-                          : "text-d14 text-dbordergrey"
-                      }`}
-                      onClick={() => setView(4)}
-                    >
-                      <GiSquare />
-                      <GiSquare
-                        className={view === 4 ? "-mx-0.5" : "-mx-0.5"}
-                      />
-                      <GiSquare
-                        className={view === 4 ? "-mr-0.5" : "-mr-0.5"}
-                      />
-                      <GiSquare />
-                    </div>
-                  </div>
-                  <div className="w-3/12 text-left">
-                    <div className="flex">
-                      <div className="">sort</div>
-                      <div
-                        className=" ml-3 text-center bg-white border border-dbgrey1 w-44"
-                        onClick={() => setShowSort(!showSort ? true : false)}
-                      >
-                        <div
-                          dangerouslySetInnerHTML={{
-                            __html: sort?.text ? sort?.text : sort,
-                          }}
-                        ></div>
-                      </div>
-                    </div>
-                    <div
-                      className={`w-44 bg-white absolute z-10 ml-10 ${
-                        !showSort && "hidden"
-                      }`}
-                    >
-                      {data?.sorts?.map((sort) => (
-                        <div
-                          className="pl-5 py-1 "
-                          onClick={() => sortSetter(sort)}
-                          dangerouslySetInnerHTML={{
-                            __html: sort.text,
-                          }}
-                        ></div>
-                      ))}
-                    </div>
-                  </div>
+            <div className="  flex  pt-4 pb-2 pl-8 items-center text-d16 text-dblack1 capitalize">
+              <div className=" flex w-3/12">
+                <div className="flex items-center ">
+                  <Link
+                    to="/"
+                    className=" md:block text-dborderblack0 font-light truncate text-d16 md:text-tiny mr-2 hover:text-dblue"
+                    dangerouslySetInnerHTML={{
+                      __html: "Home",
+                    }}
+                  />{" "}
+                  <RiArrowRightSLine className="text-d22 font-light mt-0.5 -mx-2 " />
                 </div>
-                <div className="border border-t-0 mx-3"></div>
-
-                <div
-                  className={`grid ${
-                    view !== 2 && view !== 4
-                      ? "grid-cols-3"
-                      : "grid-cols-" + view
-                  } `}
-                >
-                  {data?.products?.map((product) => (
-                    <div className="">
-                      <SingleProductCategory
-                        item={product}
-                        showCartmenu={showCart}
-                      ></SingleProductCategory>
-                    </div>
-                  ))}
-                </div>
-                {/* Pagination */}
-                {Math.ceil(data["product_total"] / data.limit) > 1 && (
-                  <ReactPaginate
-                    pageCount={Math.ceil(data["product_total"] / data.limit)}
-                    containerClassName={"category-pagination"}
-                    onPageChange={pageSetter}
-                    pageRangeDisplayed={width > 650 ? 2 : 1}
-                    marginPagesDisplayed={width > 650 ? 1 : 1}
-                    previousLabel={<BsChevronLeft className="mt-1 pt-0.5" />}
-                    previousLinkClassName={"arrowLink"}
-                    nextLinkClassName={"arrowLink"}
-                    nextLabel={<BsChevronRight className="mt-1 pt-0.5" />}
-                    activeClassName={"active-pagination-category"}
-                    forcePage={
-                      parsedQueryString.page
-                        ? parseInt(parsedQueryString.page) - 1
-                        : 0
-                    }
-                  ></ReactPaginate>
-                )}
-              </div>
-            ) : (
-              <div>
-                <div className="grid grid-cols-2 grid-2">
-                  <div className="flex w-full " onClick={showMobilefilter}>
-                    <span className="w-2/6"></span>
-                    <span>Filter</span>
-                    <span className="mt-1 mx-4">
-                      <CiFilter />
-                    </span>
-                  </div>
+                {data?.breadcrumbs?.map((bread) => (
                   <div
-                    className="border-l flex w-full"
-                    onClick={() => setShowSort(showSort ? false : true)}
+                    className="flex items-center text-dborderblack0"
+                    key={bread.text}
                   >
-                    <span className="w-2/6"></span>
-                    <span>Sort</span>
-                    <span className="mt-1 mx-4">
-                      <BiSortAlt2 />
-                    </span>
-                    <div
-                      className={`w-52 bg-white absolute z-20 top-52  -mt-3 text-left border border-dblack1 ${
-                        !showSort && "hidden"
-                      }`}
-                    >
-                      {data?.sorts?.map((sort) => (
-                        <div
-                          className="pl-5 py-2 "
-                          onClick={() => sortSetter(sort)}
-                          dangerouslySetInnerHTML={{
-                            __html: sort.text,
-                          }}
-                        ></div>
-                      ))}
-                    </div>
+                    <p className=" mx-2 whitespace-nowrap">{bread.text.replace("&amp;", "&")}</p>
                   </div>
+                ))}
+              </div>
+              {window.innerWidth > 650 && (
+                <div className="w-1/2 text-left text-d14">
+                  Showing {data?.products?.length} products
                 </div>
-                <div className="grid grid-cols-2 ">
-                  {data?.products?.map((product) => (
-                    <div className="">
-                      <SingleProductCategory
-                        item={product}
-                      ></SingleProductCategory>
-                    </div>
-                  ))}
-                </div>
-                {/* Pagination */}
-                {Math.ceil(data["product_total"] / data.limit) > 1 && (
-                  <ReactPaginate
-                    pageCount={Math.ceil(data["product_total"] / data.limit)}
-                    containerClassName={"category-pagination"}
-                    onPageChange={pageSetter}
-                    pageRangeDisplayed={width > 650 ? 2 : 1}
-                    marginPagesDisplayed={width > 650 ? 1 : 1}
-                    previousLabel={<BsChevronLeft className="mt-1 pt-0.5" />}
-                    previousLinkClassName={"arrowLink"}
-                    nextLinkClassName={"arrowLink"}
-                    nextLabel={<BsChevronRight className="mt-1 pt-0.5" />}
-                    activeClassName={"active-pagination-category"}
-                    forcePage={
-                      parsedQueryString.page
-                        ? parseInt(parsedQueryString.page) - 1
-                        : 0
-                    }
-                  ></ReactPaginate>
-                )}
-                <div
-                  className={`absolute z-50 top-36  bg-white w-3/4 h-4/6 mx-12 pb-2 overflow-y-scroll  ${
-                    !filterMobileShow && "hidden"
-                  }`}
-                >
-                  <div className="text-left w-full py-3 px-3  text-dbasenavy text-d18 font-bold bg-dyellow2 ">
-                    Filter
+              )}
+            </div>
+            <div className="border border-t-0 ml-8 mr-5"></div>
+
+            <div
+              className={`flex flex-row p-2 mt-2 ${
+                !pointer && "pointer-events-none select-none opacity-25"
+              }`}
+            >
+              {window.innerWidth > 650 && (
+                <div className="w-3/12 px-8">
+                  <div className="w-10/12 text-left text-d18  border-b border-b-dblack2 py-2">
+                    CATEGORIES
                   </div>
-                  {}
-                  {Object.keys(filters).map(
-                    (key) =>
-                      filters[key]?.items.length > 0 && (
-                        <div
-                          key={key}
-                          className=" border border-dbordergrey3 p-3 m-3  text-d14"
-                        >
-                          {
-                            <div
-                              className={`flex w-full text-left text-dblack2 uppercase `}
-                              onClick={() =>
-                                !filterMobile.includes(filters[key].id)
-                                  ? setFilterMobile((filterMobile) => [
-                                      ...filterMobile,
-                                      filters[key].id,
-                                    ])
-                                  : setFilterMobile((filterMobile) =>
-                                      filterMobile.filter(
-                                        (filterMobile) =>
-                                          filterMobile !== filters[key].id
-                                      )
-                                    )
-                              }
-                            >
-                              <div className="w-11/12">
-                                {filters[key].name}{" "}
-                              </div>
-                              <div className="text-black font-medium">
-                                {filterMobile.includes(filters[key].id)
-                                  ? "-"
-                                  : "+"}
-                              </div>
-                            </div>
-                          }
-                          {filters[key].name === "Color" ? (
-                            <div
-                              className={` my-5 ${
-                                filters[key]?.items.length > 6 &&
-                                !filterMobile.includes(filters[key].id) &&
-                                " overflow-y-auto h-36 px-2"
-                              }  ${
-                                !filterMobile.includes(filters[key].id)
-                                  ? "hidden"
-                                  : ""
-                              }}`}
-                            >
-                              <div className="grid grid-cols-4 w-3/4 ">
-                                {filters[key]?.items?.map((filter) => (
-                                  <div className="text-left w-full my-1">
-                                    <img
-                                      src={filter.image}
-                                      alt={filter.name}
-                                      className={`rounded-full w-8   ${checkFilter(
-                                        filters[key].id,
-                                        filters[key].name,
-                                        filter
-                                      )}`}
-                                      onClick={() =>
-                                        parseFilter(filters[key].id, filter)
-                                      }
-                                    />
-                                  </div>
-                                ))}
-                              </div>
-                            </div>
-                          ) : (
-                            <div
-                              className={`my-5 ${
-                                filters[key]?.items.length > 6 &&
-                                "overflow-y-auto h-36 px-2"
-                              }  ${
-                                !filterMobile.includes(filters[key].id)
-                                  ? "hidden"
-                                  : ""
-                              }`}
-                            >
-                              {filters[key]?.items?.map((filter) =>
-                                filters[key].name === "DIMENSIONS" ||
-                                filters[key].name === "Size" ? (
-                                  <div
-                                    className={`w-full border bg-white my-1 text-dborderblack0 text-d15 py-1 ${checkFilter(
+                  <div className="w-10/12 text-left py-2">FILTERS</div>
+                  <div className="w-10/12 ">
+                    {Object.keys(filters).map((key) => (
+                      <div key={key} className="w-full">
+                        <div className="w-full text-left text-dblack2 uppercase  py-2">
+                          {filters[key]?.items.length > 0 && filters[key].name}
+                        </div>
+                        {filters[key]?.items.length > 0 &&
+                        filters[key].name === "Color" ? (
+                          <div
+                            className={`${
+                              filters[key]?.items.length > 6 &&
+                              "h-36 overflow-y-auto"
+                            }`}
+                          >
+                            <div className="grid grid-cols-4 w-3/4 ">
+                              {filters[key]?.items?.map((filter) => (
+                                <div className="text-left w-full my-1">
+                                  <img
+                                    src={filter.image}
+                                    alt={filter.name}
+                                    className={`rounded-full w-8   ${checkFilter(
                                       filters[key].id,
                                       filters[key].name,
                                       filter
@@ -899,55 +566,388 @@ function Category() {
                                     onClick={() =>
                                       parseFilter(filters[key].id, filter)
                                     }
-                                  >
-                                    {filter.name}
-                                  </div>
-                                ) : (
-                                  <div
-                                    className={`text-left w-full hover:underline underline-offset-4 text-dborderblack0 text-d15 pointer-events-auto ${checkFilter(
-                                      filters[key].id,
-                                      filter.name,
-                                      filter
-                                    )}`}
-                                    onClick={() =>
-                                      parseFilter(filters[key].id, filter)
-                                    }
-                                  >
-                                    {filter.name}
-                                  </div>
-                                )
-                              )}
+                                  />
+                                </div>
+                              ))}
                             </div>
-                          )}
+                          </div>
+                        ) : (
+                          <div
+                            className={`${
+                              filters[key]?.items.length > 6 &&
+                              "h-36 overflow-y-auto"
+                            }`}
+                          >
+                            {filters[key]?.items?.map((filter) =>
+                              filters[key].name === "DIMENSIONS" ||
+                              filters[key].name === "Size" ? (
+                                <div
+                                  className={`w-full border bg-white my-1 text-dborderblack0 text-d15 py-1 cursor-pointer ${checkFilter(
+                                    filters[key].id,
+                                    filters[key].name,
+                                    filter
+                                  )}`}
+                                  onClick={() =>
+                                    parseFilter(filters[key].id, filter)
+                                  }
+                                >
+                                  {filter.name}
+                                </div>
+                              ) : (
+                                <div
+                                  className={`text-left w-full hover:underline underline-offset-4 text-dborderblack0 text-d15 pointer-events-auto cursor-pointer ${checkFilter(
+                                    filters[key].id,
+                                    filter.name,
+                                    filter
+                                  )}`}
+                                  onClick={() =>
+                                    parseFilter(filters[key].id, filter)
+                                  }
+                                >
+                                  {filter.name}
+                                </div>
+                              )
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {window.innerWidth > 650 ? (
+                <div className="w-9/12">
+                  <div className="flex w-full  pb-2">
+                    <div className="flex w-9/12 text-left pl-4">
+                      VIEW{" "}
+                      <div
+                        className={`flex ml-4 pt-1.5 ${
+                          view === 2
+                            ? "text-d16  text-dborderblack1 "
+                            : "ml-3 text-d14 text-dbordergrey"
+                        }`}
+                        onClick={() => setView(2)}
+                      >
+                        <GiSquare />
+                        <GiSquare
+                          className={`${view === 2 ? "-ml-0.5" : "-ml-0.5"}`}
+                        />
+                      </div>
+                      <div
+                        className={`flex pt-1.5 ${
+                          view === 3
+                            ? "text-d16 text-dborderblack1 mx-3 -top-1"
+                            : "mx-2 text-d14 text-dbordergrey"
+                        }`}
+                        onClick={() => setView(3)}
+                      >
+                        <GiSquare />
+                        <GiSquare
+                          className={`${view === 3 ? "-mx-0.5" : "-mx-0.5"}`}
+                        />
+                        <GiSquare />
+                      </div>{" "}
+                      <div
+                        className={`flex  pt-1.5 ${
+                          view === 4
+                            ? "text-d16 text-dborderblack1"
+                            : "text-d14 text-dbordergrey"
+                        }`}
+                        onClick={() => setView(4)}
+                      >
+                        <GiSquare />
+                        <GiSquare
+                          className={view === 4 ? "-mx-0.5" : "-mx-0.5"}
+                        />
+                        <GiSquare
+                          className={view === 4 ? "-mr-0.5" : "-mr-0.5"}
+                        />
+                        <GiSquare />
+                      </div>
+                    </div>
+                    <div className="w-3/12 text-left">
+                      <div className="flex">
+                        <div className="">sort</div>
+                        <div
+                          className=" ml-3 text-center bg-white border border-dbgrey1 w-44"
+                          onClick={() => setShowSort(!showSort ? true : false)}
+                        >
+                          <div
+                            dangerouslySetInnerHTML={{
+                              __html: sort?.text ? sort?.text : sort,
+                            }}
+                          ></div>
                         </div>
-                      )
+                      </div>
+                      <div
+                        className={`w-44 bg-white absolute z-10 ml-10 ${
+                          !showSort && "hidden"
+                        }`}
+                      >
+                        {data?.sorts?.map((sort) => (
+                          <div
+                            className="pl-5 py-1 "
+                            onClick={() => sortSetter(sort)}
+                            dangerouslySetInnerHTML={{
+                              __html: sort.text,
+                            }}
+                          ></div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="border border-t-0 mx-3"></div>
+
+                  <div
+                    className={`grid ${
+                      view !== 2 && view !== 4
+                        ? "grid-cols-3"
+                        : "grid-cols-" + view
+                    } `}
+                  >
+                    {data?.products?.map((product) => (
+                      <div className="">
+                        <SingleProductCategory
+                          item={product}
+                          showCartmenu={showCart}
+                        ></SingleProductCategory>
+                      </div>
+                    ))}
+                  </div>
+                  {/* Pagination */}
+                  {Math.ceil(data["product_total"] / data.limit) > 1 && (
+                    <ReactPaginate
+                      pageCount={Math.ceil(data["product_total"] / data.limit)}
+                      containerClassName={"category-pagination"}
+                      onPageChange={pageSetter}
+                      pageRangeDisplayed={width > 650 ? 2 : 1}
+                      marginPagesDisplayed={width > 650 ? 1 : 1}
+                      previousLabel={<BsChevronLeft className="mt-1 pt-0.5" />}
+                      previousLinkClassName={"arrowLink"}
+                      nextLinkClassName={"arrowLink"}
+                      nextLabel={<BsChevronRight className="mt-1 pt-0.5" />}
+                      activeClassName={"active-pagination-category"}
+                      forcePage={
+                        parsedQueryString.page
+                          ? parseInt(parsedQueryString.page) - 1
+                          : 0
+                      }
+                    ></ReactPaginate>
                   )}
                 </div>
-
-                {filterMobileShow && (
-                  <div className="w-screen h-screen	 fixed z-20 top-0 bg-dborderblack3 opacity-50 -ml-2"></div>
-                )}
-                {filterMobileShow && (
-                  <div className="flex w-screen z-30 bottom-0 bg-white -ml-2 fixed p-3 font-bold uppercase">
-                    <button
-                      className="text-center border text-dborderblack5 mx-2 w-1/2 p-3"
-                      onClick={() => setFilterMobileShow(false)}
+              ) : (
+                <div>
+                  <div className="grid grid-cols-2 grid-2">
+                    <div className="flex w-full " onClick={showMobilefilter}>
+                      <span className="w-2/6"></span>
+                      <span>Filter</span>
+                      <span className="mt-1 mx-4">
+                        <CiFilter />
+                      </span>
+                    </div>
+                    <div
+                      className="border-l flex w-full"
+                      onClick={() => setShowSort(showSort ? false : true)}
                     >
-                      GIVE UP
-                    </button>
-                    <button
-                      className="text-center border bg-dblack1 p-3 mx-1 text-white w-1/2"
-                      onClick={() => setFilterMobileShow(false)}
-                    >
-                      APPLY
-                    </button>
+                      <span className="w-2/6"></span>
+                      <span>Sort</span>
+                      <span className="mt-1 mx-4">
+                        <BiSortAlt2 />
+                      </span>
+                      <div
+                        className={`w-52 bg-white absolute z-20 top-52  -mt-3 text-left border border-dblack1 ${
+                          !showSort && "hidden"
+                        }`}
+                      >
+                        {data?.sorts?.map((sort) => (
+                          <div
+                            className="pl-5 py-2 "
+                            onClick={() => sortSetter(sort)}
+                            dangerouslySetInnerHTML={{
+                              __html: sort.text,
+                            }}
+                          ></div>
+                        ))}
+                      </div>
+                    </div>
                   </div>
-                )}
-              </div>
-            )}
-          </div>
-        </>
-      )}
+                  <div className="grid grid-cols-2 ">
+                    {data?.products?.map((product) => (
+                      <div className="">
+                        <SingleProductCategory
+                          item={product}
+                        ></SingleProductCategory>
+                      </div>
+                    ))}
+                  </div>
+                  {/* Pagination */}
+                  {Math.ceil(data["product_total"] / data.limit) > 1 && (
+                    <ReactPaginate
+                      pageCount={Math.ceil(data["product_total"] / data.limit)}
+                      containerClassName={"category-pagination"}
+                      onPageChange={pageSetter}
+                      pageRangeDisplayed={width > 650 ? 2 : 1}
+                      marginPagesDisplayed={width > 650 ? 1 : 1}
+                      previousLabel={<BsChevronLeft className="mt-1 pt-0.5" />}
+                      previousLinkClassName={"arrowLink"}
+                      nextLinkClassName={"arrowLink"}
+                      nextLabel={<BsChevronRight className="mt-1 pt-0.5" />}
+                      activeClassName={"active-pagination-category"}
+                      forcePage={
+                        parsedQueryString.page
+                          ? parseInt(parsedQueryString.page) - 1
+                          : 0
+                      }
+                    ></ReactPaginate>
+                  )}
+                  <div
+                    className={`absolute z-50 top-36  bg-white w-3/4 h-4/6 mx-12 pb-2 overflow-y-scroll  ${
+                      !filterMobileShow && "hidden"
+                    }`}
+                  >
+                    <div className="text-left w-full py-3 px-3  text-dbasenavy text-d18 font-bold bg-dyellow2 ">
+                      Filter
+                    </div>
+                    {}
+                    {Object.keys(filters).map(
+                      (key) =>
+                        filters[key]?.items.length > 0 && (
+                          <div
+                            key={key}
+                            className=" border border-dbordergrey3 p-3 m-3  text-d14"
+                          >
+                            {
+                              <div
+                                className={`flex w-full text-left text-dblack2 uppercase `}
+                                onClick={() =>
+                                  !filterMobile.includes(filters[key].id)
+                                    ? setFilterMobile((filterMobile) => [
+                                        ...filterMobile,
+                                        filters[key].id,
+                                      ])
+                                    : setFilterMobile((filterMobile) =>
+                                        filterMobile.filter(
+                                          (filterMobile) =>
+                                            filterMobile !== filters[key].id
+                                        )
+                                      )
+                                }
+                              >
+                                <div className="w-11/12">
+                                  {filters[key].name}{" "}
+                                </div>
+                                <div className="text-black font-medium">
+                                  {filterMobile.includes(filters[key].id)
+                                    ? "-"
+                                    : "+"}
+                                </div>
+                              </div>
+                            }
+                            {filters[key].name === "Color" ? (
+                              <div
+                                className={` my-5 ${
+                                  filters[key]?.items.length > 6 &&
+                                  !filterMobile.includes(filters[key].id) &&
+                                  " overflow-y-auto h-36 px-2"
+                                }  ${
+                                  !filterMobile.includes(filters[key].id)
+                                    ? "hidden"
+                                    : ""
+                                }}`}
+                              >
+                                <div className="grid grid-cols-4 w-3/4 ">
+                                  {filters[key]?.items?.map((filter) => (
+                                    <div className="text-left w-full my-1">
+                                      <img
+                                        src={filter.image}
+                                        alt={filter.name}
+                                        className={`rounded-full w-8   ${checkFilter(
+                                          filters[key].id,
+                                          filters[key].name,
+                                          filter
+                                        )}`}
+                                        onClick={() =>
+                                          parseFilter(filters[key].id, filter)
+                                        }
+                                      />
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            ) : (
+                              <div
+                                className={`my-5 ${
+                                  filters[key]?.items.length > 6 &&
+                                  "overflow-y-auto h-36 px-2"
+                                }  ${
+                                  !filterMobile.includes(filters[key].id)
+                                    ? "hidden"
+                                    : ""
+                                }`}
+                              >
+                                {filters[key]?.items?.map((filter) =>
+                                  filters[key].name === "DIMENSIONS" ||
+                                  filters[key].name === "Size" ? (
+                                    <div
+                                      className={`w-full border bg-white my-1 text-dborderblack0 text-d15 py-1 ${checkFilter(
+                                        filters[key].id,
+                                        filters[key].name,
+                                        filter
+                                      )}`}
+                                      onClick={() =>
+                                        parseFilter(filters[key].id, filter)
+                                      }
+                                    >
+                                      {filter.name}
+                                    </div>
+                                  ) : (
+                                    <div
+                                      className={`text-left w-full hover:underline underline-offset-4 text-dborderblack0 text-d15 pointer-events-auto ${checkFilter(
+                                        filters[key].id,
+                                        filter.name,
+                                        filter
+                                      )}`}
+                                      onClick={() =>
+                                        parseFilter(filters[key].id, filter)
+                                      }
+                                    >
+                                      {filter.name}
+                                    </div>
+                                  )
+                                )}
+                              </div>
+                            )}
+                          </div>
+                        )
+                    )}
+                  </div>
+
+                  {filterMobileShow && (
+                    <div className="w-screen h-screen	 fixed z-20 top-0 bg-dborderblack3 opacity-50 -ml-2"></div>
+                  )}
+                  {filterMobileShow && (
+                    <div className="flex w-screen z-30 bottom-0 bg-white -ml-2 fixed p-3 font-bold uppercase">
+                      <button
+                        className="text-center border text-dborderblack5 mx-2 w-1/2 p-3"
+                        onClick={() => setFilterMobileShow(false)}
+                      >
+                        GIVE UP
+                      </button>
+                      <button
+                        className="text-center border bg-dblack1 p-3 mx-1 text-white w-1/2"
+                        onClick={() => setFilterMobileShow(false)}
+                      >
+                        APPLY
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 }

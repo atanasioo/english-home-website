@@ -117,7 +117,7 @@ function Home() {
     setShowCartmenuMob(false);
     setOverlay(false);
   }
-// hii
+  // hii
 
   return (
     <div className="mx-1 md:mx-auto md:container pt-3 min-h-screen">
@@ -162,28 +162,37 @@ function Home() {
         ></div>
       )}
 
-      {window.innerWidth < 650
-        ? widgets?.map((widget) => {
+      {!state?.admin ? (
+        <div className="min-w-full min-h-screen bg-dbasenavy">
+          <div className="flex flex-col justify-center items-center">
+            <div className="font-serif text-dwhite1 text-4xl mb-72 mt-10">ENGLISH HOME </div>
+            <div className="text-6xl md:text-9xl italic text-dwhite1 font-mono">COMING SOON</div>
+          </div>
+        </div>
+      ) : window.innerWidth < 650 ? (
+        widgets?.map((widget) => {
+          return (
+            <WidgetsLoopMobile widget={widget} showCartmenuMob={showCart} />
+          );
+        })
+      ) : (
+        widgets?.map((widget, index) => {
+          if (widgets.length === index + 1) {
             return (
-              <WidgetsLoopMobile widget={widget} showCartmenuMob={showCart} />
+              <div className="theHome" ref={lastElementRef} key={widget}>
+                <WidgetsLoop widget={widget} showCartmenu={showCart} />
+              </div>
             );
-          })
-        : widgets?.map((widget, index) => {
-            if (widgets.length === index + 1) {
-              return (
-                <div className="theHome" ref={lastElementRef} key={widget}>
-                  <WidgetsLoop widget={widget} showCartmenu={showCart} />
-                </div>
-              );
-            } else {
-              return (
-                <div className="">
-                  <WidgetsLoop showCartmenu={showCart} widget={widget} />
-                </div>
-              );
-            }
-          })}
-    
+          } else {
+            return (
+              <div className="">
+                <WidgetsLoop showCartmenu={showCart} widget={widget} />
+              </div>
+            );
+          }
+        })
+      )}
+
       {loading && <PointsLoader />}
     </div>
   );
