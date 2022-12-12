@@ -24,6 +24,7 @@ function Header() {
   const [info, setInfo] = useState([]);
   const location = useLocation();
   const [token, setToken] = useState();
+  const [showMessage, setShowMessage] = useState(false);
 
   useEffect(() => {
     if (width < 1000) {
@@ -70,6 +71,16 @@ function Header() {
       });
   }
 
+  const copy = async () => {
+    await navigator.clipboard.writeText(window.location.href);
+    setShowMessage(true);
+  };
+
+  const remove = () => {
+    return setTimeout(() => {
+      setShowMessage(false);
+    }, 2000);
+  };
 
   useEffect(() => {
     getInfo();
@@ -107,10 +118,10 @@ function Header() {
                 Orders
               </a>
             </div>
-            {/* <div> {showMessage && remove() && "Link COPIED"}</div>
+            <div> {showMessage && remove() && "Link COPIED"}</div>
             <div className=" cursor-pointer">
               <p onClick={copy}>Copy Link</p>
-            </div> */}
+            </div>
           </div>
         </div>
 
