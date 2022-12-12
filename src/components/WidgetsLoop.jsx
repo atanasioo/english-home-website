@@ -136,7 +136,7 @@ function WidgetsLoop({ widget, showCartmenu }) {
               >
                 <img
                   className="w-full"
-                  src={"https://www.englishhome.com.lb" + item.image}
+                  src={"https://www.englishhome.com.lb/image/" + item.image}
                   alt={item.name}
                   height={item.banner_height}
                 />
@@ -206,7 +206,7 @@ function WidgetsLoop({ widget, showCartmenu }) {
                           //   `${window.config["site-url"]}/image/` +
                           //   item.image
                           // }
-                          src={`https://www.englishhome.com.lb` + item.image}
+                          src={`https://www.englishhome.com.lb/image/` + item.image}
                           width={item.banner_width}
                           height={item.banner_height}
                           title={item.name}
@@ -236,7 +236,7 @@ function WidgetsLoop({ widget, showCartmenu }) {
                       <Link>
                         <img
                           alt={item.name}
-                          src={`https://www.englishhome.com.lb` + item.image}
+                          src={`https://www.englishhome.com.lb/image/` + item.image}
                           width={item.banner_width}
                           height={item.banner_height}
                           title={item.name}
@@ -284,7 +284,7 @@ function WidgetsLoop({ widget, showCartmenu }) {
                 <img
                   className="w-full"
                   alt={item.name}
-                  src={`https://www.englishhome.com.lb` + item.image}
+                  src={`https://www.englishhome.com.lb/image/` + item.image}
                   width={item.banner_width}
                   height={item.banner_height}
                   // title={item.name}
@@ -295,7 +295,7 @@ function WidgetsLoop({ widget, showCartmenu }) {
               <div key={index}>
                 <img
                   className="w-full"
-                  src={"https://www.englishhome.com.lb" + item.image}
+                  src={"https://www.englishhome.com.lb/image/" + item.image}
                   alt={item.name}
                   // height={item.banner_height}
                 />
