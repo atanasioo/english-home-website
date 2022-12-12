@@ -10,7 +10,7 @@ import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
 import _axios from "../axios";
 import buildLink, { path } from "../urls";
 import { AccountContext } from "../contexts/AccountContext";
-
+import Cookies from "js-cookie";
 function Header() {
   const width = window.innerWidth;
   const [menuCategories2, setMenuCategories2] = useState([]);
@@ -23,6 +23,7 @@ function Header() {
   const [state, dispatch] = useContext(AccountContext);
   const [info, setInfo] = useState([]);
   const location = useLocation();
+  const [token, setToken] = useState();
 
   useEffect(() => {
     if (width < 1000) {
@@ -42,6 +43,20 @@ function Header() {
           // setSelectedMenuCategory2(data[0]);
         });
     }
+
+    function checkCookies() {
+      const adminToken = Cookies.get("ATDetails");
+      if (typeof adminToken != "undefined") {
+        setToken(adminToken);
+      }
+      // else {
+      //   !state.admin && history.push({
+      //     pathname: "/"
+      //   })
+
+      // }
+    }
+    checkCookies();
   }, []);
 
   async function getInfo() {
@@ -62,6 +77,43 @@ function Header() {
 
   return (
     <div className="relative mb-2">
+           {/* Admin Top Bar */}
+           <div
+          className={
+            !state.admin
+              ? "hidden"
+              : `h-12 px-10 text-white flex items-center ${
+                  (localStorage.getItem("site-local-name") === "energy-plus" ||
+                    window.location.host === "www.energyplus-lb.com") &&
+                  "bg-Energyplus text-dblackk"
+                }`
+          }
+          style={{ background: "#555" }}
+        >
+          <div className="container flex justify-between  items-center">
+            <div className="space-x-10 flex ">
+              <a
+                target="_blank"
+                rel="noreferrer"
+                href={window.config["admin-products-url"] + token}
+              >
+                Products
+              </a>
+              <a
+                target="_blank"
+                rel="noreferrer"
+                href={window.config["admin-orders-url"] + token}
+              >
+                Orders
+              </a>
+            </div>
+            {/* <div> {showMessage && remove() && "Link COPIED"}</div>
+            <div className=" cursor-pointer">
+              <p onClick={copy}>Copy Link</p>
+            </div> */}
+          </div>
+        </div>
+
       <div className="hidden">
         <TopAccount />
       </div>
