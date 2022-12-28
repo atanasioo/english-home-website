@@ -237,7 +237,7 @@ module.exports = {
         ".container": {
           width: "100%",
           //maxWidth: "1440px",
-          padding: "0 5px",
+          padding: "0 28px",
           marginRight: "auto",
           marginLeft: "auto"
           //overflow: "hidden"

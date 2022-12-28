@@ -164,17 +164,21 @@ function DesktopMenu() {
                 </ul>
               </div>
             </div>
-            <div className="w-1/4 pt-7 ">
+            <div className="w-7/12 flex pt-7 ">
               <div className="dropdown-extra-content">
-                <Link>
+              {selectedMenuCategory2["partitions"]?.map((category) => (
+                category.banners?.map((banner) => (
+                <Link classname="grid grid-flow-col ">
                   <img
-                    src={`https://www.ishtari.com/image/${selectedMenuCategory2["top-category"].image}`}
+                    src={`${window.config['site-url'] +'/image/'+ banner.image}`}
                     alt={selectedMenuCategory2["top-category"].name}
                   />
                 </Link>
-                <p className="title"></p>
+                ))
+              ))}
+                {/* <p className="title"></p>
                 <p className="subtitle"></p>
-                <Link></Link>
+                <Link></Link> */}
               </div>
             </div>
           </div>

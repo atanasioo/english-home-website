@@ -12,6 +12,7 @@ import {
 import supportImage from "../assets/images/online-support.png";
 import { useContext } from "react";
 import { AccountContext } from "../contexts/AccountContext";
+import { Link } from "react-router-dom";
 function Footer() {
   const [data, setData] = useState("");
   const [state, dispatch] = useContext(AccountContext);
@@ -69,24 +70,28 @@ function Footer() {
                 <div className="flex w-full place-content-center mx-5 ">
                   <div className="md:border-2 rounded-full  md:border-dbasenavy p-2 text-d25 mx-1 cursor-pointer">
                     {" "}
+                    <a href={window.config['facebook']}>
                     <FaFacebookF className="w-4 h-4 md:w-6 md:h-6" />
+                    </a>
                   </div>
                   <div className="md:border-2 rounded-full  md:border-dbasenavy p-2 text-d25  mx-1 cursor-pointer">
-                    {" "}
+                  <a href={window.config['instagram']}>
                     <FaInstagram className="w-4 h-4 md:w-6 md:h-6" />
+                  </a>  
                   </div>
-                  <div className="md:border-2 rounded-full  md:border-dbasenavy p-2 text-d25 mx-1 cursor-pointer">
+                  {/* <div className="md:border-2 rounded-full  md:border-dbasenavy p-2 text-d25 mx-1 cursor-pointer">
                     {" "}
                     <FaLinkedinIn className="w-4 h-4 md:w-6 md:h-6" />
                   </div>
                   <div className="md:border-2 rounded-full  md:border-dbasenavy p-2 text-d25 mx-1 cursor-pointer">
                     {" "}
+                  
                     <FaTwitter className="w-4 h-4 md:w-6 md:h-6" />
                   </div>
                   <div className="md:border-2 rounded-full  md:border-dbasenavy p-2 text-d25 mx-1 cursor-pointer">
                     {" "}
                     <FaYoutube className="w-4 h-4 md:w-6 md:h-6" />
-                  </div>
+                  </div> */}
                 </div>
                 <div className="pt-6 text-left ml-3">
                   <span className="text-d14 font-normal	">
@@ -105,7 +110,7 @@ function Footer() {
                       <img src={supportImage} alt="22" className="w-16 " />
                     </span>
                     <span className="w-full flex place-content-center text-d22 font-bold pt-3">
-                      961 03 555 665
+                    {window.config["supportNumber"]}
                     </span>{" "}
                   </div>
                 </div>
@@ -113,7 +118,7 @@ function Footer() {
             </div>
           </div>
           <div className="bg-dbasenavy h-12  text-white text-d22 text-left px-auto py-1">
-            <div className="text-center md:text-left container font-serif">
+            <div className="text-center md:text-left ml-10 container font-serif">
               {" "}
               ENGLISH HOME
             </div>
