@@ -149,7 +149,7 @@ function WidgetsLoop({ widget, showCartmenu }) {
         <div className="">
           {window.innerWidth > 650 ? (
             <Slider
-              {...productSetting}
+              {... widget.items[0].product_id ?  productSetting : carousal}
               beforeChange={handleBeforeChange}
               afterChange={handleAfterChange}
               className="carousel place-items-center"
