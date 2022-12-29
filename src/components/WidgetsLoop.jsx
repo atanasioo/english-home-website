@@ -37,8 +37,8 @@ function WidgetsLoop({ widget, showCartmenu }) {
     slidesToShow: 2.5,
     slidesToScroll: 1,
     lazyLoad: true,
-    // autoplay: true,
-    // autoplaySpeed: 4000,
+    autoplay: true,
+    autoplaySpeed: 4000,
     prevArrow: <CustomArrows direction={"l"} type={"carousel"} />,
     nextArrow: <CustomArrows direction={"r"} type={"carousel"} />,
   };
