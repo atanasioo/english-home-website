@@ -70,32 +70,36 @@ function TopCart(props) {
       });
   }, [dispatch]);
 
+
   function getCart() {
-    _axios
-      .get(buildLink("cart", undefined, window.innerWidth))
-      .then((response) => {
-        // console.log("response"+response.data.success)
+    //if loged in or no
+    if (accountState?.loged && state?.productsCount > 0) {
+      _axios
+        .get(buildLink("cart", undefined, window.innerWidth))
+        .then((response) => {
+          // console.log("response"+response.data.success)
 
-        if (response.data.success) {
-          dispatch({
-            type: "setProducts",
-            payload: response.data.data.products,
-          });
+          if (response.data.success) {
+            dispatch({
+              type: "setProducts",
+              payload: response.data.data.products,
+            });
 
-          dispatch({
-            type: "setProductsCount",
-            payload: response.data.data.total_product_count,
-          });
-          dispatch({
-            type: "setTotals",
-            payload: response.data.data.totals,
-          });
-          dispatch({
-            type: "loading",
-            payload: false,
-          });
-        }
-      });
+            dispatch({
+              type: "setProductsCount",
+              payload: response.data.data.total_product_count,
+            });
+            dispatch({
+              type: "setTotals",
+              payload: response.data.data.totals,
+            });
+            dispatch({
+              type: "loading",
+              payload: false,
+            });
+          }
+        });
+    }
   }
 
   function updateQuantity(key, quantity) {

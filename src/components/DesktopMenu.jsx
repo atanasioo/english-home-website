@@ -10,6 +10,8 @@ function DesktopMenu() {
   const [viewMenuCategories2, setViewMenuCategories2] = useState(true);
   const width = window.innerWidth;
 
+  
+
   useEffect(() => {
     if (width > 650) {
       _axios
@@ -24,11 +26,14 @@ function DesktopMenu() {
         .get(buildLink("headerv2", undefined, window.innerWidth))
         .then((response) => {
           const data = response?.data;
+          console.log(data);
           setMenuCategories2(data.data);
           setSelectedMenuCategory2(data[0]);
         });
     }
   }, []);
+
+  console.log(menuCategories2);
 
   return (
     <div className="hidden lg:block relative">
