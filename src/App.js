@@ -25,6 +25,7 @@ import Information from "./pages/Information";
 import Success from "./pages/Success";
 import Wishlist from "./pages/Wishlist";
 import Latest from "./pages/Latest";
+import NotFound from "./pages/NotFound";
 function App() {
   const width = window.innerWidth;
 
@@ -71,6 +72,8 @@ function App() {
             <Route path="account/order-details" element={<OrderDetails />} />
             <Route path="account/wishlist" element={<Wishlist />} />
             <Route path="success" element={<Success />} />
+            <Route path="/:name" element={<NotFound />}  exact/>
+
           </Routes>
           <Footer />
           </WishlistProvider>

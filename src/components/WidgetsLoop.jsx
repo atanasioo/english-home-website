@@ -37,8 +37,8 @@ function WidgetsLoop({ widget, showCartmenu }) {
     slidesToShow: 2.5,
     slidesToScroll: 1,
     lazyLoad: true,
-    // autoplay: true,
-    // autoplaySpeed: 4000,
+    autoplay: true,
+    autoplaySpeed: 4000,
     prevArrow: <CustomArrows direction={"l"} type={"carousel"} />,
     nextArrow: <CustomArrows direction={"r"} type={"carousel"} />,
   };
@@ -136,7 +136,7 @@ function WidgetsLoop({ widget, showCartmenu }) {
               >
                 <img
                   className="w-full"
-                  src={"https://www.ishtari.com/image/" + item.image}
+                  src={"https://www.englishhome.com.lb/image/" + item.image}
                   alt={item.name}
                   height={item.banner_height}
                 />
@@ -149,7 +149,7 @@ function WidgetsLoop({ widget, showCartmenu }) {
         <div className="">
           {window.innerWidth > 650 ? (
             <Slider
-              {...productSetting}
+              {... widget.items[0].product_id ?  productSetting : carousal}
               beforeChange={handleBeforeChange}
               afterChange={handleAfterChange}
               className="carousel place-items-center"
@@ -206,7 +206,7 @@ function WidgetsLoop({ widget, showCartmenu }) {
                           //   `${window.config["site-url"]}/image/` +
                           //   item.image
                           // }
-                          src={`https://www.ishtari.com/image/` + item.image}
+                          src={`https://www.englishhome.com.lb/image/` + item.image}
                           width={item.banner_width}
                           height={item.banner_height}
                           title={item.name}
@@ -236,7 +236,7 @@ function WidgetsLoop({ widget, showCartmenu }) {
                       <Link>
                         <img
                           alt={item.name}
-                          src={`https://www.ishtari.com/image/` + item.image}
+                          src={`https://www.englishhome.com.lb/image/` + item.image}
                           width={item.banner_width}
                           height={item.banner_height}
                           title={item.name}
@@ -284,7 +284,7 @@ function WidgetsLoop({ widget, showCartmenu }) {
                 <img
                   className="w-full"
                   alt={item.name}
-                  src={`https://www.ishtari.com/image/` + item.image}
+                  src={`https://www.englishhome.com.lb/image/` + item.image}
                   width={item.banner_width}
                   height={item.banner_height}
                   // title={item.name}
@@ -295,7 +295,7 @@ function WidgetsLoop({ widget, showCartmenu }) {
               <div key={index}>
                 <img
                   className="w-full"
-                  src={"https://www.ishtari.com/image/" + item.image}
+                  src={"https://www.englishhome.com.lb/image/" + item.image}
                   alt={item.name}
                   // height={item.banner_height}
                 />
@@ -330,7 +330,7 @@ function WidgetsLoop({ widget, showCartmenu }) {
               <img
                 className="w-full"
                 alt={item.name}
-                src={`https://www.ishtari.com/image/` + item.image}
+                src={`https://www.englishhome.com.lb/image/` + item.image}
                 width={item.banner_width}
                 height={item.banner_height}
                 title={item.name}
@@ -340,7 +340,7 @@ function WidgetsLoop({ widget, showCartmenu }) {
             <div key={index}>
               <img
                 className="w-full"
-                src={"https://www.ishtari.com/image/" + item.image}
+                src={"https://www.englishhome.com.lb/image/" + item.image}
                 alt={item.name}
                 height={item.banner_height}
               />

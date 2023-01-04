@@ -96,7 +96,7 @@ function WidgetsLoopMobile({ widget, showCartmenuMob }) {
             >
               <img
                 className="w-full"
-                src={"https://www.ishtari.com/image/" + item.image}
+                src={"https://www.englishhome.com.lb/image/" + item.image}
                 alt={item.name}
                 height={item.banner_height}
               />
@@ -208,7 +208,7 @@ function WidgetsLoopMobile({ widget, showCartmenuMob }) {
                       >
                         <img
                           alt={item.name}
-                          src={`https://www.ishtari.com/image/` + item.image}
+                          src={`https://www.englishhome.com.lb/image/` + item.image}
                           width={item.banner_width}
                           height={item.banner_height}
                           title={item.name}
@@ -252,7 +252,7 @@ function WidgetsLoopMobile({ widget, showCartmenuMob }) {
                     <img
                       className="w-full"
                       alt={item.name}
-                      src={`https://www.ishtari.com/image/` + item.image}
+                      src={`https://www.englishhome.com.lb/image/` + item.image}
                       width={item.banner_width}
                       height={item.banner_height}
                       // title={item.name}
@@ -263,7 +263,7 @@ function WidgetsLoopMobile({ widget, showCartmenuMob }) {
                   <div key={index} className="p-1">
                     <img
                       className="w-full"
-                      src={"https://www.ishtari.com/image/" + item.image}
+                      src={"https://www.englishhome.com.lb/image/" + item.image}
                       alt={item.name}
                       // height={item.banner_height}
                     />
@@ -277,7 +277,7 @@ function WidgetsLoopMobile({ widget, showCartmenuMob }) {
                 <div key={index} className="p-1">
                   <img
                     className="w-full"
-                    src={"https://www.ishtari.com/image/" + item.image}
+                    src={"https://www.englishhome.com.lb/image/" + item.image}
                     alt={item.name}
                     // height={item.banner_height}
                   />
@@ -313,7 +313,7 @@ function WidgetsLoopMobile({ widget, showCartmenuMob }) {
               <img
                 className="w-full"
                 alt={item.name}
-                src={`https://www.ishtari.com/image/` + item.image}
+                src={`https://www.englishhome.com.lb/image/` + item.image}
                 width={item.banner_width}
                 height={item.banner_height}
                 title={item.name}
@@ -323,7 +323,7 @@ function WidgetsLoopMobile({ widget, showCartmenuMob }) {
             <div key={index} className="p-1">
               <img
                 className="w-full"
-                src={"https://www.ishtari.com/image/" + item.image}
+                src={"https://www.englishhome.com.lb/image/" + item.image}
                 alt={item.name}
                 height={item.banner_height}
               />

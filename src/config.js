@@ -11,8 +11,8 @@ var config = {};
     email: {
       it: "it@ishtari.com"
     },
-    numbers: ["71060215", "71715333", "70222099", "70306099","70444164"],
-    supportNumber: "70464748",
+    numbers: ["76400008"],
+    supportNumber: "76 400 008",
     countryCode: "+961",
     "fb-meta": "12345678",
     appId: "130719880936639",
@@ -30,15 +30,15 @@ var config = {};
 
     "admin-product-url":
       "http://www.englishhome.com.lb/control/admin/index.php?route=catalog/product/update&product_id=",
-    'site-url': "http://www.englishhome.com.lb",
+    'site-url': "https://www.englishhome.com.lb",
     "admin-products-url":
       "http://www.englishhome.com.lb/control/admin/index.php?route=catalog/product_one&token=",
     "admin-orders-url":
       "http://www.englishhome.com.lb/control/admin/index.php?route=sale/order_one&token=",
     "admin-update-product":
       "http://www.englishhome.com.lb/control/admin/index.php?route=catalog/product/update&product_id=",
-    facebook: "https://www.facebook.com/ishtari.lebanon",
-    instagram: "https://www.instagram.com/ishtaricom/",
+    facebook: "https://www.facebook.com/EnglishHomeLebanon/",
+    instagram: "https://instagram.com/englishhome.lebanon?igshid=OGQ2MjdiOTE=",
     youtube: "https://www.youtube.com/channel/UCZ9aa_BjFF2oWVEtC4f6PDA",
     twitter: "https://twitter.com/ishtari",
     linkedin: "https://www.linkedin.com/company/ishtari",

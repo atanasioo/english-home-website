@@ -136,7 +136,7 @@ function DesktopMenu() {
               <div className="navigation-submenu-item  left-3 top-7 pb-7 pr-2.5 pl-3.5 w-52 border-r border-dgrey5 ">
                 <div className="text-d13 font-bold mb-1.5">
                   <Link
-                    to={`${path}/${selectedMenuCategory2["top-category"].name
+                    to={`${path}/${selectedMenuCategory2["top-category"]?.name
                       ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
                       ?.replace(/\s+/g, "-")}/c=${
                       selectedMenuCategory2["top-category"].category_id
@@ -169,17 +169,21 @@ function DesktopMenu() {
                 </ul>
               </div>
             </div>
-            <div className="w-1/4 pt-7 ">
+            <div className="w-7/12 flex pt-7 ">
               <div className="dropdown-extra-content">
-                <Link>
+              {selectedMenuCategory2["partitions"]?.map((category) => (
+              category?.banners > 0 &&  category?.banners?.map((banner) => (
+                <Link classname="grid grid-flow-col ">
                   <img
-                    src={`https://www.ishtari.com/image/${selectedMenuCategory2["top-category"].image}`}
-                    alt={selectedMenuCategory2["top-category"].name}
+                    src={`${window.config['site-url'] +'/image/'+ banner?.image}`}
+                    alt={selectedMenuCategory2["top-category"]?.name}
                   />
                 </Link>
-                <p className="title"></p>
+                ))
+              ))}
+                {/* <p className="title"></p>
                 <p className="subtitle"></p>
-                <Link></Link>
+                <Link></Link> */}
               </div>
             </div>
           </div>
