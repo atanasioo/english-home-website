@@ -22,6 +22,8 @@ import ChangeEmail from "./pages/ChangeEmail";
 import ChangePassword from "./pages/ChangePassword";
 import Addresses from "./pages/Addresses";
 import Information from "./pages/Information";
+import ProductPreview from "./pages/ProductPreview";
+
 import Success from "./pages/Success";
 import Wishlist from "./pages/Wishlist";
 import Latest from "./pages/Latest";
@@ -52,11 +54,13 @@ function App() {
               path={"/:name/m=:id"}
               element={<Category />}   exact
             />
+
             <Route path="cart" element={<Cart />} />
             <Route path="checkout" element={<Checkout />} />
             <Route path="login" element={<Login />} />
             <Route path="forgotmypassword" element={<ForgotMyPassword />} />
             <Route path="product/:id" element={<Product />} />
+            <Route path="productpreview/:id" element={<ProductPreview />} />
             <Route path="/:name/p=:id" element={<Product />} exact />
 
             <Route path="account" element={<Account />} />

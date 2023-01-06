@@ -94,19 +94,19 @@ function ProductPreview() {
     );
 
     _axios
-      .get(buildLink("product", undefined, undefined) + product_id)
+      .get(buildLink("productpreview", undefined, undefined) + product_id)
       .then((response) => {
         const data = response?.data?.data;
         setProductData(data);
         data?.images.unshift({
-          popup: data.popup,
-          thumb: data.thumb,
+          popup: data?.popup,
+          thumb: data?.thumb,
         });
 
         setImages(data?.images);
         setHasOption(data?.options?.length > 0);
-        data.options.length > 0 &&
-          setOptionParent(data.options[0]["product_option_id"]);
+        data?.options?.length > 0 &&
+          setOptionParent(data?.options[0]["product_option_id"]);
       });
   }, [location]);
 
@@ -592,7 +592,7 @@ function ProductPreview() {
         <div className="text-d12 my-2.5 text-dgrey11 text-left flex items-center">
           <Link to={"/"}>{productData?.breadcrumbs?.text_home}</Link>
           <BsChevronRight className="mx-2 mt-0.5" />
-          {productData?.breadcrumbs?.category.map((breadcrumb, index) => (
+          {productData?.breadcrumbs?.category?.map((breadcrumb, index) => (
             <div className="flex items-center" key={breadcrumb.category_id}>
               <Link
                 to={`/category/${breadcrumb.category_id}`}
