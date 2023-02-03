@@ -1036,7 +1036,7 @@ function ProductPreview() {
                   infomenu ? "block" : "hidden"
                 }`}
               >
-                <div className="-mx-1 flex flex-col-reverse md:flex-row">
+                {/* <div className="-mx-1 flex flex-col-reverse md:flex-row">
                   <div className="w-1/2">
                     <div className="product-information-conten text-left">
                       <div className="content-titles text-d22 font-bold mb-5">
@@ -1081,7 +1081,43 @@ function ProductPreview() {
                       ></div>
                     </div>
                   </div>
-                </div>
+                </div> */}
+                   <div className="w-full text-left flex justify-around">
+                    <div className="w-1/2 mr-10">
+                      <div className="text-d22 font-bold my-5">
+                        DESCRIPTIONS
+                      </div>
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: productData?.description,
+                        }}
+                      ></div>
+                    </div>
+                    <div className="w-1/2">
+                      <table className=" border  border-dgrey1 w-full text-left ml-3 font-mono leading-tight text-xs">
+                        <thead className="p-6 border-b border-dgrey1 text-left">
+                          <tr className="my-4 ">
+                            <th className="border-r border-dgrey1 py-4  text-d22">
+                              FEATURES
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {productData?.attribute_groups?.map((grp) => (
+                            <tr>
+                              <td className="font-bold whitespace-nowrap">{grp.name}</td>
+                              {grp?.attribute?.map((attr) => (
+                                <>
+                                 
+                                  <td className="p-2.5">{attr.name}</td>
+                                </>
+                              ))}
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
               </div>
               <div
                 className={`text-dborderblack4 text-left ${
