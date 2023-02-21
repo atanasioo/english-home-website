@@ -93,12 +93,12 @@ function Product() {
   console.log(stateW?.pIds.indexOf(product_id));
   function handleHoveredSeries(key, name) {
     const seriesOp_name = document.getElementById(key);
-    setViewSeriesVal(name);
+    setViewSeriesVal(key);
     seriesOp_name.textContent = name;
   }
   function handleLeavedSeries(key) {
     const seriesOp_name = document.getElementById(key);
-    setViewSeriesVal();
+    setViewSeriesVal('');
     seriesOp_name.textContent = "";
   }
 
@@ -750,20 +750,22 @@ function Product() {
                                   series_option.series_option_name
                                 } ${":"}`}
                               </h3>
-                              {series_option?.options?.map(
-                                (op_val) =>
-                                  op_val.product_id === product_id &&
-                                  !viewSeriesVal && (
+                              {
+                              // series_option?.options?.map(
+                              //   (op_val) =>
+                              //     op_val.product_id === product_id &&
+                                  viewSeriesVal !== key && (
                                     <span className="flex ml-1 font-semibold text-sm w-28">
                                       {" "}
-                                      {op_val.name}
+                                      {series_option?.options[0]?.name}
                                     </span>
-                                  )
-                              )}
+                                  // )
+                              )
+                              }
                               <span
                                 id={key}
                                 className={`${
-                                  viewSeriesVal ? "block" : "hidden"
+                                  viewSeriesVal===key ? "block" : "hidden"
                                 } ml-1 font-semibold text-sm w-28`}
                               >
                                 {" "}
