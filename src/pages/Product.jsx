@@ -23,7 +23,7 @@ import {
   EmailShareButton,
   FacebookShareButton,
   TwitterShareButton,
-  WhatsappShareButton,
+  WhatsappShareButton
 } from "react-share";
 import CartmenuMobile from "../components/CartmenuMobile";
 
@@ -61,6 +61,9 @@ function Product() {
   const [showCartmenu, setShowCartmenu] = useState(false);
   const [showCartmenuMob, setShowCartmenuMob] = useState(false);
   const [hoveredCart, setHoveredCart] = useState(false);
+  const [viewSeriesVal, setViewSeriesVal] = useState();
+  const [seriesOpSelected, setSeriesOpSelected] = useState();
+
   const width = window.innerWidth;
   const location = useLocation();
   let product_id = useParams().id;
@@ -75,7 +78,7 @@ function Product() {
     slidesToScroll: 4.5,
     infinite: false,
     prevArrow: <CustomArrows direction={"l"} />,
-    nextArrow: <CustomArrows direction={"r"} />,
+    nextArrow: <CustomArrows direction={"r"} />
   };
 
   const productMobile = {
@@ -85,14 +88,24 @@ function Product() {
     swipeToSlide: true,
     infinite: false,
     arrows: false,
-    lazyLoad: true,
+    lazyLoad: true
   };
   console.log(stateW?.pIds.indexOf(product_id));
+  function handleHoveredSeries(key, name) {
+    const seriesOp_name = document.getElementById(key);
+    setViewSeriesVal(name);
+    seriesOp_name.textContent = name;
+  }
+  function handleLeavedSeries(key) {
+    const seriesOp_name = document.getElementById(key);
+    setViewSeriesVal();
+    seriesOp_name.textContent = "";
+  }
 
   useEffect(() => {
     window.scrollTo(
       {
-        top: 0,
+        top: 0
         // behavior: "smooth",
       },
       []
@@ -105,7 +118,7 @@ function Product() {
         setProductData(data);
         data?.images.unshift({
           popup: data.popup,
-          thumb: data.thumb,
+          thumb: data.thumb
         });
 
         setImages(data?.images);
@@ -159,7 +172,7 @@ function Product() {
     setAddingToCart(true);
     let obj = {
       product_id,
-      quantity,
+      quantity
     };
     if (hasOption) {
       let o = {};
@@ -197,27 +210,27 @@ function Product() {
           }, 3000);
           dispatch({
             type: "loading",
-            payload: true,
+            payload: true
           });
           _axios
             .get(buildLink("cart", undefined, window.innerWidth))
             .then((response) => {
               dispatch({
                 type: "setProducts",
-                payload: response.data.data.products,
+                payload: response.data.data.products
               });
 
               dispatch({
                 type: "setProductsCount",
-                payload: response.data.data.total_product_count,
+                payload: response.data.data.total_product_count
               });
               dispatch({
                 type: "setTotals",
-                payload: response.data.data.totals,
+                payload: response.data.data.totals
               });
               dispatch({
                 type: "loading",
-                payload: false,
+                payload: false
               });
             });
 
@@ -286,7 +299,7 @@ function Product() {
             setImageActiveOption(option);
             setActiveImage({
               popup: element["popup"],
-              thumb: element["thumb"],
+              thumb: element["thumb"]
             });
           }
         }
@@ -366,7 +379,7 @@ function Product() {
                   console.log("delete");
                   dispatchW({
                     type: "setProductsCount",
-                    payload: response.data.data.total,
+                    payload: response.data.data.total
                   });
                 }
               });
@@ -378,7 +391,7 @@ function Product() {
             if (response.data.success) {
               dispatchW({
                 type: "setProducts",
-                payload: response.data.data.products,
+                payload: response.data.data.products
               });
               // dispatchW({
               //   type: "setProductsCount",
@@ -386,34 +399,34 @@ function Product() {
               // });
               dispatchW({
                 type: "setTotals",
-                payload: response.data.data.totals,
+                payload: response.data.data.totals
               });
               const ids = response.data.data.products.map((p) => p.product_id);
               dispatchW({
                 type: "setProductIds",
-                payload: ids,
+                payload: ids
               });
               dispatchW({
                 type: "loading",
-                payload: false,
+                payload: false
               });
               setIsWishlist(false);
             } else {
               dispatch({
                 type: "setProductsCount",
-                payload: 0,
+                payload: 0
               });
 
               dispatch({
                 type: "loading",
-                payload: false,
+                payload: false
               });
             }
           });
       } else {
         dispatchW({
           type: "setProductIds",
-          payload: [...stateW.pIds, product_id],
+          payload: [...stateW.pIds, product_id]
         });
 
         _axios
@@ -430,7 +443,7 @@ function Product() {
                   console.log("hii");
                   dispatchW({
                     type: "setProductsCount",
-                    payload: response.data.data.total,
+                    payload: response.data.data.total
                   });
                   setIsWishlist(true);
                   setPopupW(true);
@@ -453,7 +466,7 @@ function Product() {
     gt: ">",
     quot: '"',
     amp: "&",
-    apos: "'",
+    apos: "'"
   };
 
   return (
@@ -654,7 +667,7 @@ function Product() {
                     : "hidden"
                 }`}
                 dangerouslySetInnerHTML={{
-                  __html: breadcrumb?.name,
+                  __html: breadcrumb?.name
                 }}
               ></Link>
               <BsChevronRight
@@ -684,7 +697,7 @@ function Product() {
                 <div
                   className="font-mono md:font-mono font-semibold text-left	text-dborderblack2 text-d17 md:text-d20 w-8/12"
                   dangerouslySetInnerHTML={{
-                    __html: productData?.heading_title,
+                    __html: productData?.heading_title
                   }}
                 ></div>
                 <div
@@ -720,7 +733,81 @@ function Product() {
                   </div>
                 </div>
               </div>
-
+              {/* series options */}
+             
+              {productData?.series_options &&
+              
+                productData?.series_options?.map(  (series_option, key) =>
+                      series_option?.series_option_id !== null && (
+                        <div className="my-2 md:my-4">
+                          <div className="flex justify-between">
+                            <div className="flex justify-between items-center">
+                              <h3
+                                className="text-sm"
+                                style={{ color: "rgb(126, 133, 155)" }}
+                              >
+                                {`${
+                                  series_option.series_option_name
+                                } ${":"}`}
+                              </h3>
+                              {series_option?.options?.map(
+                                (op_val) =>
+                                  op_val.product_id === product_id &&
+                                  !viewSeriesVal && (
+                                    <span className="flex ml-1 font-semibold text-sm w-28">
+                                      {" "}
+                                      {op_val.name}
+                                    </span>
+                                  )
+                              )}
+                              <span
+                                id={key}
+                                className={`${
+                                  viewSeriesVal ? "block" : "hidden"
+                                } ml-1 font-semibold text-sm w-28`}
+                              >
+                                {" "}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="flex fkex-wrap">
+                            {series_option?.options?.map((option_val) => (
+                              <Link
+                                key={option_val?.product_id}
+                                to={{
+                                  pathname:
+                                    `${path}/product/` +
+                                    option_val?.product_id
+                                }}
+                                className={`flex justify-center items-center w-20 mr-5 mb-5 border-dgrey border-2 hover:shadow cursor-pointer p-1 rounded-md
+                            ${
+                              option_val.product_id === product_id &&
+                              " border-dblue"
+                            }
+                          `}
+                                onClick={() =>
+                                  setSeriesOpSelected(option_val.name)
+                                }
+                                onMouseOver={() => {
+                                  handleHoveredSeries(key, option_val.name);
+                                }}
+                                onMouseLeave={() => handleLeavedSeries(key)}
+                              >
+                                <img
+                                  src={option_val?.image}
+                                  alt={option_val?.name}
+                                  className="w-full"
+                                  width={80}
+                                  height={80}
+                                  placeholderSrc="https://www.sari3.com/ishtaridemo/product_placeholder.png"
+                                />
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
+                      )
+                  
+                )}
               {productData?.options && productData?.options?.length > 0 && (
                 <div className="my-4">
                   <div className="text-left my-2">
@@ -766,6 +853,7 @@ function Product() {
                   </div>
                 </div>
               )}
+
               {width > 650 ? (
                 <div className="flex  my-3">
                   <div className="w-3/12 flex flex-wrap align-middle text-center pt-3 text-d22 font-bold text-dborderblack2 pr-3 items-center">
@@ -975,7 +1063,7 @@ function Product() {
                   <div>
                     <div
                       dangerouslySetInnerHTML={{
-                        __html: productData?.description,
+                        __html: productData?.description
                       }}
                     ></div>
                   </div>
@@ -1129,7 +1217,7 @@ function Product() {
                       </div>
                       <div
                         dangerouslySetInnerHTML={{
-                          __html: productData?.description,
+                          __html: productData?.description
                         }}
                       ></div>
                     </div>
@@ -1145,10 +1233,11 @@ function Product() {
                         <tbody>
                           {productData?.attribute_groups?.map((grp) => (
                             <tr>
-                              <td className="font-bold whitespace-nowrap">{grp.name}</td>
+                              <td className="font-bold whitespace-nowrap">
+                                {grp.name}
+                              </td>
                               {grp?.attribute?.map((attr) => (
                                 <>
-                                 
                                   <td className="p-2.5">{attr.name}</td>
                                 </>
                               ))}
@@ -1170,7 +1259,7 @@ function Product() {
                   <div
                     className=""
                     dangerouslySetInnerHTML={{
-                      __html: unescapeHTML(returnPolicy?.description),
+                      __html: unescapeHTML(returnPolicy?.description)
                     }}
                   ></div>
                   {/* <div className="w-1/2"></div> */}
@@ -1418,7 +1507,7 @@ function Product() {
                   <div
                     className=""
                     dangerouslySetInnerHTML={{
-                      __html: unescapeHTML(returnPolicy?.description),
+                      __html: unescapeHTML(returnPolicy?.description)
                     }}
                   ></div>
                 </div>
