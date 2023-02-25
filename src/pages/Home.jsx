@@ -18,6 +18,8 @@ import PointsLoader from "../components/PointsLoader";
 import CartmenuMobile from "../components/CartmenuMobile";
 
 function Home() {
+  // const WidgetsLoop = React.lazy(() => import('../components/WidgetsLoop'));
+
   const [data, setData] = useState();
   const [state, dispatch] = useContext(AccountContext);
   const [showCartmenu, setShowCartmenu] = useState(false);

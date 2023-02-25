@@ -812,7 +812,7 @@ function ProductPreview() {
                   </span>
                 </div>
               )}
-              <div className="flex justify-end items-start">
+              {/* <div className="flex justify-end items-start">
                 <div className="">
                   <p className="w-full px-1 text-d12 text-dborderblack2 text-right">
                     At the latest on Friday, November 18, Cargo
@@ -822,7 +822,7 @@ function ProductPreview() {
                   src="https://akn-eh.b-cdn.net/static_omnishop/eh591/assets/img/saat_icon.png"
                   alt="clock-icon"
                 />
-              </div>
+              </div> */}
               <div className="w-full flex my-3">
                 <div className="text-dborderblack2 w-1/4 mr-1 p-3.5 text-d8 md:text-d12 flex flex-col justify-center text-center font-bold items-center">
                   <img
@@ -941,7 +941,7 @@ function ProductPreview() {
                   className={`border border-dgrey5 flex justify-center items-center text-d14 text-dborderblack2 text-center p-5  cursor-pointer
                  ${
                    infomenu
-                     ? "border-r-0 border-b-0 pr-5 bg-dwhite1 -translate-y-1"
+                     ? "border-r-0 border-b pr-5 bg-dwhite1 -translate-y-1"
                      : ""
                  }
                 `}
@@ -955,7 +955,7 @@ function ProductPreview() {
                 >
                   PRODUCT INFORMATION
                 </li>
-                <li
+                {/* <li
                   className={`border border-dgrey5 flex justify-center items-center text-d14 text-dborderblack2 text-center p-5  cursor-pointer
                  ${
                    returnmenu
@@ -973,8 +973,8 @@ function ProductPreview() {
                   }}
                 >
                   RETURN AND EXCHANGE CONDITIONS
-                </li>
-                <li
+                </li> */}
+                {/* <li
                   className={`border border-dgrey5 flex justify-center items-center text-d14 text-dborderblack2 text-center p-5  cursor-pointer
                  ${
                    deliverymenu
@@ -991,8 +991,8 @@ function ProductPreview() {
                   }}
                 >
                   DELIVERY
-                </li>
-                <li
+                </li> */}
+                {/* <li
                   className={`border border-dgrey5 flex justify-center items-center text-d14 text-dborderblack2 text-center p-5  cursor-pointer flex-1
                  ${
                    paymentmenu
@@ -1009,8 +1009,8 @@ function ProductPreview() {
                   }}
                 >
                   PAYMENT OPTIONS
-                </li>
-                <li
+                </li> */}
+                {/* <li
                   className={`border border-dgrey5 flex justify-center items-center text-d14 text-dborderblack2 text-center p-5  cursor-pointer
                  ${
                    storemenu
@@ -1027,7 +1027,7 @@ function ProductPreview() {
                   }}
                 >
                   IN WHICH STORE IS IT AVAILABLE?
-                </li>
+                </li> */}
               </ul>
             </div>
             <div className="w-full p-6 border border-dgrey5 border-t-0 -mb-1">

@@ -98,7 +98,7 @@ function Product() {
   }
   function handleLeavedSeries(key) {
     const seriesOp_name = document.getElementById(key);
-    setViewSeriesVal('');
+    setViewSeriesVal("");
     seriesOp_name.textContent = "";
   }
 
@@ -734,81 +734,79 @@ function Product() {
                 </div>
               </div>
               {/* series options */}
-             
+
               {productData?.series_options &&
-              
-                productData?.series_options?.map(  (series_option, key) =>
-                      series_option?.series_option_id !== null && (
-                        <div className="my-2 md:my-4">
-                          <div className="flex justify-between">
-                            <div className="flex justify-between items-center">
-                              <h3
-                                className="text-sm"
-                                style={{ color: "rgb(126, 133, 155)" }}
-                              >
-                                {`${
-                                  series_option.series_option_name
-                                } ${":"}`}
-                              </h3>
-                              {
+                productData?.series_options?.map(
+                  (series_option, key) =>
+                    series_option?.series_option_id !== null && (
+                      <div className="my-2 md:my-4">
+                        <div className="flex justify-between">
+                          <div className="flex justify-between items-center">
+                            <h3
+                              className="text-sm"
+                              style={{ color: "rgb(126, 133, 155)" }}
+                            >
+                              {`${series_option.series_option_name} ${":"}`}
+                            </h3>
+                            {
                               // series_option?.options?.map(
                               //   (op_val) =>
                               //     op_val.product_id === product_id &&
-                                  viewSeriesVal !== key && (
-                                    <span className="flex ml-1 font-semibold text-sm w-28">
-                                      {" "}
-                                      {series_option?.options[0]?.name}
-                                    </span>
-                                  // )
+                              viewSeriesVal !== key && (
+                                <span className="flex ml-1 font-semibold text-sm w-28">
+                                  {" "}
+                                  {series_option?.options[0]?.name}
+                                </span>
+                                // )
                               )
-                              }
-                              <span
-                                id={key}
-                                className={`${
-                                  viewSeriesVal===key ? "block" : "hidden"
-                                } ml-1 font-semibold text-sm w-28`}
-                              >
-                                {" "}
-                              </span>
-                            </div>
-                          </div>
-                          <div className="flex fkex-wrap">
-                            {series_option?.options?.map((option_val) => (
-                              <Link
-                                key={option_val?.product_id}
-                                to={{
-                                  pathname:
-                                    `${path}/product/` +
-                                    option_val?.product_id
-                                }}
-                                className={`flex justify-center items-center w-20 mr-5 mb-5 border-dgrey border-2 hover:shadow cursor-pointer p-1 rounded-md
-                            ${
-                              option_val.product_id === product_id &&
-                              " border-dblue"
                             }
-                          `}
-                                onClick={() =>
-                                  setSeriesOpSelected(option_val.name)
-                                }
-                                onMouseOver={() => {
-                                  handleHoveredSeries(key, option_val.name);
-                                }}
-                                onMouseLeave={() => handleLeavedSeries(key)}
-                              >
-                                <img
-                                  src={option_val?.image}
-                                  alt={option_val?.name}
-                                  className="w-full"
-                                  width={80}
-                                  height={80}
-                                  placeholderSrc="https://www.sari3.com/ishtaridemo/product_placeholder.png"
-                                />
-                              </Link>
-                            ))}
+                            <span
+                              id={key}
+                              className={`${
+                                viewSeriesVal === key ? "block" : "hidden"
+                              } ml-1 font-semibold text-sm w-28`}
+                            >
+                              {" "}
+                            </span>
                           </div>
                         </div>
-                      )
-                  
+                        <div className="flex fkex-wrap">
+                          {series_option?.options?.map((option_val) => (
+                            <Link
+                              key={option_val?.product_id}
+                              to={{
+                                pathname:
+                                  `${path}/product/` + option_val?.product_id
+                              }}
+                              className={`flex justify-center items-center w-20 mr-5 mb-5  border-2 hover:shadow cursor-pointer p-1 rounded-md
+                            ${
+                              option_val.product_id === product_id
+                                ? "border-dblue1"
+                                : "border-dgrey"
+                            }
+                          `}
+                              onClick={() =>
+                                setSeriesOpSelected(option_val.name)
+                              }
+                              onMouseOver={() => {
+                                handleHoveredSeries(key, option_val.name);
+                              }}
+                              onMouseLeave={() => handleLeavedSeries(key)}
+                            >
+                              {/* {option_val.product_id }  + {product_id} */}
+                              <img
+                                src={option_val?.image}
+                                alt={option_val?.name}
+                                className="w-full"
+                                width={80}
+                                height={80}
+                                placeholderSrc="https://www.sari3.com/ishtaridemo/product_placeholder.png"
+                              />
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    )
                 )}
               {productData?.options && productData?.options?.length > 0 && (
                 <div className="my-4">
@@ -953,7 +951,7 @@ function Product() {
                   </span>
                 </div>
               )}
-              <div className="flex justify-end items-start">
+              {/* <div className="flex justify-end items-start">
                 <div className="">
                   <p className="w-full px-1 text-d12 text-dborderblack2 text-right">
                     At the latest on Friday, November 18, Cargo
@@ -963,7 +961,7 @@ function Product() {
                   src="https://akn-eh.b-cdn.net/static_omnishop/eh591/assets/img/saat_icon.png"
                   alt="clock-icon"
                 />
-              </div>
+              </div> */}
               <div className="w-full flex my-3">
                 <div className="text-dborderblack2 w-1/4 mr-1 p-3.5 text-d8 md:text-d12 flex flex-col justify-center text-center font-bold items-center">
                   <img
@@ -1077,7 +1075,7 @@ function Product() {
         <div>
           <div className="product-info-wrapper hidden md:block w-full mt-7">
             <div className="">
-              <ul className="w-full flex justify-center">
+              <ul className="w-full flex border-b">
                 <li
                   className={`border border-dgrey5 flex justify-center items-center text-d14 text-dborderblack2 text-center p-5  cursor-pointer
                  ${
@@ -1096,7 +1094,7 @@ function Product() {
                 >
                   PRODUCT INFORMATION
                 </li>
-                <li
+                {/* <li
                   className={`border border-dgrey5 flex justify-center items-center text-d14 text-dborderblack2 text-center p-5  cursor-pointer
                  ${
                    returnmenu
@@ -1114,8 +1112,8 @@ function Product() {
                   }}
                 >
                   RETURN AND EXCHANGE CONDITIONS
-                </li>
-                <li
+                </li> */}
+                {/* <li
                   className={`border border-dgrey5 flex justify-center items-center text-d14 text-dborderblack2 text-center p-5  cursor-pointer
                  ${
                    deliverymenu
@@ -1132,8 +1130,8 @@ function Product() {
                   }}
                 >
                   DELIVERY
-                </li>
-                <li
+                </li> */}
+                {/* <li
                   className={`border border-dgrey5 flex justify-center items-center text-d14 text-dborderblack2 text-center p-5  cursor-pointer flex-1
                  ${
                    paymentmenu
@@ -1150,7 +1148,7 @@ function Product() {
                   }}
                 >
                   PAYMENT OPTIONS
-                </li>
+                </li> */}
                 {/* <li
                   className={`border border-dgrey5 flex justify-center items-center text-d14 text-dborderblack2 text-center p-5  cursor-pointer
                  ${
@@ -1171,7 +1169,7 @@ function Product() {
                 </li> */}
               </ul>
             </div>
-            <div className="w-full p-6 border border-dgrey5 border-t-0 -mb-1">
+            <div className="w-full p-6 border border-dgrey5 border-t -mb-1">
               <div
                 className={`text-dborderblack4 ${
                   infomenu ? "block" : "hidden"
