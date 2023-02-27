@@ -38,12 +38,19 @@ export const FiltersProvider = ({ children }) => {
         ? params.get("adv_filters").split(",")
         : [];
 
+        const attr =
+      params && params.get("filter_attributes")
+        ? params.get("filter_attributes").split(",")
+        : [];
+
+
     const temp = {
       filter_sellers: sellers,
       filter_manufacturers: manufactures,
       filter_categories: category,
       adv_filters: adv,
       filter_options: options,
+      filter_attributes :attr
     };
 
     if (!stored) {

@@ -77,6 +77,8 @@ function Category() {
           "&filter_categories=" + url.searchParams.get("filter_categories");
       if (url.searchParams.get("filter_sellers") != null)
         newPath += "&filter_sellers=" + url.searchParams.get("filter_sellers");
+        if (url.searchParams.get("filter_attributes") != null)
+        newPath += "&filter_attributes=" + url.searchParams.get("filter_attributes");
       if (url.searchParams.get("filter_manufacturers") != null)
         newPath +=
           "&filter_manufacturers=" +
@@ -115,12 +117,15 @@ function Category() {
       let optionsIndex;
       let advfiltersIndex;
       let categoryIndex;
+      let attrIndex;
 
       sellerIndex = window.location.href.indexOf("filter_sellers");
       brandIndex = window.location.href.indexOf("filter_manufacturers");
       categoryIndex = window.location.href.indexOf("filter_categories");
       advfiltersIndex = window.location.href.indexOf("adv_filters");
       optionsIndex = window.location.href.indexOf("filter_options");
+      attrIndex = window.location.href.indexOf("filter_attributes");
+
 
       const value = Math.max(
         sellerIndex,
@@ -136,6 +141,7 @@ function Category() {
           filter_categories: [],
           filter_manufacturers: [],
           adv_filters: [],
+          filter_attributes :[]
         });
       }
       if (value === categoryIndex) {
@@ -145,6 +151,8 @@ function Category() {
           filter_manufacturers: [],
           filter_sellers: [],
           adv_filters: [],
+          filter_attributes :[]
+
         });
       }
       if (value === brandIndex) {
@@ -154,6 +162,19 @@ function Category() {
           filter_categories: [],
           filter_options: [],
           adv_filters: [],
+          filter_attributes :[]
+
+        });
+      }
+      if (value === attrIndex) {
+        setUserFilters({
+          ...userFilters,
+          filter_sellers: [],
+          filter_categories: [],
+          filter_options: [],
+          adv_filters: [],
+          filter_attributes :[]
+
         });
       }
       if (value === advfiltersIndex) {
@@ -163,13 +184,15 @@ function Category() {
           filter_categories: [],
           filter_manufacturers: [],
           filter_options: [],
+          filter_attributes :[]
+
         });
       }
     }
 
     _axios
       .post(
-        buildLink(type, undefined, undefined) + newPath.replace("undefined", "")
+        buildLink(type, undefined, undefined) + newPath.replace("undefined", "") + '&admin=true'
       )
       .then((response) => {
         // setData((prevData) => {
@@ -273,8 +296,9 @@ function Category() {
     var l = "";
 
     if (window.location.href.indexOf("has_filter=true") < 0) {
-      if (i_sort < 0) {
+      if (i_sort > 0) {
         l = path1.substring(0, i_sort);
+        alert(l)
       } else {
         l = path1;
       }
@@ -283,16 +307,19 @@ function Category() {
         l = location.search;
       } else {
         l = window.location.search;
-        // alert(l);
       }
     }
 
-    console.log(l);
     setShowSort(false);
+    // alert(l)
+    const lastL = (l + "&sort=" + _sort + "&order=" + order).replaceAll("/&", "&")
+    alert(lastL);
+
+    // alert(l + "&sort=" + _sort + "&order=" + order).replaceAll("/&", "&")
     navigate((l + "&sort=" + _sort + "&order=" + order).replaceAll("/&", "&"));
   }
   function parseFilter(typekey, filter) {
-    alert(typekey)
+    // alert(typekey)
     setPointer(false);
 
     const id = filter["id"];
@@ -440,7 +467,7 @@ function Category() {
     array[type] = c?.split(",");
     // console.log("type, name, filter");
     // console.log(type, name, filter);
-    if (name === "Color" || name === "DIMENSIONS" || name === "Size") {
+    if (name === "Color" || name === "DIMENSIONS" || name === "Size" || 1===1) {
       if (c !== null && array[type].includes(filter["id"]) === true) {
         return "border border-dblue2 border text-dblue2";
       } else {
@@ -535,18 +562,18 @@ function Category() {
             >
               {window.innerWidth > 650 && (
                 <div className="w-3/12 px-8">
-                  <div className="w-10/12 text-left text-d18  border-b border-b-dblack2 py-2">
+                  {/* <div className="w-10/12 text-left text-d18  border-b border-b-dblack2 py-2">
                     CATEGORIES
-                  </div>
-                  <div className="w-10/12 text-left py-2">FILTERS</div>
+                  </div> */}
+                  <div className="w-10/12 text-left pt-2 underline underline-offset-8">FILTERS</div>
                   <div className="w-10/12 ">
                     {Object.keys(filters).map((key) => (
                       <div key={key} className="w-full">
-                        <div className="w-full text-left text-dblack2 uppercase  py-2">
+                        <div className="w-full text-left text-dblack2 uppercase text-d17 leading-10 font-normal	pt-2 ">
                           {filters[key]?.items.length > 0 && filters[key].name}
                         </div>
                         {filters[key]?.items.length > 0 &&
-                        filters[key].name === "Color" ? (
+                        filters[key].name === "Colorex" ? (
                           <div
                             className={`${
                               filters[key]?.items.length > 6 &&
@@ -576,14 +603,14 @@ function Category() {
                           <div
                             className={`${
                               filters[key]?.items.length > 6 &&
-                              "h-36 overflow-y-auto"
+                              "h-56 overflow-y-auto"
                             }`}
                           >
                             {filters[key]?.items?.map((filter) =>
-                              filters[key].name === "DIMENSIONS" ||
+                              filters[key].name === "DIMENSIONS" || 1 === 1 ||
                               filters[key].name === "Size" ? (
                                 <div
-                                  className={`w-full border bg-white my-1 text-dborderblack0 text-d15 py-1 cursor-pointer ${checkFilter(
+                                  className={`w-full border bg-white text-dborderblack0 text-xl leading-snug  py-1 my-2 cursor-pointer ${checkFilter(
                                     filters[key].id,
                                     filters[key].name,
                                     filter
@@ -596,7 +623,7 @@ function Category() {
                                 </div>
                               ) : (
                                 <div
-                                  className={`text-left w-full hover:underline underline-offset-4 text-dborderblack0 text-d15 pointer-events-auto cursor-pointer ${checkFilter(
+                                  className={`text-left w-full hover:underline underline-offset-4 py-1 text-dborderblack0 text-xl leading-snug pointer-events-auto cursor-pointer ${checkFilter(
                                     filters[key].id,
                                     filter.name,
                                     filter
@@ -891,7 +918,7 @@ function Category() {
                                   filters[key].name === "DIMENSIONS" ||
                                   filters[key].name === "Size" ? (
                                     <div
-                                      className={`w-full border bg-white my-1 text-dborderblack0 text-d15 py-1 ${checkFilter(
+                                      className={`w-full border bg-white my-1.5 text-dborderblack0 text-d15 py-1 ${checkFilter(
                                         filters[key].id,
                                         filters[key].name,
                                         filter
