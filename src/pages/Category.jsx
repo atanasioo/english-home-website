@@ -292,6 +292,7 @@ function Category() {
     navigate((l + "&sort=" + _sort + "&order=" + order).replaceAll("/&", "&"));
   }
   function parseFilter(typekey, filter) {
+    alert(typekey)
     setPointer(false);
 
     const id = filter["id"];
