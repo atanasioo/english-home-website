@@ -607,7 +607,7 @@ function Category() {
                             }`}
                           >
                             {filters[key]?.items?.map((filter) =>
-                              filters[key].name === "DIMENSIONS" || 1 === 1 ||
+                              filters[key].name === "DIMENSIONS" || 1===1 ||
                               filters[key].name === "Size" ? (
                                 <div
                                   className={`w-full border bg-white text-dborderblack0 text-xl leading-snug  py-1 my-2 cursor-pointer ${checkFilter(
@@ -623,7 +623,7 @@ function Category() {
                                 </div>
                               ) : (
                                 <div
-                                  className={`text-left w-full hover:underline underline-offset-4 py-1 text-dborderblack0 text-xl leading-snug pointer-events-auto cursor-pointer ${checkFilter(
+                                  className={`text-left w-full hover:underline underline-offset-4 py-1 text-dborderblack0 text-d16 leading-snug pointer-events-auto cursor-pointer ${checkFilter(
                                     filters[key].id,
                                     filter.name,
                                     filter
@@ -849,15 +849,15 @@ function Category() {
                               <div
                                 className={`flex w-full text-left text-dblack2 uppercase `}
                                 onClick={() =>
-                                  !filterMobile.includes(filters[key].id)
+                                  !filterMobile.includes(filters[key].attribute_group_id)
                                     ? setFilterMobile((filterMobile) => [
                                         ...filterMobile,
-                                        filters[key].id,
+                                        filters[key].attribute_group_id,
                                       ])
                                     : setFilterMobile((filterMobile) =>
                                         filterMobile.filter(
                                           (filterMobile) =>
-                                            filterMobile !== filters[key].id
+                                            filterMobile !== filters[key].attribute_group_id
                                         )
                                       )
                                 }
@@ -866,13 +866,13 @@ function Category() {
                                   {filters[key].name}{" "}
                                 </div>
                                 <div className="text-black font-medium">
-                                  {filterMobile.includes(filters[key].id)
+                                  {filterMobile.includes(filters[key].attribute_group_id)
                                     ? "-"
                                     : "+"}
                                 </div>
                               </div>
                             }
-                            {filters[key].name === "Color" ? (
+                            {filters[key].name === "Colore" ? (
                               <div
                                 className={` my-5 ${
                                   filters[key]?.items.length > 6 &&
@@ -907,31 +907,32 @@ function Category() {
                               <div
                                 className={`my-5 ${
                                   filters[key]?.items.length > 6 &&
-                                  "overflow-y-auto h-36 px-2"
+                                  "overflow-y-auto h-36 px-1 "
                                 }  ${
-                                  !filterMobile.includes(filters[key].id)
+                                  !filterMobile.includes(filters[key].attribute_group_id)
                                     ? "hidden"
                                     : ""
                                 }`}
                               >
+                                <div className="grid grid-cols-2	">
                                 {filters[key]?.items?.map((filter) =>
-                                  filters[key].name === "DIMENSIONS" ||
+                                  filters[key].name === "DIMENSIONS" || 1===1 ||
                                   filters[key].name === "Size" ? (
                                     <div
-                                      className={`w-full border bg-white my-1.5 text-dborderblack0 text-d15 py-1 ${checkFilter(
+                                      className={`border bg-white mr-1.5 my-1 text-dborderblack0 text-d14 ${checkFilter(
                                         filters[key].id,
                                         filters[key].name,
                                         filter
                                       )}`}
                                       onClick={() =>
-                                        parseFilter(filters[key].id, filter)
+                                        parseFilter(filters[key].id, filter) 
                                       }
                                     >
                                       {filter.name}
                                     </div>
                                   ) : (
                                     <div
-                                      className={`text-left w-full hover:underline underline-offset-4 text-dborderblack0 text-d15 pointer-events-auto ${checkFilter(
+                                      className={`text-left w-1/2 hover:underline underline-offset-4 text-dborderblack0 text-d15 pointer-events-auto ${checkFilter(
                                         filters[key].id,
                                         filter.name,
                                         filter
@@ -944,6 +945,7 @@ function Category() {
                                     </div>
                                   )
                                 )}
+                                </div>
                               </div>
                             )}
                           </div>
