@@ -569,7 +569,7 @@ function Category() {
                   <div className="w-10/12 ">
                     {Object.keys(filters).map((key) => (
                       <div key={key} className="w-full">
-                        <div className="w-full text-left text-dblack2 uppercase text-d17 leading-10 font-normal	pt-2 ">
+                        <div className="w-full text-left text-dblack2 uppercase text-d16 leading-10 font-normal	pt-2 ">
                           {filters[key]?.items.length > 0 && filters[key].name}
                         </div>
                         {filters[key]?.items.length > 0 &&
@@ -610,7 +610,7 @@ function Category() {
                               filters[key].name === "DIMENSIONS" || 1===1 ||
                               filters[key].name === "Size" ? (
                                 <div
-                                  className={`w-full border bg-white text-dborderblack0 text-xl leading-snug  py-1 my-2 cursor-pointer ${checkFilter(
+                                  className={`w-full border bg-white text-dborderblack0 text-d16 leading-snug  py-1 my-2 cursor-pointer ${checkFilter(
                                     filters[key].id,
                                     filters[key].name,
                                     filter
