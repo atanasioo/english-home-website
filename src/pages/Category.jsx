@@ -4,7 +4,7 @@ import {
   useParams,
   useNavigate,
   Link,
-  useNavigationType,
+  useNavigationType
 } from "react-router-dom";
 import _axios from "../axios";
 import SingleProductCategory from "../components/SingleProductCategory";
@@ -21,6 +21,8 @@ import Loader from "../components/Loader";
 import ReactPaginate from "react-paginate";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 import TopCart from "../components/TopCart";
+import WidgetsLoopMobile from "../components/WidgetsLoopMobile";
+import WidgetsLoop from "../components/WidgetsLoop";
 
 function Category() {
   const location = useLocation();
@@ -41,6 +43,9 @@ function Category() {
   const [showCartmenu, setShowCartmenu] = useState(false);
   const [overlay, setOverlay] = useState(false);
   const [hoveredCart, setHoveredCart] = useState(false);
+  const [showWidgets, setShowWidgets] = useState(true);
+  const [filterCount, setFilterCount] = useState(0);
+
   const wrapperRef = useRef(null);
 
   const urlRef = useRef(location?.pathname);
@@ -63,9 +68,11 @@ function Category() {
   useEffect(() => {
     window.scrollTo({
       top: 0,
-      behavior: "smooth",
+      behavior: "smooth"
     });
-
+    if (window.location.href.indexOf("all") > 0) {
+      setShowWidgets(false);
+    }
     var newPath;
     var type;
     var url = new URL(window.location);
@@ -77,6 +84,9 @@ function Category() {
           "&filter_categories=" + url.searchParams.get("filter_categories");
       if (url.searchParams.get("filter_sellers") != null)
         newPath += "&filter_sellers=" + url.searchParams.get("filter_sellers");
+      if (url.searchParams.get("filter_attributes") != null)
+        newPath +=
+          "&filter_attributes=" + url.searchParams.get("filter_attributes");
       if (url.searchParams.get("filter_manufacturers") != null)
         newPath +=
           "&filter_manufacturers=" +
@@ -105,6 +115,7 @@ function Category() {
         filter_manufacturers: [],
         adv_filters: [],
         filter_options: [],
+        filter_attributes: []
       });
       urlRef.current = location.pathname;
     }
@@ -115,19 +126,22 @@ function Category() {
       let optionsIndex;
       let advfiltersIndex;
       let categoryIndex;
+      let attrIndex;
 
       sellerIndex = window.location.href.indexOf("filter_sellers");
       brandIndex = window.location.href.indexOf("filter_manufacturers");
       categoryIndex = window.location.href.indexOf("filter_categories");
       advfiltersIndex = window.location.href.indexOf("adv_filters");
       optionsIndex = window.location.href.indexOf("filter_options");
+      attrIndex = window.location.href.indexOf("filter_attributes");
 
       const value = Math.max(
         sellerIndex,
         brandIndex,
         optionsIndex,
         advfiltersIndex,
-        categoryIndex
+        categoryIndex,
+        attrIndex
       );
       if (value === sellerIndex) {
         setUserFilters({
@@ -136,6 +150,7 @@ function Category() {
           filter_categories: [],
           filter_manufacturers: [],
           adv_filters: [],
+          filter_attributes: []
         });
       }
       if (value === categoryIndex) {
@@ -145,9 +160,20 @@ function Category() {
           filter_manufacturers: [],
           filter_sellers: [],
           adv_filters: [],
+          filter_attributes: []
         });
       }
       if (value === brandIndex) {
+        setUserFilters({
+          ...userFilters,
+          filter_sellers: [],
+          filter_categories: [],
+          filter_options: [],
+          adv_filters: [],
+          filter_attributes: []
+        });
+      }
+      if (value === attrIndex) {
         setUserFilters({
           ...userFilters,
           filter_sellers: [],
@@ -161,15 +187,19 @@ function Category() {
           ...userFilters,
           filter_sellers: [],
           filter_categories: [],
+          ilter_manufacturers: [],
           filter_manufacturers: [],
           filter_options: [],
+          filter_attributes: []
         });
       }
     }
 
     _axios
       .post(
-        buildLink(type, undefined, undefined) + newPath.replace("undefined", "")
+        buildLink(type, undefined, undefined) +
+          newPath.replace("undefined", "") +
+          "&admin=true"
       )
       .then((response) => {
         // setData((prevData) => {
@@ -273,8 +303,9 @@ function Category() {
     var l = "";
 
     if (window.location.href.indexOf("has_filter=true") < 0) {
-      if (i_sort < 0) {
+      if (i_sort > 0) {
         l = path1.substring(0, i_sort);
+        // alert(l);
       } else {
         l = path1;
       }
@@ -283,23 +314,30 @@ function Category() {
         l = location.search;
       } else {
         l = window.location.search;
-        // alert(l);
       }
     }
 
-    console.log(l);
     setShowSort(false);
+    // alert(l)
+    const lastL = (l + "&sort=" + _sort + "&order=" + order).replaceAll(
+      "/&",
+      "&"
+    );
+    alert(lastL);
+
+    // alert(l + "&sort=" + _sort + "&order=" + order).replaceAll("/&", "&")
     navigate((l + "&sort=" + _sort + "&order=" + order).replaceAll("/&", "&"));
   }
   function parseFilter(typekey, filter) {
+    // alert(typekey)
     setPointer(false);
 
     const id = filter["id"];
     var last = "";
     let type_key = typekey;
-
+// alert(typekey)
     last = filter["last"];
-
+  
     let values_array = userFilters[type_key];
     console.log(values_array);
     let c;
@@ -313,13 +351,15 @@ function Category() {
       indexOfId = c.split(",").indexOf(filter["id"]);
     }
     if (indexOfId < 0) {
+      console.log(filter_type)
       if (filter_type === "adv_filters")
         values_array = userFilters[type_key].push(filter["id"]);
-      else values_array.push(filter["id"]);
+      else
+       values_array.push(filter["id"]);
 
       setUserFilters({
         ...userFilters,
-        type_key: values_array,
+        type_key: values_array
       });
 
       let active_filters = {};
@@ -376,7 +416,7 @@ function Category() {
 
       setUserFilters({
         ...userFilters,
-        type_key: values_array,
+        type_key: values_array
       });
 
       if (location.search.indexOf(id) > -1) {
@@ -439,7 +479,12 @@ function Category() {
     array[type] = c?.split(",");
     // console.log("type, name, filter");
     // console.log(type, name, filter);
-    if (name === "Color" || name === "DIMENSIONS" || name === "Size") {
+    if (
+      name === "Color" ||
+      name === "DIMENSIONS" ||
+      name === "Size" ||
+      1 === 1
+    ) {
       if (c !== null && array[type].includes(filter["id"]) === true) {
         return "border border-dblue2 border text-dblue2";
       } else {
@@ -463,7 +508,7 @@ function Category() {
       <div className="md:container">
         {!data?.products ? (
           <Loader />
-        ) : (
+        ) : showWidgets ? (
           <>
             {showCartmenu && (
               <div ref={wrapperRef} onMouseEnter={() => setHoveredCart(true)}>
@@ -505,7 +550,7 @@ function Category() {
                     to="/"
                     className=" md:block text-dborderblack0 font-light truncate text-d16 md:text-tiny mr-2 hover:text-dblue"
                     dangerouslySetInnerHTML={{
-                      __html: "Home",
+                      __html: "Home"
                     }}
                   />{" "}
                   <RiArrowRightSLine className="text-d22 font-light mt-0.5 -mx-2 " />
@@ -515,7 +560,9 @@ function Category() {
                     className="flex items-center text-dborderblack0"
                     key={bread.text}
                   >
-                    <p className=" mx-2 whitespace-nowrap">{bread.text.replace("&amp;", "&")}</p>
+                    <p className=" mx-2 whitespace-nowrap">
+                      {bread.text.replace("&amp;", "&")}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -534,18 +581,35 @@ function Category() {
             >
               {window.innerWidth > 650 && (
                 <div className="w-3/12 px-8">
-                  <div className="w-10/12 text-left text-d18  border-b border-b-dblack2 py-2">
+                  {/* <div className="w-10/12 text-left text-d18  border-b border-b-dblack2 py-2">
                     CATEGORIES
+                  </div> */}
+                  <div className="w-10/12 text-left py-2 underline underline-offset-8">
+                    FILTERS
                   </div>
-                  <div className="w-10/12 text-left py-2">FILTERS</div>
                   <div className="w-10/12 ">
                     {Object.keys(filters).map((key) => (
+                           filters[key].attribute_group_id !== "14" &&
+                           filters[key].attribute_group_id !== "34" &&
+                           filters[key].attribute_group_id !== "23" &&
+                           filters[key].attribute_group_id !== "22" &&
+                           filters[key].attribute_group_id !== "13" &&
+                           filters[key].attribute_group_id !== "19" &&
+                           filters[key].attribute_group_id !== "11" && // material
+                           filters[key].attribute_group_id !== "9" ? // pattern
+
+
+                      //  ((filterCount === 0  &&  filters[key].attribute_group_id !== "12") || (filterCount === 1  &&  filters[key].attribute_group_id !== "18") ||  (filterCount === 2  &&  filters[key].attribute_group_id !== "4"))  &&
                       <div key={key} className="w-full">
-                        <div className="w-full text-left text-dblack2 uppercase  py-2">
-                          {filters[key]?.items.length > 0 && filters[key].name}
-                        </div>
                         {filters[key]?.items.length > 0 &&
-                        filters[key].name === "Color" ? (
+                      (
+                            <div className="w-full text-left text-dblack2 uppercase text-d16 leading-10 font-normal	pt-2 ">
+                              {filters[key].name}
+                              {/* {setFilterCount(filterCount + 1)} */}
+                            </div>
+                          )}
+                        {filters[key]?.items.length > 0 &&
+                        filters[key].name === "Colorex" ? (
                           <div
                             className={`${
                               filters[key]?.items.length > 6 &&
@@ -571,18 +635,22 @@ function Category() {
                               ))}
                             </div>
                           </div>
+
+                          
                         ) : (
                           <div
                             className={`${
                               filters[key]?.items.length > 6 &&
-                              "h-36 overflow-y-auto"
+                              "h-56 overflow-y-auto"
                             }`}
                           >
                             {filters[key]?.items?.map((filter) =>
-                              filters[key].name === "DIMENSIONS" ||
-                              filters[key].name === "Size" ? (
+                              filters[key].attribute_group_id !== "14" &&
+                              filters[key].attribute_group_id !== "23" &&
+                              filters[key].attribute_group_id !== "22" &&
+                              filters[key].attribute_group_id !== "13" ? (
                                 <div
-                                  className={`w-full border bg-white my-1 text-dborderblack0 text-d15 py-1 cursor-pointer ${checkFilter(
+                                  className={`w-full border bg-white text-dborderblack0 text-d16 leading-snug  py-1 my-2 cursor-pointer ${checkFilter(
                                     filters[key].id,
                                     filters[key].name,
                                     filter
@@ -595,7 +663,7 @@ function Category() {
                                 </div>
                               ) : (
                                 <div
-                                  className={`text-left w-full hover:underline underline-offset-4 text-dborderblack0 text-d15 pointer-events-auto cursor-pointer ${checkFilter(
+                                  className={`text-left w-full hover:underline underline-offset-4 py-1 text-dborderblack0 text-d16 leading-snug pointer-events-auto cursor-pointer ${checkFilter(
                                     filters[key].id,
                                     filter.name,
                                     filter
@@ -604,13 +672,87 @@ function Category() {
                                     parseFilter(filters[key].id, filter)
                                   }
                                 >
-                                  {filter.name}
+                                  {/* {filter.name} */}
                                 </div>
                               )
                             )}
                           </div>
                         )}
                       </div>
+                      : 
+
+                      <div>
+                    {filters[key].attribute_group_id === "11" && // material
+                           filters[key].attribute_group_id == "9" 
+                          && 
+                      <div key={key} className="w-full">
+                        {filters[key]?.items.length > 0 &&
+                      (
+                            <div className="w-full text-left text-dblack2 uppercase text-d16 leading-10 font-normal	pt-2 ">
+                              {filters[key].name}
+                              {/* {setFilterCount(filterCount + 1)} */}
+                            </div>
+                          )}
+                        {filters[key]?.items.length > 0 &&
+                        filters[key].name === "Colorex" ? (
+                          <div
+                            className={`${
+                              filters[key]?.items.length > 6 &&
+                              "h-36 overflow-y-auto"
+                            }`}
+                          >
+                            <div className="grid grid-cols-4 w-3/4 ">
+                              {filters[key]?.items?.map((filter) => (
+                                <div className="text-left w-full my-1">
+                                  <img
+                                    src={filter.image}
+                                    alt={filter.name}
+                                    className={`rounded-full w-8   ${checkFilter(
+                                      filters[key].id,
+                                      filters[key].name,
+                                      filter
+                                    )}`}
+                                    onClick={() =>
+                                      parseFilter(filters[key].id, filter)
+                                    }
+                                  />
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+
+                          
+                        ) : (
+                          <div
+                            className={`${
+                              filters[key]?.items.length > 6 &&
+                              "h-56 overflow-y-auto"
+                            }`}
+                          >
+                            {filters[key]?.items?.map((filter) =>
+                              filters[key].attribute_group_id !== "14" &&
+                              filters[key].attribute_group_id !== "23" &&
+                              filters[key].attribute_group_id !== "22" &&
+                              filters[key].attribute_group_id !== "13" &&
+                                <div
+                                  className={`w-full border bg-white text-dborderblack0 text-d16 leading-snug  py-1 my-2 cursor-pointer ${checkFilter(
+                                    filters[key].id,
+                                    filters[key].name,
+                                    filter
+                                  )}`}
+                                  onClick={() =>
+                                    parseFilter(filters[key].id, filter)
+                                  }
+                                >
+                                  {filter.name}
+                                </div>
+                             
+                            )}
+                          </div>
+                        )}
+                      </div>}
+                      </div>
+                              
                     ))}
                   </div>
                 </div>
@@ -675,7 +817,7 @@ function Category() {
                         >
                           <div
                             dangerouslySetInnerHTML={{
-                              __html: sort?.text ? sort?.text : sort,
+                              __html: sort?.text ? sort?.text : sort
                             }}
                           ></div>
                         </div>
@@ -690,7 +832,7 @@ function Category() {
                             className="pl-5 py-1 "
                             onClick={() => sortSetter(sort)}
                             dangerouslySetInnerHTML={{
-                              __html: sort.text,
+                              __html: sort.text
                             }}
                           ></div>
                         ))}
@@ -765,7 +907,7 @@ function Category() {
                             className="pl-5 py-2 "
                             onClick={() => sortSetter(sort)}
                             dangerouslySetInnerHTML={{
-                              __html: sort.text,
+                              __html: sort.text
                             }}
                           ></div>
                         ))}
@@ -821,15 +963,18 @@ function Category() {
                               <div
                                 className={`flex w-full text-left text-dblack2 uppercase `}
                                 onClick={() =>
-                                  !filterMobile.includes(filters[key].id)
+                                  !filterMobile.includes(
+                                    filters[key].attribute_group_id
+                                  )
                                     ? setFilterMobile((filterMobile) => [
                                         ...filterMobile,
-                                        filters[key].id,
+                                        filters[key].attribute_group_id
                                       ])
                                     : setFilterMobile((filterMobile) =>
                                         filterMobile.filter(
                                           (filterMobile) =>
-                                            filterMobile !== filters[key].id
+                                            filterMobile !==
+                                            filters[key].attribute_group_id
                                         )
                                       )
                                 }
@@ -838,13 +983,15 @@ function Category() {
                                   {filters[key].name}{" "}
                                 </div>
                                 <div className="text-black font-medium">
-                                  {filterMobile.includes(filters[key].id)
+                                  {filterMobile.includes(
+                                    filters[key].attribute_group_id
+                                  )
                                     ? "-"
                                     : "+"}
                                 </div>
                               </div>
                             }
-                            {filters[key].name === "Color" ? (
+                            {filters[key].name === "Colore" ? (
                               <div
                                 className={` my-5 ${
                                   filters[key]?.items.length > 6 &&
@@ -879,43 +1026,48 @@ function Category() {
                               <div
                                 className={`my-5 ${
                                   filters[key]?.items.length > 6 &&
-                                  "overflow-y-auto h-36 px-2"
+                                  "overflow-y-auto h-36 px-1 "
                                 }  ${
-                                  !filterMobile.includes(filters[key].id)
+                                  !filterMobile.includes(
+                                    filters[key].attribute_group_id
+                                  )
                                     ? "hidden"
                                     : ""
                                 }`}
                               >
-                                {filters[key]?.items?.map((filter) =>
-                                  filters[key].name === "DIMENSIONS" ||
-                                  filters[key].name === "Size" ? (
-                                    <div
-                                      className={`w-full border bg-white my-1 text-dborderblack0 text-d15 py-1 ${checkFilter(
-                                        filters[key].id,
-                                        filters[key].name,
-                                        filter
-                                      )}`}
-                                      onClick={() =>
-                                        parseFilter(filters[key].id, filter)
-                                      }
-                                    >
-                                      {filter.name}
-                                    </div>
-                                  ) : (
-                                    <div
-                                      className={`text-left w-full hover:underline underline-offset-4 text-dborderblack0 text-d15 pointer-events-auto ${checkFilter(
-                                        filters[key].id,
-                                        filter.name,
-                                        filter
-                                      )}`}
-                                      onClick={() =>
-                                        parseFilter(filters[key].id, filter)
-                                      }
-                                    >
-                                      {filter.name}
-                                    </div>
-                                  )
-                                )}
+                                <div className="grid grid-cols-2	">
+                                  {filters[key]?.items?.map((filter) =>
+                                    filters[key].name === "DIMENSIONS" ||
+                                    1 === 1 ||
+                                    filters[key].name === "Size" ? (
+                                      <div
+                                        className={`border bg-white mr-1.5 my-1 text-dborderblack0 text-d14 ${checkFilter(
+                                          filters[key].id,
+                                          filters[key].name,
+                                          filter
+                                        )}`}
+                                        onClick={() =>
+                                          parseFilter(filters[key].id, filter)
+                                        }
+                                      >
+                                        {filter.name}
+                                      </div>
+                                    ) : (
+                                      <div
+                                        className={`text-left w-1/2 hover:underline underline-offset-4 text-dborderblack0 text-d15 pointer-events-auto ${checkFilter(
+                                          filters[key].id,
+                                          filter.name,
+                                          filter
+                                        )}`}
+                                        onClick={() =>
+                                          parseFilter(filters[key].id, filter)
+                                        }
+                                      >
+                                        {filter.name}
+                                      </div>
+                                    )
+                                  )}
+                                </div>
                               </div>
                             )}
                           </div>
@@ -946,6 +1098,26 @@ function Category() {
               )}
             </div>
           </>
+        ) : window.innerWidth < 650 ? (
+          data?.map((widget) => {
+            return <WidgetsLoopMobile widget={widget} />;
+          })
+        ) : (
+          data?.widget_.map((widget, index) => {
+            if (data?.length === index + 1) {
+              return (
+                <div className="theHome" key={widget}>
+                  <WidgetsLoop widget={widget} />
+                </div>
+              );
+            } else {
+              return (
+                <div className="">
+                  <WidgetsLoop showCartmenu={showCart} />
+                </div>
+              );
+            }
+          })
         )}
       </div>
     </div>

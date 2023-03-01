@@ -94,19 +94,19 @@ function ProductPreview() {
     );
 
     _axios
-      .get(buildLink("product", undefined, undefined) + product_id)
+      .get(buildLink("productpreview", undefined, undefined) + product_id)
       .then((response) => {
         const data = response?.data?.data;
         setProductData(data);
         data?.images.unshift({
-          popup: data.popup,
-          thumb: data.thumb,
+          popup: data?.popup,
+          thumb: data?.thumb,
         });
 
         setImages(data?.images);
         setHasOption(data?.options?.length > 0);
-        data.options.length > 0 &&
-          setOptionParent(data.options[0]["product_option_id"]);
+        data?.options?.length > 0 &&
+          setOptionParent(data?.options[0]["product_option_id"]);
       });
   }, [location]);
 
@@ -592,7 +592,7 @@ function ProductPreview() {
         <div className="text-d12 my-2.5 text-dgrey11 text-left flex items-center">
           <Link to={"/"}>{productData?.breadcrumbs?.text_home}</Link>
           <BsChevronRight className="mx-2 mt-0.5" />
-          {productData?.breadcrumbs?.category.map((breadcrumb, index) => (
+          {productData?.breadcrumbs?.category?.map((breadcrumb, index) => (
             <div className="flex items-center" key={breadcrumb.category_id}>
               <Link
                 to={`/category/${breadcrumb.category_id}`}
@@ -812,7 +812,7 @@ function ProductPreview() {
                   </span>
                 </div>
               )}
-              <div className="flex justify-end items-start">
+              {/* <div className="flex justify-end items-start">
                 <div className="">
                   <p className="w-full px-1 text-d12 text-dborderblack2 text-right">
                     At the latest on Friday, November 18, Cargo
@@ -822,7 +822,7 @@ function ProductPreview() {
                   src="https://akn-eh.b-cdn.net/static_omnishop/eh591/assets/img/saat_icon.png"
                   alt="clock-icon"
                 />
-              </div>
+              </div> */}
               <div className="w-full flex my-3">
                 <div className="text-dborderblack2 w-1/4 mr-1 p-3.5 text-d8 md:text-d12 flex flex-col justify-center text-center font-bold items-center">
                   <img
@@ -941,7 +941,7 @@ function ProductPreview() {
                   className={`border border-dgrey5 flex justify-center items-center text-d14 text-dborderblack2 text-center p-5  cursor-pointer
                  ${
                    infomenu
-                     ? "border-r-0 border-b-0 pr-5 bg-dwhite1 -translate-y-1"
+                     ? "border-r-0 border-b pr-5 bg-dwhite1 -translate-y-1"
                      : ""
                  }
                 `}
@@ -955,7 +955,7 @@ function ProductPreview() {
                 >
                   PRODUCT INFORMATION
                 </li>
-                <li
+                {/* <li
                   className={`border border-dgrey5 flex justify-center items-center text-d14 text-dborderblack2 text-center p-5  cursor-pointer
                  ${
                    returnmenu
@@ -973,8 +973,8 @@ function ProductPreview() {
                   }}
                 >
                   RETURN AND EXCHANGE CONDITIONS
-                </li>
-                <li
+                </li> */}
+                {/* <li
                   className={`border border-dgrey5 flex justify-center items-center text-d14 text-dborderblack2 text-center p-5  cursor-pointer
                  ${
                    deliverymenu
@@ -991,8 +991,8 @@ function ProductPreview() {
                   }}
                 >
                   DELIVERY
-                </li>
-                <li
+                </li> */}
+                {/* <li
                   className={`border border-dgrey5 flex justify-center items-center text-d14 text-dborderblack2 text-center p-5  cursor-pointer flex-1
                  ${
                    paymentmenu
@@ -1009,8 +1009,8 @@ function ProductPreview() {
                   }}
                 >
                   PAYMENT OPTIONS
-                </li>
-                <li
+                </li> */}
+                {/* <li
                   className={`border border-dgrey5 flex justify-center items-center text-d14 text-dborderblack2 text-center p-5  cursor-pointer
                  ${
                    storemenu
@@ -1027,7 +1027,7 @@ function ProductPreview() {
                   }}
                 >
                   IN WHICH STORE IS IT AVAILABLE?
-                </li>
+                </li> */}
               </ul>
             </div>
             <div className="w-full p-6 border border-dgrey5 border-t-0 -mb-1">
@@ -1036,7 +1036,7 @@ function ProductPreview() {
                   infomenu ? "block" : "hidden"
                 }`}
               >
-                <div className="-mx-1 flex flex-col-reverse md:flex-row">
+                {/* <div className="-mx-1 flex flex-col-reverse md:flex-row">
                   <div className="w-1/2">
                     <div className="product-information-conten text-left">
                       <div className="content-titles text-d22 font-bold mb-5">
@@ -1081,7 +1081,43 @@ function ProductPreview() {
                       ></div>
                     </div>
                   </div>
-                </div>
+                </div> */}
+                   <div className="w-full text-left flex justify-around">
+                    <div className="w-1/2 mr-10">
+                      <div className="text-d22 font-bold my-5">
+                        DESCRIPTIONS
+                      </div>
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: productData?.description,
+                        }}
+                      ></div>
+                    </div>
+                    <div className="w-1/2">
+                      <table className=" border  border-dgrey1 w-full text-left ml-3 font-mono leading-tight text-xs">
+                        <thead className="p-6 border-b border-dgrey1 text-left">
+                          <tr className="my-4 ">
+                            <th className="border-r border-dgrey1 py-4  text-d22">
+                              FEATURES
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {productData?.attribute_groups?.map((grp) => (
+                            <tr>
+                              <td className="font-bold whitespace-nowrap">{grp.name}</td>
+                              {grp?.attribute?.map((attr) => (
+                                <>
+                                 
+                                  <td className="p-2.5">{attr.name}</td>
+                                </>
+                              ))}
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
               </div>
               <div
                 className={`text-dborderblack4 text-left ${

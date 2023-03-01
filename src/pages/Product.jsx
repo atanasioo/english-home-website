@@ -16,14 +16,14 @@ import { WishlistContext } from "../contexts/WishlistContext";
 import TopCart from "../components/TopCart";
 import Overlay from "../components/Overlay";
 import { path } from "../urls";
-
 import { FaWhatsappSquare, FaTwitterSquare, FaWhatsapp } from "react-icons/fa";
+
 import { ImFacebook2 } from "react-icons/im";
 import {
   EmailShareButton,
   FacebookShareButton,
   TwitterShareButton,
-  WhatsappShareButton,
+  WhatsappShareButton
 } from "react-share";
 import CartmenuMobile from "../components/CartmenuMobile";
 
@@ -61,6 +61,9 @@ function Product() {
   const [showCartmenu, setShowCartmenu] = useState(false);
   const [showCartmenuMob, setShowCartmenuMob] = useState(false);
   const [hoveredCart, setHoveredCart] = useState(false);
+  const [viewSeriesVal, setViewSeriesVal] = useState();
+  const [seriesOpSelected, setSeriesOpSelected] = useState();
+
   const width = window.innerWidth;
   const location = useLocation();
   let product_id = useParams().id;
@@ -75,7 +78,7 @@ function Product() {
     slidesToScroll: 4.5,
     infinite: false,
     prevArrow: <CustomArrows direction={"l"} />,
-    nextArrow: <CustomArrows direction={"r"} />,
+    nextArrow: <CustomArrows direction={"r"} />
   };
 
   const productMobile = {
@@ -85,14 +88,34 @@ function Product() {
     swipeToSlide: true,
     infinite: false,
     arrows: false,
-    lazyLoad: true,
+    lazyLoad: true
   };
+  const moreSettings = {
+    speed: 200,
+    slidesToShow: 4,
+    slidesToScroll: 4,
+    infinite: false,
+    prevArrow: <CustomArrows direction={"l"} />,
+    nextArrow: <CustomArrows direction={"r"} />
+  };
+
+
   console.log(stateW?.pIds.indexOf(product_id));
+  function handleHoveredSeries(key, name) {
+    const seriesOp_name = document.getElementById(key);
+    setViewSeriesVal(key);
+    seriesOp_name.textContent = name;
+  }
+  function handleLeavedSeries(key) {
+    const seriesOp_name = document.getElementById(key);
+    setViewSeriesVal("");
+    seriesOp_name.textContent = "";
+  }
 
   useEffect(() => {
     window.scrollTo(
       {
-        top: 0,
+        top: 0
         // behavior: "smooth",
       },
       []
@@ -105,7 +128,7 @@ function Product() {
         setProductData(data);
         data?.images.unshift({
           popup: data.popup,
-          thumb: data.thumb,
+          thumb: data.thumb
         });
 
         setImages(data?.images);
@@ -159,7 +182,7 @@ function Product() {
     setAddingToCart(true);
     let obj = {
       product_id,
-      quantity,
+      quantity
     };
     if (hasOption) {
       let o = {};
@@ -197,27 +220,27 @@ function Product() {
           }, 3000);
           dispatch({
             type: "loading",
-            payload: true,
+            payload: true
           });
           _axios
             .get(buildLink("cart", undefined, window.innerWidth))
             .then((response) => {
               dispatch({
                 type: "setProducts",
-                payload: response.data.data.products,
+                payload: response.data.data.products
               });
 
               dispatch({
                 type: "setProductsCount",
-                payload: response.data.data.total_product_count,
+                payload: response.data.data.total_product_count
               });
               dispatch({
                 type: "setTotals",
-                payload: response.data.data.totals,
+                payload: response.data.data.totals
               });
               dispatch({
                 type: "loading",
-                payload: false,
+                payload: false
               });
             });
 
@@ -286,7 +309,7 @@ function Product() {
             setImageActiveOption(option);
             setActiveImage({
               popup: element["popup"],
-              thumb: element["thumb"],
+              thumb: element["thumb"]
             });
           }
         }
@@ -366,7 +389,7 @@ function Product() {
                   console.log("delete");
                   dispatchW({
                     type: "setProductsCount",
-                    payload: response.data.data.total,
+                    payload: response.data.data.total
                   });
                 }
               });
@@ -378,7 +401,7 @@ function Product() {
             if (response.data.success) {
               dispatchW({
                 type: "setProducts",
-                payload: response.data.data.products,
+                payload: response.data.data.products
               });
               // dispatchW({
               //   type: "setProductsCount",
@@ -386,34 +409,34 @@ function Product() {
               // });
               dispatchW({
                 type: "setTotals",
-                payload: response.data.data.totals,
+                payload: response.data.data.totals
               });
               const ids = response.data.data.products.map((p) => p.product_id);
               dispatchW({
                 type: "setProductIds",
-                payload: ids,
+                payload: ids
               });
               dispatchW({
                 type: "loading",
-                payload: false,
+                payload: false
               });
               setIsWishlist(false);
             } else {
               dispatch({
                 type: "setProductsCount",
-                payload: 0,
+                payload: 0
               });
 
               dispatch({
                 type: "loading",
-                payload: false,
+                payload: false
               });
             }
           });
       } else {
         dispatchW({
           type: "setProductIds",
-          payload: [...stateW.pIds, product_id],
+          payload: [...stateW.pIds, product_id]
         });
 
         _axios
@@ -430,7 +453,7 @@ function Product() {
                   console.log("hii");
                   dispatchW({
                     type: "setProductsCount",
-                    payload: response.data.data.total,
+                    payload: response.data.data.total
                   });
                   setIsWishlist(true);
                   setPopupW(true);
@@ -453,11 +476,11 @@ function Product() {
     gt: ">",
     quot: '"',
     amp: "&",
-    apos: "'",
+    apos: "'"
   };
 
   return (
-    <div className="bg-dgrey10">
+    <div className="bg-dgrey10 px-6">
       {cartmenu && width > 650 && (
         <div ref={wrapperRef} onMouseEnter={() => setHoveredCart(true)}>
           <TopCart cartmenu={cartmenu} />
@@ -654,7 +677,7 @@ function Product() {
                     : "hidden"
                 }`}
                 dangerouslySetInnerHTML={{
-                  __html: breadcrumb?.name,
+                  __html: breadcrumb?.name
                 }}
               ></Link>
               <BsChevronRight
@@ -684,7 +707,7 @@ function Product() {
                 <div
                   className="font-mono md:font-mono font-semibold text-left	text-dborderblack2 text-d17 md:text-d20 w-8/12"
                   dangerouslySetInnerHTML={{
-                    __html: productData?.heading_title,
+                    __html: productData?.heading_title
                   }}
                 ></div>
                 <div
@@ -720,7 +743,81 @@ function Product() {
                   </div>
                 </div>
               </div>
+              {/* series options */}
 
+              {productData?.series_options &&
+                productData?.series_options?.map(
+                  (series_option, key) =>
+                    series_option?.series_option_id !== null && (
+                      <div className="my-2 md:my-4">
+                        <div className="flex justify-between">
+                          <div className="flex justify-between items-center">
+                            <h3
+                              className="text-sm"
+                              style={{ color: "rgb(126, 133, 155)" }}
+                            >
+                              {`${series_option.series_option_name} ${":"}`}
+                            </h3>
+                            {
+                              // series_option?.options?.map(
+                              //   (op_val) =>
+                              //     op_val.product_id === product_id &&
+                              viewSeriesVal !== key && (
+                                <span className="flex ml-1 font-semibold text-sm w-28">
+                                  {" "}
+                                  {series_option?.options[0]?.name}
+                                </span>
+                                // )
+                              )
+                            }
+                            <span
+                              id={key}
+                              className={`${
+                                viewSeriesVal === key ? "block" : "hidden"
+                              } ml-1 font-semibold text-sm w-28`}
+                            >
+                              {" "}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="flex fkex-wrap">
+                          {series_option?.options?.map((option_val) => (
+                            <Link
+                              key={option_val?.product_id}
+                              to={{
+                                pathname:
+                                  `${path}/product/` + option_val?.product_id
+                              }}
+                              className={`flex justify-center items-center w-20 mr-5 mb-5  border-2 hover:shadow cursor-pointer p-1 rounded-md
+                            ${
+                              option_val.product_id === product_id
+                                ? "border-dblue1"
+                                : "border-dgrey"
+                            }
+                          `}
+                              onClick={() =>
+                                setSeriesOpSelected(option_val.name)
+                              }
+                              onMouseOver={() => {
+                                handleHoveredSeries(key, option_val.name);
+                              }}
+                              onMouseLeave={() => handleLeavedSeries(key)}
+                            >
+                              {/* {option_val.product_id }  + {product_id} */}
+                              <img
+                                src={option_val?.image}
+                                alt={option_val?.name}
+                                className="w-full"
+                                width={80}
+                                height={80}
+                                placeholderSrc="https://www.sari3.com/ishtaridemo/product_placeholder.png"
+                              />
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    )
+                )}
               {productData?.options && productData?.options?.length > 0 && (
                 <div className="my-4">
                   <div className="text-left my-2">
@@ -766,6 +863,7 @@ function Product() {
                   </div>
                 </div>
               )}
+
               {width > 650 ? (
                 <div className="flex  my-3">
                   <div className="w-3/12 flex flex-wrap align-middle text-center pt-3 text-d22 font-bold text-dborderblack2 pr-3 items-center">
@@ -863,7 +961,7 @@ function Product() {
                   </span>
                 </div>
               )}
-              <div className="flex justify-end items-start">
+              {/* <div className="flex justify-end items-start">
                 <div className="">
                   <p className="w-full px-1 text-d12 text-dborderblack2 text-right">
                     At the latest on Friday, November 18, Cargo
@@ -873,7 +971,7 @@ function Product() {
                   src="https://akn-eh.b-cdn.net/static_omnishop/eh591/assets/img/saat_icon.png"
                   alt="clock-icon"
                 />
-              </div>
+              </div> */}
               <div className="w-full flex my-3">
                 <div className="text-dborderblack2 w-1/4 mr-1 p-3.5 text-d8 md:text-d12 flex flex-col justify-center text-center font-bold items-center">
                   <img
@@ -975,7 +1073,7 @@ function Product() {
                   <div>
                     <div
                       dangerouslySetInnerHTML={{
-                        __html: productData?.description,
+                        __html: productData?.description
                       }}
                     ></div>
                   </div>
@@ -987,7 +1085,7 @@ function Product() {
         <div>
           <div className="product-info-wrapper hidden md:block w-full mt-7">
             <div className="">
-              <ul className="w-full flex justify-center">
+              <ul className="w-full flex border-b">
                 <li
                   className={`border border-dgrey5 flex justify-center items-center text-d14 text-dborderblack2 text-center p-5  cursor-pointer
                  ${
@@ -1006,7 +1104,7 @@ function Product() {
                 >
                   PRODUCT INFORMATION
                 </li>
-                <li
+                {/* <li
                   className={`border border-dgrey5 flex justify-center items-center text-d14 text-dborderblack2 text-center p-5  cursor-pointer
                  ${
                    returnmenu
@@ -1024,8 +1122,8 @@ function Product() {
                   }}
                 >
                   RETURN AND EXCHANGE CONDITIONS
-                </li>
-                <li
+                </li> */}
+                {/* <li
                   className={`border border-dgrey5 flex justify-center items-center text-d14 text-dborderblack2 text-center p-5  cursor-pointer
                  ${
                    deliverymenu
@@ -1042,8 +1140,8 @@ function Product() {
                   }}
                 >
                   DELIVERY
-                </li>
-                <li
+                </li> */}
+                {/* <li
                   className={`border border-dgrey5 flex justify-center items-center text-d14 text-dborderblack2 text-center p-5  cursor-pointer flex-1
                  ${
                    paymentmenu
@@ -1060,7 +1158,7 @@ function Product() {
                   }}
                 >
                   PAYMENT OPTIONS
-                </li>
+                </li> */}
                 {/* <li
                   className={`border border-dgrey5 flex justify-center items-center text-d14 text-dborderblack2 text-center p-5  cursor-pointer
                  ${
@@ -1081,7 +1179,7 @@ function Product() {
                 </li> */}
               </ul>
             </div>
-            <div className="w-full p-6 border border-dgrey5 border-t-0 -mb-1">
+            <div className="w-full p-6 border border-dgrey5 border-t -mb-1">
               <div
                 className={`text-dborderblack4 ${
                   infomenu ? "block" : "hidden"
@@ -1129,7 +1227,7 @@ function Product() {
                       </div>
                       <div
                         dangerouslySetInnerHTML={{
-                          __html: productData?.description,
+                          __html: productData?.description
                         }}
                       ></div>
                     </div>
@@ -1145,10 +1243,11 @@ function Product() {
                         <tbody>
                           {productData?.attribute_groups?.map((grp) => (
                             <tr>
-                              <td className="font-bold whitespace-nowrap">{grp.name}</td>
+                              <td className="font-bold whitespace-nowrap">
+                                {grp.name}
+                              </td>
                               {grp?.attribute?.map((attr) => (
                                 <>
-                                 
                                   <td className="p-2.5">{attr.name}</td>
                                 </>
                               ))}
@@ -1170,7 +1269,7 @@ function Product() {
                   <div
                     className=""
                     dangerouslySetInnerHTML={{
-                      __html: unescapeHTML(returnPolicy?.description),
+                      __html: unescapeHTML(returnPolicy?.description)
                     }}
                   ></div>
                   {/* <div className="w-1/2"></div> */}
@@ -1321,14 +1420,98 @@ function Product() {
             </div>
           </div>
         </div>
-
+          {/*product to category  smallest   */}
+          {productData?.product_categories &&
+            productData?.product_categories?.length > 0 && (
+              <div className=" w-full  ">
+                <div className=" pb-2 md:pb-8 text-left">
+                  <h2 className="font-semibold text-xl text-dblack mb-4 pt-2 md:pt-8 ">
+                    More to explore
+                  </h2>
+                  {width < 650 ? (
+                    <div className="flex overflow-x-scroll text-left ">
+                      {productData.product_categories?.map((category) => (
+                        <Link
+                          key={category.category_id}
+                          to={`${path}/category/${category.category_id}`}
+                          className="cursor-pointer hover:opacity-80 pr-10 "
+                        >
+                          <img
+                            src={category.image}
+                            alt={category.name}
+                            className="w-32 block mx-auto rounded-full"
+                          />
+                          <p
+                            dangerouslySetInnerHTML={{
+                              __html: category.name
+                            }}
+                            className="text-center mt-4 font-semibold text-sm line-clamp-2"
+                          ></p>
+                        </Link>
+                      ))}
+                    </div>
+                  ) : (
+                    <div>
+                      <Slider {...moreSettings}>
+                        {productData?.product_categories?.map((category) => (
+                          <Link
+                            key={category.category_id}
+                            to={`${path}/category/${category.category_id}`}
+                            className="cursor-pointer hover:opacity-80 min-w-max mr-4 mt-4"
+                          >
+                            <img
+                              src={category.image}
+                              alt={category.name}
+                              className=" w-32 block mx-auto"
+                            />
+                            <p
+                              dangerouslySetInnerHTML={{
+                                __html: category.name
+                              }}
+                              className="text-center mt-4 font-semibold text-sm"
+                            ></p>
+                          </Link>
+                        ))}
+                      </Slider>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+          {/* / 10 products */}
+          <div className=" "></div>
+          {productData?.smallest_cat_products &&
+            productData?.smallest_cat_products?.length > 0 && (
+              <div className=" w-full   pt-1">
+                <div className=" pb-2 md:pb-8">
+                  <h2 className="font-semibold text-xl text-dblack mb-4   text-left">
+                    {productData.product_categories[0].name}
+                  </h2>
+                  {width < 650 ? (
+                    <Slider {...productMobile}>
+                      {productData.smallest_cat_products.map((item) => (
+                       <div> <SingleProducts item={item}></SingleProducts></div>
+                      ))}
+                    </Slider>
+                  ) : (
+                    <div>
+                      <Slider {...moreSettings}>
+                        {productData.smallest_cat_products.map((item) => (
+                       <div className="px-1.5"> <SingleProducts item={item}></SingleProducts></div>
+                       ))}
+                      </Slider>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
         {/* Related Product */}
         {productData?.product_related &&
           productData?.product_related.length > 0 && (
             <div
               className={`mb-2 mt-4  ${
                 width > 1920 && "mt-10"
-              } md:mb-8 container`}
+              } container`}
             >
               <h2 className="font-semibold text-xl  text-dblack2 mb-1 md:mb-4 text-left font-mono uppercase">
                 Related products
@@ -1418,7 +1601,7 @@ function Product() {
                   <div
                     className=""
                     dangerouslySetInnerHTML={{
-                      __html: unescapeHTML(returnPolicy?.description),
+                      __html: unescapeHTML(returnPolicy?.description)
                     }}
                   ></div>
                 </div>

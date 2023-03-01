@@ -36,11 +36,11 @@ function Footer() {
           <div className="border-t-2 "></div>
           <div className="container">
             <div
-              className={`flex flex-col  md:flex-row   px-auto ${
+              className={`flex flex-col  md:flex-row   px-6 ${
                 window.innerWidth < 650 ? "mt-2" : "  mt-16"
               }`}
             >
-              <div className="flex flex-col  md:grid md:grid-cols-3 md:gap-3 text-left ">
+              <div className="flex flex-col  md:grid md:grid-cols-3 md:gap-3 text-left pb-3 ">
                 {data?.data?.map((cat) => {
                   return (
                     <div
@@ -64,7 +64,7 @@ function Footer() {
                   );
                 })}
               </div>
-              <div className="md:ml-12 ">
+              <div className="md:ml-12">
                 <div className="text-dbasenavy text-d14 text-left p-3 ">
                   Follow Us!{" "}
                 </div>
@@ -119,8 +119,8 @@ function Footer() {
               </div>
             </div>
           </div>
-          <div className="bg-dbasenavy h-12  text-white text-d22 text-left px-auto py-1">
-            <div className="text-center md:text-left ml-10 container font-serif">
+          <div className="bg-dbasenavy h-12  text-white text-d22 text-left px-auto py-1 mt-8">
+            <div className="text-center md:text-left ml-8 container font-serif">
               {" "}
               ENGLISH HOME
             </div>
