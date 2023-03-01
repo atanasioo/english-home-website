@@ -13,6 +13,8 @@ import supportImage from "../assets/images/online-support.png";
 import { useContext } from "react";
 import { AccountContext } from "../contexts/AccountContext";
 import { Link } from "react-router-dom";
+
+
 function Footer() {
   const [data, setData] = useState("");
   const [state, dispatch] = useContext(AccountContext);

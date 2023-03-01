@@ -10,7 +10,9 @@ import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
 import _axios from "../axios";
 import buildLink, { path } from "../urls";
 import { AccountContext } from "../contexts/AccountContext";
+import { InformationContext } from "../contexts/InformationContext";
 import Cookies from "js-cookie";
+
 function Header() {
   const width = window.innerWidth;
   const [menuCategories2, setMenuCategories2] = useState([]);
@@ -21,6 +23,7 @@ function Header() {
   const [activeCategory, setActiveCategory] = useState({});
   const [viewLevel2, setViewLevel2] = useState(false);
   const [state, dispatch] = useContext(AccountContext);
+  const infoState = useContext(InformationContext);
   const [info, setInfo] = useState([]);
   const location = useLocation();
   const [token, setToken] = useState();
@@ -60,16 +63,18 @@ function Header() {
     checkCookies();
   }, []);
 
-  async function getInfo() {
-    _axios
-      .get(buildLink("information", undefined, window.innerWidth))
-      .then((response) => {
-        try {
-          const data = response.data.data.informations;
-          setInfo(data);
-        } catch (e) {}
-      });
-  }
+
+//used infoContext instead
+  // async function getInfo() {
+  //   _axios
+  //     .get(buildLink("information", undefined, window.innerWidth))
+  //     .then((response) => {
+  //       try {
+  //         const data = response.data.data.informations;
+  //         setInfo(data);
+  //       } catch (e) {}
+  //     });
+  // }
 
   const copy = async () => {
     await navigator.clipboard.writeText(window.location.href);
@@ -82,12 +87,12 @@ function Header() {
     }, 2000);
   };
 
-  useEffect(() => {
-    getInfo();
-  }, []);
+  // useEffect(() => {
+  //   getInfo();
+  // }, []);
 
   return (
-    <div className="relative mb-2">
+    <div className="relative ">
            {/* Admin Top Bar */}
            <div
           className={
@@ -147,7 +152,7 @@ function Header() {
                   <Link className="text-dblack2 text-d12 ml-5 leading-10 font-bold hover:underline">
                     Mails
                   </Link> */}
-                    {info?.map(
+                    {infoState?.informations?.map(
                       (i) =>
                         i.status === "1" && (
                           <Link

@@ -37,7 +37,7 @@ function DesktopMenu() {
 
   return (
     <div className="hidden lg:block relative">
-      <nav className="header-menu border-b border-dborderblack1 mt-2.5 h-17 xl:h-7.5">
+      <nav className="header-menu border-b border-dborderblack1 mt-6 h-17 xl:h-7.5">
         <div className="container">
           <div className="flex flex-col xl:flex-row justify-center items-center mx-auto">
             <ul className="navigation relative text-center  flex  justify-center">
