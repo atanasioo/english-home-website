@@ -199,7 +199,7 @@ export default function SingleProduct(props) {
           )}
         </div>
 
-        <div className="flex flex-col md:mt-12 text-d17 font-mono">
+        <div className="flex flex-col md:mt-12 text-d17 font-mono px-2">
           <span
             className={`text-left font-normal md:h-12 capitalize max-h-12 line-clamp-2 md:line-clamp-none  ${
               window.innerWidth > 650 ? "text-d15" : "text-d13"

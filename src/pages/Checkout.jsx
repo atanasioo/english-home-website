@@ -30,19 +30,19 @@ function Checkout() {
   const [loading, setLoading] = useState(true);
   const [activePaymentMethod, setActivePaymentMethod] = useState("cod");
   const [emptyCart, setEmptyCart] = useState(false);
-  const [paymentMeth, setPaymentMeth]= useState("");
-  const [error, setError]= useState("");
-  const [addrInfo, setAddrInfo]= useState({
+  const [paymentMeth, setPaymentMeth] = useState("");
+  const [error, setError] = useState("");
+  const [addrInfo, setAddrInfo] = useState({
     addr1: "",
     addr2: "",
     tel: "",
     zn: "",
     znId: "",
     fn: "",
-    ln:""
-  })
+    ln: ""
+  });
   const [loged, setloged] = useState();
-  const [accountData, setAccountData]= useState([]);
+  const [accountData, setAccountData] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
   const pathname = location.pathname;
@@ -50,8 +50,9 @@ function Checkout() {
   const cid = localStorage.getItem("cid");
   const town = useRef({
     id: 0,
-    name: "",
+    name: ""
   });
+  const [termCondition, setTermCondition] = useState()
 
   //user details
   const firstname = useRef("");
@@ -71,7 +72,7 @@ function Checkout() {
 
   const zone = useRef({
     id: window.config["initial-zone"].id,
-    name: window.config["initial-zone"].name,
+    name: window.config["initial-zone"].name
   });
 
   const [confirmDisable, setConfirmDisalbe] = useState(false);
@@ -115,7 +116,7 @@ function Checkout() {
 
       country_id,
       city,
-      postcode,
+      postcode
     };
     setphoneValidate("");
     if (window.config["zone"] === "82" && telephone.current.value.length < 11) {
@@ -135,8 +136,8 @@ function Checkout() {
             setAddressmenu(false);
             setEditAddress(false);
             window.location.reload();
-          }else{
-            setError(response.data.errors["0"].errorMsg)
+          } else {
+            setError(response.data.errors["0"].errorMsg);
           }
         });
     } else {
@@ -218,25 +219,23 @@ function Checkout() {
 
         dispatch({
           type: "setProducts",
-          payload: response.data.data.products,
+          payload: response.data.data.products
         });
 
         dispatch({
           type: "setProductsCount",
-          payload: response.data.data.total_product_count,
+          payload: response.data.data.total_product_count
         });
         dispatch({
           type: "setTotals",
-          payload: response.data.data.totals,
+          payload: response.data.data.totals
         });
         dispatch({
           type: "loading",
-          payload: false,
+          payload: false
         });
       });
   }
-
-
 
   useEffect(() => {
     dispatchAccount({ type: "setAdminLoading", payload: true });
@@ -319,7 +318,7 @@ function Checkout() {
     setActiveAddress(address);
     const obj = {
       name: address.zone,
-      value: address.zone_id,
+      value: address.zone_id
     };
     zone.current.name = address.zone;
     zone.current.id = address.zone_id;
@@ -348,7 +347,7 @@ function Checkout() {
           getCart();
         } else {
           setloged(true);
-          setAccountData(data.data)
+          setAccountData(data.data);
           _axios
             .get(buildLink("login", undefined, window.innerWidth))
             .then((response) => {
@@ -383,7 +382,7 @@ function Checkout() {
     e.preventDefault();
     const btn = document.getElementById("savebtn");
     if (stateAccount?.loged) {
-      if (JSON.stringify(activeAddress) === "{}") { 
+      if (JSON.stringify(activeAddress) === "{}") {
         btn.disabled = true;
       } else {
         btn.disabled = false;
@@ -391,11 +390,11 @@ function Checkout() {
         setPaymenttab(true);
       }
     } else {
-        console.log("hii");
-        btn.disabled = false;
-        console.log(addrInfo);
-        console.log(firstname.current.value);
-        manual(manualCart, zone, paymentMeth, false);
+      console.log("hii");
+      btn.disabled = false;
+      console.log(addrInfo);
+      console.log(firstname.current.value);
+      manual(manualCart, zone, paymentMeth, false);
     }
   }
 
@@ -405,7 +404,7 @@ function Checkout() {
     const sel = e.target;
     const obj = {
       name: sel.options[sel.selectedIndex].text,
-      value: sel.value,
+      value: sel.value
     };
     zone.current.id = sel.value;
     zone.current.name = sel.options[sel.selectedIndex].text;
@@ -462,20 +461,24 @@ function Checkout() {
         //     : true,
         source_id: 1,
         coupon: "",
-        code_version: window.innerWidth > 600 ? "web_desktop" : "web_mobile",
+        code_version: window.innerWidth > 600 ? "web_desktop" : "web_mobile"
       };
     } else {
       body = {
         order_product: manualCartProducts,
         customer_id: customerId,
-        firstname: stateAccount.loged ? activeAddress.firstname : addrInfo.fn ,
-        lastname: stateAccount.loged ? activeAddress.lastname : addrInfo.ln ,
+        firstname: stateAccount.loged ? activeAddress.firstname : addrInfo.fn,
+        lastname: stateAccount.loged ? activeAddress.lastname : addrInfo.ln,
         email: email.current?.value || "",
-        address_1: stateAccount.loged ? activeAddress.address_1 : addrInfo.addr1 ,
+        address_1: stateAccount.loged
+          ? activeAddress.address_1
+          : addrInfo.addr1,
         telephone: stateAccount.loged
           ? activeAddress.telephone
-          : addrInfo.tel.replace("-", "") ,
-        address_2: stateAccount.loged ? activeAddress.address_2 : addrInfo.addr2 ,
+          : addrInfo.tel.replace("-", ""),
+        address_2: stateAccount.loged
+          ? activeAddress.address_2
+          : addrInfo.addr2,
         city: "",
         shipping_method: "Delivery ( 1-4 days )",
         shipping_code: "ultimate_shipping.ultimate_shipping_0",
@@ -495,7 +498,7 @@ function Checkout() {
         payment_session: manualResponse.payment_session,
         source_id: 1,
         coupon: coupon?.current?.value || "",
-        code_version: window.innerWidth > 600 ? "web_desktop" : "web_mobile",
+        code_version: window.innerWidth > 600 ? "web_desktop" : "web_mobile"
       };
       const adminId = Cookies.get("user_id");
       if (typeof adminId != "undefined") {
@@ -514,11 +517,11 @@ function Checkout() {
           // paymentForm(confirm, paymentcode);
           setLoading(false);
           setConfirmDisalbe(false);
-          if(manualErrors.current["0"].errorCode === "payment_method"){
+          if (manualErrors.current["0"].errorCode === "payment_method") {
             setAddresstab(false);
             setPaymenttab(true);
-            setPaymentMeth("Cash On Delivery")
-           }
+            setPaymentMeth("Cash On Delivery");
+          }
         } else {
           manualErrors.current = "";
           paymentForm(confirm, paymentcode);
@@ -533,18 +536,17 @@ function Checkout() {
     // }
   }
 
-  function handleInputs(){
-      setAddrInfo({
-        addr1: address_1.current.value,
-        addr2: address_2.current.value,
-        fn: firstname.current.value,
-        ln: lastname.current.value,
-        tel: telephone.current.value,
-        zn: zone.current.name,
-        znId: zone_id.current.value
-      })
+  function handleInputs() {
+    setAddrInfo({
+      addr1: address_1.current.value,
+      addr2: address_2.current.value,
+      fn: firstname.current.value,
+      ln: lastname.current.value,
+      tel: telephone.current.value,
+      zn: zone.current.name,
+      znId: zone_id.current.value
+    });
   }
-
 
   //submit form
   function submitForm(e) {
@@ -570,7 +572,7 @@ function Checkout() {
     _axios.get(url).then((response) => {
       const data = response.data;
       if (data.success) {
-        navigate("/success")
+        navigate("/success");
       }
     });
   }
@@ -585,7 +587,7 @@ function Checkout() {
   function setCoupon() {
     const obj = {
       name: zone.current.name,
-      value: zone.current.id,
+      value: zone.current.id
     };
     if (coupon.current.value.length > 1) {
       manual(manualCart, obj, activePaymentMethod, false);
@@ -664,9 +666,7 @@ function Checkout() {
                 </div>
               </div>
               <div className="-mx-5 border border-b border-dgrey3"></div>
-              {error && (
-                <div className="text-dred4 text-sm">{error}</div>
-              )}
+              {error && <div className="text-dred4 text-sm">{error}</div>}
               <div className="title flex flex-col items-start">
                 <label htmlFor="title" className="w-full mt-2.5">
                   Address *
@@ -737,7 +737,9 @@ function Checkout() {
                   />
                   <HandlePhoneModel
                     phone={telephone}
-                    nb={`${editAddress ? activeAddress?.telephone.substring(3) : ""}`}
+                    nb={`${
+                      editAddress ? activeAddress?.telephone.substring(3) : ""
+                    }`}
                     phoneHanlder={phoneHanlder}
                   />
                 </div>
@@ -787,6 +789,7 @@ function Checkout() {
                 ></textarea>
               </div>
               <div className="-mx-5 mt-3 border-b border-dgrey3"></div>
+
               <div className="address-modal-button mt-5 mb-1 text-center">
                 <button
                   type="submit"
@@ -931,7 +934,7 @@ function Checkout() {
                             <div className="text-d13 md:text-d16 py-3.5 px-7 text-dblack2 border-b border-dgrey3 flex items-center justify-between">
                               <div className="uppercase">Delivery address</div>
                               <div className="text-dblack2 text-d14">
-                                <label htmlFor="">
+                                {/* <label htmlFor="">
                                   <input
                                     type="checkbox"
                                     name=""
@@ -941,7 +944,7 @@ function Checkout() {
                                   <span className="align-baseline ml-1">
                                     Same as my billing address
                                   </span>
-                                </label>
+                                </label> */}
                               </div>
                             </div>
                             {/* only if user is loged */}
@@ -1047,17 +1050,24 @@ function Checkout() {
                                 </div>
                                 <div className="hidden"></div>
                               </div>
-                            ) : (  
+                            ) : (
                               // user is not loged
                               <div className="mx-5 my-5">
                                 {/* error div */}
                                 {manualErrors.current.length > 0 && (
-                                  <div className={`text-dred4 text-sm 
-                                  ${manualErrors.current["0"].errorCode === "payment_method" ? "hidden" : ""}`}>
+                                  <div
+                                    className={`text-dred4 text-sm 
+                                  ${
+                                    manualErrors.current["0"].errorCode ===
+                                    "payment_method"
+                                      ? "hidden"
+                                      : ""
+                                  }`}
+                                  >
                                     {manualErrors.current["0"].errorMsg}
                                   </div>
                                 )}
-                                
+
                                 <div className="title flex flex-col items-start">
                                   <label
                                     htmlFor="title"
@@ -1074,9 +1084,7 @@ function Checkout() {
                                     id=""
                                     placeholder="eg: home, work..."
                                     className="address-modal__input"
-                                    onChange={()=> 
-                                      handleInputs()
-                                    }
+                                    onChange={() => handleInputs()}
                                   />
                                 </div>
                                 <div className="fn-ln flex mt-2">
@@ -1095,9 +1103,7 @@ function Checkout() {
                                       required
                                       className="address-modal__input"
                                       defaultValue={`${addrInfo.fn}`}
-                                      onChange={()=> 
-                                        handleInputs()
-                                      }
+                                      onChange={() => handleInputs()}
                                     />
                                   </div>
                                   <div className="w-488">
@@ -1115,9 +1121,7 @@ function Checkout() {
                                       id=""
                                       className="address-modal__input"
                                       defaultValue={`${addrInfo.ln}`}
-                                      onChange={()=> 
-                                        handleInputs()
-                                      }
+                                      onChange={() => handleInputs()}
                                     />
                                   </div>
                                 </div>
@@ -1160,7 +1164,7 @@ function Checkout() {
                                       className="address-modal__input border border-dgrey6"
                                       onChange={(e) => {
                                         zoneChanged(e);
-                                        handleInputs()
+                                        handleInputs();
                                       }}
                                     >
                                       {zones?.map((zone) => (
@@ -1195,9 +1199,7 @@ function Checkout() {
                                     placeholder={
                                       "Please enter your other address information such as neighborhood, street, apartment name and number."
                                     }
-                                    onChange={()=> 
-                                      handleInputs()
-                                    }
+                                    onChange={() => handleInputs()}
                                   ></textarea>
                                 </div>
                               </div>
@@ -1290,6 +1292,20 @@ function Checkout() {
                                 {/* <button className="text-d14 tracking-tight uppercase mt-3.5 h-11 text-center w-full bg-dblue1 text-dwhite1 flex items-center justify-center hover:bg-dblack1 transition ease in duration-300">
                                   checkout
                                 </button> */}
+                                <div className="p-3 text-left font-light text-d11">
+
+                                  <input
+                                    type="checkbox"
+                                    onClick={()=>setTermCondition(!termCondition)}
+                                    value="1"
+                                    className="p-8 m-1"
+                                    required
+                                  />{" "}
+                                  I have read and accept the Membership
+                                  Agreement . I have read and understood the
+                                  Clarification text for my personal data to be
+                                  processed within the scope of my membership
+                                </div>
                                 {window.config["loginRequired"] &&
                                 !stateAccount.loged ? (
                                   <a
@@ -1301,11 +1317,12 @@ function Checkout() {
                                     }}
                                   >
                                     {" "}
-                                    CONFIRM ORDER{" "}
+                                    CONFIRM ORDER {" "}
                                   </a>
                                 ) : (
+                       
                                   <button
-                                    onClick={(e) => submitForm(e)}
+                                    onClick={ termCondition && ((e) => submitForm(e))}
                                     disabled={confirmDisable}
                                     className={`hidden md:block text-center h-12  ${
                                       confirmDisable
@@ -1313,7 +1330,7 @@ function Checkout() {
                                         : `bg-dblue1 hover:bg-dblack2 transition ease in duration-300`
                                     } text-white  w-full mt-4 `}
                                   >
-                                    CONFIRM ORDER
+                                    CONFIRM ORDER 
                                   </button>
                                 )}
                               </div>
@@ -1323,12 +1340,18 @@ function Checkout() {
                           {width < 650 && (
                             <div className="fixed z-20 bottom-0 left-0 w-full">
                               <div className="flex items-center">
-                                {state?.totals?.map((total, index)=> (
-                                  <button className={` ${index === state?.totals.length -1 ? "block" : "hidden"} font-bold text-d15 tracking-tight  mt-3.5 h-11 text-center w-1/2 bg-dwhite1 text-dblack2 flex items-center justify-center hover:bg-dblack1 transition ease in duration-300`}>
-                                  Total Amount {total.text}
-                                </button>
+                                {state?.totals?.map((total, index) => (
+                                  <button
+                                    className={` ${
+                                      index === state?.totals.length - 1
+                                        ? "block"
+                                        : "hidden"
+                                    } font-bold text-d15 tracking-tight  mt-3.5 h-11 text-center w-1/2 bg-dwhite1 text-dblack2 flex items-center justify-center hover:bg-dblack1 transition ease in duration-300`}
+                                  >
+                                    Total Amount {total.text}
+                                  </button>
                                 ))}
-                                
+
                                 <button className="text-d14 font-bold  tracking-tight uppercase mt-3.5 h-11 text-center w-1/2 bg-dblue1 text-dwhite1 flex items-center justify-center hover:bg-dblack1 transition ease in duration-300">
                                   checkout
                                 </button>
@@ -1375,9 +1398,20 @@ function Checkout() {
                                 <div className="summary-product-item-info text-d12 table-cell align-top pr-1">
                                   <div className="text-left">
                                     <Link
-                                      to={``}
+                                      to={`/${
+                                        product?.name
+                                          .replace(
+                                            /\s+&amp;\s+|\s+&gt;\s+/g,
+                                            "-"
+                                          )
+                                          .replace(/\s+/g, "-")
+                                          .replace("/", "-")
+                                          .replace("%", "") +
+                                        "/p=" +
+                                        product.product_id
+                                      }`}
                                       dangerouslySetInnerHTML={{
-                                        __html: product?.name,
+                                        __html: product?.name
                                       }}
                                     ></Link>
                                   </div>
@@ -1390,21 +1424,25 @@ function Checkout() {
                         </div>
                         <div className="summary-list table w-full py-5">
                           {/* <div className="summary-item flex justify-between font-mono text-d15 text-dblack2"> */}
-                            {/* <div>Total of {state?.productsCount} Items</div>
+                          {/* <div>Total of {state?.productsCount} Items</div>
                             <div>${cartData?.sub_total}</div> */}
-                            {manualResponse?.order_total?.map((total, index) => (
-                              <div
-                                className={`flex items-center justify-between mb-1 ${
-                                  total.code === "ultimate_coupons"
-                                    ? "text-dblue1"
-                                    : "text-dblack2"
-                                } ${ index ===  manualResponse.order_total.length -1 ? " border-t border-dgrey4 mt-4 pt-4 " : ""} `}
-                                key={total.title}
-                              >
-                                <span> {total.title} </span>{" "}
-                                <span> {total.text} </span>{" "}
-                              </div>
-                            ))}{" "}
+                          {manualResponse?.order_total?.map((total, index) => (
+                            <div
+                              className={`flex items-center justify-between mb-1 ${
+                                total.code === "ultimate_coupons"
+                                  ? "text-dblue1"
+                                  : "text-dblack2"
+                              } ${
+                                index === manualResponse.order_total.length - 1
+                                  ? " border-t border-dgrey4 mt-4 pt-4 "
+                                  : ""
+                              } `}
+                              key={total.title}
+                            >
+                              <span> {total.title} </span>{" "}
+                              <span> {total.text} </span>{" "}
+                            </div>
+                          ))}{" "}
                           {/* </div> */}
                           <div className="hidden"></div>
                           {/* <div className="discount flex justify-between text-dblue2">

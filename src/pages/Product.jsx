@@ -16,8 +16,8 @@ import { WishlistContext } from "../contexts/WishlistContext";
 import TopCart from "../components/TopCart";
 import Overlay from "../components/Overlay";
 import { path } from "../urls";
-
 import { FaWhatsappSquare, FaTwitterSquare, FaWhatsapp } from "react-icons/fa";
+
 import { ImFacebook2 } from "react-icons/im";
 import {
   EmailShareButton,
@@ -90,6 +90,16 @@ function Product() {
     arrows: false,
     lazyLoad: true
   };
+  const moreSettings = {
+    speed: 200,
+    slidesToShow: 4,
+    slidesToScroll: 4,
+    infinite: false,
+    prevArrow: <CustomArrows direction={"l"} />,
+    nextArrow: <CustomArrows direction={"r"} />
+  };
+
+
   console.log(stateW?.pIds.indexOf(product_id));
   function handleHoveredSeries(key, name) {
     const seriesOp_name = document.getElementById(key);
@@ -470,7 +480,7 @@ function Product() {
   };
 
   return (
-    <div className="bg-dgrey10">
+    <div className="bg-dgrey10 px-6">
       {cartmenu && width > 650 && (
         <div ref={wrapperRef} onMouseEnter={() => setHoveredCart(true)}>
           <TopCart cartmenu={cartmenu} />
@@ -1410,14 +1420,98 @@ function Product() {
             </div>
           </div>
         </div>
-
+          {/*product to category  smallest   */}
+          {productData?.product_categories &&
+            productData?.product_categories?.length > 0 && (
+              <div className=" w-full  ">
+                <div className=" pb-2 md:pb-8 text-left">
+                  <h2 className="font-semibold text-xl text-dblack mb-4 pt-2 md:pt-8 ">
+                    More to explore
+                  </h2>
+                  {width < 650 ? (
+                    <div className="flex overflow-x-scroll text-left ">
+                      {productData.product_categories?.map((category) => (
+                        <Link
+                          key={category.category_id}
+                          to={`${path}/category/${category.category_id}`}
+                          className="cursor-pointer hover:opacity-80 pr-10 "
+                        >
+                          <img
+                            src={category.image}
+                            alt={category.name}
+                            className="w-32 block mx-auto rounded-full"
+                          />
+                          <p
+                            dangerouslySetInnerHTML={{
+                              __html: category.name
+                            }}
+                            className="text-center mt-4 font-semibold text-sm line-clamp-2"
+                          ></p>
+                        </Link>
+                      ))}
+                    </div>
+                  ) : (
+                    <div>
+                      <Slider {...moreSettings}>
+                        {productData?.product_categories?.map((category) => (
+                          <Link
+                            key={category.category_id}
+                            to={`${path}/category/${category.category_id}`}
+                            className="cursor-pointer hover:opacity-80 min-w-max mr-4 mt-4"
+                          >
+                            <img
+                              src={category.image}
+                              alt={category.name}
+                              className=" w-32 block mx-auto"
+                            />
+                            <p
+                              dangerouslySetInnerHTML={{
+                                __html: category.name
+                              }}
+                              className="text-center mt-4 font-semibold text-sm"
+                            ></p>
+                          </Link>
+                        ))}
+                      </Slider>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+          {/* / 10 products */}
+          <div className=" "></div>
+          {productData?.smallest_cat_products &&
+            productData?.smallest_cat_products?.length > 0 && (
+              <div className=" w-full   pt-1">
+                <div className=" pb-2 md:pb-8">
+                  <h2 className="font-semibold text-xl text-dblack mb-4   text-left">
+                    {productData.product_categories[0].name}
+                  </h2>
+                  {width < 650 ? (
+                    <Slider {...productMobile}>
+                      {productData.smallest_cat_products.map((item) => (
+                       <div> <SingleProducts item={item}></SingleProducts></div>
+                      ))}
+                    </Slider>
+                  ) : (
+                    <div>
+                      <Slider {...moreSettings}>
+                        {productData.smallest_cat_products.map((item) => (
+                       <div className="px-1.5"> <SingleProducts item={item}></SingleProducts></div>
+                       ))}
+                      </Slider>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
         {/* Related Product */}
         {productData?.product_related &&
           productData?.product_related.length > 0 && (
             <div
               className={`mb-2 mt-4  ${
                 width > 1920 && "mt-10"
-              } md:mb-8 container`}
+              } container`}
             >
               <h2 className="font-semibold text-xl  text-dblack2 mb-1 md:mb-4 text-left font-mono uppercase">
                 Related products
