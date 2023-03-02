@@ -1456,7 +1456,10 @@ function Product() {
                         {productData?.product_categories?.map((category) => (
                           <Link
                             key={category.category_id}
-                            to={`${path}/category/${category.category_id}`}
+                            to={`${path}/${category.name.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                            .replace(/\s+/g, "-")
+                            .replace("/", "-")
+                            .replace("%", "")}/c=${category.category_id}`}
                             className="cursor-pointer hover:opacity-80 min-w-max mr-4 mt-4"
                           >
                             <img

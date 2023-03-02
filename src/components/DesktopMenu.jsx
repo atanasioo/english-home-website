@@ -2,15 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import _axios from "../axios";
 import buildLink, { path } from "../urls";
-
+import {MdDoubleArrow} from 'react-icons/md';
 function DesktopMenu() {
   const [selectedTopCategory, setSelectedTopCategory] = useState({});
   const [menuCategories2, setMenuCategories2] = useState([]);
   const [selectedMenuCategory2, setSelectedMenuCategory2] = useState();
   const [viewMenuCategories2, setViewMenuCategories2] = useState(true);
   const width = window.innerWidth;
-
-  
 
   useEffect(() => {
     if (width > 650) {
@@ -42,7 +40,10 @@ function DesktopMenu() {
           <div className="flex flex-col xl:flex-row justify-center items-center mx-auto">
             <ul className="navigation relative text-center  flex  justify-center">
               <li className="inline-block">
-                <Link to={"/latest"} className="bg-dwhite1 text-dblack2 text-d12 p-2.5">
+                <Link
+                  to={"/latest"}
+                  className="bg-dwhite1 text-dblack2 text-d12 p-2.5"
+                >
                   NEW PRODUCTS
                 </Link>
               </li>
@@ -67,7 +68,7 @@ function DesktopMenu() {
                         }`}
                         className="bg-dwhite1 text-dblack2 text-d12 p-2.5 hover:bg-dgrey3 uppercase"
                         dangerouslySetInnerHTML={{
-                          __html: category["title"].title,
+                          __html: category["title"].title
                         }}
                         onMouseEnter={() => {
                           setSelectedMenuCategory2(category);
@@ -122,7 +123,7 @@ function DesktopMenu() {
       {/* Menu Categories */}
       {viewMenuCategories2 && selectedMenuCategory2 && (
         <div
-          className="navigation-submenu bg-dgrey3 pl-4 w-3/4 left-0 right-0 absolute top-full text-dblack1
+          className="navigation-submenu bg-dgrey3 pl-4 w-11/12 left-0 right-0 absolute top-full text-dblack1
                         z-50 text-left container "
           onMouseEnter={() => {
             setViewMenuCategories2(true);
@@ -132,8 +133,8 @@ function DesktopMenu() {
           }}
         >
           <div className="flex">
-            <div className="w-3/4 relative pt-7 bg-dgrey3 ">
-              <div className="navigation-submenu-item  left-3 top-7 pb-7 pr-2.5 pl-3.5 w-52 border-r border-dgrey5 ">
+            <div className="relative pt-7 bg-dgrey3 w-3/4">
+              <div className="navigation-submenu-item  left-3 top-7 pb-7 pr-2.5 pl-3.5  border-r border-dgrey5 ">
                 <div className="text-d13 font-bold mb-1.5">
                   <Link
                     to={`${path}/${selectedMenuCategory2["top-category"]?.name
@@ -143,44 +144,74 @@ function DesktopMenu() {
                     }`}
                     className="uppercase"
                     dangerouslySetInnerHTML={{
-                      __html: selectedMenuCategory2["title"].title,
+                      __html: selectedMenuCategory2["title"].title
                     }}
                   ></Link>
                 </div>
-                <ul>
-                  {selectedMenuCategory2["sub-categories"]?.map(
-                    (subcategory) => (
-                      <li key={subcategory.category_id}>
-                        <Link
-                          to={`${path}/${subcategory.name
-                            .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
-                            .replace(/\s+/g, "-")}/c=${
-                            subcategory.category_id
-                          }`}
-                          className="cursor-pointer hover:underline text-xs capitalize"
-                          dangerouslySetInnerHTML={{
-                            __html: subcategory.name,
-                          }}
-                          key={subcategory.category_id}
-                        ></Link>
-                      </li>
+                <div className="inline-block w-full">
+                  {selectedMenuCategory2["sub-categories-level1"]?.map(
+                    (subcategory, key) => (
+                      <ul
+                        className={`	 ${
+                         ( key <= 1 || key === 5 || key === 0 || key === 2 || key===9 ) ? "w-1/4 float-left" : "w-1/4 float-right"
+                        }`}
+                      >
+                        <li key={subcategory.category_id} className="">
+                          <div className="flex pr-5">
+                            <Link
+                              to={`${path}/${subcategory.name
+                                .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                                .replace(/\s+/g, "-")}/c=${
+                                subcategory.category_id
+                              }`}
+                              className="cursor-pointer hover:underline text-xs capitalize font-bold "
+                              dangerouslySetInnerHTML={{
+                                __html: subcategory.name 
+                              }}
+                              key={subcategory.category_id}
+                            ></Link><MdDoubleArrow className="text-d10 mt-1" />
+                          </div>
+                        </li>
+                        {subcategory.categories?.map((subcategory) => (
+                          <li key={subcategory.category_id}>
+                            <Link
+                              to={`${path}/${subcategory.name
+                                .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                                .replace(/\s+/g, "-")}/c=${
+                                subcategory.category_id
+                              }`}
+                              className="cursor-pointer hover:underline text-xs capitalize"
+                              dangerouslySetInnerHTML={{
+                                __html: subcategory.name
+                              }}
+                              key={subcategory.category_id}
+                            ></Link>
+                          </li>
+                        ))}
+                      </ul>
                     )
                   )}
-                </ul>
+                </div>
               </div>
             </div>
-            <div className="w-7/12 flex pt-7 ">
+            <div className="w-1/12 flex pt-7 ">
               <div className="dropdown-extra-content">
-              {selectedMenuCategory2["partitions"]?.map((category) => (
-              category?.banners > 0 &&  category?.banners?.map((banner) => (
-                <Link classname="grid grid-flow-col ">
-                  <img
-                    src={`${window.config['site-url'] +'/image/'+ banner?.image}`}
-                    alt={selectedMenuCategory2["top-category"]?.name}
-                  />
-                </Link>
-                ))
-              ))}
+                {selectedMenuCategory2["partitions"]?.map(
+                  (category) =>
+                    category?.banners > 0 &&
+                    category?.banners?.map((banner) => (
+                      <Link classname="grid grid-flow-col ">
+                        <img
+                          src={`${
+                            window.config["site-url"] +
+                            "/image/" +
+                            banner?.image
+                          }`}
+                          alt={selectedMenuCategory2["top-category"]?.name}
+                        />
+                      </Link>
+                    ))
+                )}
                 {/* <p className="title"></p>
                 <p className="subtitle"></p>
                 <Link></Link> */}

@@ -31,7 +31,7 @@ function Category() {
   const path1 = location.pathname;
   const [data, setData] = useState({});
   const [filters, setfilters] = useState({});
-  const [userFilters, setUserFilters] = useState({});
+  // const [userFilters, setUserFilters] = useState({});
   const [pointer, setPointer] = useState(true);
   const [sort, setSort] = useState("Default");
   const [showSort, setShowSort] = useState(false);
@@ -45,7 +45,15 @@ function Category() {
   const [hoveredCart, setHoveredCart] = useState(false);
   const [showWidgets, setShowWidgets] = useState(true);
   const [filterCount, setFilterCount] = useState(0);
-
+  // const { userFilters, setUserFilters } = useFiltersContext();
+  const [userFilters, setUserFilters] = useState({
+    filter_sellers: [],
+    filter_categories: [],
+    filter_manufacturers: [],
+    adv_filters:[],
+    filter_options: [],
+    filter_attributes: []
+  });
   const wrapperRef = useRef(null);
 
   const urlRef = useRef(location?.pathname);
@@ -179,7 +187,7 @@ function Category() {
           filter_sellers: [],
           filter_categories: [],
           filter_options: [],
-          adv_filters: [],
+          adv_filters: []
         });
       }
       if (value === advfiltersIndex) {
@@ -187,7 +195,6 @@ function Category() {
           ...userFilters,
           filter_sellers: [],
           filter_categories: [],
-          ilter_manufacturers: [],
           filter_manufacturers: [],
           filter_options: [],
           filter_attributes: []
@@ -318,44 +325,37 @@ function Category() {
     }
 
     setShowSort(false);
-    // alert(l)
-    const lastL = (l + "&sort=" + _sort + "&order=" + order).replaceAll(
-      "/&",
-      "&"
-    );
-    alert(lastL);
 
-    // alert(l + "&sort=" + _sort + "&order=" + order).replaceAll("/&", "&")
     navigate((l + "&sort=" + _sort + "&order=" + order).replaceAll("/&", "&"));
   }
   function parseFilter(typekey, filter) {
-    // alert(typekey)
     setPointer(false);
 
     const id = filter["id"];
     var last = "";
     let type_key = typekey;
-// alert(typekey)
     last = filter["last"];
-  
     let values_array = userFilters[type_key];
     console.log(values_array);
     let c;
     let indexOfId = -1;
     let url1 = new URL(window.location);
     var filter_type = typekey;
-    // alert(filter_type)
     c = url1.searchParams.get(filter_type);
 
     if (c !== null) {
       indexOfId = c.split(",").indexOf(filter["id"]);
     }
     if (indexOfId < 0) {
-      console.log(filter_type)
+      console.log(values_array);
+      // if(values_array===undefined){
+      values_array = userFilters["filter_attributes"];
+      // }
+      console.log(values_array);
       if (filter_type === "adv_filters")
         values_array = userFilters[type_key].push(filter["id"]);
       else
-       values_array.push(filter["id"]);
+      values_array.push(filter["id"]);
 
       setUserFilters({
         ...userFilters,
@@ -433,6 +433,8 @@ function Category() {
           let lengthArray = array.length;
           if (indexOfId >= 0) {
             lastLink = url1.searchParams.get("last");
+            var  page = url1.searchParams.get("page");
+
             if (indexOfId === 0 && lengthArray === 1) {
               if (location.search.indexOf("&" + q) > 0) {
                 url1 = location.search.replace("&" + q, "");
@@ -446,7 +448,7 @@ function Category() {
               if (url1 !== "") {
                 url1 = url1
                   .toString()
-                  .replace("&last=" + lastLink, "&last=" + last);
+                  .replace("&last=" + lastLink, "&last=" + last)?.replace("&page=" + page, "");
               }
             } else if (indexOfId === 0 && lengthArray > 1) {
               url1 = location.search.replace(id + ",", "");
@@ -457,7 +459,7 @@ function Category() {
               url1 = location.search.replace("," + id, "");
               url1 = url1
                 .toString()
-                .replace("&last=" + lastLink, "&last=" + last);
+                .replace("&last=" + lastLink, "&last=" + last)?.replace("&page=" + page, "");
             }
           }
         }
@@ -588,41 +590,64 @@ function Category() {
                     FILTERS
                   </div>
                   <div className="w-10/12 ">
-                    {Object.keys(filters).map((key) => (
-                           filters[key].attribute_group_id !== "14" &&
-                           filters[key].attribute_group_id !== "34" &&
-                           filters[key].attribute_group_id !== "23" &&
-                           filters[key].attribute_group_id !== "22" &&
-                           filters[key].attribute_group_id !== "13" &&
-                           filters[key].attribute_group_id !== "19" &&
-                           filters[key].attribute_group_id !== "11" && // material
-                           filters[key].attribute_group_id !== "9" ? // pattern
-
-
-                      //  ((filterCount === 0  &&  filters[key].attribute_group_id !== "12") || (filterCount === 1  &&  filters[key].attribute_group_id !== "18") ||  (filterCount === 2  &&  filters[key].attribute_group_id !== "4"))  &&
-                      <div key={key} className="w-full">
-                        {filters[key]?.items.length > 0 &&
-                      (
+                    {Object.keys(filters).map((key) =>
+                      filters[key].attribute_group_id !== "14" &&
+                      filters[key].attribute_group_id !== "34" &&
+                      filters[key].attribute_group_id !== "23" &&
+                      filters[key].attribute_group_id !== "22" &&
+                      filters[key].attribute_group_id !== "13" &&
+                      filters[key].attribute_group_id !== "19" &&
+                      filters[key].attribute_group_id !== "11" && // material
+                      filters[key].attribute_group_id !== "9" ? ( // pattern
+                        //  ((filterCount === 0  &&  filters[key].attribute_group_id !== "12") || (filterCount === 1  &&  filters[key].attribute_group_id !== "18") ||  (filterCount === 2  &&  filters[key].attribute_group_id !== "4"))  &&
+                        <div key={key} className="w-full">
+                          {filters[key]?.items.length > 0 && (
                             <div className="w-full text-left text-dblack2 uppercase text-d16 leading-10 font-normal	pt-2 ">
                               {filters[key].name}
                               {/* {setFilterCount(filterCount + 1)} */}
                             </div>
                           )}
-                        {filters[key]?.items.length > 0 &&
-                        filters[key].name === "Colorex" ? (
-                          <div
-                            className={`${
-                              filters[key]?.items.length > 6 &&
-                              "h-36 overflow-y-auto"
-                            }`}
-                          >
-                            <div className="grid grid-cols-4 w-3/4 ">
-                              {filters[key]?.items?.map((filter) => (
-                                <div className="text-left w-full my-1">
-                                  <img
-                                    src={filter.image}
-                                    alt={filter.name}
-                                    className={`rounded-full w-8   ${checkFilter(
+                          {filters[key]?.items.length > 0 &&
+                          filters[key].name === "Colorex" ? (
+                            <div
+                              className={`${
+                                filters[key]?.items.length > 6 &&
+                                "h-36 overflow-y-auto"
+                              }`}
+                            >
+                              <div className="grid grid-cols-4 w-3/4 ">
+                                {filters[key]?.items?.map((filter) => (
+                                  <div className="text-left w-full my-1">
+                                    <img
+                                      src={filter.image}
+                                      alt={filter.name}
+                                      className={`rounded-full w-8   ${checkFilter(
+                                        filters[key].id,
+                                        filters[key].name,
+                                        filter
+                                      )}`}
+                                      onClick={() =>
+                                        parseFilter(filters[key].id, filter)
+                                      }
+                                    />
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          ) : (
+                            <div
+                              className={`${
+                                filters[key]?.items.length > 6 &&
+                                "h-56 overflow-y-auto"
+                              }`}
+                            >
+                              {filters[key]?.items?.map((filter) =>
+                                filters[key].attribute_group_id !== "14" &&
+                                filters[key].attribute_group_id !== "23" &&
+                                filters[key].attribute_group_id !== "22" &&
+                                filters[key].attribute_group_id !== "13" ? (
+                                  <div
+                                    className={`w-full border bg-white text-dborderblack0 text-d16 leading-snug  py-1 my-2 cursor-pointer ${checkFilter(
                                       filters[key].id,
                                       filters[key].name,
                                       filter
@@ -630,130 +655,109 @@ function Category() {
                                     onClick={() =>
                                       parseFilter(filters[key].id, filter)
                                     }
-                                  />
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-
-                          
-                        ) : (
-                          <div
-                            className={`${
-                              filters[key]?.items.length > 6 &&
-                              "h-56 overflow-y-auto"
-                            }`}
-                          >
-                            {filters[key]?.items?.map((filter) =>
-                              filters[key].attribute_group_id !== "14" &&
-                              filters[key].attribute_group_id !== "23" &&
-                              filters[key].attribute_group_id !== "22" &&
-                              filters[key].attribute_group_id !== "13" ? (
-                                <div
-                                  className={`w-full border bg-white text-dborderblack0 text-d16 leading-snug  py-1 my-2 cursor-pointer ${checkFilter(
-                                    filters[key].id,
-                                    filters[key].name,
-                                    filter
-                                  )}`}
-                                  onClick={() =>
-                                    parseFilter(filters[key].id, filter)
-                                  }
-                                >
-                                  {filter.name}
-                                </div>
-                              ) : (
-                                <div
-                                  className={`text-left w-full hover:underline underline-offset-4 py-1 text-dborderblack0 text-d16 leading-snug pointer-events-auto cursor-pointer ${checkFilter(
-                                    filters[key].id,
-                                    filter.name,
-                                    filter
-                                  )}`}
-                                  onClick={() =>
-                                    parseFilter(filters[key].id, filter)
-                                  }
-                                >
-                                  {/* {filter.name} */}
-                                </div>
-                              )
-                            )}
-                          </div>
-                        )}
-                      </div>
-                      : 
-
-                      <div>
-                    {filters[key].attribute_group_id === "11" && // material
-                           filters[key].attribute_group_id == "9" 
-                          && 
-                      <div key={key} className="w-full">
-                        {filters[key]?.items.length > 0 &&
-                      (
-                            <div className="w-full text-left text-dblack2 uppercase text-d16 leading-10 font-normal	pt-2 ">
-                              {filters[key].name}
-                              {/* {setFilterCount(filterCount + 1)} */}
-                            </div>
-                          )}
-                        {filters[key]?.items.length > 0 &&
-                        filters[key].name === "Colorex" ? (
-                          <div
-                            className={`${
-                              filters[key]?.items.length > 6 &&
-                              "h-36 overflow-y-auto"
-                            }`}
-                          >
-                            <div className="grid grid-cols-4 w-3/4 ">
-                              {filters[key]?.items?.map((filter) => (
-                                <div className="text-left w-full my-1">
-                                  <img
-                                    src={filter.image}
-                                    alt={filter.name}
-                                    className={`rounded-full w-8   ${checkFilter(
+                                  >
+                                    {filter.name}
+                                  </div>
+                                ) : (
+                                  <div
+                                    className={`text-left w-full hover:underline underline-offset-4 py-1 text-dborderblack0 text-d16 leading-snug pointer-events-auto cursor-pointer ${checkFilter(
                                       filters[key].id,
-                                      filters[key].name,
+                                      filter.name,
                                       filter
                                     )}`}
                                     onClick={() =>
                                       parseFilter(filters[key].id, filter)
                                     }
-                                  />
-                                </div>
-                              ))}
+                                  >
+                                    {/* {filter.name} */}
+                                  </div>
+                                )
+                              )}
                             </div>
-                          </div>
-
-                          
-                        ) : (
-                          <div
-                            className={`${
-                              filters[key]?.items.length > 6 &&
-                              "h-56 overflow-y-auto"
-                            }`}
-                          >
-                            {filters[key]?.items?.map((filter) =>
-                              filters[key].attribute_group_id !== "14" &&
-                              filters[key].attribute_group_id !== "23" &&
-                              filters[key].attribute_group_id !== "22" &&
-                              filters[key].attribute_group_id !== "13" &&
-                                <div
-                                  className={`w-full border bg-white text-dborderblack0 text-d16 leading-snug  py-1 my-2 cursor-pointer ${checkFilter(
-                                    filters[key].id,
-                                    filters[key].name,
-                                    filter
-                                  )}`}
-                                  onClick={() =>
-                                    parseFilter(filters[key].id, filter)
-                                  }
-                                >
-                                  {filter.name}
-                                </div>
-                             
+                          )}
+                        </div>
+                      ) : (
+                        <div>
+                          {filters[key].attribute_group_id === "11" && // material
+                            filters[key].attribute_group_id == "9" && (
+                              <div key={key} className="w-full">
+                                {filters[key]?.items.length > 0 && (
+                                  <div className="w-full text-left text-dblack2 uppercase text-d16 leading-10 font-normal	pt-2 ">
+                                    {filters[key].name}
+                                    {/* {setFilterCount(filterCount + 1)} */}
+                                  </div>
+                                )}
+                                {filters[key]?.items.length > 0 &&
+                                filters[key].name === "Colorex" ? (
+                                  <div
+                                    className={`${
+                                      filters[key]?.items.length > 6 &&
+                                      "h-36 overflow-y-auto"
+                                    }`}
+                                  >
+                                    <div className="grid grid-cols-4 w-3/4 ">
+                                      {filters[key]?.items?.map((filter) => (
+                                        <div className="text-left w-full my-1">
+                                          <img
+                                            src={filter.image}
+                                            alt={filter.name}
+                                            className={`rounded-full w-8   ${checkFilter(
+                                              filters[key].id,
+                                              filters[key].name,
+                                              filter
+                                            )}`}
+                                            onClick={() =>
+                                              parseFilter(
+                                                filters[key].id,
+                                                filter
+                                              )
+                                            }
+                                          />
+                                        </div>
+                                      ))}
+                                    </div>
+                                  </div>
+                                ) : (
+                                  <div
+                                    className={`${
+                                      filters[key]?.items.length > 6 &&
+                                      "h-56 overflow-y-auto"
+                                    }`}
+                                  >
+                                    {filters[key]?.items?.map(
+                                      (filter) =>
+                                        filters[key].attribute_group_id !==
+                                          "14" &&
+                                        filters[key].attribute_group_id !==
+                                          "23" &&
+                                        filters[key].attribute_group_id !==
+                                          "22" &&
+                                        filters[key].attribute_group_id !==
+                                          "13" && (
+                                          <div
+                                            className={`w-full border bg-white text-dborderblack0 text-d16 leading-snug  py-1 my-2 cursor-pointer ${checkFilter(
+                                              filters[key].id,
+                                              filters[key].name,
+                                              filter
+                                            )}`}
+                                            onClick={() =>
+                                              parseFilter(
+                                                filters[key].id,
+                                                filter
+                                              )
+                                            }
+                                          >
+                                            {filter.name}
+                                          </div>
+                                        )
+                                    )}
+                                  </div>
+                                )}
+                              </div>
                             )}
-                          </div>
-                        )}
-                      </div>}
-                      </div>
-                              
-                    ))}
+                        </div>
+                      )
+                    )}
                   </div>
                 </div>
               )}
