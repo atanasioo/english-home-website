@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext, useRef } from "react";
 import _axios from "../axios";
-import buildLink from "../urls";
+import buildLink, { pixelID } from "../urls";
 import { useParams, Link, useLocation, useNavigate } from "react-router-dom";
 import { AiOutlineHeart, AiFillHeart, AiOutlineMail } from "react-icons/ai";
 import { FiShare } from "react-icons/fi";
@@ -17,7 +17,7 @@ import TopCart from "../components/TopCart";
 import Overlay from "../components/Overlay";
 import { path } from "../urls";
 import { FaWhatsappSquare, FaTwitterSquare, FaWhatsapp } from "react-icons/fa";
-
+import ReactPixel from "react-facebook-pixel";
 import { ImFacebook2 } from "react-icons/im";
 import {
   EmailShareButton,
@@ -99,7 +99,6 @@ function Product() {
     nextArrow: <CustomArrows direction={"r"} />
   };
 
-
   console.log(stateW?.pIds.indexOf(product_id));
   function handleHoveredSeries(key, name) {
     const seriesOp_name = document.getElementById(key);
@@ -135,6 +134,21 @@ function Product() {
         setHasOption(data?.options?.length > 0);
         data.options.length > 0 &&
           setOptionParent(data.options[0]["product_option_id"]);
+        // // ---> Facebook PIXEL <---
+        if (!stateAccount.admin) {
+          ReactPixel.init(pixelID, {}, { debug: true, autoConfig: false });
+          ReactPixel.pageView();
+          ReactPixel.fbq("track", "PageView");
+
+          ReactPixel.track("ViewContent", {
+            content_type: "product",
+            content_ids: [product_id],
+            content_name: data?.data?.social_data?.name,
+            value: data?.data?.social_data?.value,
+            event_id: data?.data?.social_data?.event_id,
+            currency: "USD"
+          });
+        }
       });
   }, [location]);
 
@@ -243,7 +257,27 @@ function Product() {
                 payload: false
               });
             });
+       // ---> Facebook PIXEL <---
+       ReactPixel.init(
+        "668318187192045",
+        {},
+        { debug: true, autoConfig: false }
+      );
 
+      // if (!stateAccount.admin) {
+        ReactPixel.pageView();
+        ReactPixel.fbq("track", "PageView");
+        if (productData) {
+          ReactPixel.track("AddToCart", {
+            content_type: "product",
+            content_ids: [product_id],
+            content_name: productData.name?.replace("&amp;", "&"),
+            value: productData.price_net_value,
+            content_category: productData?.product_categories[0]?.name,
+            currency: "USD"
+          });
+        }
+      // }
           setSuccessAdded(true);
           if (width > 650) {
             setCartmenu(true);
@@ -1420,102 +1454,105 @@ function Product() {
             </div>
           </div>
         </div>
-          {/*product to category  smallest   */}
-          {productData?.product_categories &&
-            productData?.product_categories?.length > 0 && (
-              <div className=" w-full  ">
-                <div className=" pb-2 md:pb-8 text-left">
-                  <h2 className="font-semibold text-xl text-dblack mb-4 pt-2 md:pt-8 ">
-                    More to explore
-                  </h2>
-                  {width < 650 ? (
-                    <div className="flex overflow-x-scroll text-left ">
-                      {productData.product_categories?.map((category) => (
+        {/*product to category  smallest   */}
+        {productData?.product_categories &&
+          productData?.product_categories?.length > 0 && (
+            <div className=" w-full  ">
+              <div className=" pb-2 md:pb-8 text-left">
+                <h2 className="font-semibold text-xl text-dblack mb-4 pt-2 md:pt-8 ">
+                  More to explore
+                </h2>
+                {width < 650 ? (
+                  <div className="flex overflow-x-scroll text-left ">
+                    {productData.product_categories?.map((category) => (
+                      <Link
+                        key={category.category_id}
+                        to={`${path}/category/${category.category_id}`}
+                        className="cursor-pointer hover:opacity-80 pr-10 "
+                      >
+                        <img
+                          src={category.image}
+                          alt={category.name}
+                          className="w-32 block mx-auto rounded-full"
+                        />
+                        <p
+                          dangerouslySetInnerHTML={{
+                            __html: category.name
+                          }}
+                          className="text-center mt-4 font-semibold text-sm line-clamp-2"
+                        ></p>
+                      </Link>
+                    ))}
+                  </div>
+                ) : (
+                  <div>
+                    <Slider {...moreSettings}>
+                      {productData?.product_categories?.map((category) => (
                         <Link
                           key={category.category_id}
-                          to={`${path}/category/${category.category_id}`}
-                          className="cursor-pointer hover:opacity-80 pr-10 "
+                          to={`${path}/${category.name
+                            .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                            .replace(/\s+/g, "-")
+                            .replace("/", "-")
+                            .replace("%", "")}/c=${category.category_id}`}
+                          className="cursor-pointer hover:opacity-80 min-w-max mr-4 mt-4"
                         >
                           <img
                             src={category.image}
                             alt={category.name}
-                            className="w-32 block mx-auto rounded-full"
+                            className=" w-32 block mx-auto"
                           />
                           <p
                             dangerouslySetInnerHTML={{
                               __html: category.name
                             }}
-                            className="text-center mt-4 font-semibold text-sm line-clamp-2"
+                            className="text-center mt-4 font-semibold text-sm"
                           ></p>
                         </Link>
                       ))}
-                    </div>
-                  ) : (
-                    <div>
-                      <Slider {...moreSettings}>
-                        {productData?.product_categories?.map((category) => (
-                          <Link
-                            key={category.category_id}
-                            to={`${path}/${category.name.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
-                            .replace(/\s+/g, "-")
-                            .replace("/", "-")
-                            .replace("%", "")}/c=${category.category_id}`}
-                            className="cursor-pointer hover:opacity-80 min-w-max mr-4 mt-4"
-                          >
-                            <img
-                              src={category.image}
-                              alt={category.name}
-                              className=" w-32 block mx-auto"
-                            />
-                            <p
-                              dangerouslySetInnerHTML={{
-                                __html: category.name
-                              }}
-                              className="text-center mt-4 font-semibold text-sm"
-                            ></p>
-                          </Link>
-                        ))}
-                      </Slider>
-                    </div>
-                  )}
-                </div>
+                    </Slider>
+                  </div>
+                )}
               </div>
-            )}
-          {/* / 10 products */}
-          <div className=" "></div>
-          {productData?.smallest_cat_products &&
-            productData?.smallest_cat_products?.length > 0 && (
-              <div className=" w-full   pt-1">
-                <div className=" pb-2 md:pb-8">
-                  <h2 className="font-semibold text-xl text-dblack mb-4   text-left">
-                    {productData.product_categories[0].name}
-                  </h2>
-                  {width < 650 ? (
-                    <Slider {...productMobile}>
+            </div>
+          )}
+        {/* / 10 products */}
+        <div className=" "></div>
+        {productData?.smallest_cat_products &&
+          productData?.smallest_cat_products?.length > 0 && (
+            <div className=" w-full   pt-1">
+              <div className=" pb-2 md:pb-8">
+                <h2 className="font-semibold text-xl text-dblack mb-4   text-left">
+                  {productData.product_categories[0].name}
+                </h2>
+                {width < 650 ? (
+                  <Slider {...productMobile}>
+                    {productData.smallest_cat_products.map((item) => (
+                      <div>
+                        {" "}
+                        <SingleProducts item={item}></SingleProducts>
+                      </div>
+                    ))}
+                  </Slider>
+                ) : (
+                  <div>
+                    <Slider {...moreSettings}>
                       {productData.smallest_cat_products.map((item) => (
-                       <div> <SingleProducts item={item}></SingleProducts></div>
+                        <div className="px-1.5">
+                          {" "}
+                          <SingleProducts item={item}></SingleProducts>
+                        </div>
                       ))}
                     </Slider>
-                  ) : (
-                    <div>
-                      <Slider {...moreSettings}>
-                        {productData.smallest_cat_products.map((item) => (
-                       <div className="px-1.5"> <SingleProducts item={item}></SingleProducts></div>
-                       ))}
-                      </Slider>
-                    </div>
-                  )}
-                </div>
+                  </div>
+                )}
               </div>
-            )}
+            </div>
+          )}
         {/* Related Product */}
         {productData?.product_related &&
           productData?.product_related.length > 0 && (
-            <div
-              className={`mb-2 mt-4  ${
-                width > 1920 && "mt-10"
-              } container`}
-            >
+            <div className={`mb-2 mt-4  ${width > 1920 && "mt-10"} container`}>
               <h2 className="font-semibold text-xl  text-dblack2 mb-1 md:mb-4 text-left font-mono uppercase">
                 Related products
               </h2>

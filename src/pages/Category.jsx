@@ -1,10 +1,11 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef,useContext } from "react";
 import {
   useLocation,
   useParams,
   useNavigate,
   Link,
-  useNavigationType
+  useNavigationType,
+  
 } from "react-router-dom";
 import _axios from "../axios";
 import SingleProductCategory from "../components/SingleProductCategory";
@@ -23,6 +24,8 @@ import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 import TopCart from "../components/TopCart";
 import WidgetsLoopMobile from "../components/WidgetsLoopMobile";
 import WidgetsLoop from "../components/WidgetsLoop";
+import ReactPixel from "react-facebook-pixel";
+import { AccountContext } from "../contexts/AccountContext";
 
 function Category() {
   const location = useLocation();
@@ -45,6 +48,8 @@ function Category() {
   const [hoveredCart, setHoveredCart] = useState(false);
   const [showWidgets, setShowWidgets] = useState(true);
   const [filterCount, setFilterCount] = useState(0);
+  const [stateAccount, dispatchAccount] = useContext(AccountContext);
+
   // const { userFilters, setUserFilters } = useFiltersContext();
   const [userFilters, setUserFilters] = useState({
     filter_sellers: [],
@@ -218,7 +223,33 @@ function Category() {
         setfilters(response?.data?.data?.filters);
         setPointer(true);
       });
+      
+      let productArray = [];
+
+      // if (!stateAccount.admin) {
+        const productDetails = [];
+        data?.products?.map((p) => {
+          productArray.push(p.product_id);
+          productDetails.push({ id: p.product_id, quantity: p.quantity });
+        });
+        // ---> Facebook PIXEL <---
+        ReactPixel.init(pixelID, {}, { debug: true, autoConfig: false });
+        ReactPixel.pageView();
+        ReactPixel.fbq("track", "PageView");
+  
+        if (data) {
+          ReactPixel.track("ViewContent", {
+            content_type: "product",
+            content_ids: productArray,
+            contents: productDetails,
+            content_name: data?.social_data?.name,
+            event_id: data?.social_data?.event_id,
+          });
+        }
+      // }
   }, [location, sort]);
+
+
 
   function getType() {
     if (window.location.href.indexOf("c=") > 0) return "category";

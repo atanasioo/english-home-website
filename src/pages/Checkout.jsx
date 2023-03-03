@@ -5,11 +5,11 @@ import { GrClose } from "react-icons/gr";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { CartContext } from "../contexts/CartContext";
 import { AccountContext } from "../contexts/AccountContext";
-import buildLink, { path } from "../urls";
+import buildLink, { path, pixelID } from "../urls";
 import _axios from "../axios";
 import Cookies from "js-cookie";
 import HandlePhoneModel from "../components/PhoneHandler";
-
+import ReactPixel from "react-facebook-pixel";
 function Checkout() {
   const [state, dispatch] = useContext(CartContext);
   const [stateAccount, dispatchAccount] = useContext(AccountContext);
@@ -182,7 +182,28 @@ function Checkout() {
           setEmptyCart(true);
         } else {
           setsubTotal(response.data.sub_total);
-
+          if (!stateAccount.admin) {
+            // ---> Facebook PIXEL <---
+            ReactPixel.init(pixelID, {}, { debug: true, autoConfig: false });
+            ReactPixel.pageView();
+            ReactPixel.fbq("track", "PageView");
+            if (data) {
+              let productArray;
+              data.data.products?.map((p, index) => {
+                if (index === data?.data?.products.length - 1) {
+                  productArray += p.product_id;
+                } else {
+                  productArray = p.product_id + ",";
+                }
+              });
+              ReactPixel.track("InitiateCheckout", {
+                content_type: "product",
+                content_ids: productArray !== undefined && productArray,
+                num_items: data.data.products.length,
+                currency: "USD"
+              });
+            }
+          }
           if (data) {
             let productArray;
             data.data.products?.map((p, index) => {
@@ -572,6 +593,21 @@ function Checkout() {
     _axios.get(url).then((response) => {
       const data = response.data;
       if (data.success) {
+        if(!stateAccount.admin){
+
+          ReactPixel.init(pixelID, {}, { debug: true, autoConfig: false });
+          ReactPixel.pageView();
+          ReactPixel.fbq("track", "PageView");
+          if (data) {
+            ReactPixel.track("Purchase", {
+              content_type: "product",
+              content_ids: data?.data?.social_data?.content_ids,
+              value: data?.data?.social_data?.value,
+              num_items: data?.data?.social_data?.num_items,
+              currency: "USD"
+            });
+          }
+        }
         navigate("/success");
       }
     });
