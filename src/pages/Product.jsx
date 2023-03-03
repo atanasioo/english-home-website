@@ -257,27 +257,27 @@ function Product() {
                 payload: false
               });
             });
-       // ---> Facebook PIXEL <---
-       ReactPixel.init(
-        "668318187192045",
-        {},
-        { debug: true, autoConfig: false }
-      );
+          // ---> Facebook PIXEL <---
+          ReactPixel.init(
+            "668318187192045",
+            {},
+            { debug: true, autoConfig: false }
+          );
 
-      // if (!stateAccount.admin) {
-        ReactPixel.pageView();
-        ReactPixel.fbq("track", "PageView");
-        if (productData) {
-          ReactPixel.track("AddToCart", {
-            content_type: "product",
-            content_ids: [product_id],
-            content_name: productData.name?.replace("&amp;", "&"),
-            value: productData.price_net_value,
-            content_category: productData?.product_categories[0]?.name,
-            currency: "USD"
-          });
-        }
-      // }
+          // if (!stateAccount.admin) {
+          ReactPixel.pageView();
+          ReactPixel.fbq("track", "PageView");
+          if (productData) {
+            ReactPixel.track("AddToCart", {
+              content_type: "product",
+              content_ids: [product_id],
+              content_name: productData.name?.replace("&amp;", "&"),
+              value: productData.price_net_value,
+              content_category: productData?.product_categories[0]?.name,
+              currency: "USD"
+            });
+          }
+          // }
           setSuccessAdded(true);
           if (width > 650) {
             setCartmenu(true);
@@ -1044,7 +1044,69 @@ function Product() {
                   <p>Store Returns</p>
                 </div>
               </div>
-              <div className="flex justify-around mt-2.5">
+              {productData?.product_categories &&
+                productData?.product_categories?.length > 0 && (
+                  <div className=" w-full  ">
+                    <div className=" ">
+
+                      {width < 650 ? (
+                        <div className="flex overflow-x-scroll text-left ">
+                          {productData.product_categories?.map((category) => (
+                            <Link
+                              key={category.category_id}
+                              to={`${path}/category/${category.category_id}`}
+                              className="cursor-pointer hover:opacity-80 pr-10 "
+                            >
+                              <img
+                                src={category.image}
+                                alt={category.name}
+                                className="w-32 block mx-auto rounded-full"
+                              />
+                              <p
+                                dangerouslySetInnerHTML={{
+                                  __html: category.name
+                                }}
+                                className="text-center mt-4 font-semibold text-s line-clamp-2"
+                              ></p>
+                            </Link>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="flex justify-around mt-2.5">
+                            {productData?.product_categories?.map(
+                              (category, Key ) => (
+                                Key < 2 &&
+                              
+                                <Link
+                                  key={category.category_id}
+                                  to={`${path}/${category.name
+                                    .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                                    .replace(/\s+/g, "-")
+                                    .replace("/", "-")
+                                    .replace("%", "")}/c=${
+                                    category.category_id
+                                  }`}
+                                  className="text-d10 border border-dgrey2 p-3 w-1/2 text-center flex items-center ml-2"
+
+                                >
+                                  All
+  
+                                  <span
+                                    dangerouslySetInnerHTML={{
+                                      __html: category.name
+                                    }}
+                                    className="text-center px-0.5 font-bold text-d11 lowercase"
+                                  ></span>Products
+                                  <BsChevronRight />
+                                </Link>
+                              )
+                            )}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+              {/* <div className="flex justify-around mt-2.5">
                 <Link className="text-d12 border border-dgrey2 p-3 w-1/2 mr-1 text-center flex items-center">
                   <p>All </p>{" "}
                   <span className="font-bold"> Decorative Cushion </span>{" "}
@@ -1060,7 +1122,7 @@ function Product() {
                     Products <BsChevronRight />
                   </p>
                 </Link>
-              </div>
+              </div> */}
               <div className="add-to-basket-wrapper flex-xs w-full h-14 fixed z-30 bottom-0 bg-dwhite1 hidden"></div>
               <div className="error js-error-price-down text-d13 text-left mt-2.5 text-dred4"></div>
               <div className="desktop-product-infos md:hidden"></div>
@@ -1454,75 +1516,13 @@ function Product() {
             </div>
           </div>
         </div>
-        {/*product to category  smallest   */}
-        {productData?.product_categories &&
-          productData?.product_categories?.length > 0 && (
-            <div className=" w-full  ">
-              <div className=" pb-2 md:pb-8 text-left">
-                <h2 className="font-semibold text-xl text-dblack mb-4 pt-2 md:pt-8 ">
-                  More to explore
-                </h2>
-                {width < 650 ? (
-                  <div className="flex overflow-x-scroll text-left ">
-                    {productData.product_categories?.map((category) => (
-                      <Link
-                        key={category.category_id}
-                        to={`${path}/category/${category.category_id}`}
-                        className="cursor-pointer hover:opacity-80 pr-10 "
-                      >
-                        <img
-                          src={category.image}
-                          alt={category.name}
-                          className="w-32 block mx-auto rounded-full"
-                        />
-                        <p
-                          dangerouslySetInnerHTML={{
-                            __html: category.name
-                          }}
-                          className="text-center mt-4 font-semibold text-sm line-clamp-2"
-                        ></p>
-                      </Link>
-                    ))}
-                  </div>
-                ) : (
-                  <div>
-                    <Slider {...moreSettings}>
-                      {productData?.product_categories?.map((category) => (
-                        <Link
-                          key={category.category_id}
-                          to={`${path}/${category.name
-                            .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
-                            .replace(/\s+/g, "-")
-                            .replace("/", "-")
-                            .replace("%", "")}/c=${category.category_id}`}
-                          className="cursor-pointer hover:opacity-80 min-w-max mr-4 mt-4"
-                        >
-                          <img
-                            src={category.image}
-                            alt={category.name}
-                            className=" w-32 block mx-auto"
-                          />
-                          <p
-                            dangerouslySetInnerHTML={{
-                              __html: category.name
-                            }}
-                            className="text-center mt-4 font-semibold text-sm"
-                          ></p>
-                        </Link>
-                      ))}
-                    </Slider>
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
+    
         {/* / 10 products */}
-        <div className=" "></div>
         {productData?.smallest_cat_products &&
           productData?.smallest_cat_products?.length > 0 && (
-            <div className=" w-full   pt-1">
+            <div className=" w-full pt-8">
               <div className=" pb-2 md:pb-8">
-                <h2 className="font-semibold text-xl text-dblack mb-4   text-left">
+                <h2 className="font-semibold text-xl text-dblack text-left">
                   {productData.product_categories[0].name}
                 </h2>
                 {width < 650 ? (
