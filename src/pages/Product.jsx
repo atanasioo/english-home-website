@@ -146,7 +146,9 @@ function Product() {
             content_name: data?.data?.social_data?.name,
             value: data?.data?.social_data?.value,
             event_id: data?.data?.social_data?.event_id,
-            currency: "USD"
+            currency: "USD",
+            
+            
           });
         }
       });
@@ -271,10 +273,12 @@ function Product() {
             ReactPixel.track("AddToCart", {
               content_type: "product",
               content_ids: [product_id],
-              content_name: productData.name?.replace("&amp;", "&"),
+              content_name: data?.social_data?.name,
               value: productData.price_net_value,
               content_category: productData?.product_categories[0]?.name,
-              currency: "USD"
+              currency: "USD",
+              event_id: data?.social_data?.event_id,
+
             });
           }
           // }

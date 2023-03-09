@@ -200,7 +200,9 @@ function Checkout() {
                 content_type: "product",
                 content_ids: productArray !== undefined && productArray,
                 num_items: data.data.products.length,
-                currency: "USD"
+                currency: "USD",          
+                event_id: data?.social_data?.event_id,
+
               });
             }
           }
@@ -604,6 +606,7 @@ function Checkout() {
               content_ids: data?.data?.social_data?.content_ids,
               value: data?.data?.social_data?.value,
               num_items: data?.data?.social_data?.num_items,
+              event_id: data?.social_data?.event_id,
               currency: "USD"
             });
           }

@@ -121,7 +121,7 @@ function WidgetsLoop({ widget, showCartmenu }) {
                   //       item.mobile_type_id
                   //     }`
                   //   : 
-                    item.name.length > 0
+                    item?.name?.length > 0
                     ? "/" +
                       item.name
                         .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
@@ -129,7 +129,7 @@ function WidgetsLoop({ widget, showCartmenu }) {
                         .replace("/", "-")
                         .replace("%", "") +
                       "/" +
-                      types[item.mobile_type].slice(0, 1) +
+                      types[item?.mobile_type]?.slice(0, 1) +
                       "=" +
                       item.mobile_type_id
                     : "cat/c=" + item.mobile_type_id
@@ -188,7 +188,7 @@ function WidgetsLoop({ widget, showCartmenu }) {
                           //     item.mobile_type_id
                           //   : 
                             
-                            item.name.length > 0
+                            item?.name?.length > 0
                             ? "/" +
                               item.name
                                 .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
@@ -274,7 +274,7 @@ function WidgetsLoop({ widget, showCartmenu }) {
                         .replace(/\s+/g, "-")
                         .replace("/", "-") +
                       "/" +
-                      types[item.mobile_type]?.slice(0, 1) +
+                      types[item?.mobile_type]?.slice(0, 1) +
                       "=" +
                       item.mobile_type_id
                     : "cat/c=" + item.mobile_type_id
@@ -326,10 +326,10 @@ function WidgetsLoop({ widget, showCartmenu }) {
                       .replace(/\s+/g, "-")
                       .replace("/", "-") +
                     "/" +
-                    types[item.mobile_type]?.slice(0, 1) +
+                    types[item?.mobile_type]?.slice(0, 1) +
                     "=" +
-                    item.mobile_type_id
-                  : "cat/c=" + item.mobile_type_id
+                    item?.mobile_type_id
+                  : "cat/c=" + item?.mobile_type_id
               }
             >
               <img
