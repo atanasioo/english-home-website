@@ -96,9 +96,10 @@ function Header() {
            {/* Admin Top Bar */}
            <div
           className={
-            !state.admin
-              ? "hidden"
-              : `h-12 px-10 text-white flex items-center ${
+            // !state.admin
+            //   ? "hidden"
+            //   : 
+              `h-12 px-10 text-white flex items-center ${
                   (localStorage.getItem("site-local-name") === "energy-plus" ||
                     window.location.host === "www.energyplus-lb.com") &&
                   "bg-Energyplus text-dblackk"
@@ -377,11 +378,12 @@ function Header() {
                               >
                                 <Link
                                   to={`${
-                                    state.admin
-                                      ? path +
-                                        "/category/" +
-                                        subcategory.category_id
-                                      : subcategory.name.length > 0
+                                    // state.admin
+                                    //   ? path +
+                                    //     "/category/" +
+                                    //     subcategory.category_id
+                                    //   : 
+                                      subcategory.name.length > 0
                                       ? "/" +
                                         subcategory.name
                                           .replace(
