@@ -314,9 +314,10 @@ function Header() {
                           <div className="menu-item--box flex items-center justify-between px-5 h-full ">
                             <Link
                               to={`${
-                                state.admin
-                                  ? path + "/category/" + category.category_id
-                                  : category.name.length > 0
+                                // state.admin
+                                //   ? path + "/category/" + category.category_id
+                                  // : 
+                                  category.name.length > 0
                                   ? "/" +
                                     category.name
                                       .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")

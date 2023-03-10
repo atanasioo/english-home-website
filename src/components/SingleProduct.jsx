@@ -211,16 +211,17 @@ export default function SingleProduct(props) {
           {props?.wishlist && <AiFillHeart onClick={(e)=> props.removeW(e, props.item.product_id)} className="w-5 h-5" />}
           {window.innerWidth > 650 ? (
             <div className="flex flex-col lg:flex-row">
-              <span className="text-left  pt-3 flex-auto ">
-                {" "}
-                {props.item.special !== "0"
-                  ? props.item.special
-                  : props.item.price}
+              <span className="text-left  pt-3 flex-auto line-through ">
+              {props.item.price}
+
+              
               </span>
 
               <button className="border-gray-200 border-2 p-3 flex-auto text-sm">
                 in the basket{" "}
-                <span className="font-bold">{props.item.price}</span>
+                <span className="font-bold"> {props.item.special !== "0"
+                  ? props.item.special
+                  : props.item.price}</span>
               </button>
             </div>
           ) : (

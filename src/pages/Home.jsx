@@ -57,7 +57,7 @@ function Home() {
     await _axios({
       method: "post",
       url: buildLink("home", undefined, window.innerWidth),
-      data: { view: "web_desktop", limit: 20, page: page },
+      data: { view: window.innerWidth > 650 ? "web_desktop" : 'web_mobile', limit: 20, page: page },
     })
       .then((response) => {
         // alert(response?.data?.success)
@@ -164,14 +164,16 @@ function Home() {
         ></div>
       )}
 
-      {!state?.admin ? (
-        <div className="min-w-full min-h-screen bg-dbasenavy">
-          <div className="flex flex-col justify-center items-center">
-            <div className="font-serif text-dwhite1 text-4xl mb-72 mt-10">ENGLISH HOME </div>
-            <div className="text-6xl md:text-9xl italic text-dwhite1 font-mono">COMING SOON</div>
-          </div>
-        </div>
-      ) : window.innerWidth < 650 ? (
+      {
+      // !state?.admin ? (
+      //   <div className="min-w-full min-h-screen bg-dbasenavy">
+      //     <div className="flex flex-col justify-center items-center">
+      //       <div className="font-serif text-dwhite1 text-4xl mb-72 mt-10">ENGLISH HOME </div>
+      //       <div className="text-6xl md:text-9xl italic text-dwhite1 font-mono">COMING SOON</div>
+      //     </div>
+      //   </div>
+      // ) :
+      window.innerWidth < 650 ? (
         widgets?.map((widget) => {
           return (
             <WidgetsLoopMobile widget={widget} showCartmenuMob={showCart} />

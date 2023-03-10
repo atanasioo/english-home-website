@@ -176,7 +176,7 @@ export default function SingleProducCategory(props) {
         {window.innerWidth > 650 ? (
           <div className="flex flex-row">
             <span className="flex flex-col text-left   w-1/2">
-              <span className="w-full">{props.item.price}</span>
+              <span className="w-full line-through">{props.item.price}</span>
               <span className="w-full text-bold ">{props.item.special}</span>
             </span>
 
@@ -187,7 +187,7 @@ export default function SingleProducCategory(props) {
         ) : (
           <div className="flex flex-row text-d14 pt-5">
             <span className="flex flex-col text-left w-1/2 ">
-              <span className="w-full text-dgrey12 -mt-2 mb-2 ">{props.item.price}</span>
+              <span className="w-full text-dgrey12 -mt-2 mb-2 line-through">{props.item.price}</span>
               <span className="w-full font-bold text-d18 -mb-2 text-dblue2">{props.item.special}</span>
             </span>
 

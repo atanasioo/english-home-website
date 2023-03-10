@@ -47,17 +47,25 @@ function Footer() {
                       key={cat.category_id}
                       className="mt-2 mb-3 mx-2 flex flex-col justify-center"
                     >
-                      <div
+                      <Link
+                         to={`${cat.name.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                         .replace(/\s+/g, "-")
+                         .replace("/", "-")
+                         .replace("%", "") +'/c='+ cat.category_id }`}
                         className="text-d18 font-medium text-dbasenavy text-center md:text-left  pb-3 uppercase"
                         dangerouslySetInnerHTML={{ __html: cat.name }}
-                      ></div>
+                      ></Link>
                       {cat?.data?.map((sub) => {
                         return (
-                          <div
+                          <Link
+                            to={`${sub.name.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                            .replace(/\s+/g, "-")
+                            .replace("/", "-")
+                            .replace("%", "") +'/c='+ sub.category_id }`}
                             className="text-d15 font-light text-center md:text-left  leading-relaxed text-dbgrey6 cursor-pointer text-dgrey6 hover:text-dblue1 hover:underline transition-all"
                             dangerouslySetInnerHTML={{ __html: sub.name }}
                             key={sub.category_id}
-                          ></div>
+                          ></Link>
                         );
                       })}
                     </div>

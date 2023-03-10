@@ -518,7 +518,7 @@ function Product() {
   };
 
   return (
-    <div className="bg-dgrey10 px-6">
+    <div className={`bg-dgrey10 ${ width > 650 ? 'px-6' : ''}`}>
       {cartmenu && width > 650 && (
         <div ref={wrapperRef} onMouseEnter={() => setHoveredCart(true)}>
           <TopCart cartmenu={cartmenu} />
@@ -690,7 +690,7 @@ function Product() {
         </div>
       )}
 
-      <div className="container py-5 ">
+      <div className={`py-5 ${ width > 650 ? 'container' : 'px-2'}`}>
         <div className="text-d12 my-2.5 text-dgrey11 text-left flex flex-wrap items-center">
           <Link to={"/"}>{productData?.breadcrumbs?.text_home}</Link>
           <BsChevronRight className="mx-2 mt-0.5" />
@@ -769,18 +769,20 @@ function Product() {
                 </div>
               </div>
               <div className="flex my-3">
-                <div className="rounded-full bg-dborderblack2 text-white w-16 h-16 text-d11 align-middle pt-4">
-                  DiSCOUNT IN CART
+                <div className=" bg-dborderblack2 text-white w-16 h-16 font-black align-middle pt-4 text-d20">
+                  {/* DiSCOUNT IN CART */}
+                  {productData?.saving && productData?.saving + '%'}
                 </div>
 
                 <div className="pl-5 flex-nowrap text-d20  text-left align-middle my-1">
-                  <div className="font-light"> {productData?.price}</div>
+                  <div className="font-light line-through"> {productData?.price}</div>
                   <div className="font-bold text-d25 leading-5">
                     {" "}
                     {productData?.special}
                   </div>
                 </div>
               </div>
+              <div className="flex font-light text-d11 pl-2 py-3">Model Number : {productData?.sku}</div>
               {/* series options */}
 
               {productData?.series_options &&
@@ -1010,7 +1012,7 @@ function Product() {
                   alt="clock-icon"
                 />
               </div> */}
-              <div className="w-full flex my-3">
+              {/* <div className="w-full flex my-3">
                 <div className="text-dborderblack2 w-1/4 mr-1 p-3.5 text-d8 md:text-d12 flex flex-col justify-center text-center font-bold items-center">
                   <img
                     src="https://akn-eh.b-cdn.net/cms/2021/02/08/08907807-82d0-41ca-b167-40f5f3a794ae.png"
@@ -1047,12 +1049,13 @@ function Product() {
                   />
                   <p>Store Returns</p>
                 </div>
-              </div>
+              </div> */}
+                  <div className="pt-1">
               {productData?.product_categories &&
                 productData?.product_categories?.length > 0 && (
                   <div className=" w-full  ">
                     <div className=" ">
-
+{/* 
                       {width < 650 ? (
                         <div className="flex overflow-x-scroll text-left ">
                           {productData.product_categories?.map((category) => (
@@ -1075,7 +1078,7 @@ function Product() {
                             </Link>
                           ))}
                         </div>
-                      ) : (
+                      ) : ( */}
                         <div className="flex justify-around mt-2.5">
                             {productData?.product_categories?.map(
                               (category, Key ) => (
@@ -1101,15 +1104,16 @@ function Product() {
                                     }}
                                     className="text-center px-0.5 font-bold text-d11 lowercase"
                                   ></span>Products
-                                  <BsChevronRight />
+                                  <BsChevronRight className="ml-1"/>
                                 </Link>
                               )
                             )}
                         </div>
-                      )}
+                      {/* )} */}
                     </div>
                   </div>
                 )}
+            </div>
               {/* <div className="flex justify-around mt-2.5">
                 <Link className="text-d12 border border-dgrey2 p-3 w-1/2 mr-1 text-center flex items-center">
                   <p>All </p>{" "}
@@ -1141,9 +1145,9 @@ function Product() {
               <div className="title text-d15 font-bold py-3.5 text-dborderblack2 text-left">
                 PRODUCT INFORMATION
               </div>
-              <div className="mx-1 flex flex-col-reverse md:flex-row">
-                <div className="w-1/2">
-                  <div className="product-information-conten text-left">
+              <div className="mx-1 flex flex-col md:flex-row">
+                {/* <div className="text-left font-semibold text-d22 uppercase">Description</div> */}
+                  {/* <div className="product-information-conten text-left">
                     <ul>
                       <li className="text-d14 mb-6">
                         <span className="text-d16 font-bold mb-2.5">Usage</span>
@@ -1167,9 +1171,9 @@ function Product() {
                         </ul>
                       </li>
                     </ul>
-                  </div>
-                </div>
-                <div className="w-1/2 text-left">
+                  </div> */}
+                  
+                <div className="flex flex-row text-left pt-1">
                   <div>
                     <div
                       dangerouslySetInnerHTML={{
@@ -1178,6 +1182,33 @@ function Product() {
                     ></div>
                   </div>
                 </div>
+
+                <div>
+                <table className=" border  border-dgrey1 w-full text-left  font-mono leading-tight text-xs">
+                        {/* <thead className="p-6 border-b border-dgrey1 text-left">
+                          <tr className="my-4 ">
+                            <th className="border-r border-dgrey1 py-4  text-d22">
+                              FEATURES
+                            </th>
+                          </tr>
+                        </thead> */}
+                        <tbody>
+                          {productData?.attribute_groups?.map((grp) => (
+                            <tr>
+                              <td className="font-bold whitespace-nowrap">
+                                {grp.name}
+                              </td>
+                              {grp?.attribute?.map((attr) => (
+                                <>
+                                  <td className="p-2.5">{attr.name}</td>
+                                </>
+                              ))}
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                </div>
+                
               </div>
             </div>
           </div>
@@ -1320,6 +1351,7 @@ function Product() {
                       </ul>
                     </div>
                   </div> */}
+                  
                   <div className="w-full text-left flex justify-around">
                     <div className="w-1/2 mr-10">
                       <div className="text-d22 font-bold my-5">
@@ -1621,7 +1653,7 @@ function Product() {
         </div>
         {/* end recenty viewed */}
 
-        <div className="mobile-product-info block md:hidden ">
+        {/* <div className="mobile-product-info block md:hidden ">
           <div className="product-infos mb-16 py-2.5 px-5 mt-10 bg-dgrey1 text-left">
             <div className="return text-d14 text-dblack1">
               <div className="cursor-pointer relative text-d15 font-bold py-3.5 text-dborderblack2 uppercase flex items-center">
@@ -1652,7 +1684,7 @@ function Product() {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
