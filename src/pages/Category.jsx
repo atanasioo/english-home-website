@@ -257,7 +257,8 @@ function Category() {
     if (window.location.href.indexOf("s=") > 0) return "seller";
   }
   function pageSetter(page) {
-    const new_page = parseInt(page["selected"]) + 1;
+    console.log(parseInt(page["selected"]))
+   const new_page = parseInt(page["selected"]) + 1 ;
     pushRoute({ page: new_page });
   }
   // Set Sort
@@ -298,25 +299,16 @@ function Category() {
       // alert(pathname);
       const paramPage = new URLSearchParams(queryString.stringify(q_s));
 
-      // alert(paramPage.get("page"));
-      // alert(
-      //   pathname +
-      //     "+" +
-      //     window.location.search.replace(
-      //       "page=" + params.get("page"),
-      //       "page=" + paramPage.get("page")
-      //     )
-      // );
-
-      // alert(params.get("page"));
       navigate(
-        pathname +
-          "+" +
-          window.location.search.replace(
+        pathname.replace(
             "page=" + params.get("page"),
             "page=" + paramPage.get("page")
           )
       );
+      console.log( "page=" + params.get("page"),
+      "page=" + paramPage.get("page"))
+      // alert(pathname)
+
     } else {
       navigate(
         pathname.replaceAll("&has_filter=true", "?has_filter=true") +

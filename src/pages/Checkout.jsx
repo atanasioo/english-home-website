@@ -902,7 +902,7 @@ function Checkout() {
       {/* end delete confirmation modal */}
 
       <div className="checkout-viewport -mt-9 bg-dgrey10">
-        <div className="container overflow-hidden">
+        <div className={`${ width > 650 ? "container overflow-hidden" : 'px-3' }`}>
           <div className="mt-7 -mx-1 flex flex-col md:flex-row">
             {/* <div className='w-full notify'></div> */}
             <div className="w-full md:w-2/3 mr-5">
@@ -1391,7 +1391,7 @@ function Checkout() {
                                   </button>
                                 ))}
 
-                                <button className="text-d14 font-bold  tracking-tight uppercase mt-3.5 h-11 text-center w-1/2 bg-dblue1 text-dwhite1 flex items-center justify-center hover:bg-dblack1 transition ease in duration-300">
+                                <button   onClick={ termCondition && ((e) => submitForm(e))}   disabled={confirmDisable} className="text-d14 font-bold  tracking-tight uppercase mt-3.5 h-11 text-center w-1/2 bg-dblue1 text-dwhite1 flex items-center justify-center hover:bg-dblack1 transition ease in duration-300">
                                   checkout
                                 </button>
                               </div>
@@ -1453,7 +1453,9 @@ function Checkout() {
                                         __html: product?.name
                                       }}
                                     ></Link>
+                                    
                                   </div>
+                                  <div className="text-left font-light">Qunatity : {product.quantity}</div>
                                   <div className="summary-product-item-count hidden"></div>
                                 </div>
                                 <div className="summary-product-item-price hidden text-right text-d14 align-top pr-1"></div>

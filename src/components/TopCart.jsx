@@ -305,7 +305,7 @@ function TopCart(props) {
                 </div>
                 <div className="clear"></div>
                 <div className="header__basket__upsells text-d text-center capitalize"></div>
-                <div className="header__basket-discounts h-auto p-2.5">
+                {/* <div className="header__basket-discounts h-auto p-2.5">
                   <div className="mb-2.5 text-center text-d17">
                     <div className="header__basket-discount-name h-auto bg-dgrey8 text-dblue1 p-2.5">
                       *Additional 10% Discount on All Discounts
@@ -316,7 +316,7 @@ function TopCart(props) {
                       150 TL and Over Free Shipping
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           )}
@@ -406,7 +406,6 @@ function TopCart(props) {
               <div className="text-left mt-1 text-d16 text-dblack2 ">Total</div>
               <div className="flex">
                 <div className="mt-1 mr-6 text-dblack2 line-through opacity-50">
-                  150
                 </div>
                 <div className="mt-1 text-dblue1">
                   {state?.totals["0"]?.text}{" "}
@@ -432,7 +431,7 @@ function TopCart(props) {
             </div>
             <div className="clear"></div>
             <div className="header__basket__upsells text-d text-center capitalize"></div>
-            <div className="header__basket-discounts h-auto p-2.5">
+            {/* <div className="header__basket-discounts h-auto p-2.5">
               <div className="mb-2.5 text-center text-d17">
                 <div className="header__basket-discount-name h-auto bg-dgrey8 text-dblue1 p-2.5">
                   *Additional 10% Discount on All Discounts
@@ -443,7 +442,7 @@ function TopCart(props) {
                   150 TL and Over Free Shipping
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
         // <div className="bg-dred4">

@@ -31,7 +31,7 @@ function Footer() {
 
   return (
     <div className="overflow-hidden">
-      {state?.admin && (
+      {1===1 && (
         <>
           <div className="border-t-2 "></div>
           <div className="container">
@@ -119,7 +119,7 @@ function Footer() {
                     <span className="w-full flex place-content-center leading-snug">
                       <img src={supportImage} alt="22" className="w-16 " />
                     </span>
-                    <span className="w-full flex place-content-center text-d22 font-bold pt-3">
+                    <span  className="w-full flex place-content-center text-d22 font-bold pt-3">
                     {window.config["supportNumber"]}
                     </span>{" "}
                   </div>
@@ -134,7 +134,7 @@ function Footer() {
             </div>
           </div>
           <div className=" h-16 md:h-12  text-d14 px-24 py-4 w-full text-center">
-            Copyright © 2008-2022 LEBANON HOME All rights reserved.
+            Copyright © 2023 English Home Lebanon All rights reserved.
           </div>
         </>
       )}

@@ -39,14 +39,14 @@ function DesktopMenu() {
         <div className="container">
           <div className="flex flex-col xl:flex-row justify-center items-center mx-auto">
             <ul className="navigation relative text-center  flex  justify-center">
-              <li className="inline-block">
+              {/* <li className="inline-block">
                 <Link
                   to={"/latest"}
                   className="bg-dwhite1 text-dblack2 text-d12 p-2.5"
                 >
                   NEW PRODUCTS
                 </Link>
-              </li>
+              </li> */}
               <div
                 className="whitespace-nowrap"
                 onMouseEnter={() => {
@@ -113,8 +113,8 @@ function DesktopMenu() {
                     </li> */}
             </ul>
             <div className="inline-block mt-4 xl:mt-0 ml-1">
-              <Link className="bg-dred1 text-dwhite1 text-d12 p-2.5 whitespace-nowrap">
-                OPPRTUNITY PRODUCTS
+              <Link  to={"/latest"} className="bg-dred1 text-dwhite1 text-d12 p-2.5 whitespace-nowrap">
+                NEW PRODUCTS
               </Link>
             </div>
           </div>

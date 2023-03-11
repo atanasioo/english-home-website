@@ -639,7 +639,7 @@ function Product() {
                   >
                     CONTINUE SHOPPING
                   </button>
-                  <Link className="text-dwhite1 border border-dblue1 bg-dblue1 h-10 text-d16 w-3/4 m-auto  mb-2.5 pt-1.5">
+                  <Link to={'/cart'} className="text-dwhite1 border border-dblue1 bg-dblue1 h-10 text-d16 w-3/4 m-auto  mb-2.5 pt-1.5">
                     GO TO CART
                   </Link>
                 </div>

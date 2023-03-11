@@ -4,7 +4,7 @@ import {
   useLocation,
   useNavigate,
   NavigationType,
-  useNavigationType,
+  useNavigationType
 } from "react-router-dom";
 import { GiSquare } from "react-icons/gi";
 import queryString from "query-string";
@@ -60,7 +60,7 @@ function Search() {
     setBaseURL(location?.search); //after ?
     window.scrollTo({
       top: 0,
-      behavior: "smooth",
+      behavior: "smooth"
     });
     setShowMobileFilter(false);
     let link =
@@ -86,7 +86,6 @@ function Search() {
 
     _axios.get(link).then((response) => {
       const data = response?.data;
-      //console.log(data?.data?.redirect);
       if (data?.data?.redirect === "1") {
         if (navType === "POP") {
           navigate(-1);
@@ -157,7 +156,7 @@ function Search() {
   //check filters
   function checkFilter(type, name, filter) {
     location.state = {
-      oldFilters: data && data.filters,
+      oldFilters: data && data.filters
     };
 
     var url = new URL(window.location);
@@ -196,140 +195,148 @@ function Search() {
   return (
     <div className="bg-dgrey10 overflow-hidden">
       {/* mobile filter popup */}
-      {mobileFilter && (
-        <div className="relative">
-          <div
-            className="fixed z-20 top-0 left-0 bg-dblackOverlay2 w-full h-full"
-            onClick={() => setShowMobileFilter(false)}
-          ></div>
-          <div className="popup fixed  bg-dwhite1 top-1/2 h-2/3 w-4/5 z-30 left-1/2 -translate-x-1/2 -translate-y-1/2 overflow-y-scroll">
-            <div className="text-left text-d18 bg-dbeige h-11 py-1.5 pl-2 font-bold">
-              Filter{" "}
-            </div>
-            <div className="filter_container p-4">
-              {filters?.map((filter) => (
-                <div className="text-d14 text-left p-3.5 bg-dhwite1 border border-dgrey5 font-mono text-dblack2 mb-3.5 relative uppercase">
-                  <div
-                    className="flex justify-between items-center"
-                    onClick={() => {
-                      !filterMobile.includes(filter?.value)
-                        ? setFilterMobile((filterMobile) => [
-                            ...filterMobile,
-                            filter?.value,
-                          ])
-                        : setFilterMobile((filterMobile) =>
-                            filterMobile.filter(
-                              (filterMobile) => filterMobile !== filter?.value
-                            )
-                          );
-                    }}
-                  >
-                    <p>{filter["new_items"].length > 0 && filter.name}</p>
-                    {filterMobile.includes(filter?.value) ? (
-                      <AiOutlineMinus className="w-3 h-3" />
-                    ) : (
-                      <GoPlus className="w-3 h-3" />
-                    )}
-                  </div>
-                  {/* {mobileFilter && ( */}
-                  <div>
-                    {filter?.new_items.length > 0 && filter.name === "Color" ? (
+      {mobileFilter &&
+        1 !==
+          1(
+            <div className="relative">
+              <div
+                className="fixed z-20 top-0 left-0 bg-dblackOverlay2 w-full h-full"
+                onClick={() => setShowMobileFilter(false)}
+              ></div>
+              <div className="popup fixed  bg-dwhite1 top-1/2 h-2/3 w-4/5 z-30 left-1/2 -translate-x-1/2 -translate-y-1/2 overflow-y-scroll">
+                <div className="text-left text-d18 bg-dbeige h-11 py-1.5 pl-2 font-bold">
+                  Filter{" "}
+                </div>
+                <div className="filter_container p-4">
+                  {filters?.map((filter) => (
+                    <div className="text-d14 text-left p-3.5 bg-dhwite1 border border-dgrey5 font-mono text-dblack2 mb-3.5 relative uppercase">
                       <div
-                        className={` my-5 ${
-                          filter?.items.length > 6 &&
-                          !filterMobile.includes(filter.value) &&
-                          " overflow-y-auto h-36 px-2"
-                        }  ${
-                          !filterMobile.includes(filter.value) ? "hidden" : ""
-                        }}`}
+                        className="flex justify-between items-center"
+                        onClick={() => {
+                          !filterMobile.includes(filter?.value)
+                            ? setFilterMobile((filterMobile) => [
+                                ...filterMobile,
+                                filter?.value
+                              ])
+                            : setFilterMobile((filterMobile) =>
+                                filterMobile.filter(
+                                  (filterMobile) =>
+                                    filterMobile !== filter?.value
+                                )
+                              );
+                        }}
                       >
-                        <div className="grid grid-cols-4 w-3/4 ">
-                          {filter?.new_items.map((fil) => (
-                            <div
-                              className="text-left w-full my-1 cursor-pointer"
-                              key={fil.name}
-                            >
-                              <img
-                                src={fil.image}
-                                alt={fil.name}
-                                className={`rounded-full w-8   ${checkFilter(
-                                  filter[fil].id,
-                                  filter[fil].name,
-                                  fil
-                                )}`}
-                                onClick={() => {
-                                  handleFilter(filter.name, fil.name);
-                                }}
-                              />
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    ) : (
-                      <div
-                        className={`my-5 ${
-                          filter?.items.length > 6 &&
-                          "overflow-y-auto h-36 px-2"
-                        }  ${
-                          !filterMobile.includes(filter.value) ? "hidden" : ""
-                        }`}
-                      >
-                        {filter?.new_items?.map((fil) =>
-                          filter[fil]?.name === "DIMENSIONS" ||
-                          filter[fil]?.name === "Size" ? (
-                            <div
-                              className={`w-full border cursor-pointer bg-white my-1 text-dborderblack0 text-d15 py-1 ${checkFilter(
-                                filter[fil]?.id,
-                                filter[fil]?.name,
-                                fil
-                              )}`}
-                              onClick={() => {
-                                handleFilter(filter.name, fil.name);
-                              }}
-                              key={fil?.name}
-                            >
-                              {fil?.name}
-                            </div>
-                          ) : (
-                            <div
-                              className={`text-left w-full cursor-pointer  hover:underline underline-offset-4 text-dborderblack0 text-d15 pointer-events-auto ${checkFilter(
-                                filter[fil]?.id,
-                                fil?.name,
-                                fil
-                              )}`}
-                              onClick={() => {
-                                handleFilter(filter.name, fil.name);
-                              }}
-                            >
-                              {fil?.name}
-                            </div>
-                          )
+                        <p>{filter["new_items"].length > 0 && filter.name}</p>
+                        {filterMobile.includes(filter?.value) ? (
+                          <AiOutlineMinus className="w-3 h-3" />
+                        ) : (
+                          <GoPlus className="w-3 h-3" />
                         )}
                       </div>
-                    )}
-                  </div>
-                  {/* )} */}
+                      {/* {mobileFilter && ( */}
+                      <div>
+                        {filter?.new_items.length > 0 &&
+                        filter.name === "Color" ? (
+                          <div
+                            className={` my-5 ${
+                              filter?.items.length > 6 &&
+                              !filterMobile.includes(filter.value) &&
+                              " overflow-y-auto h-36 px-2"
+                            }  ${
+                              !filterMobile.includes(filter.value)
+                                ? "hidden"
+                                : ""
+                            }}`}
+                          >
+                            <div className="grid grid-cols-4 w-3/4 ">
+                              {filter?.new_items.map((fil) => (
+                                <div
+                                  className="text-left w-full my-1 cursor-pointer"
+                                  key={fil.name}
+                                >
+                                  <img
+                                    src={fil.image}
+                                    alt={fil.name}
+                                    className={`rounded-full w-8   ${checkFilter(
+                                      filter[fil].id,
+                                      filter[fil].name,
+                                      fil
+                                    )}`}
+                                    onClick={() => {
+                                      handleFilter(filter.name, fil.name);
+                                    }}
+                                  />
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        ) : (
+                          <div
+                            className={`my-5 ${
+                              filter?.items.length > 6 &&
+                              "overflow-y-auto h-36 px-2"
+                            }  ${
+                              !filterMobile.includes(filter.value)
+                                ? "hidden"
+                                : ""
+                            }`}
+                          >
+                            {filter?.new_items?.map((fil) =>
+                              filter[fil]?.name === "DIMENSIONS" ||
+                              filter[fil]?.name === "Size" ? (
+                                <div
+                                  className={`w-full border cursor-pointer bg-white my-1 text-dborderblack0 text-d15 py-1 ${checkFilter(
+                                    filter[fil]?.id,
+                                    filter[fil]?.name,
+                                    fil
+                                  )}`}
+                                  onClick={() => {
+                                    handleFilter(filter.name, fil.name);
+                                  }}
+                                  key={fil?.name}
+                                >
+                                  {fil?.name}
+                                </div>
+                              ) : (
+                                <div
+                                  className={`text-left w-full cursor-pointer  hover:underline underline-offset-4 text-dborderblack0 text-d15 pointer-events-auto ${checkFilter(
+                                    filter[fil]?.id,
+                                    fil?.name,
+                                    fil
+                                  )}`}
+                                  onClick={() => {
+                                    handleFilter(filter.name, fil.name);
+                                  }}
+                                >
+                                  {fil?.name}
+                                </div>
+                              )
+                            )}
+                          </div>
+                        )}
+                      </div>
+                      {/* )} */}
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </div>
+              <div className="popup-footer fixed w-full overflow-x-hidden bottom-0 left-0 z-30 bg-dbeige h-16 flex justify-around items-center">
+                <button
+                  className="bg-dwhite1 border-dgrey5 text-dblack1 mr-1 h-auto relative py-2.5 w-5/12"
+                  onClick={() => setShowMobileFilter(false)}
+                >
+                  GIVE UP
+                </button>
+                <button
+                  className="bg-dblack1 border-dgrey5 text-dwhite1 mr-1 h-auto relative py-2.5 w-5/12"
+                  onClick={() => setShowMobileFilter(false)}
+                >
+                  APPLY
+                </button>
+              </div>
             </div>
-          </div>
-          <div className="popup-footer fixed w-full overflow-x-hidden bottom-0 left-0 z-30 bg-dbeige h-16 flex justify-around items-center">
-            <button
-              className="bg-dwhite1 border-dgrey5 text-dblack1 mr-1 h-auto relative py-2.5 w-5/12"
-              onClick={() => setShowMobileFilter(false)}
-            >
-              GIVE UP
-            </button>
-            <button
-              className="bg-dblack1 border-dgrey5 text-dwhite1 mr-1 h-auto relative py-2.5 w-5/12"
-              onClick={() => setShowMobileFilter(false)}
-            >
-              APPLY
-            </button>
-          </div>
-        </div>
-      )}
-      {loading ? (
+          )}
+      {!loading ? (
         <Loader />
       ) : noData ? (
         <div className="flex items-center justify-center mt-20 flex-col h-96">
@@ -441,7 +448,7 @@ function Search() {
               </div>
             </div>
             <div className="pb-6 -mx-1 mt-3 flex justify-between">
-              {width > 650 && (
+              {width !== 650 && (
                 <div className="inline-block ">
                   <div className="pb-12 w-48">
                     <div className="category-tree">

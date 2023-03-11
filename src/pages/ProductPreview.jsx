@@ -537,7 +537,7 @@ function ProductPreview() {
                   >
                     CONTINUE SHOPPING
                   </button>
-                  <Link className="text-dwhite1 border border-dblue1 bg-dblue1 h-10 text-d16 w-3/4 m-auto  mb-2.5 pt-1.5">
+                  <Link to={'/cart'}  className="text-dwhite1 border border-dblue1 bg-dblue1 h-10 text-d16 w-3/4 m-auto  mb-2.5 pt-1.5">
                     GO TO CART
                   </Link>
                 </div>
@@ -823,7 +823,7 @@ function ProductPreview() {
                   alt="clock-icon"
                 />
               </div> */}
-              <div className="w-full flex my-3">
+              {/* <div className="w-full flex my-3">
                 <div className="text-dborderblack2 w-1/4 mr-1 p-3.5 text-d8 md:text-d12 flex flex-col justify-center text-center font-bold items-center">
                   <img
                     src="https://akn-eh.b-cdn.net/cms/2021/02/08/08907807-82d0-41ca-b167-40f5f3a794ae.png"
@@ -860,8 +860,8 @@ function ProductPreview() {
                   />
                   <p>Store Returns</p>
                 </div>
-              </div>
-              <div className="flex justify-around mt-2.5">
+              </div> */}
+              {/* <div className="flex justify-around mt-2.5">
                 <Link className="text-d12 border border-dgrey2 p-3 w-1/2 mr-1 text-center flex items-center">
                   <p>All </p>{" "}
                   <span className="font-bold"> Decorative Cushion </span>{" "}
@@ -877,7 +877,7 @@ function ProductPreview() {
                     Products <BsChevronRight />
                   </p>
                 </Link>
-              </div>
+              </div> */}
               <div className="add-to-basket-wrapper flex-xs w-full h-14 fixed z-30 bottom-0 bg-dwhite1 hidden"></div>
               <div className="error js-error-price-down text-d13 text-left mt-2.5 text-dred4"></div>
               <div className="desktop-product-infos md:hidden"></div>

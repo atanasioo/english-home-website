@@ -211,7 +211,7 @@ export default function SingleProduct(props) {
           {props?.wishlist && <AiFillHeart onClick={(e)=> props.removeW(e, props.item.product_id)} className="w-5 h-5" />}
           {window.innerWidth > 650 ? (
             <div className="flex flex-col lg:flex-row">
-              <span className="text-left  pt-3 flex-auto line-through ">
+              <span className="text-left  pt-3 flex-auto  ">
               {props.item.price}
 
               
@@ -228,15 +228,16 @@ export default function SingleProduct(props) {
             <div className="flex flex-col text-d14 ">
               <span className="text-left  pt-1 flex-auto  mt-1">
                 {" "}
-                {props.item.special !== "0"
-                  ? props.item.special
-                  : props.item.price}
+                {props.item.price}
               </span>
 
               <button className="flex border border-black p-1  flex-auto text-d14 ">
                 <span className="w-1/2">in the basket</span>{" "}
                 <span className="font-bold ml-2 text-center pt-3 w-1/2">
-                  {props.item.price}
+                
+                  {props.item.special 
+                  ? props.item.special
+                  : props.item.price}
                 </span>
               </button>
               <button

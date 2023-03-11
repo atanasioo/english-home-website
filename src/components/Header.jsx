@@ -96,9 +96,9 @@ function Header() {
            {/* Admin Top Bar */}
            <div
           className={
-            // !state.admin
-            //   ? "hidden"
-            //   : 
+            !state.admin
+              ? "hidden"
+              : 
               `h-12 px-10 text-white flex items-center ${
                   (localStorage.getItem("site-local-name") === "energy-plus" ||
                     window.location.host === "www.energyplus-lb.com") &&
@@ -134,7 +134,7 @@ function Header() {
       <div className="hidden">
         <TopAccount />
       </div>
-      {state?.admin &&
+      { //state?.admin &&
         (location?.pathname !== "/checkout" ? (
           <>
             <section className="hidden md:block h-10 bg-dgrey1">
@@ -446,7 +446,7 @@ function Header() {
               </div>
             </div>
           </div>
-        ))}
+         ))}
     </div>
   );
 }

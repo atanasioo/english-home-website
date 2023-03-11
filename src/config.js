@@ -38,7 +38,7 @@ var config = {};
     "admin-update-product":
       "http://www.englishhome.com.lb/control/admin/index.php?route=catalog/product/update&product_id=",
     facebook: "https://www.facebook.com/EnglishHomeLebanon/",
-    instagram: "https://instagram.com/englishhome.lebanon?igshid=OGQ2MjdiOTE=",
+    instagram: "https://instagram.com/englishhome.lb?igshid=YmMyMTA2M2Y=",
     youtube: "https://www.youtube.com/channel/UCZ9aa_BjFF2oWVEtC4f6PDA",
     twitter: "https://twitter.com/ishtari",
     linkedin: "https://www.linkedin.com/company/ishtari",

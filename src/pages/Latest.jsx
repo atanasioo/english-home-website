@@ -143,7 +143,7 @@ function Latest() {
       {loading ? (
         <Loader />
       ) : (
-        <div className="container">
+        <div className={`${width > 560 && 'container'}`}>
           {showCartmenu && (
             <div ref={wrapperRef} onMouseEnter={() => setHoveredCart(true)}>
               <TopCart cartmenu={showCartmenu} />

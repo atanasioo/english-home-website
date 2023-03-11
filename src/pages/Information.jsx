@@ -78,7 +78,7 @@ function Information() {
         <Loader />
       ) : (
         <div
-          className="text-left"
+          className={`text-left ${window.innerWidth > 650  ? "container pt-10 px-32" : "px-3 pt-6" }`}
           dangerouslySetInnerHTML={{
             __html: unescapeHTML(data.description),
           }}
