@@ -95,7 +95,7 @@ function TopAccount() {
   // console.log(state);
   return (
     <div className="relative">
-      {width > 650 ? (
+      {/* {width > 650 ? ( */}
         <Link
           className="header__user__auth__link"
           onMouseEnter={() => setShowmenu(true)}
@@ -108,7 +108,7 @@ function TopAccount() {
             {state.loged ? <p>Profile</p> : <p>My Account</p>}
           </span>
         </Link>
-      ): (
+      {/* ): (
         <Link
           to={"/login"}
           className="header__user__auth__link"
@@ -120,7 +120,7 @@ function TopAccount() {
             {state.loged ? <p>Profile</p> : <p>My Account</p>}
           </span>
         </Link>
-      )}
+      )} */}
 
       {/* not logged hover div */}
       {showmenu && !state.loged && (

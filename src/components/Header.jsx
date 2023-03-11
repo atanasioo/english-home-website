@@ -63,8 +63,7 @@ function Header() {
     checkCookies();
   }, []);
 
-
-//used infoContext instead
+  //used infoContext instead
   // async function getInfo() {
   //   _axios
   //     .get(buildLink("information", undefined, window.innerWidth))
@@ -93,49 +92,49 @@ function Header() {
 
   return (
     <div className="relative ">
-           {/* Admin Top Bar */}
-           <div
-          className={
-            !state.admin
-              ? "hidden"
-              : 
-              `h-12 px-10 text-white flex items-center ${
-                  (localStorage.getItem("site-local-name") === "energy-plus" ||
-                    window.location.host === "www.energyplus-lb.com") &&
-                  "bg-Energyplus text-dblackk"
-                }`
-          }
-          style={{ background: "#555" }}
-        >
-          <div className="container flex justify-between  items-center">
-            <div className="space-x-10 flex ">
-              <a
-                target="_blank"
-                rel="noreferrer"
-                href={window.config["admin-products-url"] + token}
-              >
-                Products
-              </a>
-              <a
-                target="_blank"
-                rel="noreferrer"
-                href={window.config["admin-orders-url"] + token}
-              >
-                Orders
-              </a>
-            </div>
-            <div> {showMessage && remove() && "Link COPIED"}</div>
-            <div className=" cursor-pointer">
-              <p onClick={copy}>Copy Link</p>
-            </div>
+      {/* Admin Top Bar */}
+      <div
+        className={
+          !state.admin
+            ? "hidden"
+            : `h-12 px-10 text-white flex items-center ${
+                (localStorage.getItem("site-local-name") === "energy-plus" ||
+                  window.location.host === "www.energyplus-lb.com") &&
+                "bg-Energyplus text-dblackk"
+              }`
+        }
+        style={{ background: "#555" }}
+      >
+        <div className="container flex justify-between  items-center">
+          <div className="space-x-10 flex ">
+            <a
+              target="_blank"
+              rel="noreferrer"
+              href={window.config["admin-products-url"] + token}
+            >
+              Products
+            </a>
+            <a
+              target="_blank"
+              rel="noreferrer"
+              href={window.config["admin-orders-url"] + token}
+            >
+              Orders
+            </a>
+          </div>
+          <div> {showMessage && remove() && "Link COPIED"}</div>
+          <div className=" cursor-pointer">
+            <p onClick={copy}>Copy Link</p>
           </div>
         </div>
+      </div>
 
       <div className="hidden">
         <TopAccount />
       </div>
-      { //state?.admin &&
-        (location?.pathname !== "/checkout" ? (
+      {
+        //state?.admin &&
+        location?.pathname !== "/checkout" ? (
           <>
             <section className="hidden md:block h-10 bg-dgrey1">
               <div className="container">
@@ -297,11 +296,11 @@ function Header() {
                                 <span className="align-middle p-0.5 flex justify-center items-center text-d16 font-bold text-dbasenavy uppercase font-mono">
                                   New products
                                 </span>
-                                <img
+                                {/* <img
                                   src="https://akn-eh.b-cdn.net/cms/2022/08/16/e3349520-4cc6-41a0-91db-0a03cafc4a15.png"
                                   alt=""
                                   className="w-8 h-8"
-                                />
+                                /> */}
                               </Link>
                             </li>
                           </div>
@@ -317,8 +316,8 @@ function Header() {
                               to={`${
                                 // state.admin
                                 //   ? path + "/category/" + category.category_id
-                                  // : 
-                                  category.name.length > 0
+                                // :
+                                category.name.length > 0
                                   ? "/" +
                                     category.name
                                       .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
@@ -332,13 +331,16 @@ function Header() {
                               }}
                               className="menu-item--title relative flex items-center uppercase text-d16 font-bold text-dbasenavy text-left font-mono"
                               dangerouslySetInnerHTML={{
-                                __html: category?.name,
+                                __html: category?.name
                               }}
                             ></Link>
-                            <img
+                            {/* <img
                               src="https://akn-eh.b-cdn.net/cms/2022/08/16/e3349520-4cc6-41a0-91db-0a03cafc4a15.png"
                               alt=""
                               className="w-8 h-8"
+                            /> */}
+
+                            <BsChevronRight
                               onClick={() => {
                                 setActiveCategory(category);
                                 setViewLevel2(true);
@@ -360,7 +362,7 @@ function Header() {
                             />
                             <p
                               dangerouslySetInnerHTML={{
-                                __html: activeCategory?.name,
+                                __html: activeCategory?.name
                               }}
                             ></p>
                           </div>
@@ -382,8 +384,8 @@ function Header() {
                                     //   ? path +
                                     //     "/category/" +
                                     //     subcategory.category_id
-                                    //   : 
-                                      subcategory.name.length > 0
+                                    //   :
+                                    subcategory.name.length > 0
                                       ? "/" +
                                         subcategory.name
                                           .replace(
@@ -404,7 +406,7 @@ function Header() {
                                   <span
                                     className="js-menu-subitem--link-text mr-2 uppercase"
                                     dangerouslySetInnerHTML={{
-                                      __html: subcategory?.name,
+                                      __html: subcategory?.name
                                     }}
                                   ></span>
                                   {/* <BsChevronRight className="w-5 h-5" /> */}
@@ -446,7 +448,8 @@ function Header() {
               </div>
             </div>
           </div>
-         ))}
+        )
+      }
     </div>
   );
 }

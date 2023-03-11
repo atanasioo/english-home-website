@@ -71,7 +71,6 @@ function WidgetsLoop({ widget, showCartmenu }) {
   };
   const productSetting = {
     dots: true,
-
     speed: 200,
     slidesToShow: widget?.items?.length < 4 ? widget?.items?.length : 4,
     slidesToScroll: 4,
@@ -99,7 +98,7 @@ function WidgetsLoop({ widget, showCartmenu }) {
   );
 
   return (
-    <div className="container">
+    <div className="container pt-3">
       {widget.display === "slider" && (
         <Slider {...setting}>
           {widget?.items?.map((item, index) =>
@@ -159,7 +158,7 @@ function WidgetsLoop({ widget, showCartmenu }) {
                 if (item.product_id) {
                   return (
                     <div
-                      className=" grid grid-flow-col  p-3"
+                      className=" grid grid-flow-col p-3"
                       key={item.product_id}
                     >
                       <SingleProducts

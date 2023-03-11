@@ -177,7 +177,7 @@ function Login() {
                       </button>
                     </div>
                     <div className="mt-3.5 relative">
-                      <a
+                      {/* <a
                         href="/google/login/"
                         type="submit"
                         className="flex items-center text-center border border-dblue4 h-14 text-dblue4 justify-center "
@@ -190,7 +190,7 @@ function Login() {
                         <span className="text-d16 leading-3 text-center text-dblue4">
                           SIGN IN WITH GOOGLE
                         </span>
-                      </a>
+                      </a> */}
                     </div>
                     
                     <div className="clear hidden overflow-hidden "></div>
