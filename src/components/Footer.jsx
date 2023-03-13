@@ -82,7 +82,6 @@ function Footer() {
                     </div>
                   );
                 })}
-              
               </div>
               <div className="md:ml-12">
                 <div className="text-dbasenavy text-d14 text-left p-3 ">
@@ -139,21 +138,24 @@ function Footer() {
               </div>
             </div>
           </div>
-          <div className="p-2   items-center border-t mt-2">
-                  {" "}
-                  {infoState?.informations?.map(
-                    (i) =>
-                      i.status === "1" && (
-                        <Link
-                          key={i.id}
-                          className="text-dblack2 text-d12 ml-5 leading-10 font-bold hover:underline text-center"
-                          to={`/information/${i.id}`}
-                        >
-                          {i.title}
-                        </Link>
-                      )
-                  )}
-                </div>
+          {window.innerWidth < 650 && (
+            <div className="p-2   items-center border-t mt-2">
+              {" "}
+              {window.innerWidth < 650 &&
+                infoState?.informations?.map(
+                  (i) =>
+                    i.status === "1" && (
+                      <Link
+                        key={i.id}
+                        className="text-dblack2 text-d12 ml-5 leading-10 font-bold hover:underline text-center"
+                        to={`/information/${i.id}`}
+                      >
+                        {i.title}
+                      </Link>
+                    )
+                )}
+            </div>
+          )}
           <div className="bg-dbasenavy h-12  text-white text-d22 text-left px-auto py-1 mt-8">
             <div className="text-center md:text-left ml-8 container font-serif">
               {" "}
