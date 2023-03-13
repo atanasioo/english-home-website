@@ -110,7 +110,7 @@ function Checkout() {
       lastname: lastname.current.value,
       address_1: address_1.current.value,
       address_2: address_2.current.value,
-      email: email.current.value ?  email.current.value : '' ,
+      // email: email.current.value ?  email.current.value : '' ,
       telephone: window.config["countryCode"] + telephone.current.value,
       zone_id: zone_id.current.value,
       town_id: 0,
@@ -543,6 +543,8 @@ function Checkout() {
             setAddresstab(false);
             setPaymenttab(true);
             setPaymentMeth("Cash On Delivery");
+          }else{
+
           }
         } else {
           manualErrors.current = "";
