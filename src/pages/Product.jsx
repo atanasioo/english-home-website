@@ -68,8 +68,10 @@ function Product() {
   const location = useLocation();
   let product_id = useParams().id;
   const navigate = useNavigate();
-  const [quantity, setQuantity] = useState(1);
+  // const [quantity, setQuantity] = useState(1);
   const wrapperRef = useRef(null);
+  const quantityRef = useRef();
+
   useOutsideAlerter(wrapperRef);
 
   const productSetting = {
@@ -112,6 +114,8 @@ function Product() {
   }
 
   useEffect(() => {
+    // setQuantity(1)
+    quantityRef.current.value= 1
     window.scrollTo(
       {
         top: 0
@@ -155,15 +159,17 @@ function Product() {
   }, [location]);
 
   function incrementQuantity(quantity) {
-    const newquantity = quantity + 1;
-    setQuantity(newquantity);
+    // const newquantity = quantity + 1;
+    quantityRef.current.value = parseInt(quantityRef.current.value) + 1
+    // setQuantity(newquantity);
   }
   function decrementQuantity(quantity) {
-    if (quantity == 1) {
-      setQuantity(1);
+    if ( quantityRef.current.value  <= 1) {
+      quantityRef.current.value =1
     } else {
-      const newquantity = quantity - 1;
-      setQuantity(newquantity);
+      quantityRef.current.value = parseInt(quantityRef.current.value) - 1
+
+      // setQuantity(newquantity);
     }
   }
 
@@ -196,9 +202,10 @@ function Product() {
 
     setHasAddToCartError(false);
     setAddingToCart(true);
+    const quantity =   quantityRef?.current?.value
     let obj = {
-      product_id,
-      quantity
+      product_id,   quantity
+    
     };
     if (hasOption) {
       let o = {};
@@ -907,11 +914,12 @@ function Product() {
               {width > 650 ? (
                 <div className="flex  my-3">
                   <div className="w-3/12 flex flex-wrap align-middle text-center pt-3 text-d22 font-bold text-dborderblack2 pr-3 items-center">
-                    <button onClick={() => decrementQuantity(quantity)}>
+                    <button onClick={() => decrementQuantity()}>
                       <span className="w-3/12">-</span>
                     </button>
-                    <span className="w-6/12 text-center ">{quantity}</span>
-                    <button onClick={() => incrementQuantity(quantity)}>
+                    <input  className="w-6/12 text-center mx-2" ref={quantityRef} />
+                    {/* <span className="w-6/12 text-center ">{quantity}</span> */}
+                    <button onClick={() => incrementQuantity()}>
                       <span className="w-3/12">+</span>
                     </button>
                   </div>
@@ -949,11 +957,11 @@ function Product() {
               ) : (
                 <div className="w-full fixed -bottom-1 left-0 text-center z-10 flex items-center overflow-x-hidden">
                   <div className="w-1/3 flex  align-middle text-center py-3 mb-1 text-d22 font-bold text-dborderblack2 px-3 items-center bg-dwhite1 justify-center">
-                    <button onClick={() => decrementQuantity(quantity)}>
+                    <button onClick={() => decrementQuantity()}>
                       <span className="w-3/12">-</span>
                     </button>
-                    <span className="w-6/12 text-center ">{quantity}</span>
-                    <button onClick={() => incrementQuantity(quantity)}>
+                    <span className="w-6/12 text-center ">{quantityRef}</span>
+                    <button onClick={() => incrementQuantity()}>
                       <span className="w-3/12">+</span>
                     </button>
                   </div>

@@ -51,6 +51,7 @@ function TopSearch() {
   }
 
   function navigateSearch(e) {
+ 
     if (e.keyCode === 13) {
       const query = e.target.value;
       setQuery("");
@@ -58,7 +59,14 @@ function TopSearch() {
       navigate("/search" + "?keyword=" + query)
     }
   }
-
+  function navigateclickSearch(e) {
+ 
+    setQuery("");
+    setLoading(false);
+    navigate("/search?keyword=" + wrapperRef.current.value)
+  
+  
+}
   function handleSearchResults() {
     const input = document.getElementById("top_search_input").value;
     if (input === "") {
@@ -147,7 +155,7 @@ function TopSearch() {
         value={query}
         />
         <button className="w-10 h-9  text-center flex justify-center items-center text-d15 bg-dbasenavy md:bg-dgrey9" 
-        style={{minWidth: "30px"}}>
+        style={{minWidth: "30px"}} onClick={(e)=>{navigateclickSearch(e)}}>
             <BsSearch className="text-dwhite1 text-d18 md:text-d22"/>
         </button>
         {results.length > 0 && viewResults && (

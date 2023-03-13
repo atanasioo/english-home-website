@@ -174,6 +174,10 @@ module.exports = {
         dred4: {
           DEFAULT: "#b60000"  //for errors
         },
+        dred5: {
+           DEFAULT:'#ffd6d6'
+
+        },
         dblue1: {
           DEFAULT: "#4688d7"
         },

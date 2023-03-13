@@ -7,17 +7,18 @@ import {
   FaFacebookF,
   FaInstagram,
   FaTwitter,
-  FaYoutube,
+  FaYoutube
 } from "react-icons/fa";
 import supportImage from "../assets/images/online-support.png";
 import { useContext } from "react";
 import { AccountContext } from "../contexts/AccountContext";
 import { Link } from "react-router-dom";
-
+import { InformationContext } from "../contexts/InformationContext";
 
 function Footer() {
   const [data, setData] = useState("");
   const [state, dispatch] = useContext(AccountContext);
+  const infoState = useContext(InformationContext);
 
   async function getFooter() {
     const footer = await _axios.get(
@@ -31,7 +32,7 @@ function Footer() {
 
   return (
     <div className="overflow-hidden">
-      {1===1 && (
+      {1 === 1 && (
         <>
           <div className="border-t-2 "></div>
           <div className="container">
@@ -48,20 +49,30 @@ function Footer() {
                       className="mt-2 mb-3 mx-2 flex flex-col justify-center"
                     >
                       <Link
-                         to={`${cat.name.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
-                         .replace(/\s+/g, "-")
-                         .replace("/", "-")
-                         .replace("%", "") +'/c='+ cat.category_id }`}
+                        to={`${
+                          cat.name
+                            .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                            .replace(/\s+/g, "-")
+                            .replace("/", "-")
+                            .replace("%", "") +
+                          "/c=" +
+                          cat.category_id
+                        }`}
                         className="text-d18 font-medium text-dbasenavy text-center md:text-left  pb-3 uppercase"
                         dangerouslySetInnerHTML={{ __html: cat.name }}
                       ></Link>
                       {cat?.data?.map((sub) => {
                         return (
                           <Link
-                            to={`${sub.name.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
-                            .replace(/\s+/g, "-")
-                            .replace("/", "-")
-                            .replace("%", "") +'/c='+ sub.category_id }`}
+                            to={`${
+                              sub.name
+                                .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                                .replace(/\s+/g, "-")
+                                .replace("/", "-")
+                                .replace("%", "") +
+                              "/c=" +
+                              sub.category_id
+                            }`}
                             className="text-d15 font-light text-center md:text-left  leading-relaxed text-dbgrey6 cursor-pointer text-dgrey6 hover:text-dblue1 hover:underline transition-all"
                             dangerouslySetInnerHTML={{ __html: sub.name }}
                             key={sub.category_id}
@@ -71,6 +82,7 @@ function Footer() {
                     </div>
                   );
                 })}
+              
               </div>
               <div className="md:ml-12">
                 <div className="text-dbasenavy text-d14 text-left p-3 ">
@@ -80,14 +92,14 @@ function Footer() {
                 <div className="flex w-full place-content-center mx-5 ">
                   <div className="md:border-2 rounded-full  md:border-dbasenavy p-2 text-d25 mx-1 cursor-pointer">
                     {" "}
-                    <a href={window.config['facebook']}>
-                    <FaFacebookF className="w-4 h-4 md:w-6 md:h-6" />
+                    <a href={window.config["facebook"]}>
+                      <FaFacebookF className="w-4 h-4 md:w-6 md:h-6" />
                     </a>
                   </div>
                   <div className="md:border-2 rounded-full  md:border-dbasenavy p-2 text-d25  mx-1 cursor-pointer">
-                  <a href={window.config['instagram']}>
-                    <FaInstagram className="w-4 h-4 md:w-6 md:h-6" />
-                  </a>  
+                    <a href={window.config["instagram"]}>
+                      <FaInstagram className="w-4 h-4 md:w-6 md:h-6" />
+                    </a>
                   </div>
                   {/* <div className="md:border-2 rounded-full  md:border-dbasenavy p-2 text-d25 mx-1 cursor-pointer">
                     {" "}
@@ -119,14 +131,29 @@ function Footer() {
                     <span className="w-full flex place-content-center leading-snug">
                       <img src={supportImage} alt="22" className="w-16 " />
                     </span>
-                    <span  className="w-full flex place-content-center text-d22 font-bold pt-3">
-                    {window.config["supportNumber"]}
+                    <span className="w-full flex place-content-center text-d22 font-bold pt-3">
+                      {window.config["supportNumber"]}
                     </span>{" "}
                   </div>
                 </div>
               </div>
             </div>
           </div>
+          <div className="p-2   items-center border-t mt-2">
+                  {" "}
+                  {infoState?.informations?.map(
+                    (i) =>
+                      i.status === "1" && (
+                        <Link
+                          key={i.id}
+                          className="text-dblack2 text-d12 ml-5 leading-10 font-bold hover:underline text-center"
+                          to={`/information/${i.id}`}
+                        >
+                          {i.title}
+                        </Link>
+                      )
+                  )}
+                </div>
           <div className="bg-dbasenavy h-12  text-white text-d22 text-left px-auto py-1 mt-8">
             <div className="text-center md:text-left ml-8 container font-serif">
               {" "}

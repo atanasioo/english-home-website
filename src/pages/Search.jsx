@@ -25,7 +25,7 @@ function Search() {
   const [data, setData] = useState({});
   const [noData, setNoData] = useState("");
   const [filters, setFilters] = useState([]);
-  const [view, setView] = useState(3);
+  const [view, setView] = useState(4);
   const [sort, setSort] = useState("Default");
   const [loading, setLoading] = useState(true);
   const parsedQueryString = queryString.parse(location.search);
@@ -204,9 +204,9 @@ function Search() {
                 onClick={() => setShowMobileFilter(false)}
               ></div>
               <div className="popup fixed  bg-dwhite1 top-1/2 h-2/3 w-4/5 z-30 left-1/2 -translate-x-1/2 -translate-y-1/2 overflow-y-scroll">
-                <div className="text-left text-d18 bg-dbeige h-11 py-1.5 pl-2 font-bold">
+                {/* <div className="text-left text-d18 bg-dbeige h-11 py-1.5 pl-2 font-bold">
                   Filter{" "}
-                </div>
+                </div> */}
                 <div className="filter_container p-4">
                   {filters?.map((filter) => (
                     <div className="text-d14 text-left p-3.5 bg-dhwite1 border border-dgrey5 font-mono text-dblack2 mb-3.5 relative uppercase">
@@ -407,15 +407,16 @@ function Search() {
                           className="filter-btn w-1/2 font-mono text-d14 text-dblack2 px-2.5 text-center border-r border-dgrey3"
                           onClick={() => setShowMobileFilter(true)}
                         >
-                          <p>Filter</p>
+                        {/* omar */}
+                          {/* <p>Filter</p> */}
                           <p></p>
                         </div>
-                        <div
+                        {/* <div
                           onClick={() => removeFilters()}
                           className="text-d13  text-center w-1/2  whitespace-nowrap  underline text-dborderblack0 cursor-pointer"
                         >
                           Remove All Filters
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   </div>
@@ -436,19 +437,19 @@ function Search() {
                       </span>
                     </div>
                   </div>
-                  <div
+                  {/* <div
                     onClick={() => removeFilters()}
                     className="hidden md:block border border-dgrey5 bg-dwhite1 text-d15 py-1 px-5 text-center ml-2.5 -mr-1 rounded-3xl uppercase text-dborderblack0 cursor-pointer"
                   >
                     Remove Filters
-                  </div>
+                  </div> */}
                   <Link className="hidden border border-dgrey5 bg-dwhite1 text-d15 py-1 px-5 text-center ml-2.5 -mr-1 rounded-3xl uppercase text-dborderblack0"></Link>
                   <div className="hidden"></div>
                 </div>
               </div>
             </div>
             <div className="pb-6 -mx-1 mt-3 flex justify-between">
-              {width !== 650 && (
+              {(width > 650 && 1 !== 1 )&& (
                 <div className="inline-block ">
                   <div className="pb-12 w-48">
                     <div className="category-tree">
@@ -551,7 +552,7 @@ function Search() {
                 </div>
               )}
 
-              <div className="w-full md:w-3/4">
+              <div className="w-full md:w-full">
                 <div className="border-b border-dgrey3 h-10 hidden md:block">
                   <div className="w-full container ">
                     <div className="content__actions__select-box hidden mr-8 md:flex md:items-center md:justify-between">

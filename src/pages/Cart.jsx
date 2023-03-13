@@ -15,6 +15,9 @@ function Cart() {
   const [cart, setCart] = useState([]);
   const [info, setInfo] = useState([]);
   const [opacity, setOpacity] = useState(false);
+
+  const [error, setError] = useState([]);
+
   const [state, dispatch] = useContext(CartContext);
   const [stateW, dispatchW] = useContext(WishlistContext);
   const [stateAccount, dispatchAccount] = useContext(AccountContext);
@@ -40,7 +43,6 @@ function Cart() {
         .get(buildLink("cart", undefined, window.innerWidth))
         .then((response) => {
           // console.log("response"+response.data.success)
-
           if (response.data.success) {
             dispatch({
               type: "setProducts",
@@ -60,6 +62,8 @@ function Cart() {
               payload: false,
             });
           }
+          // console.log("response"+response.data.success)
+setError(response?.data?.errors[0])
           //setLoading(false);
         });
     }
@@ -113,6 +117,8 @@ function Cart() {
           _axios
             .get(buildLink("cart", undefined, window.innerWidth))
             .then((response) => {
+              setError(response?.data?.errors[0])
+
               dispatch({
                 type: "setProducts",
                 payload:
@@ -171,6 +177,8 @@ function Cart() {
         _axios
           .get(buildLink("cart", undefined, window.innerWidth))
           .then((response) => {
+            setError(response?.data?.errors[0])
+
             dispatch({
               type: "setProducts",
               payload:
@@ -300,15 +308,16 @@ function Cart() {
   return (
     <div>
       <div
-        className="checkout-viewport bg-dgrey10"
+        className={` checkout-viewport bg-dgrey10 ${width > 650 && 'container'}`}
         style={{ minHeight: "700px" }}
       >
         <div className="hidden"></div>
         <div className="hidden"></div>
         <div className="basket-upsell-wrapper"></div>
         <div className="basket pb-24 ">
-          <div className="mx-4 md:mx-auto md:container">
-            {state?.products.length > 0 ? (
+          <div className="">
+            <div></div>
+            {state?.products?.length > 0 ? (
               <div className="w-full pt-6 flex flex-col md:flex-row">
                 {/* product list */}
                 <div className="w-full md:w-2/3 mr-6">
@@ -323,17 +332,19 @@ function Cart() {
                       {count?.data?.nb_of_products} Products
                     </p>
                   </div>
-                  <div className="border border-dgrey5 py-5 px-7">
+                  <div className="border border-dgrey5 py-5 ">
+                    <div>{error.errorMsg}</div>
                     <div className="basket-items">
                       {state?.products?.map((product, i) => (
+                        <div className={`${product?.stock_qty < product.quantity && "bg-dred5 border-2 p-4"}`}>
                         <div
-                          className={`pb-5 flex flex-col xs:flex-row justify-between items-center  ${
-                            i !== 0 ? "border-t border-dgrey5 pt-5" : ""
-                          }`}
+                          className={` flex flex-col xs:flex-row justify-between items-center  ${
+                            i !== 0 ? "border-t border-dgrey5 " : "" 
+                          }  `}
                           key={product?.product_id}
                         >
                           {/* <div> */}
-                          <div className="product-image w-28 h-28  flex-shrink-0 border border-dgrey4 mb-10 overflow-hidden">
+                          <div className={`product-image w-28 h-28  flex-shrink-0 border border-dgrey4 mb-10 overflow-hidden `}>
                             <Link
                               to={`${path}/${product?.name
                                 .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
@@ -448,6 +459,7 @@ function Cart() {
                             </button>
                           </div>
                           {/* </div> */}
+                        </div>
                         </div>
                       ))}
                     </div>

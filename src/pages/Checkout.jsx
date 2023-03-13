@@ -110,10 +110,10 @@ function Checkout() {
       lastname: lastname.current.value,
       address_1: address_1.current.value,
       address_2: address_2.current.value,
+      email: email.current.value ?  email.current.value : '' ,
       telephone: window.config["countryCode"] + telephone.current.value,
       zone_id: zone_id.current.value,
       town_id: 0,
-
       country_id,
       city,
       postcode
@@ -413,10 +413,9 @@ function Checkout() {
         setPaymenttab(true);
       }
     } else {
-      console.log("hii");
+      // console.log("hii");
       btn.disabled = false;
-      console.log(addrInfo);
-      console.log(firstname.current.value);
+
       manual(manualCart, zone, paymentMeth, false);
     }
   }
@@ -492,7 +491,7 @@ function Checkout() {
         customer_id: customerId,
         firstname: stateAccount.loged ? activeAddress.firstname : addrInfo.fn,
         lastname: stateAccount.loged ? activeAddress.lastname : addrInfo.ln,
-        email: email.current?.value || "",
+        email: addrInfo.em ,
         address_1: stateAccount.loged
           ? activeAddress.address_1
           : addrInfo.addr1,
@@ -563,6 +562,7 @@ function Checkout() {
     setAddrInfo({
       addr1: address_1.current.value,
       addr2: address_2.current.value,
+      em: email.current.value,
       fn: firstname.current.value,
       ln: lastname.current.value,
       tel: telephone.current.value,
@@ -694,18 +694,18 @@ function Checkout() {
               <div className="address-modal__title py-2.5 px-5 -mx-5 text-d16 border-b border-dgrey3 flex justify-between items-center">
                 <p>Address Update</p>
                 <div className="py-1 text-d12">
-                  <label htmlFor="" className="ml-2">
+                  {/* <label htmlFor="" className="ml-2">
                     <input type="radio" name="" id="" defaultChecked />
                     <span className="ml-1">Individual</span>
                   </label>
                   <label htmlFor="" className="ml-2">
                     <input type="radio" name="" id="" />
                     <span className="ml-1">Institutional</span>
-                  </label>
+                  </label> */}
                 </div>
               </div>
               <div className="-mx-5 border border-b border-dgrey3"></div>
-              {error && <div className="text-dred4 text-sm">{error}</div>}
+              {error && <div className="text-dred4 text-d14 mt-2">{error}</div>}
               <div className="title flex flex-col items-start">
                 <label htmlFor="title" className="w-full mt-2.5">
                   Address *
@@ -1222,6 +1222,23 @@ function Checkout() {
                                     </select>
                                   </div>
                                 </div>
+                                <div className="w-full mt-2">
+                                    <label
+                                      htmlFor=""
+                                      className="w-full top-2.5 "
+                                    >
+                                      Email
+                                    </label>
+                                    <input
+                                      type="email"
+                                      name="Email"
+                                      ref={email}
+                                 
+                                      className="w-full address-modal__input"
+                                      // defaultValue={`${email}`}
+                                      onChange={() => handleInputs()}
+                                    />
+                                  </div>
                                 <div className="address mt-2 flex flex-col pb-1">
                                   <label htmlFor="address">
                                     More Address Details *
@@ -1337,7 +1354,7 @@ function Checkout() {
                                     type="checkbox"
                                     onClick={()=>setTermCondition(!termCondition)}
                                     value="1"
-                                    className="p-8 m-1"
+                                    className="m-1"
                                     required
                                   />{" "}
                                   I have read and accept the Membership
@@ -1421,11 +1438,11 @@ function Checkout() {
                         </span>
                       </div>
                       <div className="checkout-summary-items table w-full">
-                        <div className="summary-items-wrapper h-48 overflow-y-auto mt-5">
+                        <div className="summary-items-wrapper h-auto overflow-y-auto mt-5">
                           <div className="summary-items">
                             {state?.products?.map((product) => (
                               <div
-                                className="summary-product-item flex items-center mb-2.5"
+                                className={`summary-product-item flex items-center mb-2.5 ${product?.stock_qty < product.quantity && "bg-dred5 border-2 p-4"}`}
                                 key={product?.product_id}
                               >
                                 <div className="summary-product-item-image w-20 mb-2.5 table-cell align-top pr-1">
