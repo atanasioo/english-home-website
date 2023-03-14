@@ -48,9 +48,9 @@ function TopWishlist() {
       to={"/account/wishlist"}
       className="cursor-pointer">
         <div className="h-9 w-6 md:w-10 leading-8 mx-auto lg:border lg:border-dblue1 text-dbasenavy lg:text-dblue1 hover:text-dwhite1 hover:bg-dblue1 flex justify-center items-center mb-1">
-          <SlHeart className="h-5 w-5 md:h-6 md:w-6 " />
+          <SlHeart className="h-5 w-5 lg:h-6 lg:w-6 " />
         </div>
-        <span className="header__icons-text whitespace-nowrap hidden md:block mt-1.5 text-d11">
+        <span className="header__icons-text whitespace-nowrap hidden md:block mt-1.5 text-d8 font-semibold lg:font-normal lg:text-d11">
           <p>Favorites</p>
         </span>
       </Link>

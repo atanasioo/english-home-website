@@ -50,6 +50,7 @@ module.exports = {
         d24: "24px",
         d25: "25px",
         d27: "27px",
+        d9: "10px",
 
         dh3: "1.3rem",
         d6: "6px",

@@ -169,12 +169,12 @@ function Header() {
               </div>
             </section>
             <div
-              className="header__action  md:pt-6 bg-dwhite1 md:container"
+              className="header__action  md:pt-6 bg-dwhite1 lg:container"
               style={{ height: "85px" }}
             >
               <div className="md:container header__action-container relative mt-2.5 ">
                 <div className="back-bar hidden"></div>
-                {width > 650 ? (
+                {width > 767 ? (
                   <>
                     <div className="header__logo float-left md:flex md:items-center lg:block">
                       <div className="md:block lg:hidden m-menu-opener-wrapper">
@@ -187,24 +187,24 @@ function Header() {
                         <Link className=""></Link>
                       </div>
                       <Link to={"/"} className="md:text-d30 ">
-                        <span className="icon-logo text-xl md:text-2xl lg:text-4xl font-serif text-dbasenavy md:text-dblack1">
+                        <span className="icon-logo text-xl md:text-2xl lg:text-4xl font-serif text-dbasenavy md:text-dblack1 whitespace-nowrap">
                           ENGLISH HOME
                         </span>
                       </Link>
                     </div>
                     <div className="header__icons float-right flex ml-2">
                       <TopWishlist />
-                      <div className="header__user inline-block relative cursor-pointer ml-2">
+                      <div className="header__user inline-block relative cursor-pointer ml-0.5 lg:ml-2">
                         <TopAccount />
                       </div>
-                      <div className="header__icons-basket float-right cursor-pointer ml-2">
+                      <div className="header__icons-basket float-right cursor-pointer ml-0.5 mt-0.5 lg:mt-0 lg:ml-2">
                         <div className="relative">
                           <TopCart />
                         </div>
                       </div>
                     </div>
                     <div className="clearfix hidden"></div>
-                    <div className="header__search search-wrapper md:float-left ml-16">
+                    <div className="header__search search-wrapper xl:float-left ml-16">
                       <TopSearch />
                     </div>
                   </>
@@ -439,12 +439,7 @@ function Header() {
                 >
                   ENGLISH HOME
                 </Link>
-                <div className="checkout-header-tel pt-5 hidden md:block">
-                  <p className="text-d18 font-light text-dborderblack0">
-                    {" "}
-                    tel nb{" "}
-                  </p>
-                </div>
+                
               </div>
             </div>
           </div>

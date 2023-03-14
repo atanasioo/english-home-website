@@ -139,8 +139,8 @@ function TopSearch() {
   return(
      <div className="flex items-center mt-2.5 mx-2.5 md:mx-0">
         <input type="text" name="search_text" id="top_search_input"
-        className="h-9 text-dblack2 pl-4 w-4500 md:w-64 lg:w-4500  relative z-10 border-2 border-dbasenavy md:border  md:border-dbordergrey4 outline-none rounded-none "  
-        style={{width: "450px"}} 
+        className="h-9 text-dblack2  md:mt-2.5 md:ml-5  xl:mt-0 pl-4 w-full md:w-64 lg:w-96 lg:ml-4 xl:ml-0 xl:w-4500  relative z-10 border-2 border-dbasenavy md:border  md:border-dbordergrey4 outline-none rounded-none "  
+       
         placeholder="What are you looking for?"
         onChange={(e) => {
             setQuery(e.target.value);
@@ -154,7 +154,7 @@ function TopSearch() {
         ref={wrapperRef}
         value={query}
         />
-        <button className="w-10 h-9  text-center flex justify-center items-center text-d15 bg-dbasenavy md:bg-dgrey9" 
+        <button className="w-10 h-9 md:mt-2.5 xl:mt-0 text-center flex justify-center items-center text-d15 bg-dbasenavy md:bg-dgrey9" 
         style={{minWidth: "30px"}} onClick={(e)=>{navigateclickSearch(e)}}>
             <BsSearch className="text-dwhite1 text-d18 md:text-d22"/>
         </button>

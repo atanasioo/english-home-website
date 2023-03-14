@@ -1574,7 +1574,7 @@ function Product() {
                     {productData.smallest_cat_products.map((item) => (
                       <div>
                         {" "}
-                        <SingleProducts item={item}></SingleProducts>
+                        <SingleProducts item={item} showCartmenuMob={showCart}></SingleProducts>
                       </div>
                     ))}
                   </Slider>
@@ -1584,7 +1584,7 @@ function Product() {
                       {productData.smallest_cat_products.map((item) => (
                         <div className="px-1.5">
                           {" "}
-                          <SingleProducts item={item}></SingleProducts>
+                          <SingleProducts item={item} showCartmenu={showCart}></SingleProducts>
                         </div>
                       ))}
                     </Slider>
@@ -1640,7 +1640,7 @@ function Product() {
                     {productData?.product_recentlyViewed?.map((item) => {
                       return (
                         <div className="pr-2" key={item.product_id}>
-                          <SingleProducts item={item} />
+                          <SingleProducts item={item} showCartmenuMob={showCart}/>
                         </div>
                       );
                     })}
@@ -1650,7 +1650,7 @@ function Product() {
                     {productData?.product_recentlyViewed?.map((item) => {
                       return (
                         <div className="pr-2" key={item.product_id}>
-                          <SingleProducts item={item} />
+                          <SingleProducts item={item} showCartmenu={showCart}/>
                         </div>
                       );
                     })}

@@ -164,9 +164,9 @@ function TopCart(props) {
                 <span className="absolute -top-0.5 md:-top-1 lg:-top-2 -left-1.5 w-4 h-4 leading-4 bg-dbasenavy md:bg-dblue1 text-dwhite1 text-center rounded-full text-d11 font-bold ">
                   {state?.productsCount}
                 </span>
-                <BsCart3 className="h-5 w-5 md:h-6 md:w-6" />
+                <BsCart3 className="h-5 w-5 lg:h-6 lg:w-6" />
               </div>
-              <div className=" text-d11 whitespace-nowrap hidden md:block">
+              <div className="text-d8 font-semibold lg:font-normal lg:text-d11 whitespace-nowrap hidden md:block">
                 My cart
               </div>
             </div>

@@ -35,11 +35,12 @@ function Checkout() {
   const [addrInfo, setAddrInfo] = useState({
     addr1: "",
     addr2: "",
+    em: "",
     tel: "",
     zn: "",
     znId: "",
     fn: "",
-    ln: ""
+    ln: "",
   });
   const [loged, setloged] = useState();
   const [accountData, setAccountData] = useState([]);
@@ -50,9 +51,9 @@ function Checkout() {
   const cid = localStorage.getItem("cid");
   const town = useRef({
     id: 0,
-    name: ""
+    name: "",
   });
-  const [termCondition, setTermCondition] = useState()
+  const [termCondition, setTermCondition] = useState();
 
   //user details
   const firstname = useRef("");
@@ -72,7 +73,7 @@ function Checkout() {
 
   const zone = useRef({
     id: window.config["initial-zone"].id,
-    name: window.config["initial-zone"].name
+    name: window.config["initial-zone"].name,
   });
 
   const [confirmDisable, setConfirmDisalbe] = useState(false);
@@ -92,15 +93,21 @@ function Checkout() {
           if (response.data.success) {
             setAddresses(response.data.data);
             setActiveAddress(response.data.data[0]);
+          }else{
+            getZones();
+            setAddressmenu(true);
           }
         } else {
           dispatchAccount({ type: "setLoading", payload: false });
+         
           if (!stateAccount.loged) {
             navigate("/");
           }
         }
       });
   }, [dispatchAccount, stateAccount.loged]);
+
+
 
   // Add Address
   function addAddress(e) {
@@ -116,7 +123,7 @@ function Checkout() {
       town_id: 0,
       country_id,
       city,
-      postcode
+      postcode,
     };
     setphoneValidate("");
     if (window.config["zone"] === "82" && telephone.current.value.length < 11) {
@@ -200,9 +207,8 @@ function Checkout() {
                 content_type: "product",
                 content_ids: productArray !== undefined && productArray,
                 num_items: data.data.products.length,
-                currency: "USD",          
+                currency: "USD",
                 event_id: data?.social_data?.event_id,
-
               });
             }
           }
@@ -242,20 +248,20 @@ function Checkout() {
 
         dispatch({
           type: "setProducts",
-          payload: response.data.data.products
+          payload: response.data.data.products,
         });
 
         dispatch({
           type: "setProductsCount",
-          payload: response.data.data.total_product_count
+          payload: response.data.data.total_product_count,
         });
         dispatch({
           type: "setTotals",
-          payload: response.data.data.totals
+          payload: response.data.data.totals,
         });
         dispatch({
           type: "loading",
-          payload: false
+          payload: false,
         });
       });
   }
@@ -341,7 +347,7 @@ function Checkout() {
     setActiveAddress(address);
     const obj = {
       name: address.zone,
-      value: address.zone_id
+      value: address.zone_id,
     };
     zone.current.name = address.zone;
     zone.current.id = address.zone_id;
@@ -385,6 +391,7 @@ function Checkout() {
                 //   pathname: "/account/address/add",
                 //   search: "from-checkout=true"
                 // });
+                getCart();
               } else {
                 zone.current.name = response.data.data[0].city;
                 zone.current.id = response.data.data[0].zone_id;
@@ -413,7 +420,7 @@ function Checkout() {
         setPaymenttab(true);
       }
     } else {
-      // console.log("hii");
+
       btn.disabled = false;
 
       manual(manualCart, zone, paymentMeth, false);
@@ -426,7 +433,7 @@ function Checkout() {
     const sel = e.target;
     const obj = {
       name: sel.options[sel.selectedIndex].text,
-      value: sel.value
+      value: sel.value,
     };
     zone.current.id = sel.value;
     zone.current.name = sel.options[sel.selectedIndex].text;
@@ -473,17 +480,29 @@ function Checkout() {
         comment: "",
         country_id: window.config["zone"],
         payment_session: "",
-        zone_id: stateAccount.loged ? activeAddress.zone_id : zone.current.id,
-        zone: stateAccount.loged ? activeAddress.zone : zone.current.name,
-        town_id: stateAccount.loged ? activeAddress.town_id : town.current.id,
-        town: stateAccount.loged ? activeAddress.town_name : town.current.name,
+        zone_id:
+          stateAccount.loged && activeAddress.length > 0
+            ? activeAddress.zone_id
+            : zone.current.id,
+        zone:
+          stateAccount.loged && activeAddress.length > 0
+            ? activeAddress.zone
+            : zone.current.name,
+        town_id:
+          stateAccount.loged && activeAddress.length > 0
+            ? activeAddress.town_id
+            : town.current.id,
+        town:
+          stateAccount.loged && activeAddress.length > 0
+            ? activeAddress.town_name
+            : town.current.name,
         is_web: true,
         //   Cookies.get("change") === "false" || Cookies.get("change") === false
         //     ? false
         //     : true,
         source_id: 1,
         coupon: "",
-        code_version: window.innerWidth > 600 ? "web_desktop" : "web_mobile"
+        code_version: window.innerWidth > 600 ? "web_desktop" : "web_mobile",
       };
     } else {
       body = {
@@ -491,7 +510,7 @@ function Checkout() {
         customer_id: customerId,
         firstname: stateAccount.loged ? activeAddress.firstname : addrInfo.fn,
         lastname: stateAccount.loged ? activeAddress.lastname : addrInfo.ln,
-        email: addrInfo.em ,
+        email: addrInfo.em || "",
         address_1: stateAccount.loged
           ? activeAddress.address_1
           : addrInfo.addr1,
@@ -520,7 +539,7 @@ function Checkout() {
         payment_session: manualResponse.payment_session,
         source_id: 1,
         coupon: coupon?.current?.value || "",
-        code_version: window.innerWidth > 600 ? "web_desktop" : "web_mobile"
+        code_version: window.innerWidth > 600 ? "web_desktop" : "web_mobile",
       };
       const adminId = Cookies.get("user_id");
       if (typeof adminId != "undefined") {
@@ -543,8 +562,7 @@ function Checkout() {
             setAddresstab(false);
             setPaymenttab(true);
             setPaymentMeth("Cash On Delivery");
-          }else{
-
+          } else {
           }
         } else {
           manualErrors.current = "";
@@ -560,6 +578,8 @@ function Checkout() {
     // }
   }
 
+
+
   function handleInputs() {
     setAddrInfo({
       addr1: address_1.current.value,
@@ -569,7 +589,7 @@ function Checkout() {
       ln: lastname.current.value,
       tel: telephone.current.value,
       zn: zone.current.name,
-      znId: zone_id.current.value
+      znId: zone_id.current.value,
     });
   }
 
@@ -597,8 +617,7 @@ function Checkout() {
     _axios.get(url).then((response) => {
       const data = response.data;
       if (data.success) {
-        if(!stateAccount.admin){
-
+        if (!stateAccount.admin) {
           ReactPixel.init(pixelID, {}, { debug: true, autoConfig: false });
           ReactPixel.pageView();
           ReactPixel.fbq("track", "PageView");
@@ -609,7 +628,7 @@ function Checkout() {
               value: data?.data?.social_data?.value,
               num_items: data?.data?.social_data?.num_items,
               event_id: data?.social_data?.event_id,
-              currency: "USD"
+              currency: "USD",
             });
           }
         }
@@ -628,7 +647,7 @@ function Checkout() {
   function setCoupon() {
     const obj = {
       name: zone.current.name,
-      value: zone.current.id
+      value: zone.current.id,
     };
     if (coupon.current.value.length > 1) {
       manual(manualCart, obj, activePaymentMethod, false);
@@ -673,6 +692,46 @@ function Checkout() {
         }
       });
   }
+
+  // Update quantity
+  function updateQuantity(e, key, quantity) {
+
+    e.preventDefault();
+    setLoading(true);
+    const obj = { key, quantity };
+    _axios
+      .put(buildLink("cart", undefined, window.innerWidth), obj)
+      .then(() => {
+        getCart();
+      });
+  }
+
+  function handleChangeQuantity(e, key, i) {
+    if (document.getElementById("p-quantity" + i)) {
+      document.getElementById("p-quantity" + i).value = e.target.value;
+
+    }
+    if (e.keyCode === 13) {
+      let quantity = e.target.value;
+      const obj = { key, quantity };
+ 
+      dispatch({
+        type: "loading",
+        payload: true,
+      });
+      _axios
+        .put(buildLink("cart", undefined, window.innerWidth), obj)
+        .then(() => {
+          getCart();
+
+          e.target.blur();
+ 
+        });
+    }
+  }
+
+
+
 
   return (
     <div>
@@ -857,44 +916,67 @@ function Checkout() {
             >
               <div className="py-10 ">
                 <div className="container">
-                  <div className="w-80 top-36 h-auto bg-dwhite1 relative overflow-hidden mx-auto z-50 ">
-                    <GrClose
-                      className="w-4 h-4 absolute top-2.5 right-2.5 cursor-pointer"
-                      onClick={() => setDeletemenu(false)}
-                    />
-                    <div className="border-b border-dgrey7 py-5 mb-7 leading-5">
-                      <span className="title inline-block align-middle text-center w-full text-lg font-semibold">
-                        WARNING
-                      </span>
-                    </div>
-                    <div className="h-auto inline-block w-full relative overflow-x-hidden">
-                      <div
-                        className="mb-3.5 text-center px-5 text-sm"
-                        style={{ minHeight: "35px" }}
-                      >
-                        Are you sure you want to delete the address?
+                  {addresses.length > 1 ? (
+                    <div className="w-80 top-36 h-auto bg-dwhite1 relative overflow-hidden mx-auto z-50 ">
+                      <GrClose
+                        className="w-4 h-4 absolute top-2.5 right-2.5 cursor-pointer"
+                        onClick={() => setDeletemenu(false)}
+                      />
+                      <div className="border-b border-dgrey7 py-5 mb-7 leading-5">
+                        <span className="title inline-block align-middle text-center w-full text-lg font-semibold">
+                          WARNING
+                        </span>
+                      </div>
+                      <div className="h-auto inline-block w-full relative overflow-x-hidden">
+                        <div
+                          className="mb-3.5 text-center px-5 text-sm"
+                          style={{ minHeight: "35px" }}
+                        >
+                          Are you sure you want to delete the address?
+                        </div>
+                      </div>
+                      <div className="flex mx-auto text-center uppercase items-center justify-between mb-4">
+                        <button
+                          className="w-1/3 m-auto py-1 px-3 mb-2.5 text-center h-10 bg-clip-padding bg-dblue1 text-dwhite1 text-d15 uppercase hover:bg-dblack2 transition duration-300 ease-in"
+                          onClick={() =>
+                            deleteAddress(
+                              activeAddress,
+                              activeAddress?.address_id
+                            )
+                          }
+                        >
+                          delete
+                        </button>
+                        <button
+                          className="w-1/3 m-auto py-1 px-3 mb-2.5 bg-dwhite1 h-10 border border-dblue1 text-dblack2 uppercase"
+                          onClick={() => setDeletemenu(false)}
+                        >
+                          Cancel
+                        </button>
                       </div>
                     </div>
-                    <div className="flex mx-auto text-center uppercase items-center justify-between mb-4">
-                      <button
-                        className="w-1/3 m-auto py-1 px-3 mb-2.5 text-center h-10 bg-clip-padding bg-dblue1 text-dwhite1 text-d15 uppercase hover:bg-dblack2 transition duration-300 ease-in"
-                        onClick={() =>
-                          deleteAddress(
-                            activeAddress,
-                            activeAddress?.address_id
-                          )
-                        }
-                      >
-                        delete
-                      </button>
-                      <button
-                        className="w-1/3 m-auto py-1 px-3 mb-2.5 bg-dwhite1 h-10 border border-dblue1 text-dblack2 uppercase"
+                  ) : (
+                    <div className="w-80 top-36 h-auto bg-dwhite1 relative overflow-hidden mx-auto z-50 ">
+                      <GrClose
+                        className="w-4 h-4 absolute top-2.5 right-2.5 cursor-pointer"
                         onClick={() => setDeletemenu(false)}
-                      >
-                        Cancel
-                      </button>
+                      />
+                      <div className="border-b border-dgrey7 py-5 mb-7 leading-5">
+                        <span className="title inline-block align-middle text-center w-full text-lg font-semibold">
+                          WARNING
+                        </span>
+                      </div>
+                      <div className="h-auto inline-block w-full relative overflow-x-hidden">
+                        <div
+                          className="mb-3.5 text-center px-5 text-md"
+                          style={{ minHeight: "35px" }}
+                        >
+                          Address cannot be deleted because it is the only
+                          address you have.
+                        </div>
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -904,7 +986,9 @@ function Checkout() {
       {/* end delete confirmation modal */}
 
       <div className="checkout-viewport -mt-9 bg-dgrey10">
-        <div className={`${ width > 650 ? "container overflow-hidden" : 'px-3' }`}>
+        <div
+          className={`${width > 650 ? "container overflow-hidden" : "px-3"}`}
+        >
           <div className="mt-7 -mx-1 flex flex-col md:flex-row">
             {/* <div className='w-full notify'></div> */}
             <div className="w-full md:w-2/3 mr-5">
@@ -991,6 +1075,22 @@ function Checkout() {
                             {/* only if user is loged */}
                             {stateAccount?.loged ? (
                               <div className="checkout-address px-5">
+                                {/* error div */}
+                                {manualErrors.current.length > 0 && (
+                                  <div
+                                    className={`text-dred4 text-sm mt-2
+                                  ${
+                                    manualErrors.current["0"].errorCode ===
+                                    "payment_method"
+                                      ? "hidden"
+                                      : ""
+                                  }`}
+                                  >
+                                    {manualErrors.current.map(
+                                      (err) => err.errorMsg
+                                    )}
+                                  </div>
+                                )}
                                 <div className="my-6 mx-1 flex justify-between items-center text-sm">
                                   Please select a delivery address.
                                 </div>
@@ -1105,7 +1205,9 @@ function Checkout() {
                                       : ""
                                   }`}
                                   >
-                                    {manualErrors.current["0"].errorMsg}
+                                    {manualErrors.current.map(
+                                      (err) => err.errorMsg
+                                    )}
                                   </div>
                                 )}
 
@@ -1225,22 +1327,18 @@ function Checkout() {
                                   </div>
                                 </div>
                                 <div className="w-full mt-2">
-                                    <label
-                                      htmlFor=""
-                                      className="w-full top-2.5 "
-                                    >
-                                      Email
-                                    </label>
-                                    <input
-                                      type="email"
-                                      name="Email"
-                                      ref={email}
-                                 
-                                      className="w-full address-modal__input"
-                                      // defaultValue={`${email}`}
-                                      onChange={() => handleInputs()}
-                                    />
-                                  </div>
+                                  <label htmlFor="" className="w-full top-2.5 ">
+                                    Email
+                                  </label>
+                                  <input
+                                    type="email"
+                                    name="Email"
+                                    ref={email}
+                                    className="w-full address-modal__input"
+                                    // defaultValue={`${email}`}
+                                    onChange={() => handleInputs()}
+                                  />
+                                </div>
                                 <div className="address mt-2 flex flex-col pb-1">
                                   <label htmlFor="address">
                                     More Address Details *
@@ -1351,10 +1449,11 @@ function Checkout() {
                                   checkout
                                 </button> */}
                                 <div className="p-3 text-left font-light text-d11">
-
                                   <input
                                     type="checkbox"
-                                    onClick={()=>setTermCondition(!termCondition)}
+                                    onClick={() =>
+                                      setTermCondition(!termCondition)
+                                    }
                                     value="1"
                                     className="m-1"
                                     required
@@ -1375,12 +1474,13 @@ function Checkout() {
                                     }}
                                   >
                                     {" "}
-                                    CONFIRM ORDER {" "}
+                                    CONFIRM ORDER{" "}
                                   </a>
                                 ) : (
-                       
                                   <button
-                                    onClick={ termCondition && ((e) => submitForm(e))}
+                                    onClick={
+                                      termCondition && ((e) => submitForm(e))
+                                    }
                                     disabled={confirmDisable}
                                     className={`hidden md:block text-center h-12  ${
                                       confirmDisable
@@ -1388,7 +1488,7 @@ function Checkout() {
                                         : `bg-dblue1 hover:bg-dblack2 transition ease in duration-300`
                                     } text-white  w-full mt-4 `}
                                   >
-                                    CONFIRM ORDER 
+                                    CONFIRM ORDER
                                   </button>
                                 )}
                               </div>
@@ -1410,7 +1510,13 @@ function Checkout() {
                                   </button>
                                 ))}
 
-                                <button   onClick={ termCondition && ((e) => submitForm(e))}   disabled={confirmDisable} className="text-d14 font-bold  tracking-tight uppercase mt-3.5 h-11 text-center w-1/2 bg-dblue1 text-dwhite1 flex items-center justify-center hover:bg-dblack1 transition ease in duration-300">
+                                <button
+                                  onClick={
+                                    termCondition && ((e) => submitForm(e))
+                                  }
+                                  disabled={confirmDisable}
+                                  className="text-d14 font-bold  tracking-tight uppercase mt-3.5 h-11 text-center w-1/2 bg-dblue1 text-dwhite1 flex items-center justify-center hover:bg-dblack1 transition ease in duration-300"
+                                >
                                   checkout
                                 </button>
                               </div>
@@ -1442,44 +1548,92 @@ function Checkout() {
                       <div className="checkout-summary-items table w-full">
                         <div className="summary-items-wrapper h-auto overflow-y-auto mt-5">
                           <div className="summary-items">
-                            {state?.products?.map((product) => (
-                              <div
-                                className={`summary-product-item flex items-center mb-2.5 ${product?.stock_qty < product.quantity && "bg-dred5 border-2 p-4"}`}
-                                key={product?.product_id}
-                              >
-                                <div className="summary-product-item-image w-20 mb-2.5 table-cell align-top pr-1">
-                                  <img
-                                    src={product?.thumb}
-                                    alt={product?.name}
-                                  />
-                                </div>
-                                <div className="summary-product-item-info text-d12 table-cell align-top pr-1">
-                                  <div className="text-left">
-                                    <Link
-                                      to={`/${
-                                        product?.name
-                                          .replace(
-                                            /\s+&amp;\s+|\s+&gt;\s+/g,
-                                            "-"
-                                          )
-                                          .replace(/\s+/g, "-")
-                                          .replace("/", "-")
-                                          .replace("%", "") +
-                                        "/p=" +
-                                        product.product_id
-                                      }`}
-                                      dangerouslySetInnerHTML={{
-                                        __html: product?.name
-                                      }}
-                                    ></Link>
-                                    
+                            {/* {state?.products?.map((product) => ( */}
+                            {manualResponse?.order_product?.length > 0 &&
+                              manualResponse?.order_product?.map((product, i) => (
+                                <div
+                                  className={`summary-product-item flex items-center mb-2.5 ${
+                                    !product.stock && "bg-dred5 border-2 p-0.5"
+                                  }`}
+                                  key={product?.product_id}
+                                >
+                                  <div className="summary-product-item-image w-20 mb-2.5 table-cell align-top pr-1">
+                                    <img
+                                      src={product?.image}
+                                      alt={product?.name}
+                                    />
                                   </div>
-                                  <div className="text-left font-light">Qunatity : {product.quantity}</div>
-                                  <div className="summary-product-item-count hidden"></div>
+                                  <div className="summary-product-item-info text-d12 table-cell align-top pr-1">
+                                    <div className="text-left">
+                                      <Link
+                                        to={`/${
+                                          product?.name
+                                            .replace(
+                                              /\s+&amp;\s+|\s+&gt;\s+/g,
+                                              "-"
+                                            )
+                                            .replace(/\s+/g, "-")
+                                            .replace("/", "-")
+                                            .replace("%", "") +
+                                          "/p=" +
+                                          product.product_id
+                                        }`}
+                                        dangerouslySetInnerHTML={{
+                                          __html: product?.name,
+                                        }}
+                                      ></Link>
+                                    </div>
+                                    <div className="text-left font-light flex justify-start">
+                                      <p className="mr-3">Quantity :</p>
+                                      <div className="flex justify-between">
+                                        <button
+                                          onClick={(e) =>
+                                            updateQuantity(
+                                              e,
+                                              product.key,
+                                              Number(product.quantity) - 1
+                                            )
+                                          }
+                                          className="w-4 h-4 md:w-5 md:h-5 pb-1 mr-1.5 md:mr-0 border border-dgrey13 md:border-dblue2 text-d18 md:text-d20 flex justify-center items-center rounded-full font-bold md:font-normal"
+                                        >
+                                          -
+                                        </button>
+                                        {/* <p className="mx-1.5">
+                                          {product.quantity}
+                                        </p> */}
+                                        <input
+                                          id={"p-quantity" + i}
+                                          type="number"
+                                          className=" w-10 h-5  text-center bg-transparent"
+                                          defaultValue={product.quantity}
+                                          onKeyDown={(e) =>
+                                            handleChangeQuantity(
+                                              e,
+                                              product.key,
+                                              i,
+                                              "d"
+                                            )
+                                          }
+                                        />{" "}
+                                        <button
+                                          onClick={(e) =>
+                                            updateQuantity(
+                                              e,
+                                              product.key,
+                                              Number(product.quantity) + 1
+                                            )
+                                          }
+                                          className="w-4 h-4 md:w-5 md:h-5 pb-1 ml-1.5 md:ml-0.5 border border-dgrey13 md:border-dblue2 text-d18 md:text-d20 flex justify-center items-center rounded-full font-bold md:font-normal"
+                                        >
+                                          +
+                                        </button>
+                                      </div>
+                                    </div>
+                                    <div className="summary-product-item-count hidden"></div>
+                                  </div>
+                                  <div className="summary-product-item-price hidden text-right text-d14 align-top pr-1"></div>
                                 </div>
-                                <div className="summary-product-item-price hidden text-right text-d14 align-top pr-1"></div>
-                              </div>
-                            ))}
+                              ))}
                           </div>
                         </div>
                         <div className="summary-list table w-full py-5">
