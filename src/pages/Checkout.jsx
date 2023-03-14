@@ -694,7 +694,7 @@ function Checkout() {
   }
 
   // Update quantity
-  function updateQuantity(e, key, quantity) {
+  function updateQuantity(e, key, quantity, i) {
 
     e.preventDefault();
     setLoading(true);
@@ -703,6 +703,7 @@ function Checkout() {
       .put(buildLink("cart", undefined, window.innerWidth), obj)
       .then(() => {
         getCart();
+        document.getElementById("p-quantity" + i).value = quantity;
       });
 
   }
@@ -1596,7 +1597,8 @@ function Checkout() {
                                             updateQuantity(
                                               e,
                                               product.key,
-                                              Number(product.quantity) - 1
+                                              Number(product.quantity) - 1,
+                                              i
                                             )
                                           }
                                           className="w-4 h-4 md:w-5 md:h-5 pb-1 mr-1.5 md:mr-0 border border-dgrey13 md:border-dblue2 text-d18 md:text-d20 flex justify-center items-center rounded-full font-bold md:font-normal"
@@ -1616,7 +1618,6 @@ function Checkout() {
                                               e,
                                               product.key,
                                               i,
-                                              "d"
                                             )
                                           }
                                         />{" "}
@@ -1625,7 +1626,8 @@ function Checkout() {
                                             updateQuantity(
                                               e,
                                               product.key,
-                                              Number(product.quantity) + 1
+                                              Number(product.quantity) + 1,
+                                              i
                                             )
                                           }
                                           className="w-4 h-4 md:w-5 md:h-5 pb-1 ml-1.5 md:ml-0.5 border border-dgrey13 md:border-dblue2 text-d18 md:text-d20 flex justify-center items-center rounded-full font-bold md:font-normal"
