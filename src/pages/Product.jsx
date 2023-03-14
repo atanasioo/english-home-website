@@ -1148,7 +1148,7 @@ function Product() {
           </div>
         </div>
         <div className="product-info-mobile md:hidden">
-          <div className="product-infos py-2.5 px-7 mt-10 bg-dgrey1">
+          <div className="product-infos py-2.5 px-7 mt-5 bg-dgrey1">
             <div className="text-dblack1 text-d14">
               <div className="title text-d15 font-bold py-3.5 text-dborderblack2 text-left">
                 PRODUCT INFORMATION

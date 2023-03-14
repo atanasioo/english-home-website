@@ -332,7 +332,7 @@ setError(response?.data?.errors[0])
                       {count?.data?.nb_of_products} Products
                     </p>
                   </div>
-                  <div className="border border-dgrey5 py-5 ">
+                  <div className="border border-dgrey5 py-5 px-2">
                     <div>{error.errorMsg}</div>
                     <div className="basket-items">
                       {state?.products?.map((product, i) => (
@@ -470,11 +470,11 @@ setError(response?.data?.errors[0])
                 {/* order summary div */}
                 <div className="w-full md:w-1/3">
                   <div>
-                    <div className="w-full text-left mt-10 text-dblack2 mb-5 flex items-center justify-between">
+                    <div className="w-full text-left mt-10 text-dblack2 mb-5 flex items-center justify-between px-4">
                       <p className="font-mono text-d20 text-bold inline-block text-left">
                         ORDER SUMMARY
                       </p>
-                      <Link className="font-mono text-d14 inline-block text-right text-dblack1">
+                      <Link to={'/'} className="font-mono text-d14 inline-block text-right text-dblack1">
                         continue shopping
                       </Link>
                     </div>
