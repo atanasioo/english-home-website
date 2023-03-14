@@ -704,6 +704,7 @@ function Checkout() {
       .then(() => {
         getCart();
       });
+
   }
 
   function handleChangeQuantity(e, key, i) {
@@ -1205,9 +1206,10 @@ function Checkout() {
                                       : ""
                                   }`}
                                   >
-                                    {manualErrors.current.map(
-                                      (err) => err.errorMsg
-                                    )}
+                                    {/* {manualErrors.current.map( */}
+                                      {/* (err) => err.errorMsg */}
+                                   {   manualErrors.current["0"]?.errorMsg
+                                    }
                                   </div>
                                 )}
 
@@ -1528,7 +1530,7 @@ function Checkout() {
                   )}
 
                   <div className="checkout-contract py-5 bg-dgrey3">
-                    <div className="bg-dwhite1 border border-dgrey3 p-3.5 flex flex-col items-center hidden"></div>
+                    <div className="bg-dwhite1 border border-dgrey3 p-3.5 flex-col items-center hidden"></div>
                   </div>
                 </div>
               </div>
@@ -1551,20 +1553,19 @@ function Checkout() {
                             {/* {state?.products?.map((product) => ( */}
                             {manualResponse?.order_product?.length > 0 &&
                               manualResponse?.order_product?.map((product, i) => (
-                                <div
+                                 <div
                                   className={`summary-product-item flex items-center mb-2.5 ${
                                     !product.stock && "bg-dred5 border-2 p-0.5"
                                   }`}
                                   key={product?.product_id}
                                 >
-                                  <div className="summary-product-item-image w-20 mb-2.5 table-cell align-top pr-1">
                                     <img
                                       src={product?.image}
                                       alt={product?.name}
+                                      className={'w-16'}
                                     />
-                                  </div>
-                                  <div className="summary-product-item-info text-d12 table-cell align-top pr-1">
-                                    <div className="text-left">
+                                  <div className="summary-product-item-info text-left text-d12 table-cell align-top mx-2">
+                                 
                                       <Link
                                         to={`/${
                                           product?.name
@@ -1581,9 +1582,13 @@ function Checkout() {
                                         dangerouslySetInnerHTML={{
                                           __html: product?.name,
                                         }}
-                                      ></Link>
-                                    </div>
-                                    <div className="text-left font-light flex justify-start">
+                                      >
+
+
+
+                                      </Link>
+                                 
+                                    <div className="text-left font-light flex pt-1">
                                       <p className="mr-3">Quantity :</p>
                                       <div className="flex justify-between">
                                         <button

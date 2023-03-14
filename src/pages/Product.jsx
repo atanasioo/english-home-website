@@ -1596,8 +1596,8 @@ function Product() {
         {/* Related Product */}
         {productData?.product_related &&
           productData?.product_related.length > 0 && (
-            <div className={`mb-2 mt-4  ${width > 1920 && "mt-10"} container`}>
-              <h2 className="font-semibold text-xl  text-dblack2 mb-1 md:mb-4 text-left font-mono uppercase">
+            <div className={`mb-2 mt-4  ${width > 1920 && "mt-10"} `}>
+              <h2 className="font-semibold text-xl  text-dblack2  text-left font-mono uppercase">
                 Related products
               </h2>
               {width < 650 ? (
