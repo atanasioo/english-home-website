@@ -6,7 +6,7 @@ import { CartContext } from "../contexts/CartContext";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import _axios from "../axios";
 import TopCart from "./TopCart";
-
+import { AccountContext } from "../contexts/AccountContext";
 export default function SingleProduct(props) {
   const [hovered, isHovered] = useState(false);
   const [hovered1, isHovered1] = useState(false);
@@ -22,6 +22,7 @@ export default function SingleProduct(props) {
   const [optionParent, setOptionParent] = useState("");
   const [activeOption, setActiveOption] = useState({});
   const [successAdded, setSuccessAdded] = useState(false);
+  const [accountContext] = useContext(AccountContext);
   const width = window.innerWidth;
   const navigate = useNavigate();
   const wrapperRef = useRef(null);
@@ -239,6 +240,9 @@ export default function SingleProduct(props) {
                   ? props.item.special
                   : props.item.price}
                 </span>
+                {accountContext.admin  &&   <div className=" font-bold text-d14 -mb-2 w-full"> {props.item.quantity}</div>}
+
+
               </button>
               <button
                 className={`py-3  text-dblue1 bottom-0  flex p-1 text-d12 bg-dgrey3 w-full justify-center items-center"`}

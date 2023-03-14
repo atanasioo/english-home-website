@@ -789,6 +789,9 @@ function Product() {
                 </div>
               </div>
               <div className="flex font-light text-d11 pl-2 py-3">Model Number : {productData?.sku}</div>
+
+              {stateAccount.admin &&   <div className="flex  text-d14 pl-2 py-1"> Quantity:  {productData?.quantity } </div>}
+
               {/* series options */}
 
               {productData?.series_options &&

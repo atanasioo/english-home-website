@@ -4,7 +4,7 @@ import { HiOutlineShoppingBag } from "react-icons/hi";
 import buildLink, { path } from "../urls";
 import { CartContext } from "../contexts/CartContext";
 import _axios from "../axios";
-
+import { AccountContext } from "../contexts/AccountContext";
 export default function SingleProducCategory(props) {
   const [hovered, isHovered] = useState(false);
   const [state, dispatch] = useContext(CartContext);
@@ -19,6 +19,7 @@ export default function SingleProducCategory(props) {
   const navigate = useNavigate();
   const wrapperRef = useRef(null);
   //   const [hovered1, isHovered1] = useState(false);
+  const [accountContext] = useContext(AccountContext);
 
   function onMouseLeave() {
     isHovered(false);
@@ -178,6 +179,8 @@ export default function SingleProducCategory(props) {
             <span className="flex flex-col text-left   w-1/2">
               <span className="w-full line-through">{props.item.price}</span>
               <span className="w-full text-bold ">{props.item.special}</span>
+              {accountContext.admin  &&   <div className=" font-bold text-d14 -mb-2 w-full"> {props.item.quantity}</div>}
+
             </span>
 
             <button className="border px-1 flex-auto text-dblue1 border-dblue1 text-d13 w-1/2">
@@ -189,6 +192,8 @@ export default function SingleProducCategory(props) {
             <span className="flex flex-col text-left w-1/2 ">
               <span className="w-full text-dgrey12 -mt-2 mb-2 line-through">{props.item.price}</span>
               <span className="w-full font-bold text-d18 -mb-2 text-dblue2">{props.item.special}</span>
+              {accountContext.admin  &&   <span className=" font-bold text-d14 -mb-2  w-full "> {props.item.quantity}</span>}
+
             </span>
 
        

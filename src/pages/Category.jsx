@@ -533,7 +533,7 @@ function Category() {
       <div className="md:container">
         {!data?.products ? (
           <Loader />
-        ) : showWidgets ? (
+        ) : 1===1 ? (
           <>
             {showCartmenu && (
               <div ref={wrapperRef} onMouseEnter={() => setHoveredCart(true)}>
@@ -1126,11 +1126,11 @@ function Category() {
             </div>
           </>
         ) : window.innerWidth < 650 ? (
-          data?.map((widget) => {
+          data?.widget?.map((widget) => {
             return <WidgetsLoopMobile widget={widget} />;
           })
         ) : (
-          data?.widget_.map((widget, index) => {
+          data?.widget?.map((widget, index) => {
             if (data?.length === index + 1) {
               return (
                 <div className="theHome" key={widget}>
