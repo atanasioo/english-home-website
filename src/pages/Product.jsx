@@ -123,7 +123,6 @@ function Product() {
       },
       []
     );
-
     _axios
       .get(buildLink("product", undefined, undefined) + product_id)
       .then((response) => {
@@ -960,7 +959,8 @@ function Product() {
                     <button onClick={() => decrementQuantity()}>
                       <span className="w-3/12">-</span>
                     </button>
-                    <span className="w-6/12 text-center ">{quantityRef}</span>
+                    <input  className="w-6/12 text-center mx-2" ref={quantityRef} />
+
                     <button onClick={() => incrementQuantity()}>
                       <span className="w-3/12">+</span>
                     </button>
