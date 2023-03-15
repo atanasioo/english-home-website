@@ -68,7 +68,7 @@ function Cart() {
         });
     }
     getCart();
-  }, [state, window.location]);
+  }, [ window.location]);
 
   useEffect(() => {
     getProductCount();

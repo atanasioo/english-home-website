@@ -32,13 +32,17 @@ function Checkout() {
   const [emptyCart, setEmptyCart] = useState(false);
   const [paymentMeth, setPaymentMeth] = useState("");
   const [error, setError] = useState("");
+  const zone = useRef({
+    id: window.config["initial-zone"].id,
+    name: window.config["initial-zone"].name
+  });
   const [addrInfo, setAddrInfo] = useState({
     addr1: "",
     addr2: "",
     em: "",
     tel: "",
-    zn: "",
-    znId: "",
+    zn: zone.current.name  || "",
+    znId: zone.current.id  || "",
     fn: "",
     ln: "",
   });
@@ -49,6 +53,7 @@ function Checkout() {
   const pathname = location.pathname;
   const width = window.innerWidth;
   const cid = localStorage.getItem("cid");
+
   const town = useRef({
     id: 0,
     name: "",
@@ -71,15 +76,14 @@ function Checkout() {
   const email = useRef("");
   const comment = useRef("");
 
-  const zone = useRef({
-    id: window.config["initial-zone"].id,
-    name: window.config["initial-zone"].name,
-  });
+
 
   const [confirmDisable, setConfirmDisalbe] = useState(false);
 
   // Manual
   const [manualResponse, setManualResponse] = useState({});
+  const [manualR, setManualR] = useState({});
+
   const manualErrors = useRef({});
   const [manualCart, setManualCart] = useState([]);
   const [subTotal, setsubTotal] = useState(0);
@@ -410,20 +414,29 @@ function Checkout() {
 
   function handleSubmit(e) {
     e.preventDefault();
+    // manual(manualCart, zone, paymentMeth, false);
+
     const btn = document.getElementById("savebtn");
     if (stateAccount?.loged) {
+      setFirstAttemp(false)
       if (JSON.stringify(activeAddress) === "{}") {
         btn.disabled = true;
       } else {
+        manual(manualCart, zone, paymentMeth, false);
+
         btn.disabled = false;
         setAddresstab(false);
         setPaymenttab(true);
       }
     } else {
-
-      btn.disabled = false;
-
       manual(manualCart, zone, paymentMeth, false);
+      // alert(manualR.success)
+      if(manualR.success === true){
+        btn.disabled = false;
+        setAddresstab(false);
+        setPaymenttab(true);
+      }
+   
     }
   }
 
@@ -458,10 +471,13 @@ function Checkout() {
   }
 
   function manual(manualCartProducts, _zone, paymentcode, confirm) {
+    // alert(confirm)
     setLoading(true);
     window.scroll(0, 0);
     let body = {};
     // if it's first attemp
+    if(stateAccount.loged){ setFirstAttemp(false);}
+
     if (firstAttemp) {
       body = {
         order_product: manualCartProducts,
@@ -507,24 +523,24 @@ function Checkout() {
     } else {
       body = {
         order_product: manualCartProducts,
-        customer_id: customerId,
-        firstname: stateAccount.loged ? activeAddress.firstname : addrInfo.fn,
-        lastname: stateAccount.loged ? activeAddress.lastname : addrInfo.ln,
+        customer_id: customerId || "" ,
+        firstname: stateAccount.loged ? activeAddress.firstname : firstname?.current?.value || addrInfo.fn ,
+        lastname: stateAccount.loged ? activeAddress.lastname : lastname?.current?.value || addrInfo.ln,
         email: addrInfo.em || "",
         address_1: stateAccount.loged
           ? activeAddress.address_1
-          : addrInfo.addr1,
+          : address_1?.current?.value   || addrInfo.addr1,
         telephone: stateAccount.loged
           ? activeAddress.telephone
-          : addrInfo.tel.replace("-", ""),
+          : (telephone?.current?.value?.replace("-", "")  ||  addrInfo.tel?.replace("-", "")),
         address_2: stateAccount.loged
           ? activeAddress.address_2
-          : addrInfo.addr2,
+          : address_2?.current?.value   || addrInfo.addr2,
         city: "",
         shipping_method: "Delivery ( 1-4 days )",
         shipping_code: "ultimate_shipping.ultimate_shipping_0",
-        payment_method: paymentMeth,
-        payment_code: paymentcode,
+        payment_method: "Cash On Delivery",
+        payment_code: 'cod',
         comment: comment.current?.value || "",
         country_id: window.config["zone"],
         zone_id: _zone?.value || zone.current.id,
@@ -550,7 +566,7 @@ function Checkout() {
       .post(buildLink("manual", undefined, window.innerWidth), body)
       .then((response) => {
         setManualResponse(response.data.data);
-
+      setManualR(response.data);
         const data = response.data;
 
         if (response?.data?.success === false) {
@@ -568,7 +584,7 @@ function Checkout() {
           manualErrors.current = "";
           paymentForm(confirm, paymentcode);
           setLoading(false);
-
+          handleInputs()
           if (firstAttemp) setFirstAttemp(false);
         }
       });
@@ -598,10 +614,10 @@ function Checkout() {
     e.preventDefault();
 
     setConfirmDisalbe(true);
-
+// alert(activePaymentMethod)
     manual(manualCart, zone, activePaymentMethod, true);
-
-    setConfirmDisalbe(true);
+    // alert(1)
+    // setConfirmDisalbe(true);
   }
 
   function confirmOrder(c_url, s_url) {
@@ -738,7 +754,7 @@ function Checkout() {
   return (
     <div>
       {/* address modal  */}
-      {addressmenu && (
+      {addressmenu  && stateAccount.loged && (
         <div className="orders-modal-container">
           <div className="address-modal block z-30 relative ">
             <div
@@ -857,6 +873,10 @@ function Checkout() {
                     id=""
                     required
                     className="address-modal__input border border-dgrey6"
+                    onChange={(e) => {
+                      zoneChanged(e)
+                     
+                    }}
                   >
                     {zones?.map((zone) => (
                       <option
@@ -894,7 +914,9 @@ function Checkout() {
 
               <div className="address-modal-button mt-5 mb-1 text-center">
                 <button
-                  type="submit"
+                  // type="submit"
+                  id="savebtn"
+                  onClick={(e) => handleSubmit(e)}
                   className="bg-dblack1 hover:bg-dblue1  w-72 mx-auto text-center h-10 bg-clip-padding text-dwhite1 text-d16 uppercase transition ease-in duration-300"
                 >
                   save and continue
@@ -1323,7 +1345,7 @@ function Checkout() {
                                               : ""
                                           }`}
                                         >
-                                          {zone.name}
+                                          {zone.name}  
                                         </option>
                                       ))}
                                     </select>
