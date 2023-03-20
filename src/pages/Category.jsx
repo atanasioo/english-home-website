@@ -47,8 +47,6 @@ function Category() {
   const [overlay, setOverlay] = useState(false);
   const [hoveredCart, setHoveredCart] = useState(false);
   const [showWidgets, setShowWidgets] = useState(true);
-  const [filterCount, setFilterCount] = useState(0);
-  const [stateAccount, dispatchAccount] = useContext(AccountContext);
 
   // const { userFilters, setUserFilters } = useFiltersContext();
   const [userFilters, setUserFilters] = useState({
@@ -63,7 +61,6 @@ function Category() {
 
   const urlRef = useRef(location?.pathname);
   const navigate = useNavigate();
-  const navigateType = useNavigationType();
   const pathname = location.pathname;
   const navType = useNavigationType();
   const width = window.innerWidth;
@@ -206,12 +203,20 @@ function Category() {
         });
       }
     }
+    const q_s = queryString.parse(location.search);
+    // q_s.page = q_s.page ? q_s.page : page;
+    // q_s.limit = q_s.limit ? q_s.limit : limit.value;
+    q_s.sort = q_s.sort ? q_s.sort : "p2co.sort_order";
+    q_s.order = q_s.order ? q_s.order : "ASC";
+    // if (width > 650) {
+    q_s.source_id = 1;
+    // }
 
+   newPath += "&" + queryString.stringify(q_s);
     _axios
       .post(
         buildLink(type, undefined, undefined) +
-          newPath.replace("undefined", "") +
-          "&admin=true"
+          newPath.replace("undefined", "")  
       )
       .then((response) => {
         // setData((prevData) => {
@@ -274,12 +279,7 @@ function Category() {
     const obj = { sort: _sort, order: order };
     setState(sort);
   }
-  // Set limit
-  function limitSetter(limit) {
-    // setLimit(limit);
-    // setShowLimit(false);
-    pushRoute({ limit: limit.value });
-  }
+
 
   // Push Route
   function pushRoute(data) {
@@ -330,6 +330,7 @@ function Category() {
     _sort = val.substring(0, i_o);
     order = val.substring(i_o + 1);
     var i_sort = pathname.indexOf("&sort=");
+    // alert(pathname)
     var l = "";
 
     if (window.location.href.indexOf("has_filter=true") < 0) {
@@ -340,10 +341,13 @@ function Category() {
         l = path1;
       }
     } else {
-      if (i_sort > -1) {
-        l = location.search;
+      // alert(location.search.indexOf("&sort="))
+      if (location.search.indexOf("&sort=") > -1) {
+        l = location.search.substring(0, location.search.indexOf("&sort="));;
+
       } else {
         l = window.location.search;
+        // alert(l)
       }
     }
 

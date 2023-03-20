@@ -58,7 +58,7 @@ var urls = {
 };
 
 
-  pixelID = "1200999910526577";
+  pixelID = "";
   host = "https://www.englishhome.com.lb/api/";
   //path1 = "motor/";
 

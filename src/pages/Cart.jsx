@@ -34,7 +34,7 @@ function Cart() {
       });
   };
 
-  console.log(stateW);
+
 
   useEffect(() => {
     function getCart() {
@@ -153,6 +153,7 @@ function Cart() {
   }
 
   function updateQuantity(key, quantity, i, type) {
+ 
     if (type === "d") {
       if (document.getElementById("p-quantity" + i)) {
         document.getElementById("p-quantity" + i).value = quantity;
@@ -177,7 +178,11 @@ function Cart() {
         _axios
           .get(buildLink("cart", undefined, window.innerWidth))
           .then((response) => {
-            setError(response?.data?.errors[0]);
+            // console.log(response?.data?.errors[0])
+            if(response?.data?.errors){
+              setError(response?.data?.errors[0]);
+            }
+
 
             dispatch({
               type: "setProducts",
@@ -200,10 +205,11 @@ function Cart() {
                   ? response.data.data.total_product_count
                   : 0
             });
-            dispatch({
+             dispatch({
               type: "loading",
               payload: false
             });
+            console.log("omar")
             // if (quantity === 0) {
             //   window.location.reload();
             // }
@@ -322,8 +328,9 @@ function Cart() {
             {state?.products?.length > 0 ? (
               <div className="w-full pt-6 flex flex-col md:flex-row">
                 {/* product list */}
-                <div className="w-full md:w-2/3 mr-6">
-                  <div className="mt-10 w-full text-center justify-center md:justify-start md:text-left text-dblack2 mb-5 flex items-center">
+                {state.loading}
+                <div className={`w-full md:w-2/3 mr-6 ${state.loading && 'pointer-events-none opacity-50'}` }>
+                  <div className="mt-10 w-full text-center justify-center md:justify-start md:text-left text-dblack2 mb-5 flex items-center ">
                     <p className="inline-block font-mono text-d18 font-bold uppercase">
                       MY CART
                     </p>
@@ -331,7 +338,7 @@ function Cart() {
                     <p className="font-mono text-d15 ml-2.5"></p>
                     <p className="font-mono text-d15 ml-2.5">
                       {" "}
-                      {count?.data?.nb_of_products} Products
+                      {state?.productsCount} Products
                     </p>
                   </div>
                   <div className="border border-dgrey5 py-5 px-2">
@@ -339,9 +346,9 @@ function Cart() {
                     <div className="basket-items">
                       {state?.products?.map((product, i) => (
                         <div
-                          className={`${
+                          className={`p-4 ${
                             product?.stock_qty < product.quantity &&
-                            "bg-dred5 border-2 p-4"
+                            "bg-dred5"
                           }`}
                         >
                           <div
@@ -352,7 +359,7 @@ function Cart() {
                           >
                             {/* <div> */}
                             <div
-                              className={`product-image w-28 h-28  flex-shrink-0 border border-dgrey4 mb-10 overflow-hidden `}
+                              className={`product-image w-24 flex-shrink-0 border border-dgrey4 mb- overflow-hidden `}
                             >
                               <Link
                                 to={`${path}/${product?.name

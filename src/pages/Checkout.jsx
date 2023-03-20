@@ -566,25 +566,24 @@ function Checkout() {
       .post(buildLink("manual", undefined, window.innerWidth), body)
       .then((response) => {
         setManualResponse(response.data.data);
-      setManualR(response.data);
+      if(!firstAttemp) setManualR(response.data);
         const data = response.data;
 
-        if (response?.data?.success === false) {
+        if (data?.success === false) {
           manualErrors.current = response.data.errors;
-          // paymentForm(confirm, paymentcode);
-          setLoading(false);
+          
           setConfirmDisalbe(false);
-          if (manualErrors.current["0"].errorCode === "payment_method") {
-            setAddresstab(false);
-            setPaymenttab(true);
-            setPaymentMeth("Cash On Delivery");
-          } else {
-          }
+          // if (manualErrors.current["0"].errorCode === "payment_method") {
+          //   setAddresstab(false);
+          //   setPaymenttab(true);
+          //   setPaymentMeth("Cash On Delivery");
+          // } else {
+          // }
         } else {
           manualErrors.current = "";
           paymentForm(confirm, paymentcode);
           setLoading(false);
-          handleInputs()
+          // handleInputs()
           if (firstAttemp) setFirstAttemp(false);
         }
       });
@@ -714,12 +713,21 @@ function Checkout() {
 
     e.preventDefault();
     setLoading(true);
+    dispatch({
+      type: "loading",
+      payload: true
+    });
     const obj = { key, quantity };
     _axios
       .put(buildLink("cart", undefined, window.innerWidth), obj)
       .then(() => {
         getCart();
         document.getElementById("p-quantity" + i).value = quantity;
+
+        dispatch({
+          type: "loading",
+          payload: false
+        });
       });
 
   }
@@ -915,8 +923,8 @@ function Checkout() {
               <div className="address-modal-button mt-5 mb-1 text-center">
                 <button
                   // type="submit"
-                  id="savebtn"
-                  onClick={(e) => handleSubmit(e)}
+                  // id="savebtn"
+                  // onClick={(e) => handleSubmit(e)}
                   className="bg-dblack1 hover:bg-dblue1  w-72 mx-auto text-center h-10 bg-clip-padding text-dwhite1 text-d16 uppercase transition ease-in duration-300"
                 >
                   save and continue
@@ -1572,7 +1580,7 @@ function Checkout() {
                       </div>
                       <div className="checkout-summary-items table w-full">
                         <div className="summary-items-wrapper h-auto overflow-y-auto mt-5">
-                          <div className="summary-items">
+                          <div className={`summary-items ${ state.loading && 'pointer-events-none opacity-50'}`}>
                             {/* {state?.products?.map((product) => ( */}
                             {manualResponse?.order_product?.length > 0 &&
                               manualResponse?.order_product?.map((product, i) => (
