@@ -25,6 +25,7 @@ import {
   TwitterShareButton,
   WhatsappShareButton
 } from "react-share";
+import Cookies from "js-cookie";
 import CartmenuMobile from "../components/CartmenuMobile";
 
 function Product() {
@@ -139,20 +140,42 @@ function Product() {
           setOptionParent(data.options[0]["product_option_id"]);
         // // ---> Facebook PIXEL <---
         if (!stateAccount.admin) {
-          ReactPixel.init(pixelID, {}, { debug: true, autoConfig: false });
+          const advancedMatching = {
+            em: data?.data?.social_data?.email,
+            fn: data?.data?.social_data?.firstname,
+            ln: data?.data?.social_data?.lastname,
+            external_id: data?.data?.social_data?.external_id,
+            country: data?.data?.social_data?.country_code,
+            fbp: Cookies.get("_fbp")
+          };
+          ReactPixel.init(pixelID, advancedMatching, {
+            debug: true,
+            autoConfig: false
+          });
           ReactPixel.pageView();
           ReactPixel.fbq("track", "PageView");
 
-          ReactPixel.track("ViewContent", {
+          // ReactPixel.track("ViewContent", {
+          //   content_type: "product",
+          //   content_ids: [product_id],
+          //   content_name: data?.data?.social_data?.name,
+          //   value: data?.data?.social_data?.value,
+          // //  event_id: data?.data?.social_data?.event_id,
+          //   currency: data?.data?.social_data?.currency,
+          //   // country: data?.data?.social_data?.country_code,
+           
+          // }, {eventID: data?.data?.social_data?.event_id} );
+
+          window.fbq('track', 'ViewContent', {
             content_type: "product",
             content_ids: [product_id],
             content_name: data?.data?.social_data?.name,
             value: data?.data?.social_data?.value,
-            event_id: data?.data?.social_data?.event_id,
-            currency: "USD",
-            
-            
-          });
+            currency: data?.data?.social_data?.currency,
+           
+          }, {eventID:  data?.data?.social_data?.event_id});
+
+          
         }
       });
   }, [location]);
@@ -266,27 +289,53 @@ function Product() {
               });
             });
           // ---> Facebook PIXEL <---
-          ReactPixel.init(
-            "668318187192045",
-            {},
-            { debug: true, autoConfig: false }
-          );
-
-          // if (!stateAccount.admin) {
+          const advancedMatching = {
+            em: data?.data?.social_data?.email,
+            fn: data?.data?.social_data?.firstname,
+            ln: data?.data?.social_data?.lastname,
+            external_id: data?.data?.social_data?.external_id,
+            country: data?.data?.social_data?.country_code,
+            fbp: Cookies.get("_fbp")
+          };
+          ReactPixel.init(pixelID, advancedMatching, {
+            debug: true,
+            autoConfig: false
+          });
           ReactPixel.pageView();
           ReactPixel.fbq("track", "PageView");
-          if (productData) {
-            ReactPixel.track("AddToCart", {
-              content_type: "product",
-              content_ids: [product_id],
-              content_name: data?.social_data?.name,
-              value: productData.price_net_value,
-              content_category: productData?.product_categories[0]?.name,
-              currency: "USD",
-              event_id: data?.social_data?.event_id,
+      
 
-            });
-          }
+          window.fbq('track', 'AddToCart', {
+            content_type: "product",
+            content_ids: data?.content_ids,
+            content_name: data?.name,
+            value: data?.value,
+            content_category: productData?.product_categories[0]?.name,             
+            currency: data?.currency,
+            fbp: Cookies.get("_fbp")
+           
+          }, {eventID:  data?.event_id});
+
+        
+         
+         
+            var dataSocial = productData.social_data;
+            dataSocial["link"] = window.location.href;
+            dataSocial["fbp"] = Cookies.get("_fbp");
+            dataSocial["fbc"] = Cookies.get("_fbc");
+            dataSocial["ttp"] = Cookies.get("_ttp");
+ 
+          _axios
+          .post(
+            buildLink("pixel", undefined, window.innerWidth),
+            dataSocial
+          )
+          .then((response) => {
+            const data = response.data;
+            if (data.success === true) {
+            }
+          });
+    
           // }
           setSuccessAdded(true);
           if (width > 650) {

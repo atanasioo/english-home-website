@@ -26,7 +26,7 @@ import WidgetsLoopMobile from "../components/WidgetsLoopMobile";
 import WidgetsLoop from "../components/WidgetsLoop";
 import ReactPixel from "react-facebook-pixel";
 import { AccountContext } from "../contexts/AccountContext";
-
+import Cookies from "js-cookie";
 function Category() {
   const location = useLocation();
   const params = useParams();
@@ -229,27 +229,35 @@ function Category() {
         setPointer(true);
       });
       
-      let productArray = [];
-
+      var productArray = [];
+      var productDetails = [];
       // if (!stateAccount.admin) {
-        const productDetails = [];
+       
         data?.products?.map((p) => {
           productArray.push(p.product_id);
           productDetails.push({ id: p.product_id, quantity: p.quantity });
         });
-        // ---> Facebook PIXEL <---
-        ReactPixel.init(pixelID, {}, { debug: true, autoConfig: false });
+         // ---> Facebook PIXEL <---
+         const advancedMatching = {  
+          em: data?.social_data?.email,
+          fn: data?.social_data?.firstname,
+          ln: data?.social_data?.lastname,
+          external_id: data?.social_data?.external_id,
+          country: data?.social_data?.country_code,
+          fbp: Cookies.get("_fbp")
+  
+         }; 
+        ReactPixel.init(pixelID, advancedMatching, { debug: true, autoConfig: false });
         ReactPixel.pageView();
         ReactPixel.fbq("track", "PageView");
-  
         if (data) {
-          ReactPixel.track("ViewContent", {
+         window.fbq("track", "ViewContent", {
             content_type: "product",
             content_ids: productArray,
             contents: productDetails,
             content_name: data?.social_data?.name,
-            event_id: data?.social_data?.event_id,
-          });
+            
+          }, {   eventID: data?.social_data?.event_id});
         }
       // }
   }, [location, sort]);
