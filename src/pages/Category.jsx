@@ -1,11 +1,10 @@
-import React, { useEffect, useState, useRef,useContext } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import {
   useLocation,
   useParams,
   useNavigate,
   Link,
-  useNavigationType,
-  
+  useNavigationType
 } from "react-router-dom";
 import _axios from "../axios";
 import SingleProductCategory from "../components/SingleProductCategory";
@@ -47,13 +46,14 @@ function Category() {
   const [overlay, setOverlay] = useState(false);
   const [hoveredCart, setHoveredCart] = useState(false);
   const [showWidgets, setShowWidgets] = useState(true);
+  const [stateAccount] = useContext(AccountContext)
 
   // const { userFilters, setUserFilters } = useFiltersContext();
   const [userFilters, setUserFilters] = useState({
     filter_sellers: [],
     filter_categories: [],
     filter_manufacturers: [],
-    adv_filters:[],
+    adv_filters: [],
     filter_options: [],
     filter_attributes: []
   });
@@ -212,11 +212,10 @@ function Category() {
     q_s.source_id = 1;
     // }
 
-   newPath += "&" + queryString.stringify(q_s);
+    newPath += "&" + queryString.stringify(q_s);
     _axios
       .post(
-        buildLink(type, undefined, undefined) +
-          newPath.replace("undefined", "")  
+        buildLink(type, undefined, undefined) + newPath.replace("undefined", "")
       )
       .then((response) => {
         // setData((prevData) => {
@@ -228,41 +227,53 @@ function Category() {
         setfilters(response?.data?.data?.filters);
         setPointer(true);
       });
-      
-      var productArray = [];
-      var productDetails = [];
-      // if (!stateAccount.admin) {
-       
-        data?.products?.map((p) => {
-          productArray.push(p.product_id);
-          productDetails.push({ id: p.product_id, quantity: p.quantity });
-        });
-         // ---> Facebook PIXEL <---
-         const advancedMatching = {  
-          em: data?.social_data?.email,
-          fn: data?.social_data?.firstname,
-          ln: data?.social_data?.lastname,
-          external_id: data?.social_data?.external_id,
-          country: data?.social_data?.country_code,
-          fbp: Cookies.get("_fbp")
-  
-         }; 
-        ReactPixel.init(pixelID, advancedMatching, { debug: true, autoConfig: false });
-        ReactPixel.pageView();
-        ReactPixel.fbq("track", "PageView");
-        if (data) {
-         window.fbq("track", "ViewContent", {
+
+    let productArray = [];
+    let productDetails = [];
+    if (!stateAccount.admin) {
+
+    data?.products?.map((p) => {
+      console.log(p.product_id);
+      productArray.push(p.product_id);
+      productDetails.push({ id: p.product_id, quantity: p.quantity });
+    });
+    console.log(productArray);
+    console.log(productDetails);
+    if (productArray?.length > 0 &&  !stateAccount.admin) {
+    // ---> Facebook PIXEL <---
+    const advancedMatching = {
+      em: data?.social_data?.email,
+      fn: data?.social_data?.firstname,
+      ln: data?.social_data?.lastname,
+      external_id: data?.social_data?.external_id,
+      country: data?.social_data?.country_code,
+      fbp: Cookies.get("_fbp")
+    };
+    // window.fbq('init', pixelID, advancedMatching);
+
+    ReactPixel.init(pixelID, advancedMatching, {
+      debug: true,
+      autoConfig: false
+    });
+    ReactPixel.pageView();
+    ReactPixel.fbq("track", "PageView");
+   
+      if (data) {
+        window.fbq(
+          "track",
+          "ViewContent",
+          {
             content_type: "product",
             content_ids: productArray,
             contents: productDetails,
-            content_name: data?.social_data?.name,
-            
-          }, {   eventID: data?.social_data?.event_id});
-        }
-      // }
+            content_name: data?.social_data?.name
+          },
+          { eventID: data?.social_data?.event_id }
+        );
+      }
+    }
+   }
   }, [location, sort]);
-
-
 
   function getType() {
     if (window.location.href.indexOf("c=") > 0) return "category";
@@ -270,8 +281,8 @@ function Category() {
     if (window.location.href.indexOf("s=") > 0) return "seller";
   }
   function pageSetter(page) {
-    console.log(parseInt(page["selected"]))
-   const new_page = parseInt(page["selected"]) + 1 ;
+    console.log(parseInt(page["selected"]));
+    const new_page = parseInt(page["selected"]) + 1;
     pushRoute({ page: new_page });
   }
   // Set Sort
@@ -287,7 +298,6 @@ function Category() {
     const obj = { sort: _sort, order: order };
     setState(sort);
   }
-
 
   // Push Route
   function pushRoute(data) {
@@ -309,14 +319,15 @@ function Category() {
 
       navigate(
         pathname.replace(
-            "page=" + params.get("page"),
-            "page=" + paramPage.get("page")
-          )
+          "page=" + params.get("page"),
+          "page=" + paramPage.get("page")
+        )
       );
-      console.log( "page=" + params.get("page"),
-      "page=" + paramPage.get("page"))
+      console.log(
+        "page=" + params.get("page"),
+        "page=" + paramPage.get("page")
+      );
       // alert(pathname)
-
     } else {
       navigate(
         pathname.replaceAll("&has_filter=true", "?has_filter=true") +
@@ -351,8 +362,7 @@ function Category() {
     } else {
       // alert(location.search.indexOf("&sort="))
       if (location.search.indexOf("&sort=") > -1) {
-        l = location.search.substring(0, location.search.indexOf("&sort="));;
-
+        l = location.search.substring(0, location.search.indexOf("&sort="));
       } else {
         l = window.location.search;
         // alert(l)
@@ -389,8 +399,7 @@ function Category() {
       console.log(values_array);
       if (filter_type === "adv_filters")
         values_array = userFilters[type_key].push(filter["id"]);
-      else
-      values_array.push(filter["id"]);
+      else values_array.push(filter["id"]);
 
       setUserFilters({
         ...userFilters,
@@ -468,7 +477,7 @@ function Category() {
           let lengthArray = array.length;
           if (indexOfId >= 0) {
             lastLink = url1.searchParams.get("last");
-            var  page = url1.searchParams.get("page");
+            var page = url1.searchParams.get("page");
 
             if (indexOfId === 0 && lengthArray === 1) {
               if (location.search.indexOf("&" + q) > 0) {
@@ -483,7 +492,8 @@ function Category() {
               if (url1 !== "") {
                 url1 = url1
                   .toString()
-                  .replace("&last=" + lastLink, "&last=" + last)?.replace("&page=" + page, "");
+                  .replace("&last=" + lastLink, "&last=" + last)
+                  ?.replace("&page=" + page, "");
               }
             } else if (indexOfId === 0 && lengthArray > 1) {
               url1 = location.search.replace(id + ",", "");
@@ -494,7 +504,8 @@ function Category() {
               url1 = location.search.replace("," + id, "");
               url1 = url1
                 .toString()
-                .replace("&last=" + lastLink, "&last=" + last)?.replace("&page=" + page, "");
+                .replace("&last=" + lastLink, "&last=" + last)
+                ?.replace("&page=" + page, "");
             }
           }
         }
@@ -545,7 +556,7 @@ function Category() {
       <div className="md:container">
         {!data?.products ? (
           <Loader />
-        ) : 1===1 ? (
+        ) : 1 === 1 ? (
           <>
             {showCartmenu && (
               <div ref={wrapperRef} onMouseEnter={() => setHoveredCart(true)}>
@@ -625,6 +636,19 @@ function Category() {
                     FILTERS
                   </div>
                   <div className="w-10/12 ">
+                  {data?.categories?.map((category) =>
+                                    <div className="w-full text-left pt-1">
+
+                    <Link className="hover:underline font-light py-4" to={'/'+category?.name?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                    .replace(/\s+/g, "-")
+                    .replace("..", "")
+                    .replace("/", "-")
+                    .replace("---", "-")
+                    .replace("--", "-")
+                    .replace("/", "") +'/c='+category.id}>{category?.name}</Link>
+                       </div>
+                  ) }
+               
                     {Object.keys(filters).map((key) =>
                       filters[key].attribute_group_id !== "14" &&
                       filters[key].attribute_group_id !== "34" &&
