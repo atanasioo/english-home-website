@@ -46,7 +46,7 @@ function Category() {
   const [overlay, setOverlay] = useState(false);
   const [hoveredCart, setHoveredCart] = useState(false);
   const [showWidgets, setShowWidgets] = useState(true);
-  const [stateAccount] = useContext(AccountContext)
+  const [stateAccount] = useContext(AccountContext);
 
   // const { userFilters, setUserFilters } = useFiltersContext();
   const [userFilters, setUserFilters] = useState({
@@ -231,48 +231,47 @@ function Category() {
     let productArray = [];
     let productDetails = [];
     if (!stateAccount.admin) {
+      data?.products?.map((p) => {
+        console.log(p.product_id);
+        productArray.push(p.product_id);
+        productDetails.push({ id: p.product_id, quantity: p.quantity });
+      });
+      console.log(productArray);
+      console.log(productDetails);
+      if (productArray?.length > 0 && !stateAccount.admin) {
+        // ---> Facebook PIXEL <---
+        const advancedMatching = {
+          em: data?.social_data?.email,
+          fn: data?.social_data?.firstname,
+          ln: data?.social_data?.lastname,
+          external_id: data?.social_data?.external_id,
+          country: data?.social_data?.country_code,
+          fbp: Cookies.get("_fbp")
+        };
+        // window.fbq('init', pixelID, advancedMatching);
 
-    data?.products?.map((p) => {
-      console.log(p.product_id);
-      productArray.push(p.product_id);
-      productDetails.push({ id: p.product_id, quantity: p.quantity });
-    });
-    console.log(productArray);
-    console.log(productDetails);
-    if (productArray?.length > 0 &&  !stateAccount.admin) {
-    // ---> Facebook PIXEL <---
-    const advancedMatching = {
-      em: data?.social_data?.email,
-      fn: data?.social_data?.firstname,
-      ln: data?.social_data?.lastname,
-      external_id: data?.social_data?.external_id,
-      country: data?.social_data?.country_code,
-      fbp: Cookies.get("_fbp")
-    };
-    // window.fbq('init', pixelID, advancedMatching);
+        ReactPixel.init(pixelID, advancedMatching, {
+          debug: true,
+          autoConfig: false
+        });
+        ReactPixel.pageView();
+        ReactPixel.fbq("track", "PageView");
 
-    ReactPixel.init(pixelID, advancedMatching, {
-      debug: true,
-      autoConfig: false
-    });
-    ReactPixel.pageView();
-    ReactPixel.fbq("track", "PageView");
-   
-      if (data) {
-        window.fbq(
-          "track",
-          "ViewContent",
-          {
-            content_type: "product",
-            content_ids: productArray,
-            contents: productDetails,
-            content_name: data?.social_data?.name
-          },
-          { eventID: data?.social_data?.event_id }
-        );
+        if (data) {
+          window.fbq(
+            "track",
+            "ViewContent",
+            {
+              content_type: "product",
+              content_ids: productArray,
+              contents: productDetails,
+              content_name: data?.social_data?.name
+            },
+            { eventID: data?.social_data?.event_id }
+          );
+        }
       }
     }
-   }
   }, [location, sort]);
 
   function getType() {
@@ -633,22 +632,34 @@ function Category() {
                     CATEGORIES
                   </div> */}
                   <div className="w-10/12 text-left py-2 underline underline-offset-8">
-                    FILTERS
+                    Categories
                   </div>
                   <div className="w-10/12 ">
-                  {data?.categories?.map((category) =>
-                                    <div className="w-full text-left pt-1">
-
-                    <Link className="hover:underline font-light py-4" to={'/'+category?.name?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
-                    .replace(/\s+/g, "-")
-                    .replace("..", "")
-                    .replace("/", "-")
-                    .replace("---", "-")
-                    .replace("--", "-")
-                    .replace("/", "") +'/c='+category.id}>{category?.name}</Link>
-                       </div>
-                  ) }
-               
+                    {data?.categories?.map((category) => (
+                      <div className="w-full text-left pt-1">
+                        <Link
+                          className="hover:underline font-light py-4"
+                          to={
+                            "/" +
+                            category?.name
+                              ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                              .replace(/\s+/g, "-")
+                              .replace("..", "")
+                              .replace("/", "-")
+                              .replace("---", "-")
+                              .replace("--", "-")
+                              .replace("/", "") +
+                            "/c=" +
+                            category.id
+                          }
+                        >
+                          {category?.name}
+                        </Link>
+                      </div>
+                    ))}
+                    <div className="w-10/12 text-left py-2 underline underline-offset-8">
+                      FILTERS
+                    </div>
                     {Object.keys(filters).map((key) =>
                       filters[key].attribute_group_id !== "14" &&
                       filters[key].attribute_group_id !== "34" &&
@@ -977,6 +988,30 @@ function Category() {
                       </div>
                     </div>
                   </div>
+                  <div className="flex w-11/12 overflow-x-auto  scroll-auto	py-1">
+                    {data?.categories?.map((category) => (
+                      <div className=" text-left pt-1 px-2  p-2 bg-dbordergrey m-2 w-auto">
+                        <Link
+                          className="hover:underline  text-d9 font-light py-4 truncate"
+                          to={
+                            "/" +
+                            category?.name
+                              ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                              .replace(/\s+/g, "-")
+                              .replace("..", "")
+                              .replace("/", "-")
+                              .replace("---", "-")
+                              .replace("--", "-")
+                              .replace("/", "") +
+                            "/c=" +
+                            category.id
+                          }
+                        >
+                          {category?.name}
+                        </Link>
+                      </div>
+                    ))}
+                  </div>
                   <div className="grid grid-cols-2 ">
                     {data?.products?.map((product) => (
                       <div className="">
@@ -1014,6 +1049,7 @@ function Category() {
                     <div className="text-left w-full py-3 px-3  text-dbasenavy text-d18 font-bold bg-dyellow2 ">
                       Filter
                     </div>
+
                     {}
                     {Object.keys(filters).map(
                       (key) =>

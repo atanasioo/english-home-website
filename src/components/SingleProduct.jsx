@@ -7,6 +7,10 @@ import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import _axios from "../axios";
 import TopCart from "./TopCart";
 import { AccountContext } from "../contexts/AccountContext";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+
+import product_image from "../assets/images/singleProduct.png";
+
 export default function SingleProduct(props) {
   const [hovered, isHovered] = useState(false);
   const [hovered1, isHovered1] = useState(false);
@@ -172,11 +176,8 @@ export default function SingleProduct(props) {
         onClickCapture={props.click}
       >
         <div className="relative m-2.5">
-          <img
-            className="w-full "
-            src={props.item.thumb}
-            alt={props.item.name}
-          />
+        <LazyLoadImage style={{"height": "220px"}}  src={props.item.thumb} alt={props.item.name} placeholderSrc={product_image} />
+
 
           {window.innerWidth > 650 && (
             <>

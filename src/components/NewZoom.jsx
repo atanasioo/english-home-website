@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 // import "../assets/css/arrows.css";
 import Slider from "react-slick";
 // import SmallArrows from "./SmallArrows";
@@ -6,6 +7,7 @@ import "../assets/css/index.css"
 import "../assets/css/magiczoom.css";
 import CustomArrows from "./CustomArrows";
 import SmallArrows from "./SmallArrows";
+import product_image from "../assets/images/product.png"
 
 function NewZoom(props) {
   const [images, setImages] = useState([]);
@@ -72,17 +74,18 @@ function NewZoom(props) {
             <div
               className=" overflow-hidden"
             >
-              <div className="w-full">
+              <div className="w-full"  >
                 <a
                   id="Zoom-1"
                   className="MagicZoom"
                   href={activeImage["popup"]}
                 >
-                  <img
+                  <LazyLoadImage
                     src={activeImage["popup"]}
                     alt=""
                     className="rounded-lg"
-                    style={{maxHeight: "545px"}}
+                    // style={{minHeight: "575px"}}
+                    placeholderSrc={product_image}
                   />
                 </a>
               </div>

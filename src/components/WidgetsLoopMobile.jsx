@@ -5,7 +5,9 @@ import CustomArrows from "./CustomArrows";
 import SingleProducts from "./SingleProduct";
 import { AccountContext } from "../contexts/AccountContext";
 import { path } from "../urls";
-
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import SliderPlaceHolder from "../assets/images/singleProduct.png";
+import SliderPlace from "../assets/images/product.png"
 function WidgetsLoopMobile({ widget, showCartmenuMob }) {
   const [accountState] = useContext(AccountContext);
 
@@ -13,7 +15,7 @@ function WidgetsLoopMobile({ widget, showCartmenuMob }) {
     1: "product",
     2: "category",
     3: "manufacturer",
-    4: "seller",
+    4: "seller"
   };
 
   const setting = {
@@ -24,7 +26,7 @@ function WidgetsLoopMobile({ widget, showCartmenuMob }) {
     slidesToScroll: 1,
     lazyLoad: true,
     autoplay: true,
-    autoplaySpeed: 4000,
+    autoplaySpeed: 4000
   };
 
   const carousal = {
@@ -32,7 +34,7 @@ function WidgetsLoopMobile({ widget, showCartmenuMob }) {
     speed: 1000,
     slidesToShow: 2.5,
     slidesToScroll: 1,
-    lazyLoad: true,
+    lazyLoad: true
   };
 
   const grid = {
@@ -43,7 +45,7 @@ function WidgetsLoopMobile({ widget, showCartmenuMob }) {
     lazyLoad: true,
 
     prevArrow: <CustomArrows direction={"l"} type={"grid"} />,
-    nextArrow: <CustomArrows direction={"r"} type={"grid"} />,
+    nextArrow: <CustomArrows direction={"r"} type={"grid"} />
   };
   const productMobile = {
     dots: false,
@@ -57,7 +59,7 @@ function WidgetsLoopMobile({ widget, showCartmenuMob }) {
     swipeToSlide: true,
     infinite: false,
     arrows: false,
-    lazyLoad: true,
+    lazyLoad: true
   };
   const productSetting = {
     dots: true,
@@ -67,15 +69,15 @@ function WidgetsLoopMobile({ widget, showCartmenuMob }) {
     slidesToScroll: 4,
     infinite: true,
     prevArrow: <CustomArrows direction={"l"} />,
-    nextArrow: <CustomArrows direction={"r"} />,
+    nextArrow: <CustomArrows direction={"r"} />
   };
 
   return (
     <div className="py-1">
       {widget.display === "slider" && (
-        <Slider {...setting}>
+        <Slider {...setting} >
           {widget?.items?.map((item, index) => (
-            <Link
+            <Link 
               to={
                 accountState.admin
                   ? `${path}/${types[item.mobile_type]}/${item.mobile_type_id}`
@@ -94,11 +96,12 @@ function WidgetsLoopMobile({ widget, showCartmenuMob }) {
               }
               key={index}
             >
-              <img
-                className="w-full"
+              <LazyLoadImage
                 src={"https://www.englishhome.com.lb/image/" + item.image}
                 alt={item.name}
-                height={item.banner_height}
+               width={"590"}
+                height={"270"}
+               placeholderSrc={SliderPlaceHolder}
               />
             </Link>
           ))}
@@ -152,16 +155,15 @@ function WidgetsLoopMobile({ widget, showCartmenuMob }) {
                             : "cat/c=" + item.mobile_type_id
                         }`}
                       >
-                        <img
+                        <LazyLoadImage
                           alt={item.name}
                           src={
                             `${window.config["site-url"]}/image/` + item.image
                           }
-                          width={item.banner_width}
-                          height={item.banner_height}
+                          // width={widget.banner_width}
+                          height={widget.banner_height}
                           title={item.name}
-                          // placeholdersrc={ProductPlaceholder}
-                        />
+                          placeholdersrc={SliderPlace}                        />
                       </Link>
                     </div>
                   );
@@ -206,9 +208,11 @@ function WidgetsLoopMobile({ widget, showCartmenuMob }) {
                             : "cat/c=" + item.mobile_type_id
                         }`}
                       >
-                        <img
+                        <LazyLoadImage
                           alt={item.name}
-                          src={`https://www.englishhome.com.lb/image/` + item.image}
+                          src={
+                            `https://www.englishhome.com.lb/image/` + item.image
+                          }
                           width={item.banner_width}
                           height={item.banner_height}
                           title={item.name}
@@ -226,56 +230,54 @@ function WidgetsLoopMobile({ widget, showCartmenuMob }) {
       {widget.display === "grid" && widget.items.length > 1 && (
         <div className="">
           {widget.mobile_widget_id > 0 ? (
-            
-              widget?.items?.map((item, index) =>
-                item.mobile_type_id !== "0" ? (
-                  <Link
-                    to={
-                      accountState.admin
-                        ? `${path}/${types[item.mobile_type]}/${
-                            item?.mobile_type_id
-                          }`
-                        : item?.name?.length > 0
-                        ? "/" +
-                          item?.name
-                            ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
-                            .replace("%", "")
-                            .replace(/\s+/g, "-")
-                            .replace("/", "-") +
-                          "/" +
-                          types[item.mobile_type]?.slice(0, 1) +
-                          "=" +
-                          item.mobile_type_id
-                        : "cat/c=" + item.mobile_type_id
-                    }
-                  >
-                    <img
-                      className="w-full"
-                      alt={item.name}
-                      src={`https://www.englishhome.com.lb/image/` + item.image}
-                      width={item.banner_width}
-                      height={item.banner_height}
-                      // title={item.name}
-                      // placeholdersrc={""}
-                    />
-                  </Link>
-                ) : (
-                  <div key={index} className="p-1">
-                    <img
-                      className="w-full"
-                      src={"https://www.englishhome.com.lb/image/" + item.image}
-                      alt={item.name}
-                      // height={item.banner_height}
-                    />
-                  </div>
-                )
+            widget?.items?.map((item, index) =>
+              item.mobile_type_id !== "0" ? (
+                <Link
+                  to={
+                    accountState.admin
+                      ? `${path}/${types[item.mobile_type]}/${
+                          item?.mobile_type_id
+                        }`
+                      : item?.name?.length > 0
+                      ? "/" +
+                        item?.name
+                          ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                          .replace("%", "")
+                          .replace(/\s+/g, "-")
+                          .replace("/", "-") +
+                        "/" +
+                        types[item.mobile_type]?.slice(0, 1) +
+                        "=" +
+                        item.mobile_type_id
+                      : "cat/c=" + item.mobile_type_id
+                  }
+                >
+                  <LazyLoadImage
+                    className="w-full"
+                    alt={item.name}
+                    src={`https://www.englishhome.com.lb/image/` + item.image}
+                    width={item.banner_width}
+                    height={item.banner_height}
+                    // title={item.name}
+                    // placeholdersrc={""}
+                  />
+                </Link>
+              ) : (
+                <div key={index} className="p-1">
+                  <LazyLoadImage
+                    className="w-full"
+                    src={"https://www.englishhome.com.lb/image/" + item.image}
+                    alt={item.name}
+                    // height={item.banner_height}
+                  />
+                </div>
               )
-           
+            )
           ) : (
             <div className="grid justify-between grid-cols-2">
               {widget?.items?.map((item, index) => (
                 <div key={index} className="p-1">
-                  <img
+                  <LazyLoadImage
                     className="w-full"
                     src={"https://www.englishhome.com.lb/image/" + item.image}
                     alt={item.name}
@@ -310,7 +312,7 @@ function WidgetsLoopMobile({ widget, showCartmenuMob }) {
                   : "cat/c=" + item.mobile_type_id
               }
             >
-              <img
+              <LazyLoadImage
                 className="w-full"
                 alt={item.name}
                 src={`https://www.englishhome.com.lb/image/` + item.image}
@@ -321,7 +323,7 @@ function WidgetsLoopMobile({ widget, showCartmenuMob }) {
             </Link>
           ) : (
             <div key={index} className="p-1">
-              <img
+              <LazyLoadImage
                 className="w-full"
                 src={"https://www.englishhome.com.lb/image/" + item.image}
                 alt={item.name}

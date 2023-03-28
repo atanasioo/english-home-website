@@ -5,6 +5,9 @@ import buildLink, { path } from "../urls";
 import { CartContext } from "../contexts/CartContext";
 import _axios from "../axios";
 import { AccountContext } from "../contexts/AccountContext";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import product_image from "../assets/images/singleProduct.png"
+
 export default function SingleProducCategory(props) {
   const [hovered, isHovered] = useState(false);
   const [state, dispatch] = useContext(CartContext);
@@ -142,7 +145,10 @@ export default function SingleProducCategory(props) {
       onMouseLeave={onMouseLeave}
     >
       <div className="relative m-2.5">
-        <img className="w-full " src={props.item.thumb} alt={props.item.name} />
+        <div >
+        <LazyLoadImage style={{"height": "220px"}}  src={props.item.thumb} alt={props.item.name} placeholderSrc={product_image} />
+
+        </div>
 
         {window.innerWidth > 650 && (
           <>

@@ -29,8 +29,13 @@ import Success from "./pages/Success";
 import Wishlist from "./pages/Wishlist";
 import Latest from "./pages/Latest";
 import NotFound from "./pages/NotFound";
+
+
+
+
 function App() {
   const width = window.innerWidth;
+  
 
   return (
     <div className="App ">
@@ -41,7 +46,7 @@ function App() {
               <Header />
               {width > 650 && <HeaderCampaigns />}
               <Routes>
-                <Route path="/" element={<Home />} />
+                <Route path="/" element={ <Home />} />
                 <Route path="category" element={<Category />} />
                 <Route path={"/:name/c=:id"} element={<Category />} exact />
                 <Route path={"/:name/c=:id/all"} element={<Category />} exact />

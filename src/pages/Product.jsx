@@ -19,6 +19,7 @@ import { path } from "../urls";
 import { FaWhatsappSquare, FaTwitterSquare, FaWhatsapp } from "react-icons/fa";
 import ReactPixel from "react-facebook-pixel";
 import { ImFacebook2 } from "react-icons/im";
+import product_image from "../assets/images/product.png"
 import {
   EmailShareButton,
   FacebookShareButton,
@@ -27,6 +28,7 @@ import {
 } from "react-share";
 import Cookies from "js-cookie";
 import CartmenuMobile from "../components/CartmenuMobile";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 function Product() {
   const [state, dispatch] = useContext(CartContext);
@@ -902,13 +904,13 @@ function Product() {
                               onMouseLeave={() => handleLeavedSeries(key)}
                             >
                               {/* {option_val.product_id }  + {product_id} */}
-                              <img
+                              <LazyLoadImage
                                 src={option_val?.image}
                                 alt={option_val?.name}
                                 className="w-full"
                                 width={80}
                                 height={80}
-                                placeholderSrc="https://www.sari3.com/ishtaridemo/product_placeholder.png"
+                                PlaceholderSrc={product_image}
                               />
                             </Link>
                           ))}
@@ -1153,7 +1155,9 @@ function Product() {
                                     .replace("%", "")}/c=${
                                     category.category_id
                                   }`}
-                                  className="text-d10 border border-dgrey2 p-3 w-1/2 text-center flex items-center ml-2"
+                                  className="text-d10 border border-dgrey2 p-3 w-1/2 text-center flex justify-center items-center ml-2"
+                                  // className="text-d10 border border-dgrey2 p-3 w-1/2 text-center flex items-center ml-2"
+
 
                                 >
                                   All
