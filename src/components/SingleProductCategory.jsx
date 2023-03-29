@@ -146,7 +146,22 @@ export default function SingleProducCategory(props) {
     >
       <div className="relative m-2.5">
         <div >
-        <LazyLoadImage style={{"height": "220px"}}  src={props.item.thumb} alt={props.item.name} placeholderSrc={product_image} />
+        {window.innerWidth < 650 ? (
+            <LazyLoadImage
+              style={{ height: "105px" }}
+              src={props.item.thumb}
+              alt={props.item.name}
+              placeholderSrc={product_image}
+            />
+          ) : (
+            <LazyLoadImage
+            style={{ height: "212px" }}
+
+              src={props.item.thumb}
+              alt={props.item.name}
+              placeholderSrc={product_image}
+            />
+          )}
 
         </div>
 

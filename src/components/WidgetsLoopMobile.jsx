@@ -32,7 +32,7 @@ function WidgetsLoopMobile({ widget, showCartmenuMob }) {
   const carousal = {
     infinite: false,
     speed: 1000,
-    slidesToShow: 2.5,
+    slidesToShow: 2.2,
     slidesToScroll: 1,
     lazyLoad: true
   };

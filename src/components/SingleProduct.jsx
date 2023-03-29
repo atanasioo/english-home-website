@@ -176,8 +176,22 @@ export default function SingleProduct(props) {
         onClickCapture={props.click}
       >
         <div className="relative m-2.5">
-        <LazyLoadImage style={{"height": "220px"}}  src={props.item.thumb} alt={props.item.name} placeholderSrc={product_image} />
+        {window.innerWidth < 650 ? (
+            <LazyLoadImage
+              style={{ height: "105px" }}
+              src={props.item.thumb}
+              alt={props.item.name}
+              placeholderSrc={product_image}
+            />
+          ) : (
+            <LazyLoadImage
+            style={{ height: "212px" }}
 
+              src={props.item.thumb}
+              alt={props.item.name}
+              placeholderSrc={product_image}
+            />
+          )}
 
           {window.innerWidth > 650 && (
             <>

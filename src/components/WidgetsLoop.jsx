@@ -35,7 +35,7 @@ function WidgetsLoop({ widget, showCartmenu }) {
 
   const carousal = {
     // dots: true,
-    infinite: false,
+    infinite: true,
     speed: 1000,
     slidesToShow: 2.51,
     slidesToScroll: 1,
@@ -168,6 +168,7 @@ function WidgetsLoop({ widget, showCartmenu }) {
               beforeChange={handleBeforeChange}
               afterChange={handleAfterChange}
               className="carousel place-items-center"
+              style={{  "Height" : widget.banner_height + "px"}}
             >
               {widget.items?.map((item) => {
                 if (item.product_id) {
