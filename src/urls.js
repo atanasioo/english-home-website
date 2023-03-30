@@ -53,7 +53,8 @@ var urls = {
   deleteLike: "v2/index.php?route=catalog/product/unlikeProduct",
   getLikeProduct: "v2/index.php?route=catalog/product/getLikedProducts",
   verify: "v2/index.php?route=account/address/addressPhoneVerification",
-  checkVerify: "v2/index.php?route=account/address/checkVerification"
+  checkVerify: "v2/index.php?route=account/address/checkVerification",
+  contactUs: "v2/index.php?route=account/contact_us",
 
 };
 

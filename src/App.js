@@ -29,6 +29,7 @@ import Success from "./pages/Success";
 import Wishlist from "./pages/Wishlist";
 import Latest from "./pages/Latest";
 import NotFound from "./pages/NotFound";
+import Contact from "./pages/Contact";
 
 
 
@@ -64,6 +65,7 @@ function App() {
                 <Route path="account/profile" element={<Profile />} />
                 <Route path="account/addresses" element={<Addresses />} />
                 <Route path="/information/:id" element={<Information />} />
+                <Route path="/contact" element={<Contact />} />
 
                 <Route path="search" element={<Search />} />
                 <Route path="latest" element={<Latest />} />

@@ -4,7 +4,7 @@ import { AccountContext } from "../contexts/AccountContext";
 import buildLink from "../urls";
 
 function PhoneHandler(props) {
-  const { phone, phoneHanlder, AdminPhoneHandler, setConfirmDisalbe, parentData, nb, handleInputs, fromCheckout } = props;
+  const { phone, phoneHanlder, AdminPhoneHandler, setConfirmDisalbe, parentData, nb, handleInputs, fromCheckout, fromContact } = props;
   const [state, dispatch] = useContext(AccountContext);
   const [valid, setValid] = useState(true);
   const [data, setData] = useState();
@@ -132,7 +132,7 @@ function PhoneHandler(props) {
     "bg-dred4 border-b border-dred4 absolute bottom-0 left-0 w-full  text-dblack2 text-base pl-3";
 
   return (
-    <div className="flex-1 ml-1">
+    <div className={`flex-1 ${!fromContact ? "ml-1" : ""} `}>
       <div>
         {state.admin ? (
           <input
@@ -156,10 +156,11 @@ function PhoneHandler(props) {
             ref={phone}
             //defaultValue={parentData?.telephone}
             defaultValue={nb}
-            className={` text-d14 font-light address-modal__input  ${
+            className={` text-d14 font-light ${!fromContact ? "address-modal__input" : "border border-dgrey3 text-d16 w-full text-dborderblack2 h-14 mb-2.5 px-5 outline-none focus:border focus:border-dblack2"}
+            ${
               !valid && `${red} !important`
             }`}
-            placeholder={"Write in the format  xxxxxxxx"}
+            placeholder={`${!fromContact ? "Write in the format  xxxxxxxx" : "Telephone"} `}
             minLength={7}
             required
             type="text"
