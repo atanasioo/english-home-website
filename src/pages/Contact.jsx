@@ -22,7 +22,7 @@ function Contact() {
   const navigate = useNavigate();
   const width = window.innerWidth;
 
-  //sign up
+  
   function submitForm(e) {
     e.preventDefault();
     setSubmitLoading(true);
