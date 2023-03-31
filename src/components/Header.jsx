@@ -24,7 +24,7 @@ function Header() {
   const [viewLevel2, setViewLevel2] = useState(false);
   const [state, dispatch] = useContext(AccountContext);
   const infoState = useContext(InformationContext);
-  const [infoActive, setInfoActive] = useState([]);
+  const [infoActive, setInfoActive] = useState(false);
   const location = useLocation();
   const [token, setToken] = useState();
   const [showMessage, setShowMessage] = useState(false);
