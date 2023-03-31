@@ -422,6 +422,7 @@ function Header() {
                             ))}
                         </div>
                       </div>
+                      {/* information level2 */}
                       <div
                         className={`menu-subitem bg-dwhite1 right-0 text-dbasenavy fixed top-11 ${
                           infoActive ? "left-0" : "left-full"
