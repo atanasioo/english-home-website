@@ -7,7 +7,7 @@ import { AccountContext } from "../contexts/AccountContext";
 import { path } from "../urls";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import SliderPlaceholder from "../assets/images/singleProduct.png";
-import SliderPlace from "../assets/images/product.png"
+import SliderPlace from "../assets/images/product.png";
 
 function WidgetsLoop({ widget, showCartmenu }) {
   const [accountState] = useContext(AccountContext);
@@ -102,8 +102,10 @@ function WidgetsLoop({ widget, showCartmenu }) {
 
   return (
     <div className="container pt-3">
+      {" "}
+      {/* <h1>{window.innerWidth}</h1> */}
       {widget.display === "slider" && (
-        <Slider {...setting} style={{"height" : widget.banner_height}} >
+        <Slider {...setting} >
           {widget?.items?.map((item, index) =>
             item.mobile_type_id === "0" ? (
               <div data-index={index} key={`slider` + index}>
@@ -112,15 +114,17 @@ function WidgetsLoop({ widget, showCartmenu }) {
                   src={`${window.config["site-url"]}/image/` + item.image}
                   className="w-full"
                   width={widget.banner_width}
-                  height={widget.banner_height}  
+                  height={widget.banner_height}
+
+                //  height={window.innerWidth * widget.banner_height/widget.banner_width}
                   placeholderSrc={SliderPlaceholder}
-              
-                         />
+                />
               </div>
             ) : (
-              <div >
+              <div>
                 <Link
                   key={index}
+                  
                   to={
                     // accountState.admin
                     //   ? `${path}/${types[item.mobile_type]}/${
@@ -145,15 +149,16 @@ function WidgetsLoop({ widget, showCartmenu }) {
                 
                 /> */}
 
-                  <LazyLoadImage
-                 
-                    src={"https://www.englishhome.com.lb/image/" + item.image}
-                    alt={item.name}
-                    width={widget.banner_width}
-                    height={widget.banner_height}
-                    placeholderSrc={SliderPlaceholder}
-                    // style={{"background": url(SliderPlaceholder) }}
-                  />
+                  <div>
+                    <LazyLoadImage
+                      alt={item.name}
+                      src={`${window.config["site-url"]}/image/` + item.image}
+                      className="w-full"
+                      width={widget.banner_width}
+                      height={widget.banner_height}
+                      // placeholderSrc={SliderPlaceholder}
+                    />
+                  </div>
                 </Link>
               </div>
             )
@@ -168,7 +173,7 @@ function WidgetsLoop({ widget, showCartmenu }) {
               beforeChange={handleBeforeChange}
               afterChange={handleAfterChange}
               className="carousel place-items-center"
-              style={{  "Height" : widget.banner_height + "px"}}
+              style={{ Height: widget.banner_height + "px" }}
             >
               {widget.items?.map((item) => {
                 if (item.product_id) {
@@ -272,7 +277,6 @@ function WidgetsLoop({ widget, showCartmenu }) {
           )}
         </div>
       )}
-
       {widget.display === "grid" && widget.items.length > 1 && (
         <div className="flex">
           {widget?.items?.map((item, index) =>
@@ -327,7 +331,6 @@ function WidgetsLoop({ widget, showCartmenu }) {
           )}
         </div>
       )}
-
       {widget.display === "grid" &&
         widget.items.length < 2 &&
         widget?.items?.map((item, index) =>

@@ -890,7 +890,7 @@ function Product() {
                               }}
                               className={`flex justify-center items-center w-20 mr-5 mb-5  border-2 hover:shadow cursor-pointer p-1 rounded-md
                             ${
-                              option_val.product_id === product_id
+                            (  option_val.product_id === product_id && option_val.product_id !=="" )
                                 ? "border-dblue1"
                                 : "border-dgrey"
                             }
