@@ -62,12 +62,12 @@ function Contact() {
   };
 
   return (
-    <div className="bg-dgrey10 py-14">
+    <div className="bg-dgrey10 ">
       <div
-        className={`w-full md:w-1/2 relative md:px-5 md:block m-auto `}
+        className={`w-full md:h-screen py-10 md:w-1/2 relative md:px-5 md:block m-auto `}
         data-id="register"
       >
-        <div className="auth-register__wrapper py-2.5 px-5 md:py-7 md:px-12 bg-dwhite1 min-h-full mb-12">
+        <div className="auth-register__wrapper py-2.5 px-5 md:py-7 md:px-12 bg-dwhite1 min-h-full ">
           <div className="authentication-register">
             <div className="auth-box ">
               <div className="block auth__form--title pb-2.5 text-d24 md:text-d27 text-center text-dborderblack2 m-2.5 uppercase">
