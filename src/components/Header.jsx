@@ -24,7 +24,7 @@ function Header() {
   const [viewLevel2, setViewLevel2] = useState(false);
   const [state, dispatch] = useContext(AccountContext);
   const infoState = useContext(InformationContext);
-  const [info, setInfo] = useState([]);
+  const [infoActive, setInfoActive] = useState([]);
   const location = useLocation();
   const [token, setToken] = useState();
   const [showMessage, setShowMessage] = useState(false);
@@ -140,18 +140,6 @@ function Header() {
               <div className="container">
                 <div className="row">
                   <div className="topbar__links float-right">
-                    {/* <Link className="text-dblack2 text-d12 ml-5 leading-10 font-bold hover:underline">
-                    Easy Returns
-                  </Link>
-                  <Link className="text-dblack2 text-d12 ml-5 leading-10 font-bold hover:underline">
-                    Campaigns
-                  </Link>
-                  <Link className="text-dblack2 text-d12 ml-5 leading-10 font-bold hover:underline">
-                    Order Tracking
-                  </Link>
-                  <Link className="text-dblack2 text-d12 ml-5 leading-10 font-bold hover:underline">
-                    Mails
-                  </Link> */}
                     {infoState?.informations?.map(
                       (i) =>
                         i.status === "1" && (
@@ -164,6 +152,12 @@ function Header() {
                           </Link>
                         )
                     )}
+                    <Link
+                      className="text-dblack2 text-d12 ml-5 leading-10 font-bold hover:underline"
+                      to={`/contact`}
+                    >
+                      Contact Us
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -331,7 +325,7 @@ function Header() {
                               }}
                               className="menu-item--title relative flex items-center uppercase text-d16 font-bold text-dbasenavy text-left font-mono"
                               dangerouslySetInnerHTML={{
-                                __html: category?.name
+                                __html: category?.name,
                               }}
                             ></Link>
                             {/* <img
@@ -349,6 +343,25 @@ function Header() {
                           </div>
                         </div>
                       ))}
+                      {/* informations */}
+                      <div className="menu-item--col h-11 border-b border-dbordergrey">
+                        <div className="menu-item--box flex items-center justify-between px-5 h-full ">
+                          <div
+                            onClick={() => {
+                              setInfoActive(true);
+                            }}
+                            className="menu-item--title relative flex items-center uppercase text-d16 font-bold text-dbasenavy text-left font-mono"
+                          >
+                            informations
+                          </div>
+
+                          <BsChevronRight
+                            onClick={() => {
+                              setInfoActive(true);
+                            }}
+                          />
+                        </div>
+                      </div>
                       <div
                         className={`menu-subitem bg-dwhite1 right-0 text-dbasenavy fixed top-11 ${
                           viewLevel2 ? "left-0" : "left-full"
@@ -362,7 +375,7 @@ function Header() {
                             />
                             <p
                               dangerouslySetInnerHTML={{
-                                __html: activeCategory?.name
+                                __html: activeCategory?.name,
                               }}
                             ></p>
                           </div>
@@ -380,11 +393,6 @@ function Header() {
                               >
                                 <Link
                                   to={`${
-                                    // state.admin
-                                    //   ? path +
-                                    //     "/category/" +
-                                    //     subcategory.category_id
-                                    //   :
                                     subcategory.name.length > 0
                                       ? "/" +
                                         subcategory.name
@@ -406,18 +414,66 @@ function Header() {
                                   <span
                                     className="js-menu-subitem--link-text mr-2 uppercase"
                                     dangerouslySetInnerHTML={{
-                                      __html: subcategory?.name
+                                      __html: subcategory?.name,
                                     }}
                                   ></span>
-                                  {/* <BsChevronRight className="w-5 h-5" /> */}
                                 </Link>
-                                {/* <div
-                            className={`bg-dwhite1 text-dbasenavy fixed transition-all ${
-                              viewLevel2 ? "left-full" : "left-0"
-                            } w-full h-full z-50 overflow-hidden`}
-                          ></div> */}
                               </div>
                             ))}
+                        </div>
+                      </div>
+                      <div
+                        className={`menu-subitem bg-dwhite1 right-0 text-dbasenavy fixed top-11 ${
+                          infoActive ? "left-0" : "left-full"
+                        } w-full h-full z-50 transition-all overflow-x-hidden text-left`}
+                      >
+                        <Link className="menu-subitem--title bg-dgrey4 text-dbasenavy w-full text-d16 font-bold py-5 px-7 block uppercase">
+                          <div className="flex items-center">
+                            <BsChevronLeft
+                              className="w-5 h-5 mr-2"
+                              onClick={() => setInfoActive(false)}
+                            />
+                            <p>Informations</p>
+                          </div>
+                        </Link>
+                        <div className="menu-subitem--list pb-5 pr-3.5 pl-5 overflow-y-scroll h-full">
+                          {infoState?.informations?.map((i) => (
+                            <div
+                              className="font-d16 p-4 border-t border-dbordergrey4 flex items-center"
+                              key={i.id}
+                            >
+                              <Link
+                                to={`/information/${i.id}`}
+                                onClick={() => {
+                                  setViewMenu(false);
+                                  setInfoActive(false);
+                                }}
+                                className="menu-subitem--link flex items-center"
+                              >
+                                <span className="js-menu-subitem--link-text mr-2 uppercase">
+                                  {" "}
+                                  {i.title}
+                                </span>
+                              </Link>
+                            </div>
+                          ))}
+                          <div
+                            className="font-d16 p-4 border-t border-dbordergrey4 flex items-center"
+                          >
+                            <Link
+                              to={`/contact`}
+                              onClick={() => {
+                                setViewMenu(false);
+                                setInfoActive(false);
+                              }}
+                              className="menu-subitem--link flex items-center"
+                            >
+                              <span className="js-menu-subitem--link-text mr-2 uppercase">
+                                {" "}
+                                Contact us
+                              </span>
+                            </Link>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -439,7 +495,6 @@ function Header() {
                 >
                   ENGLISH HOME
                 </Link>
-                
               </div>
             </div>
           </div>

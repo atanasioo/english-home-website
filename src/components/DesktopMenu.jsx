@@ -77,40 +77,6 @@ function DesktopMenu() {
                     </li>
                   ))}
               </div>
-
-              {/* <li className='inline-block'>
-                        <Link className='bg-dwhite1 text-dblack2 text-d12 p-2.5 hover:bg-dgrey3'
-                        //onMouseEnter={()=> }
-                        >BEDROOM</Link>
-                        <div className='navigation-submenu hidden bg-dgrey3 pl-4 w-full absolute top-full left-0 text-dblack1
-                        z-50 text-left mt-0.5'>
-
-                        </div>
-                    </li>
-                    <li className='inline-block'>
-                        <Link className='bg-dwhite1 text-dblack2 text-d12 p-2.5 hover:bg-dgrey3'>KITCHEN</Link>
-                    </li>
-                    <li className='inline-block'>
-                        <Link className='bg-dwhite1 text-dblack2 text-d12 p-2.5 hover:bg-dgrey3'>TABLE</Link>
-                    </li>
-                    <li className='inline-block'>
-                        <Link className='bg-dwhite1 text-dblack2 text-d12 p-2.5 hover:bg-dgrey3'>BATHROOM</Link>
-                    </li>
-                    <li className='inline-block'>
-                        <Link className='bg-dwhite1 text-dblack2 text-d12 p-2.5 hover:bg-dgrey3'>DECORATION</Link>
-                    </li>
-                    <li className='inline-block'>
-                        <Link className='bg-dwhite1 text-dblack2 text-d12 p-2.5 hover:bg-dgrey3'>CARPET&RUG</Link>
-                    </li>
-                    <li className='inline-block'>
-                        <Link className='bg-dwhite1 text-dblack2 text-d12 p-2.5 hover:bg-dgrey3'>BABY&KIDS</Link>
-                    </li>
-                    <li className='inline-block'>
-                        <Link className='bg-dwhite1 text-dblack2 text-d12 p-2.5 hover:bg-dgrey3'>CLOTHES</Link>
-                    </li>
-                    <li className='inline-block'>
-                        <Link className='bg-dwhite1 text-dblack2 text-d12 p-2.5 hover:bg-dgrey3'>PERSONAL CARE & COSMETICS</Link>
-                    </li> */}
             </ul>
             <div className="inline-block mt-4 xl:mt-0 ml-1">
               <Link  to={"/latest"} className="bg-dred1 text-dwhite1 text-d12 p-2.5 whitespace-nowrap">
