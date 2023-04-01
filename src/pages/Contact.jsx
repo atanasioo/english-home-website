@@ -64,7 +64,7 @@ function Contact() {
   return (
     <div className="bg-dgrey10 ">
       <div
-        className={`w-full md:h-screen py-10 md:w-1/2 relative md:px-5 md:block m-auto `}
+        className={`w-full md:h-full py-10 md:w-1/2 relative md:px-5 md:block m-auto `}
         data-id="register"
       >
         <div className="auth-register__wrapper py-2.5 px-5 md:py-7 md:px-12 bg-dwhite1 min-h-full ">
