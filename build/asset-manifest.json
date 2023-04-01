@@ -1,48 +1,18 @@
 {
   "files": {
-<<<<<<< HEAD
-<<<<<<< HEAD
-    "main.css": "/static/css/main.a18abc36.css",
-    "main.js": "/static/js/main.ee503110.js",
-=======
-    "main.css": "/static/css/main.98416211.css",
-    "main.js": "/static/js/main.77d1a3a9.js",
->>>>>>> b483c9b (...)
-=======
-    "main.css": "/static/css/main.6a675870.css",
-    "main.js": "/static/js/main.f47f3d71.js",
->>>>>>> eb24a06 (....)
+    "main.css": "/static/css/main.0793b82c.css",
+    "main.js": "/static/js/main.f674f510.js",
     "static/js/787.6cf9d305.chunk.js": "/static/js/787.6cf9d305.chunk.js",
     "static/media/online-support.png": "/static/media/online-support.a549b34d21843eff8f34.png",
     "static/media/product.png": "/static/media/product.f36d27b2c1ca9c5d2bea.png",
     "static/media/404.webp": "/static/media/404.f5e2f25cf53f3d4f40f0.webp",
     "index.html": "/index.html",
-<<<<<<< HEAD
-<<<<<<< HEAD
-    "main.a18abc36.css.map": "/static/css/main.a18abc36.css.map",
-    "main.ee503110.js.map": "/static/js/main.ee503110.js.map",
+    "main.0793b82c.css.map": "/static/css/main.0793b82c.css.map",
+    "main.f674f510.js.map": "/static/js/main.f674f510.js.map",
     "787.6cf9d305.chunk.js.map": "/static/js/787.6cf9d305.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.a18abc36.css",
-    "static/js/main.ee503110.js"
-=======
-    "main.98416211.css.map": "/static/css/main.98416211.css.map",
-    "main.77d1a3a9.js.map": "/static/js/main.77d1a3a9.js.map",
-    "787.6cf9d305.chunk.js.map": "/static/js/787.6cf9d305.chunk.js.map"
-  },
-  "entrypoints": [
-    "static/css/main.98416211.css",
-    "static/js/main.77d1a3a9.js"
->>>>>>> b483c9b (...)
-=======
-    "main.6a675870.css.map": "/static/css/main.6a675870.css.map",
-    "main.f47f3d71.js.map": "/static/js/main.f47f3d71.js.map",
-    "787.6cf9d305.chunk.js.map": "/static/js/787.6cf9d305.chunk.js.map"
-  },
-  "entrypoints": [
-    "static/css/main.6a675870.css",
-    "static/js/main.f47f3d71.js"
->>>>>>> eb24a06 (....)
+    "static/css/main.0793b82c.css",
+    "static/js/main.f674f510.js"
   ]
 }
