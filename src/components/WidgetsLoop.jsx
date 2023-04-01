@@ -35,9 +35,9 @@ function WidgetsLoop({ widget, showCartmenu }) {
 
   const carousal = {
     // dots: true,
-    infinite: true,
+     infinite: true,
     speed: 1000,
-    slidesToShow: 2.51,
+    slidesToShow: 2.3,
     slidesToScroll: 1,
     lazyLoad: true,
     autoplay: true,
@@ -172,7 +172,7 @@ function WidgetsLoop({ widget, showCartmenu }) {
               {...(widget.items[0].product_id ? productSetting : carousal)}
               beforeChange={handleBeforeChange}
               afterChange={handleAfterChange}
-              className="carousel place-items-center"
+              className="carousel place-items-center flex-row-reverse"
               style={{ Height: widget.banner_height + "px" }}
             >
               {widget.items?.map((item) => {
@@ -232,7 +232,8 @@ function WidgetsLoop({ widget, showCartmenu }) {
                           src={
                             `https://www.englishhome.com.lb/image/` + item.image
                           }
-                          // width={widget.banner_width}
+                          className="w-full"
+                           width={widget.banner_width}
                           height={widget.banner_height}
                           title={item.name}
                           placeholdersrc={SliderPlace}

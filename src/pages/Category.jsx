@@ -203,6 +203,36 @@ function Category() {
         });
       }
     }
+
+    let url_type =
+    window.location.href.indexOf("has_filter") < 0 ? "default" : "filter";
+  // setData({});
+
+  if (url_type === "default") {
+    const q_s = queryString.parse(location.search);
+    // q_s.page = q_s.page ? q_s.page : page;
+    // q_s.limit = q_s.limit ? q_s.limit : limit.value;
+    q_s.sort = q_s.sort ? q_s.sort : "p2co.sort_order";
+    q_s.order = q_s.order ? q_s.order : "ASC";
+    // if (width > 650) {
+    q_s.source_id = 1;
+    _axios
+    .post(
+      buildLink(type, undefined, undefined) + id
+    )
+    .then((response) => {
+      // setData((prevData) => {
+      //   return [
+      //     ...new Set([...prevData, ...response?.data?.data]),
+      //   ];
+      // });
+      setData(response?.data?.data);
+      setfilters(response?.data?.data?.filters);
+      setPointer(true);
+    });
+
+
+  }else{
     const q_s = queryString.parse(location.search);
     // q_s.page = q_s.page ? q_s.page : page;
     // q_s.limit = q_s.limit ? q_s.limit : limit.value;
@@ -227,7 +257,7 @@ function Category() {
         setfilters(response?.data?.data?.filters);
         setPointer(true);
       });
-
+    }
     let productArray = [];
     let productDetails = [];
     if (!stateAccount.admin) {
