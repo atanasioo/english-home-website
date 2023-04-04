@@ -12,7 +12,6 @@ function TopAccount() {
   const navigate = useNavigate();
   const width = window.innerWidth;
 
-
   useEffect(() => {
     dispatch({ type: "setAdminLoading", payload: true });
     // 70 91 1870
@@ -95,11 +94,12 @@ function TopAccount() {
   // console.log(state);
   return (
     <div className="relative">
-      {/* {width > 650 ? ( */}
+      {width > 650 ? (
         <Link
           className="header__user__auth__link"
           onMouseEnter={() => setShowmenu(true)}
           onMouseLeave={() => setShowmenu(false)}
+          onClick={() => setShowmenu(!showmenu)}
         >
           <div className="h-9 w-6 md:w-10 leading-8 mx-auto lg:border lg:border-dblue1 text-dbasenavy lg:text-dblue1 hover:text-dwhite1 hover:bg-dblue1 flex justify-center items-center mb-1">
             <FiUser className="h-5 w-5 lg:h-6 lg:w-6 " />
@@ -108,11 +108,8 @@ function TopAccount() {
             {state.loged ? <p>Profile</p> : <p>My Account</p>}
           </span>
         </Link>
-      {/* ): (
-        <Link
-          to={"/login"}
-          className="header__user__auth__link"
-        >
+      ) : !state.loged ? (
+        <Link to={"/login"} className="header__user__auth__link">
           <div className="h-9 w-6 md:w-10 leading-8 mx-auto md:border md:border-dblue1 text-dbasenavy md:text-dblue1 flex justify-center items-center mb-1">
             <FiUser className="h-5 w-5 md:h-6 md:w-6 " />
           </div>
@@ -120,7 +117,16 @@ function TopAccount() {
             {state.loged ? <p>Profile</p> : <p>My Account</p>}
           </span>
         </Link>
-      )} */}
+      ) : (
+        <Link className="header__user__auth__link" onClick={() => setShowmenu(!showmenu)}>
+          <div className="h-9 w-6 md:w-10 leading-8 mx-auto md:border md:border-dblue1 text-dbasenavy md:text-dblue1 flex justify-center items-center mb-1">
+            <FiUser className="h-5 w-5 md:h-6 md:w-6 " />
+          </div>
+          <span className="header__icons-text whitespace-nowrap hidden md:block mt-1.5 text-d11">
+            {state.loged ? <p>Profile</p> : <p>My Account</p>}
+          </span>
+        </Link>
+      )}
 
       {/* not logged hover div */}
       {showmenu && !state.loged && (
@@ -146,14 +152,16 @@ function TopAccount() {
       {/* logged in hover div */}
       {showmenu && state.loged && (
         <div
-          className="header__auth__menu-inner absolute z-10 -right-12 bg-dwhite1 w-72 text-left top-full flex flex-col"
+          className="header__auth__menu-inner absolute z-20 -right-12 bg-dwhite1 w-72 text-left top-full flex flex-col"
           onMouseEnter={() => setShowmenu(true)}
           onMouseLeave={() => setShowmenu(false)}
         >
           <div className="text-dborderblack3 bg-dgrey7 h-12 pt-1 px-3.5 leading-10 text-d15">
             {state?.username}
           </div>
-          <Link to="account/profile"
+          <Link
+            to="account/profile"
+            onClick={() => setShowmenu(false)}
             className="cursor-pointer w-full text-left h-9 leading-3 p-3  text-d14 text-dblack2 border-b
          border-dgrey5 hover:text-dblue1 hover:underline transition-all"
           >
@@ -161,13 +169,15 @@ function TopAccount() {
           </Link>
           <Link
             to="account/orders"
+            onClick={() => setShowmenu(false)}
             className="cursor-pointer w-full text-left h-9 leading-3 p-3  text-d14 text-dblack2 border-b
          border-dgrey5 hover:text-dblue1 hover:underline transition-all"
           >
             My Orders
           </Link>
           <Link
-          to="account/orders"
+            to="account/orders"
+            onClick={() => setShowmenu(false)}
             className="cursor-pointer w-full text-left h-9 leading-3 p-3  text-d14 text-dblack2 border-b
          border-dgrey5 hover:text-dblue1 hover:underline transition-all"
           >
@@ -182,12 +192,14 @@ function TopAccount() {
           </Link> */}
           <Link
             to="account/addresses"
+            onClick={() => setShowmenu(false)}
             className="cursor-pointer w-full text-left h-9 leading-3 p-3  text-d14 text-dblack2 border-b
          border-dgrey5 hover:text-dblue1 hover:underline transition-all"
           >
             My Address Information
           </Link>
           <Link
+            onClick={() => setShowmenu(false)}
             className="cursor-pointer w-full text-left h-9 leading-3 p-3  text-d14 text-dblack2 border-b
          border-dgrey5 hover:text-dblue1 hover:underline transition-all"
           >
