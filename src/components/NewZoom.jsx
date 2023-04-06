@@ -75,10 +75,10 @@ function NewZoom(props) {
               className=" overflow-hidden"
             >
               <div className="w-full"  >
-                <a
+                <div
                   id="Zoom-1"
                   className="MagicZoom"
-                  href={activeImage["popup"]}
+                  // href={activeImage["popup"]}
                 >
                   <LazyLoadImage
                     src={activeImage["popup"]}
@@ -87,7 +87,7 @@ function NewZoom(props) {
                     // style={{minHeight: "575px"}}
                     placeholderSrc={product_image}
                   />
-                </a>
+                </div>
               </div>
             </div>
 
