@@ -79,9 +79,11 @@ function WidgetsLoopMobile({ widget, showCartmenuMob }) {
           {widget?.items?.map((item, index) => (
             <Link 
               to={
-                accountState.admin
-                  ? `${path}/${types[item.mobile_type]}/${item.mobile_type_id}`
-                  : item.name.length > 0
+                // accountState.admin
+                //   ? `${path}/${types[item.mobile_type]}/${item.mobile_type_id}`
+                //   : 
+                  
+                  item.name.length > 0
                   ? "/" +
                     item.name
                       .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
@@ -135,13 +137,15 @@ function WidgetsLoopMobile({ widget, showCartmenuMob }) {
                     >
                       <Link
                         to={`${
-                          accountState.admin
-                            ? path +
-                              "/" +
-                              types[item.mobile_type] +
-                              "/" +
-                              item.mobile_type_id
-                            : item.name.length > 0
+                          // accountState.admin
+                          //   ? path +
+                          //     "/" +
+                          //     types[item.mobile_type] +
+                          //     "/" +
+                          //     item.mobile_type_id
+                          //   :
+                            
+                            item.name.length > 0
                             ? "/" +
                               item.name
                                 .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
@@ -188,13 +192,14 @@ function WidgetsLoopMobile({ widget, showCartmenuMob }) {
                     <div className={`pr-2`} key={item.banner_image_id}>
                       <Link
                         to={`${
-                          accountState.admin
-                            ? path +
-                              "/" +
-                              types[item.mobile_type] +
-                              "/" +
-                              item.mobile_type_id
-                            : item.name.length > 0
+                          // accountState.admin
+                          //   ? path +
+                          //     "/" +
+                          //     types[item.mobile_type] +
+                          //     "/" +
+                          //     item.mobile_type_id
+                          //   :
+                             item.name.length > 0
                             ? "/" +
                               item.name
                                 .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
@@ -234,11 +239,13 @@ function WidgetsLoopMobile({ widget, showCartmenuMob }) {
               item.mobile_type_id !== "0" ? (
                 <Link
                   to={
-                    accountState.admin
-                      ? `${path}/${types[item.mobile_type]}/${
-                          item?.mobile_type_id
-                        }`
-                      : item?.name?.length > 0
+                    // accountState.admin
+                    //   ? `${path}/${types[item.mobile_type]}/${
+                    //       item?.mobile_type_id
+                    //     }`
+                    //   :
+                      
+                      item?.name?.length > 0
                       ? "/" +
                         item?.name
                           ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
@@ -296,9 +303,10 @@ function WidgetsLoopMobile({ widget, showCartmenuMob }) {
           item.mobile_type_id !== "0" ? (
             <Link
               to={
-                accountState.admin
-                  ? `${path}/${types[item.mobile_type]}/${item?.mobile_type_id}`
-                  : item?.name?.length > 0
+                // accountState.admin
+                //   ? `${path}/${types[item.mobile_type]}/${item?.mobile_type_id}`
+                //   : 
+                  item?.name?.length > 0
                   ? "/" +
                     item?.name
                       ?.replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")

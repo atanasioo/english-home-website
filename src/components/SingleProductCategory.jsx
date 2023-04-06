@@ -148,6 +148,7 @@ export default function SingleProducCategory(props) {
         <div >
         {window.innerWidth < 650 ? (
             <LazyLoadImage
+            className="mr-1.5"
               style={{ height: "105px" }}
               src={props.item.thumb}
               alt={props.item.name}

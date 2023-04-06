@@ -983,8 +983,8 @@ function Category() {
                   )}
                 </div>
               ) : (
-                <div>
-                  <div className="grid grid-cols-2 grid-2">
+                <div style={{width:window.innerWidth}}>
+                  <div className="grid grid-cols-2 ">
                     <div className="flex w-full " onClick={showMobilefilter}>
                       <span className="w-2/6"></span>
                       <span>Filter</span>
@@ -1042,9 +1042,10 @@ function Category() {
                       </div>
                     ))}
                   </div>
-                  <div className="grid grid-cols-2 ">
+                  <div className="grid grid-cols-2">
                     {data?.products?.map((product) => (
                       <div className="">
+                  
                         <SingleProductCategory
                           item={product}
                         ></SingleProductCategory>

@@ -3,7 +3,7 @@ import React, {
   useState,
   useContext,
   useRef,
-  useCallback,
+  useCallback
 } from "react";
 import { AccountContext } from "../contexts/AccountContext";
 import { Link } from "react-router-dom";
@@ -16,6 +16,7 @@ import TopCart from "../components/TopCart";
 import Loader from "../components/Loader";
 import PointsLoader from "../components/PointsLoader";
 import CartmenuMobile from "../components/CartmenuMobile";
+import download from "../assets/images/download.gif";
 
 function Home() {
   // const WidgetsLoop = React.lazy(() => import('../components/WidgetsLoop'));
@@ -57,14 +58,18 @@ function Home() {
     await _axios({
       method: "post",
       url: buildLink("home", undefined, window.innerWidth),
-      data: { view: window.innerWidth > 650 ? "web_desktop" : 'web_mobile', limit: 20, page: page },
+      data: {
+        view: window.innerWidth > 650 ? "web_desktop" : "web_mobile",
+        limit: 20,
+        page: page
+      }
     })
       .then((response) => {
         // alert(response?.data?.success)
         if (response?.data?.success) {
           setWidgets((prevWidgets) => {
             return [
-              ...new Set([...prevWidgets, ...response?.data?.data?.widgets]),
+              ...new Set([...prevWidgets, ...response?.data?.data?.widgets])
             ];
           });
           //setData(response?.data?.data?.widgets);
@@ -123,6 +128,18 @@ function Home() {
 
   return (
     <div className="mx-1 md:mx-auto md:container pt-3 min-h-screen">
+      {window.innerWidth < 650 &&
+        window.config["site-url"] === "https://www.englishhome.com.lb" && (
+          <img
+            style={{ marginTop: "-1px" }}
+            src={download}
+            alt="download-app"
+            className="cursor-pointer"
+            onClick={() =>
+              (window.location.href = "https://www.englishhome.com.lb/app")
+            }
+          />
+        )}
       {showCartmenu && (
         <div ref={wrapperRef} onMouseEnter={() => setHoveredCart(true)}>
           <TopCart cartmenu={showCartmenu} />
@@ -165,37 +182,36 @@ function Home() {
       )}
 
       {
-      // !state?.admin ? (
-      //   <div className="min-w-full min-h-screen bg-dbasenavy">
-      //     <div className="flex flex-col justify-center items-center">
-      //       <div className="font-serif text-dwhite1 text-4xl mb-72 mt-10">ENGLISH HOME </div>
-      //       <div className="text-6xl md:text-9xl italic text-dwhite1 font-mono">COMING SOON</div>
-      //     </div>
-      //   </div>
-      // ) :
-      window.innerWidth < 650 ? (
-        widgets?.map((widget) => {
-          return (
-            <WidgetsLoopMobile widget={widget} showCartmenuMob={showCart} />
-          );
-        })
-      ) : (
-        widgets?.map((widget, index) => {
-          if (widgets.length === index + 1) {
-            return (
-              <div className="theHome" ref={lastElementRef} key={widget}>
-                <WidgetsLoop widget={widget} showCartmenu={showCart} />
-              </div>
-            );
-          } else {
-            return (
-              <div className="">
-                <WidgetsLoop showCartmenu={showCart} widget={widget} />
-              </div>
-            );
-          }
-        })
-      )}
+        // !state?.admin ? (
+        //   <div className="min-w-full min-h-screen bg-dbasenavy">
+        //     <div className="flex flex-col justify-center items-center">
+        //       <div className="font-serif text-dwhite1 text-4xl mb-72 mt-10">ENGLISH HOME </div>
+        //       <div className="text-6xl md:text-9xl italic text-dwhite1 font-mono">COMING SOON</div>
+        //     </div>
+        //   </div>
+        // ) :
+        window.innerWidth < 650
+          ? widgets?.map((widget) => {
+              return (
+                <WidgetsLoopMobile widget={widget} showCartmenuMob={showCart} />
+              );
+            })
+          : widgets?.map((widget, index) => {
+              if (widgets.length === index + 1) {
+                return (
+                  <div className="theHome" ref={lastElementRef} key={widget}>
+                    <WidgetsLoop widget={widget} showCartmenu={showCart} />
+                  </div>
+                );
+              } else {
+                return (
+                  <div className="">
+                    <WidgetsLoop showCartmenu={showCart} widget={widget} />
+                  </div>
+                );
+              }
+            })
+      }
 
       {loading && <PointsLoader />}
     </div>

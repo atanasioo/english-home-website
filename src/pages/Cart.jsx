@@ -514,7 +514,7 @@ function Cart() {
                           </span>
                           <span></span>
                           <span className="text-d15 text-dblack2 inline-block">
-                            {state?.totals["1"]?.text}
+                            {/* {state?.totals["1"]?.text} */}
                           </span>
                         </div>
                         <div className="w-full pb-3.5">

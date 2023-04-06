@@ -119,10 +119,10 @@ function Footer() {
                     Download the Mobile App Don't Miss The Opportunities!
                   </span>
                   <div className="flex space-x-3 py-3 w-full  place-content-center">
-                    <a>
+                    <a  href={window.config['appleStore']}>
                       <p className="appleStore px-10 cursor-pointer"></p>
                     </a>
-                    <a>
+                    <a href={window.config['googlePlay']}>
                       <p className="googlePlay cursor-pointer"></p>
                     </a>
                   </div>

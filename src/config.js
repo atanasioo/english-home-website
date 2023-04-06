@@ -3,11 +3,11 @@ var config = {};
 
 
   config = {
-    "short-name": "ishtari",
-    "seo-title": "ishtari | Online Shopping in Lebanon",
-    "seo-title-base": " | ishtari",
+    "short-name": "englishHome",
+    "seo-title": "englishHome | Online Shopping in Lebanon",
+    "seo-title-base": " | englishHome",
     "seo-description":
-      "Discover ishtari- Lebanese best online shopping experience✓ Full service - best prices✓ Huge selection of products ✓ Enjoy pay on delivery. موقع اشتري٬ تسوق اونلاين توصيل إلى جميع المناطق اللبنانية",
+      "English Home, which brings a fresh life energy to your interiors and creates designs intertwined with modernism, continues to offer original products with its collections that strengthen your decoration, functional, comfortable and make your life easier. English Home, which continues to follow modern design lines in home textile products; It creates a unique equation in the fields of kitchen, bathroom, living room, decoration, baby & child, clothing, personal care & cosmetics and brings together exclusive products that help you create style easily.",
     email: {
       it: "it@ishtari.com"
     },
@@ -24,9 +24,9 @@ var config = {};
     send_email: "info@ishtari.com",
     zone: "118",
     "initial-zone": { id: "3969", name: "Beirut بيروت" },
-    appleStore: "https://apps.apple.com/lb/app/ishtari/id1248110122",
+    appleStore: "https://apps.apple.com/lb/app/english-home-lb/id6445799712",
     googlePlay:
-      "https://play.google.com/store/apps/details?id=com.smartdevision.app.ishtari",
+      "https://play.google.com/store/search?q=english+home+lebanon&c=apps",
 
     "admin-product-url":
       "http://www.englishhome.com.lb/control/admin/index.php?route=catalog/product/update&product_id=",

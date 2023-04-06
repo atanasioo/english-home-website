@@ -109,11 +109,11 @@ function WidgetsLoop({ widget, showCartmenu }) {
           {widget?.items?.map((item, index) =>
             item.mobile_type_id === "0" ? (
               <div data-index={index} key={`slider` + index}>
-                <LazyLoadImage
+                <img
                   alt={item.name}
                   src={`${window.config["site-url"]}/image/` + item.image}
                   className="w-full"
-                  width={widget.banner_width}
+                  // width={widget.banner_width}
                   height={widget.banner_height}
 
                 //  height={window.innerWidth * widget.banner_height/widget.banner_width}

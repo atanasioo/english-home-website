@@ -41,10 +41,10 @@ function Checkout() {
     addr2: "",
     em: "",
     tel: "",
-    zn: zone.current.name  || "",
-    znId: zone.current.id  || "",
+    zn: zone.current.name || "",
+    znId: zone.current.id || "",
     fn: "",
-    ln: "",
+    ln: ""
   });
   const [loged, setloged] = useState();
   const [accountData, setAccountData] = useState([]);
@@ -56,7 +56,7 @@ function Checkout() {
 
   const town = useRef({
     id: 0,
-    name: "",
+    name: ""
   });
   const [termCondition, setTermCondition] = useState();
 
@@ -75,8 +75,6 @@ function Checkout() {
 
   const email = useRef("");
   const comment = useRef("");
-
-
 
   const [confirmDisable, setConfirmDisalbe] = useState(false);
 
@@ -97,21 +95,19 @@ function Checkout() {
           if (response.data.success) {
             setAddresses(response.data.data);
             setActiveAddress(response.data.data[0]);
-          }else{
+          } else {
             getZones();
             setAddressmenu(true);
           }
         } else {
           dispatchAccount({ type: "setLoading", payload: false });
-         
+
           if (!stateAccount.loged) {
             navigate("/");
           }
         }
       });
   }, [dispatchAccount, stateAccount.loged]);
-
-
 
   // Add Address
   function addAddress(e) {
@@ -127,7 +123,7 @@ function Checkout() {
       town_id: 0,
       country_id,
       city,
-      postcode,
+      postcode
     };
     setphoneValidate("");
     if (window.config["zone"] === "82" && telephone.current.value.length < 11) {
@@ -207,22 +203,24 @@ function Checkout() {
               //     productArray = p.product_id + ",";
               //   }
               // });
-              if (!state.admin  && manualResponse.order_product?.length > 0) {
+              if (!state.admin && manualResponse.order_product?.length > 0) {
                 // ---> Facebook PIXEL <---
-                const advancedMatching = {  
+                const advancedMatching = {
                   em: manualResponse?.social_data?.email,
                   fn: manualResponse?.social_data?.firstname,
                   ln: manualResponse?.social_data?.lastname,
                   external_id: manualResponse?.social_data?.external_id,
-                  country:  manualResponse?.social_data?.country_code,
-          
-                 }; 
-                ReactPixel.init(pixelID, advancedMatching, { debug: true, autoConfig: false });     
+                  country: manualResponse?.social_data?.country_code
+                };
+                ReactPixel.init(pixelID, advancedMatching, {
+                  debug: true,
+                  autoConfig: false
+                });
                 ReactPixel.pageView();
                 ReactPixel.fbq("track", "PageView");
                 // if (data) {
                 let productArray = "";
-          
+
                 manualResponse?.order_product?.map((p, index) => {
                   if (index === manualResponse.order_product?.length - 1) {
                     productArray += p.product_id;
@@ -230,12 +228,17 @@ function Checkout() {
                     productArray = p.product_id + ",";
                   }
                 });
-                window.fbq("track" ,"InitiateCheckout", {
-                  content_type: "product",
-                  content_ids: productArray,
-                  num_items: manualResponse?.order_product?.length,     
-                  currency: manualResponse?.social_data?.currency,
-                }, {  eventID: manualResponse?.social_data?.event_id});
+                window.fbq(
+                  "track",
+                  "InitiateCheckout",
+                  {
+                    content_type: "product",
+                    content_ids: productArray,
+                    num_items: manualResponse?.order_product?.length,
+                    currency: manualResponse?.social_data?.currency
+                  },
+                  { eventID: manualResponse?.social_data?.event_id }
+                );
                 // }
               }
             }
@@ -270,26 +273,26 @@ function Checkout() {
           }
 
           setManualCart(temp);
-          manual(temp, zone, activePaymentMethod, false);
+          manual(temp, zone, activePaymentMethod, false, false);
           setCartData(response.data.data);
         }
 
         dispatch({
           type: "setProducts",
-          payload: response.data.data.products,
+          payload: response.data.data.products
         });
 
         dispatch({
           type: "setProductsCount",
-          payload: response.data.data.total_product_count,
+          payload: response.data.data.total_product_count
         });
         dispatch({
           type: "setTotals",
-          payload: response.data.data.totals,
+          payload: response.data.data.totals
         });
         dispatch({
           type: "loading",
-          payload: false,
+          payload: false
         });
       });
   }
@@ -375,7 +378,7 @@ function Checkout() {
     setActiveAddress(address);
     const obj = {
       name: address.zone,
-      value: address.zone_id,
+      value: address.zone_id
     };
     zone.current.name = address.zone;
     zone.current.id = address.zone_id;
@@ -437,12 +440,15 @@ function Checkout() {
   }, []);
 
   function handleSubmit(e) {
+  
+
     e.preventDefault();
+    manualErrors.current = ''
     // manual(manualCart, zone, paymentMeth, false);
 
     const btn = document.getElementById("savebtn");
     if (stateAccount?.loged) {
-      setFirstAttemp(false)
+      setFirstAttemp(false);
       if (JSON.stringify(activeAddress) === "{}") {
         btn.disabled = true;
       } else {
@@ -453,14 +459,15 @@ function Checkout() {
         setPaymenttab(true);
       }
     } else {
+
       manual(manualCart, zone, paymentMeth, false);
       // alert(manualR.success)
-      if(manualR.success === true){
+      if (manualR.success === true) {
         btn.disabled = false;
         setAddresstab(false);
         setPaymenttab(true);
+ 
       }
-   
     }
   }
 
@@ -470,11 +477,11 @@ function Checkout() {
     const sel = e.target;
     const obj = {
       name: sel.options[sel.selectedIndex].text,
-      value: sel.value,
+      value: sel.value
     };
     zone.current.id = sel.value;
     zone.current.name = sel.options[sel.selectedIndex].text;
-    manual(manualCart, obj, activePaymentMethod, false);
+    manual(manualCart, obj, activePaymentMethod, false , true);
 
     // _axios
     //   .get(buildLink("town", undefined, window.innerWidth) + zone.current.id)
@@ -494,13 +501,15 @@ function Checkout() {
     }
   }
 
-  function manual(manualCartProducts, _zone, paymentcode, confirm) {
+  function manual(manualCartProducts, _zone, paymentcode, confirm, bool) {
     // alert(confirm)
     setLoading(true);
     window.scroll(0, 0);
     let body = {};
     // if it's first attemp
-    if(stateAccount.loged){ setFirstAttemp(false);}
+    if (stateAccount.loged) {
+      setFirstAttemp(false);
+    }
 
     if (firstAttemp) {
       body = {
@@ -542,29 +551,34 @@ function Checkout() {
         //     : true,
         source_id: 1,
         coupon: "",
-        code_version: window.innerWidth > 600 ? "web_desktop" : "web_mobile",
+        code_version: window.innerWidth > 600 ? "web_desktop" : "web_mobile"
       };
     } else {
       body = {
         order_product: manualCartProducts,
-        customer_id: customerId || "" ,
-        firstname: stateAccount.loged ? activeAddress.firstname : firstname?.current?.value || addrInfo.fn ,
-        lastname: stateAccount.loged ? activeAddress.lastname : lastname?.current?.value || addrInfo.ln,
+        customer_id: customerId || "",
+        firstname: stateAccount.loged
+          ? activeAddress.firstname
+          : firstname?.current?.value || addrInfo.fn,
+        lastname: stateAccount.loged
+          ? activeAddress.lastname
+          : lastname?.current?.value || addrInfo.ln,
         email: addrInfo.em || "",
         address_1: stateAccount.loged
           ? activeAddress.address_1
-          : address_1?.current?.value   || addrInfo.addr1,
+          : address_1?.current?.value || addrInfo.addr1,
         telephone: stateAccount.loged
           ? activeAddress.telephone
-          : (telephone?.current?.value?.replace("-", "")  ||  addrInfo.tel?.replace("-", "")),
+          : telephone?.current?.value?.replace("-", "") ||
+            addrInfo.tel?.replace("-", ""),
         address_2: stateAccount.loged
           ? activeAddress.address_2
-          : address_2?.current?.value   || addrInfo.addr2,
+          : address_2?.current?.value || addrInfo.addr2,
         city: "",
         shipping_method: "Delivery ( 1-4 days )",
         shipping_code: "ultimate_shipping.ultimate_shipping_0",
         payment_method: "Cash On Delivery",
-        payment_code: 'cod',
+        payment_code: "cod",
         comment: comment.current?.value || "",
         country_id: window.config["zone"],
         zone_id: _zone?.value || zone.current.id,
@@ -579,7 +593,7 @@ function Checkout() {
         payment_session: manualResponse.payment_session,
         source_id: 1,
         coupon: coupon?.current?.value || "",
-        code_version: window.innerWidth > 600 ? "web_desktop" : "web_mobile",
+        code_version: window.innerWidth > 600 ? "web_desktop" : "web_mobile"
       };
       const adminId = Cookies.get("user_id");
       if (typeof adminId != "undefined") {
@@ -590,16 +604,18 @@ function Checkout() {
       .post(buildLink("manual", undefined, window.innerWidth), body)
       .then((response) => {
         setManualResponse(response.data.data);
-      if(!firstAttemp) setManualR(response.data);
+        if (!firstAttemp) setManualR(response.data);
         const data = response.data;
 
         if (data?.success === false) {
           manualErrors.current = response.data.errors;
-          
+
           setConfirmDisalbe(false);
           // if (manualErrors.current["0"].errorCode === "payment_method") {
           //   setAddresstab(false);
-          //   setPaymenttab(true);
+            setPaymenttab(false);
+            setAddresstab(true);
+
           //   setPaymentMeth("Cash On Delivery");
           // } else {
           // }
@@ -607,8 +623,23 @@ function Checkout() {
           manualErrors.current = "";
           paymentForm(confirm, paymentcode);
           setLoading(false);
+         
+
+          if(bool===true){
+            setPaymenttab(false);
+            setAddresstab(true);
+
+          }else{
           // handleInputs()
-          if (firstAttemp) setFirstAttemp(false);
+          if (firstAttemp  ) 
+           {setFirstAttemp(false);
+            setPaymenttab(false);
+            setAddresstab(true);
+          }else{
+            setPaymenttab(true);
+            setAddresstab(false);
+          }
+        }
         }
       });
 
@@ -616,8 +647,6 @@ function Checkout() {
     //  navigate('/login')
     // }
   }
-
-
 
   function handleInputs() {
     setAddrInfo({
@@ -628,7 +657,7 @@ function Checkout() {
       ln: lastname.current.value,
       tel: telephone.current.value,
       zn: zone.current.name,
-      znId: zone_id.current.value,
+      znId: zone_id.current.value
     });
   }
 
@@ -637,8 +666,8 @@ function Checkout() {
     e.preventDefault();
 
     setConfirmDisalbe(true);
-// alert(activePaymentMethod)
-    manual(manualCart, zone, activePaymentMethod, true);
+    // alert(activePaymentMethod)
+    manual(manualCart, zone, activePaymentMethod, true, false);
     // alert(1)
     // setConfirmDisalbe(true);
   }
@@ -661,15 +690,17 @@ function Checkout() {
           ReactPixel.pageView();
           ReactPixel.fbq("track", "PageView");
           if (!state.admin) {
-            const advancedMatching = {  
+            const advancedMatching = {
               em: data?.data?.social_data?.email,
               fn: data?.data?.social_data?.firstname,
               ln: data?.data?.social_data?.lastname,
               external_id: data?.data?.social_data?.external_id,
-              country: data?.data?.social_data?.country_code,
-  
-             }; 
-            ReactPixel.init(pixelID, advancedMatching, { debug: true, autoConfig: false });     
+              country: data?.data?.social_data?.country_code
+            };
+            ReactPixel.init(pixelID, advancedMatching, {
+              debug: true,
+              autoConfig: false
+            });
             ReactPixel.pageView();
             ReactPixel.fbq("track", "PageView");
             if (data) {
@@ -682,17 +713,21 @@ function Checkout() {
               //   country: data?.data?.social_data?.country_code,
               //   currency: data?.data?.social_data?.currency,
               //   fbp: Cookies.get("_fbp")
-  
+
               // }, { eventID : data?.data?.social_data?.event_id, event_id : data?.data?.social_data?.event_id  });
-  
-              window.fbq('track', 'Purchase', {
-                content_type: "product",
-                content_ids: data?.data?.social_data?.content_ids,
-                value: data?.data?.social_data?.value,
-                num_items: data?.data?.social_data?.num_items,
-                currency: data?.data?.social_data?.currency,       
-              }, {eventID : data?.data?.social_data?.event_id,});
-  
+
+              window.fbq(
+                "track",
+                "Purchase",
+                {
+                  content_type: "product",
+                  content_ids: data?.data?.social_data?.content_ids,
+                  value: data?.data?.social_data?.value,
+                  num_items: data?.data?.social_data?.num_items,
+                  currency: data?.data?.social_data?.currency
+                },
+                { eventID: data?.data?.social_data?.event_id }
+              );
             }
             var dataSocial = data?.data?.social_data;
             dataSocial["link"] = window.location.href;
@@ -700,7 +735,10 @@ function Checkout() {
             dataSocial["fbc"] = Cookies.get("_fbc");
             dataSocial["ttp"] = Cookies.get("_ttp");
             _axios
-              .post(buildLink("pixel", undefined, window.innerWidth), dataSocial)
+              .post(
+                buildLink("pixel", undefined, window.innerWidth),
+                dataSocial
+              )
               .then((response) => {
                 const data = response.data;
                 if (data.success === true) {
@@ -723,10 +761,10 @@ function Checkout() {
   function setCoupon() {
     const obj = {
       name: zone.current.name,
-      value: zone.current.id,
+      value: zone.current.id
     };
     if (coupon.current.value.length > 1) {
-      manual(manualCart, obj, activePaymentMethod, false);
+      manual(manualCart, obj, activePaymentMethod, false, false);
     }
   }
 
@@ -771,7 +809,6 @@ function Checkout() {
 
   // Update quantity
   function updateQuantity(e, key, quantity, i) {
-
     e.preventDefault();
     setLoading(true);
     dispatch({
@@ -790,21 +827,19 @@ function Checkout() {
           payload: false
         });
       });
-
   }
 
   function handleChangeQuantity(e, key, i) {
     if (document.getElementById("p-quantity" + i)) {
       document.getElementById("p-quantity" + i).value = e.target.value;
-
     }
     if (e.keyCode === 13) {
       let quantity = e.target.value;
       const obj = { key, quantity };
- 
+
       dispatch({
         type: "loading",
-        payload: true,
+        payload: true
       });
       _axios
         .put(buildLink("cart", undefined, window.innerWidth), obj)
@@ -812,18 +847,14 @@ function Checkout() {
           getCart();
 
           e.target.blur();
- 
         });
     }
   }
 
-
-
-
   return (
     <div>
       {/* address modal  */}
-      {addressmenu  && stateAccount.loged && (
+      {addressmenu && stateAccount.loged && (
         <div className="orders-modal-container">
           <div className="address-modal block z-30 relative ">
             <div
@@ -943,8 +974,7 @@ function Checkout() {
                     required
                     className="address-modal__input border border-dgrey6"
                     onChange={(e) => {
-                      zoneChanged(e)
-                     
+                      zoneChanged(e);
                     }}
                   >
                     {zones?.map((zone) => (
@@ -1299,9 +1329,8 @@ function Checkout() {
                                   }`}
                                   >
                                     {/* {manualErrors.current.map( */}
-                                      {/* (err) => err.errorMsg */}
-                                   {   manualErrors.current["0"]?.errorMsg
-                                    }
+                                    {/* (err) => err.errorMsg */}
+                                    {manualErrors.current["0"]?.errorMsg}
                                   </div>
                                 )}
 
@@ -1414,7 +1443,7 @@ function Checkout() {
                                               : ""
                                           }`}
                                         >
-                                          {zone.name}  
+                                          {zone.name}
                                         </option>
                                       ))}
                                     </select>
@@ -1465,18 +1494,18 @@ function Checkout() {
                                   : "opacity-100"
                               }`}
                             >
-                              <div className="text-d16 py-3.5 px-7 text-dblack2 uppercase borer-b border-dgrey3">
+                              {/* <div className="text-d16 py-3.5 px-7 text-dblack2 uppercase borer-b border-dgrey3">
                                 {" "}
                                 Cargo company
-                              </div>
+                              </div> */}
                               <div className="px-5"></div>
                               <div className="checkout-error text-left whitespace-nowrap mb-2.5 px-5 mt-1 text-dred4 text-d12"></div>
                               <div className="py-2.5 px-3.5 mb-5">
                                 <button
                                   id="savebtn"
                                   //type="submit"
-                                  onClick={(e) => handleSubmit(e)}
-                                  className="text-d14 tracking-tight uppercase mt-3.5 h-11 text-center w-full bg-dblue1 text-dwhite1 flex items-center justify-center hover:bg-dblack1 transition ease in duration-300"
+                                  onClick={(e) =>{ handleSubmit(e)}}
+                                  className="text-d14 tracking-tight uppercase mt-3.5 h-11 text-center w-full bg-dblue1 text-dwhite1 flex items-center justify-center "
                                 >
                                   <span>SAVE AND CONTINUE</span>
                                   <BsChevronRight className="w-3 h-3 ml-0.5" />
@@ -1493,7 +1522,7 @@ function Checkout() {
                   {paymenttab && (
                     <div className="checkout-tab-payment relative ">
                       <div className="payment-tabs  mt-3  flex items-start">
-                        <div className="font-semibold text-dwhite1 bg-dblue1 inline-block cursor-pointer leading-7 h-12 border border-dgrey3 text-center whitespace-nowrap text-d13 pt-2 px-1 overflow-hidden">
+                        <div className="font-semibold  text-dwhite1 bg-dblue1 inline-block cursor-pointer leading-7 h-12 border border-dgrey3 text-center whitespace-nowrap text-d13 pt-2 px-3 overflow-hidden">
                           Cach on delivery
                         </div>
                       </div>
@@ -1515,10 +1544,10 @@ function Checkout() {
                             </div>
                           </div>
                           <div className=" w-full md:w-1/2 bg-dwhite1 border border-dgrey3">
-                            <div className="text-d13 md:text-d16 px-3.5 py-7 text-dblack2 uppercase border-b border-dgrey3 w-full text-left">
+                            {/* <div className="text-d13 md:text-d16 px-3.5 py-7 text-dblack2 uppercase border-b border-dgrey3 w-full text-left">
                               {" "}
                               Payment options
-                            </div>
+                            </div> */}
                             <div className="checkout-button py-2.5 px-3.5 mb-5">
                               <div className="checkout-sticky-area  w-full  bg-dwhite1">
                                 <div className="m-1 w-full items-center text-d14 font-bold md:hidden"></div>
@@ -1542,6 +1571,210 @@ function Checkout() {
                                 {/* <button className="text-d14 tracking-tight uppercase mt-3.5 h-11 text-center w-full bg-dblue1 text-dwhite1 flex items-center justify-center hover:bg-dblack1 transition ease in duration-300">
                                   checkout
                                 </button> */}
+                                {window.innerWidth < 650 && (
+                                  <div className=" w-full md:w-1/3 pt-2">
+                                    <div>
+                                      <div className="analytics-data hidden"></div>
+                                      <div className="checkout-summary border border-dgrey3 bg-dwhite1">
+                                        <div className="summary-wrapper py-3.5 px-6 relative bg-dwhite1">
+                                          <div className="checkout-sum">
+                                            <div className="summary-title text-d16 text-dblack1 border-b-0 flex items-center">
+                                              <p>ORDER SUMMARY</p>
+                                              <span className="text-d14 font-light mx-1">
+                                                {state?.productsCount} Items
+                                              </span>
+                                            </div>
+                                            <div className="checkout-summary-items table w-full">
+                                              <div className="summary-items-wrapper h-auto overflow-y-auto mt-5">
+                                                <div
+                                                  className={`summary-items ${
+                                                    state.loading &&
+                                                    "pointer-events-none opacity-50"
+                                                  }`}
+                                                >
+                                                  {/* {state?.products?.map((product) => ( */}
+                                                  {manualResponse?.order_product
+                                                    ?.length > 0 &&
+                                                    manualResponse?.order_product?.map(
+                                                      (product, i) => (
+                                                        <div
+                                                          className={`summary-product-item flex items-center mb-2.5 ${
+                                                            !product.stock &&
+                                                            "bg-dred5 border-2 p-0.5"
+                                                          }`}
+                                                          key={
+                                                            product?.product_id
+                                                          }
+                                                        >
+                                                          <img
+                                                            src={product?.image}
+                                                            alt={product?.name}
+                                                            className={"w-16"}
+                                                          />
+                                                          <div className="summary-product-item-info text-left text-d12 table-cell align-top mx-2">
+                                                            <Link
+                                                              to={`/${
+                                                                product?.name
+                                                                  .replace(
+                                                                    /\s+&amp;\s+|\s+&gt;\s+/g,
+                                                                    "-"
+                                                                  )
+                                                                  .replace(
+                                                                    /\s+/g,
+                                                                    "-"
+                                                                  )
+                                                                  .replace(
+                                                                    "/",
+                                                                    "-"
+                                                                  )
+                                                                  .replace(
+                                                                    "%",
+                                                                    ""
+                                                                  ) +
+                                                                "/p=" +
+                                                                product.product_id
+                                                              }`}
+                                                              dangerouslySetInnerHTML={{
+                                                                __html:
+                                                                  product?.name
+                                                              }}
+                                                            ></Link>
+
+                                                            <div className="text-left font-light flex pt-1">
+                                                              <p className="mr-3">
+                                                                Quantity :
+                                                              </p>
+                                                              <div className="flex justify-between">
+                                                                <button
+                                                                  onClick={(
+                                                                    e
+                                                                  ) =>
+                                                                    updateQuantity(
+                                                                      e,
+                                                                      product.key,
+                                                                      Number(
+                                                                        product.quantity
+                                                                      ) - 1,
+                                                                      i
+                                                                    )
+                                                                  }
+                                                                  className="w-4 h-4 md:w-5 md:h-5 pb-1 mr-1.5 md:mr-0 border border-dgrey13 md:border-dblue2 text-d18 md:text-d20 flex justify-center items-center rounded-full font-bold md:font-normal"
+                                                                >
+                                                                  -
+                                                                </button>
+                                                                {/* <p className="mx-1.5">
+                                          {product.quantity}
+                                        </p> */}
+                                                                <input
+                                                                  id={
+                                                                    "p-quantity" +
+                                                                    i
+                                                                  }
+                                                                  type="number"
+                                                                  className=" w-10 h-5  text-center bg-transparent"
+                                                                  defaultValue={
+                                                                    product.quantity
+                                                                  }
+                                                                  onKeyDown={(
+                                                                    e
+                                                                  ) =>
+                                                                    handleChangeQuantity(
+                                                                      e,
+                                                                      product.key,
+                                                                      i
+                                                                    )
+                                                                  }
+                                                                />{" "}
+                                                                <button
+                                                                  onClick={(
+                                                                    e
+                                                                  ) =>
+                                                                    updateQuantity(
+                                                                      e,
+                                                                      product.key,
+                                                                      Number(
+                                                                        product.quantity
+                                                                      ) + 1,
+                                                                      i
+                                                                    )
+                                                                  }
+                                                                  className="w-4 h-4 md:w-5 md:h-5 pb-1 ml-1.5 md:ml-0.5 border border-dgrey13 md:border-dblue2 text-d18 md:text-d20 flex justify-center items-center rounded-full font-bold md:font-normal"
+                                                                >
+                                                                  +
+                                                                </button>
+                                                              </div>
+                                                            </div>
+                                                            <div className="summary-product-item-count hidden"></div>
+                                                          </div>
+                                                          <div className="summary-product-item-price hidden text-right text-d14 align-top pr-1"></div>
+                                                        </div>
+                                                      )
+                                                    )}
+                                                </div>
+                                              </div>
+                                              <div className="summary-list table w-full py-5">
+                                                {/* <div className="summary-item flex justify-between font-mono text-d15 text-dblack2"> */}
+                                                {/* <div>Total of {state?.productsCount} Items</div>
+                            <div>${cartData?.sub_total}</div> */}
+                                                {manualResponse?.order_total?.map(
+                                                  (total, index) => (
+                                                    <div
+                                                      className={`flex items-center justify-between mb-1 ${
+                                                        total.code ===
+                                                        "ultimate_coupons"
+                                                          ? "text-dblue1"
+                                                          : "text-dblack2"
+                                                      } ${
+                                                        index ===
+                                                        manualResponse
+                                                          .order_total.length -
+                                                          1
+                                                          ? " border-t border-dgrey4 mt-4 pt-4 "
+                                                          : ""
+                                                      } `}
+                                                      key={total.title}
+                                                    >
+                                                      <span>
+                                                        {" "}
+                                                        {total.title}{" "}
+                                                      </span>{" "}
+                                                      <span>
+                                                        {" "}
+                                                        {total.text}{" "}
+                                                      </span>{" "}
+                                                    </div>
+                                                  )
+                                                )}{" "}
+                                                {/* </div> */}
+                                                <div className="hidden"></div>
+                                                {/* <div className="discount flex justify-between text-dblue2">
+                            <div className="table-cell text-sm text-dblue1 font-mono">
+                              Free Shipping for 200 TL and Over
+                            </div>
+                          </div> */}
+                                              </div>
+                                            </div>
+                                            {/* <div className="total-area border-t border-dgrey3 pt-6 inline-block w-full">
+                        <p className="text-d14 text-dblack1 flex justify-between font-mono">
+                          <span>Amount to be paid</span>
+                          <span>${cartData?.sub_total}</span>
+                        </p>
+                      </div> */}
+                                          </div>
+                                        </div>
+                                        <div className="hidden mx-6 bg-dwhite1 border-t border-dgrey3"></div>
+                                      </div>
+                                    </div>
+                                    <div
+                                      className="hidden fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-dwhite1 border border-dgrey3 z-10"
+                                      style={{ width: "490px" }}
+                                    >
+                                      <div className="gift-form-title h-14 bg-dwhite1 text-d14 font-semibold text-left text-dborderblack2 relative border-b border-dgrey4 pl-7 leading-10"></div>
+                                      <div className="gift-form-body"></div>
+                                    </div>
+                                    <div className="gift-form"></div>
+                                  </div>
+                                )}
                                 <div className="p-3 text-left font-light text-d11">
                                   <input
                                     type="checkbox"
@@ -1627,163 +1860,171 @@ function Checkout() {
                 </div>
               </div>
             </div>
-            <div className="hidden w-full md:w-1/3 md:block">
-              <div>
-                <div className="analytics-data hidden"></div>
-                <div className="checkout-summary border border-dgrey3 bg-dwhite1">
-                  <div className="summary-wrapper py-3.5 px-6 relative bg-dwhite1">
-                    <div className="checkout-sum">
-                      <div className="summary-title text-d16 text-dblack1 border-b-0 flex items-center">
-                        <p>ORDER SUMMARY</p>
-                        <span className="text-d14 font-light mx-1">
-                          {state?.productsCount} Items
-                        </span>
-                      </div>
-                      <div className="checkout-summary-items table w-full">
-                        <div className="summary-items-wrapper h-auto overflow-y-auto mt-5">
-                          <div className={`summary-items ${ state.loading && 'pointer-events-none opacity-50'}`}>
-                            {/* {state?.products?.map((product) => ( */}
-                            {manualResponse?.order_product?.length > 0 &&
-                              manualResponse?.order_product?.map((product, i) => (
-                                 <div
-                                  className={`summary-product-item flex items-center mb-2.5 ${
-                                    !product.stock && "bg-dred5 border-2 p-0.5"
-                                  }`}
-                                  key={product?.product_id}
-                                >
-                                    <img
-                                      src={product?.image}
-                                      alt={product?.name}
-                                      className={'w-16'}
-                                    />
-                                  <div className="summary-product-item-info text-left text-d12 table-cell align-top mx-2">
-                                 
-                                      <Link
-                                        to={`/${
-                                          product?.name
-                                            .replace(
-                                              /\s+&amp;\s+|\s+&gt;\s+/g,
-                                              "-"
-                                            )
-                                            .replace(/\s+/g, "-")
-                                            .replace("/", "-")
-                                            .replace("%", "") +
-                                          "/p=" +
-                                          product.product_id
-                                        }`}
-                                        dangerouslySetInnerHTML={{
-                                          __html: product?.name,
-                                        }}
-                                      >
+            {window.innerWidth > 650 && (
+              <div className=" w-full md:w-1/3 ">
+                <div>
+                  <div className="analytics-data hidden"></div>
+                  <div className="checkout-summary border border-dgrey3 bg-dwhite1">
+                    <div className="summary-wrapper py-3.5 px-6 relative bg-dwhite1">
+                      <div className="checkout-sum">
+                        <div className="summary-title text-d16 text-dblack1 border-b-0 flex items-center">
+                          <p>ORDER SUMMARY</p>
+                          <span className="text-d14 font-light mx-1">
+                            {state?.productsCount} Items
+                          </span>
+                        </div>
+                        <div className="checkout-summary-items table w-full">
+                          <div className="summary-items-wrapper h-auto overflow-y-auto mt-5">
+                            <div
+                              className={`summary-items ${
+                                state.loading &&
+                                "pointer-events-none opacity-50"
+                              }`}
+                            >
+                              {/* {state?.products?.map((product) => ( */}
+                              {manualResponse?.order_product?.length > 0 &&
+                                manualResponse?.order_product?.map(
+                                  (product, i) => (
+                                    <div
+                                      className={`summary-product-item flex items-center mb-2.5 ${
+                                        !product.stock &&
+                                        "bg-dred5 border-2 p-0.5"
+                                      }`}
+                                      key={product?.product_id}
+                                    >
+                                      <img
+                                        src={product?.image}
+                                        alt={product?.name}
+                                        className={"w-16"}
+                                      />
+                                      <div className="summary-product-item-info text-left text-d12 table-cell align-top mx-2">
+                                        <Link
+                                          to={`/${
+                                            product?.name
+                                              .replace(
+                                                /\s+&amp;\s+|\s+&gt;\s+/g,
+                                                "-"
+                                              )
+                                              .replace(/\s+/g, "-")
+                                              .replace("/", "-")
+                                              .replace("%", "") +
+                                            "/p=" +
+                                            product.product_id
+                                          }`}
+                                          dangerouslySetInnerHTML={{
+                                            __html: product?.name
+                                          }}
+                                        ></Link>
 
-
-
-                                      </Link>
-                                 
-                                    <div className="text-left font-light flex pt-1">
-                                      <p className="mr-3">Quantity :</p>
-                                      <div className="flex justify-between">
-                                        <button
-                                          onClick={(e) =>
-                                            updateQuantity(
-                                              e,
-                                              product.key,
-                                              Number(product.quantity) - 1,
-                                              i
-                                            )
-                                          }
-                                          className="w-4 h-4 md:w-5 md:h-5 pb-1 mr-1.5 md:mr-0 border border-dgrey13 md:border-dblue2 text-d18 md:text-d20 flex justify-center items-center rounded-full font-bold md:font-normal"
-                                        >
-                                          -
-                                        </button>
-                                        {/* <p className="mx-1.5">
+                                        <div className="text-left font-light flex pt-1">
+                                          <p className="mr-3">Quantity :</p>
+                                          <div className="flex justify-between">
+                                            <button
+                                              onClick={(e) =>
+                                                updateQuantity(
+                                                  e,
+                                                  product.key,
+                                                  Number(product.quantity) - 1,
+                                                  i
+                                                )
+                                              }
+                                              className="w-4 h-4 md:w-5 md:h-5 pb-1 mr-1.5 md:mr-0 border border-dgrey13 md:border-dblue2 text-d18 md:text-d20 flex justify-center items-center rounded-full font-bold md:font-normal"
+                                            >
+                                              -
+                                            </button>
+                                            {/* <p className="mx-1.5">
                                           {product.quantity}
                                         </p> */}
-                                        <input
-                                          id={"p-quantity" + i}
-                                          type="number"
-                                          className=" w-10 h-5  text-center bg-transparent"
-                                          defaultValue={product.quantity}
-                                          onKeyDown={(e) =>
-                                            handleChangeQuantity(
-                                              e,
-                                              product.key,
-                                              i,
-                                            )
-                                          }
-                                        />{" "}
-                                        <button
-                                          onClick={(e) =>
-                                            updateQuantity(
-                                              e,
-                                              product.key,
-                                              Number(product.quantity) + 1,
-                                              i
-                                            )
-                                          }
-                                          className="w-4 h-4 md:w-5 md:h-5 pb-1 ml-1.5 md:ml-0.5 border border-dgrey13 md:border-dblue2 text-d18 md:text-d20 flex justify-center items-center rounded-full font-bold md:font-normal"
-                                        >
-                                          +
-                                        </button>
+                                            <input
+                                              id={"p-quantity" + i}
+                                              type="number"
+                                              className=" w-10 h-5  text-center bg-transparent"
+                                              defaultValue={product.quantity}
+                                              onKeyDown={(e) =>
+                                                handleChangeQuantity(
+                                                  e,
+                                                  product.key,
+                                                  i
+                                                )
+                                              }
+                                            />{" "}
+                                            <button
+                                              onClick={(e) =>
+                                                updateQuantity(
+                                                  e,
+                                                  product.key,
+                                                  Number(product.quantity) + 1,
+                                                  i
+                                                )
+                                              }
+                                              className="w-4 h-4 md:w-5 md:h-5 pb-1 ml-1.5 md:ml-0.5 border border-dgrey13 md:border-dblue2 text-d18 md:text-d20 flex justify-center items-center rounded-full font-bold md:font-normal"
+                                            >
+                                              +
+                                            </button>
+                                          </div>
+                                        </div>
+                                        <div className="summary-product-item-count hidden"></div>
                                       </div>
+                                      <div className="summary-product-item-price hidden text-right text-d14 align-top pr-1"></div>
                                     </div>
-                                    <div className="summary-product-item-count hidden"></div>
-                                  </div>
-                                  <div className="summary-product-item-price hidden text-right text-d14 align-top pr-1"></div>
-                                </div>
-                              ))}
-                          </div>
-                        </div>
-                        <div className="summary-list table w-full py-5">
-                          {/* <div className="summary-item flex justify-between font-mono text-d15 text-dblack2"> */}
-                          {/* <div>Total of {state?.productsCount} Items</div>
-                            <div>${cartData?.sub_total}</div> */}
-                          {manualResponse?.order_total?.map((total, index) => (
-                            <div
-                              className={`flex items-center justify-between mb-1 ${
-                                total.code === "ultimate_coupons"
-                                  ? "text-dblue1"
-                                  : "text-dblack2"
-                              } ${
-                                index === manualResponse.order_total.length - 1
-                                  ? " border-t border-dgrey4 mt-4 pt-4 "
-                                  : ""
-                              } `}
-                              key={total.title}
-                            >
-                              <span> {total.title} </span>{" "}
-                              <span> {total.text} </span>{" "}
+                                  )
+                                )}
                             </div>
-                          ))}{" "}
-                          {/* </div> */}
-                          <div className="hidden"></div>
-                          {/* <div className="discount flex justify-between text-dblue2">
+                          </div>
+                          <div className="summary-list table w-full py-5">
+                            {/* <div className="summary-item flex justify-between font-mono text-d15 text-dblack2"> */}
+                            {/* <div>Total of {state?.productsCount} Items</div>
+                            <div>${cartData?.sub_total}</div> */}
+                            {manualResponse?.order_total?.map(
+                              (total, index) => (
+                                <div
+                                  className={`flex items-center justify-between mb-1 ${
+                                    total.code === "ultimate_coupons"
+                                      ? "text-dblue1"
+                                      : "text-dblack2"
+                                  } ${
+                                    index ===
+                                    manualResponse.order_total.length - 1
+                                      ? " border-t border-dgrey4 mt-4 pt-4 "
+                                      : ""
+                                  } `}
+                                  key={total.title}
+                                >
+                                  <span> {total.title} </span>{" "}
+                                  <span> {total.text} </span>{" "}
+                                </div>
+                              )
+                            )}{" "}
+                            {/* </div> */}
+                            <div className="hidden"></div>
+                            {/* <div className="discount flex justify-between text-dblue2">
                             <div className="table-cell text-sm text-dblue1 font-mono">
                               Free Shipping for 200 TL and Over
                             </div>
                           </div> */}
+                          </div>
                         </div>
-                      </div>
-                      {/* <div className="total-area border-t border-dgrey3 pt-6 inline-block w-full">
+                        {/* <div className="total-area border-t border-dgrey3 pt-6 inline-block w-full">
                         <p className="text-d14 text-dblack1 flex justify-between font-mono">
                           <span>Amount to be paid</span>
                           <span>${cartData?.sub_total}</span>
                         </p>
                       </div> */}
+                      </div>
                     </div>
+                    <div className="hidden mx-6 bg-dwhite1 border-t border-dgrey3"></div>
                   </div>
-                  <div className="hidden mx-6 bg-dwhite1 border-t border-dgrey3"></div>
                 </div>
+                <div
+                  className="hidden fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-dwhite1 border border-dgrey3 z-10"
+                  style={{ width: "490px" }}
+                >
+                  <div className="gift-form-title h-14 bg-dwhite1 text-d14 font-semibold text-left text-dborderblack2 relative border-b border-dgrey4 pl-7 leading-10"></div>
+                  <div className="gift-form-body"></div>
+                </div>
+                <div className="gift-form"></div>
               </div>
-              <div
-                className="hidden fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-dwhite1 border border-dgrey3 z-10"
-                style={{ width: "490px" }}
-              >
-                <div className="gift-form-title h-14 bg-dwhite1 text-d14 font-semibold text-left text-dborderblack2 relative border-b border-dgrey4 pl-7 leading-10"></div>
-                <div className="gift-form-body"></div>
-              </div>
-              <div className="gift-form"></div>
-            </div>
+            )}
           </div>
         </div>
         <div className="container"></div>

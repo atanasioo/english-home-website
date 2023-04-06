@@ -71,25 +71,14 @@ function NewZoom(props) {
       {images.length > 0 && (
         <div className="flex flex-col justify-center items-center" key={activeImage.popup}>
           {/* <div className="bx-wrapper max-w-full mb-1.5 relative"> */}
-            <div
-              className=" overflow-hidden"
-            >
-              <div className="w-full"  >
-                <div
-                  id="Zoom-1"
-                  className="MagicZoom"
-                  // href={activeImage["popup"]}
-                >
-                  <LazyLoadImage
-                    src={activeImage["popup"]}
-                    alt=""
-                    className="rounded-lg"
-                    // style={{minHeight: "575px"}}
-                    placeholderSrc={product_image}
-                  />
-                </div>
-              </div>
-            </div>
+           
+          <div className="w-full md:w-10/12">
+            <a id="Zoom-1" className="MagicZoom" href={activeImage["popup"]}>
+              <img src={activeImage["popup"]} alt="" className="rounded-lg " />
+            </a>
+          </div>
+         
+     
 
           {/* </div> */}
           <div
