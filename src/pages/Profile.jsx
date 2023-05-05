@@ -137,7 +137,7 @@ export default function Profile() {
                         <input
                           type="text"
                           className={` bg-white text-left p-2  border ${
-                            window.innerWidth < 650 ? "w-full" : "w-5/12"
+                            window.innerWidth < 650 ? "w-full" : "w-3/5"
                           }`}
                           ref={fnameRef}
                           defaultValue={data?.firstname}
@@ -154,7 +154,7 @@ export default function Profile() {
                       <div className="text-d12 w-full text-left">
                         <input
                           className={` bg-white text-left p-2  border ${
-                            window.innerWidth < 650 ? "w-full" : "w-5/12"
+                            window.innerWidth < 650 ? "w-full" : "w-3/5"
                           }`}
                           ref={lnameRef}
                           defaultValue={data?.lastname}
@@ -168,7 +168,7 @@ export default function Profile() {
                       </div>
                       <div
                         className={` text-left  text-d12  ${
-                          window.innerWidth < 650 ? "w-full" : "w-5/12"
+                          window.innerWidth < 650 ? "w-full" : "w-3/5"
                         }`}
                       >
                         <PhoneHandler
@@ -186,7 +186,7 @@ export default function Profile() {
                         </button>
                       </div>
                     </div>
-                    <div className="delete-account-div mt-3 md:mt-0 flex flex-col md:flex-row md:w-1/2 text-center">
+                    <div className="delete-account-div mt-3 md:mt-0 flex flex-col md:flex-row md:w-1/2 text-center md:border-l">
                       <div className="text-d20 w-full py-2 capitalize"  >
                         Account Deletion 
                       </div>
