@@ -71,11 +71,11 @@ function saveDetails(event){
             <div className=" w-full text-left py-2 text-d14" >Your Registered Email Address: {data?.email}</div>
          
             <div className="text-d13 text-left py-2" >New Email </div>
-            <div className="text-d13 w-full text-left" ><input className="bg-white text-left w-full p-2  border" ref={newEmailRef}  /></div>
+            <div className="text-d13 w-full text-left" ><input className="bg-white text-left w-full p-2  border outline-none" ref={newEmailRef}  /></div>
             <div className="text-d13 text-left py-2" >New Email Repeat</div>
-            <div className="text-d13 w-full text-left" ><input className="bg-white text-left w-full p-2  border" ref={confirmEmailRef}  /></div>
+            <div className="text-d13 w-full text-left" ><input className="bg-white text-left w-full p-2  border outline-none" ref={confirmEmailRef}  /></div>
             <div className="text-d13 w-full text-left py-2" > Passowrd </div>
-            <div className="text-d13 w-full text-left" ><input type="text" className="bg-white text-left w-full p-2  border" ref={oldEmailRef}   /></div>
+            <div className="text-d13 w-full text-left" ><input type="text" className="bg-white text-left w-full p-2  border outline-none" ref={oldEmailRef}   /></div>
             <div className="text-d13 text-left py-2" ><button className="bg-black text-white px-10 py-2 text-d15 mt-1">SEND</button></div>
           </div>
           </form>

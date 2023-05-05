@@ -23,28 +23,26 @@ export default function Orders() {
 
   return (
     <div className="relative -top-2  pt-5 md:px-12 sm:px-2">
-  
-      <div className="flex py-5 bg-dyellow2 my-5 mx-12">
-        <div className="w-1/3"></div>
-        <div className="flex flex-col w-full items-center">
-          <span className="text-d14 font-light">MY ACCOUNT</span>{" "}
-          <span className="mt-1">hello {stateAccount.username}</span>
-        </div>
-        <div className="w-1/3 mt-3">
-          {" "}
-          <Link to="/" className="text-d14 underline underline-offset-1">
-            continue to Shopping{" "}
-          </Link>
+      <div className="header-container -mx-1">
+        <div className="w-full">
+          <div className="account-header text-center h-24 py-5 bg-dbeige">
+            <p className="text-d14">MY ACCOUNT</p>
+            <p className="capitalize text-d20">
+              Hello {stateAccount?.username}
+            </p>
+            <Link
+              to={"/"}
+              className="text-sm underline  md:float-right p-1 px-6 -mt-10"
+            >
+              continue shopping
+            </Link>
+          </div>
         </div>
       </div>
 
-      <div className="flex w-full">
-        <div className="">
-        {window.innerWidth > 650 &&
-          <VerticalNav />
-        }
-        </div>
-        <div className="w-full md:w-9/12   border">
+      <div className="flex w-full mt-2">
+        <div className="">{window.innerWidth > 650 && <VerticalNav />}</div>
+        <div className="w-full ml-4 border">
           <div className="w-full  overflow-y-auto px-2  md:py-10 ">
             {/* Header */}
             <div className="flex items-center mb-8">
@@ -58,7 +56,10 @@ export default function Orders() {
                 <div className="bg-white rounded-md pt-2 pb-5 mt-5">
                   <div className="md:mt-5  md:pb-5 ">
                     <div className="flex flex-col justify-start items-center text-dblue sm:flex-row cart-header text-cente text-white bg-dbasenavy h-8">
-                      <div className="md:w-6/12 md:text-left sm:text-center  md:ml-6"> #{data.order_id} </div>
+                      <div className="md:w-6/12 md:text-left sm:text-center  md:ml-6">
+                        {" "}
+                        #{data.order_id}{" "}
+                      </div>
 
                       <div className="md:w-6/12   sm:text-center text-right justify-end  md:ml-96 md md:pl-12">
                         <Link
@@ -66,9 +67,7 @@ export default function Orders() {
                           to={{
                             pathname: `${path}/account/order-details`,
                             // state:   data.order_id,
-                            search:  data.order_id
-
-                          
+                            search: data.order_id,
                           }}
                           key={data.order_id}
                         >

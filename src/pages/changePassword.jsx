@@ -127,7 +127,7 @@ export default function ChangePassword() {
               <div className="text-d13 text-left pt-3 pb-1">New Password </div>
               <div className="text-d13 w-full text-left">
                 <input
-                  className={` bg-white text-left p-2  border ${
+                  className={` bg-white text-left p-2  border outline-none ${
                     window.innerWidth < 650 ? "w-full" : "w-5/12"
                   }`}
                   ref={newPasswordRef}
@@ -140,7 +140,7 @@ export default function ChangePassword() {
               <div className="text-d13 text-left pt-3 pb-1">New Password Repeat</div>
               <div className="text-d13 w-full text-left">
                 <input
-                  className={` bg-white text-left p-2  border ${
+                  className={` bg-white text-left p-2  border outline-none ${
                     window.innerWidth < 650 ? "w-full" : "w-5/12"
                   }`}
                   ref={confirmPasswordRef}
@@ -154,7 +154,7 @@ export default function ChangePassword() {
               <div className="text-d13 w-full text-left">
                 <input
                   type="text"
-                  className={` bg-white text-left p-2  border ${
+                  className={` bg-white text-left p-2  border outline-none ${
                     window.innerWidth < 650 ? "w-full" : "w-5/12"
                   }`}
                   ref={oldPasswordRef}

@@ -55,6 +55,7 @@ var urls = {
   verify: "v2/index.php?route=account/address/addressPhoneVerification",
   checkVerify: "v2/index.php?route=account/address/checkVerification",
   contactUs: "v2/index.php?route=account/contact_us",
+  disabledAccount: "v2/index.php?route=account/logout/disableAccount",
 
 };
 

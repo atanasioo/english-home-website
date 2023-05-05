@@ -30,6 +30,7 @@ import Cookies from "js-cookie";
 import CartmenuMobile from "../components/CartmenuMobile";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
+
 function Product() {
   const [state, dispatch] = useContext(CartContext);
   const [stateAccount, dispatchAccount] = useContext(AccountContext);
@@ -787,12 +788,14 @@ function Product() {
         </div>
         <div className="flex flex-col md:flex-row">
           <div className="mr-4 relative w-full md:w-577">
-            {images?.length > 0 && (
+            {images?.length > 0 ? (
               <NewZoom
                 // activeOption={activeImageOption.product_option_value_id}
                 images={images}
                 index={"zzzzz"}
               />
+            ):(
+              <img className="w-full md:w-11/12" src={product_image} alt="product_image_placeholder" />
             )}
           </div>
 
@@ -989,18 +992,7 @@ function Product() {
                         "Out Of Stock"
                       ) : (
                         <div>
-                          {/* <p
-                            className={`absolute  transition duration-100 ease-in left-5 md:left-14 top-3 text-white ${
-                              successAdded && countDown && !countDownPointer
-                                ? "translate-x-0 "
-                                : "translate-x-full invisible"
-                            } `}
-                          >
-                            <span className="bg-white  px-2 rounded-full text-dblue">
-                              1
-                            </span>{" "}
-                            item Added to the Cart
-                          </p> */}
+                          
                           <span className="">ADD TO BASKET </span>
                         </div>
                       )}
@@ -1032,18 +1024,7 @@ function Product() {
                         "Out Of Stock"
                       ) : (
                         <div>
-                          {/* <p
-                            className={`absolute  transition duration-100 ease-in left-5 md:left-14 top-3 text-white ${
-                              successAdded && countDown && !countDownPointer
-                                ? "translate-x-0 "
-                                : "translate-x-full invisible"
-                            } `}
-                          >
-                            <span className="bg-white  px-2 rounded-full text-dblue">
-                              1
-                            </span>{" "}
-                            item Added to the Cart
-                          </p> */}
+                         
                           <span className="">ADD TO BASKET </span>
                         </div>
                       )}
@@ -1063,17 +1044,7 @@ function Product() {
                   </span>
                 </div>
               )}
-              {/* <div className="flex justify-end items-start">
-                <div className="">
-                  <p className="w-full px-1 text-d12 text-dborderblack2 text-right">
-                    At the latest on Friday, November 18, Cargo
-                  </p>
-                </div>
-                <img
-                  src="https://akn-eh.b-cdn.net/static_omnishop/eh591/assets/img/saat_icon.png"
-                  alt="clock-icon"
-                />
-              </div> */}
+
               {/* <div className="w-full flex my-3">
                 <div className="text-dborderblack2 w-1/4 mr-1 p-3.5 text-d8 md:text-d12 flex flex-col justify-center text-center font-bold items-center">
                   <img
@@ -1117,30 +1088,6 @@ function Product() {
                 productData?.product_categories?.length > 0 && (
                   <div className=" w-full  ">
                     <div className=" ">
-{/* 
-                      {width < 650 ? (
-                        <div className="flex overflow-x-scroll text-left ">
-                          {productData.product_categories?.map((category) => (
-                            <Link
-                              key={category.category_id}
-                              to={`${path}/category/${category.category_id}`}
-                              className="cursor-pointer hover:opacity-80 pr-10 "
-                            >
-                              <img
-                                src={category.image}
-                                alt={category.name}
-                                className="w-32 block mx-auto rounded-full"
-                              />
-                              <p
-                                dangerouslySetInnerHTML={{
-                                  __html: category.name
-                                }}
-                                className="text-center mt-4 font-semibold text-s line-clamp-2"
-                              ></p>
-                            </Link>
-                          ))}
-                        </div>
-                      ) : ( */}
                         <div className="flex justify-around mt-2.5">
                             {productData?.product_categories?.map(
                               (category, Key ) => (
@@ -1156,8 +1103,6 @@ function Product() {
                                     category.category_id
                                   }`}
                                   className="text-d10 border border-dgrey2 p-3 w-1/2 text-center flex justify-center items-center ml-2"
-                                  // className="text-d10 border border-dgrey2 p-3 w-1/2 text-center flex items-center ml-2"
-
 
                                 >
                                   All
@@ -1178,23 +1123,7 @@ function Product() {
                   </div>
                 )}
             </div>
-              {/* <div className="flex justify-around mt-2.5">
-                <Link className="text-d12 border border-dgrey2 p-3 w-1/2 mr-1 text-center flex items-center">
-                  <p>All </p>{" "}
-                  <span className="font-bold"> Decorative Cushion </span>{" "}
-                  <p className="flex items-center">
-                    {" "}
-                    Products <BsChevronRight />
-                  </p>
-                </Link>
-                <Link className="text-d12 border border-dgrey2 p-3 w-1/2 mr-1 text-center flex items-center">
-                  <p>All </p> <span className="font-bold"> Rabbit Grid </span>{" "}
-                  <p className="flex items-center">
-                    {" "}
-                    Products <BsChevronRight />
-                  </p>
-                </Link>
-              </div> */}
+             
               <div className="add-to-basket-wrapper flex-xs w-full h-14 fixed z-30 bottom-0 bg-dwhite1 hidden"></div>
               <div className="error js-error-price-down text-d13 text-left mt-2.5 text-dred4"></div>
               <div className="desktop-product-infos md:hidden"></div>
@@ -1210,33 +1139,7 @@ function Product() {
                 PRODUCT INFORMATION
               </div>
               <div className="mx-1 flex flex-col md:flex-row">
-                {/* <div className="text-left font-semibold text-d22 uppercase">Description</div> */}
-                  {/* <div className="product-information-conten text-left">
-                    <ul>
-                      <li className="text-d14 mb-6">
-                        <span className="text-d16 font-bold mb-2.5">Usage</span>
-                        <p>Hand washing with warm water is recommended.</p>
-                      </li>
-                      <li className="text-d14 mb-6">
-                        <span className="text-d16 font-bold mb-2.5">Care</span>
-                        <ul className="">
-                          <li className="flex items-center mb-2 text-d14 capitalize">
-                            No Ironing
-                          </li>
-                          <li className="flex items-center mb-2 text-d14 capitalize">
-                            No Dry Cleaning
-                          </li>
-                          <li className="flex items-center mb-2 text-d14 capitalize">
-                            Hand washable
-                          </li>
-                          <li className="flex items-center mb-2 text-d14 capitalize">
-                            Not machine washable
-                          </li>
-                        </ul>
-                      </li>
-                    </ul>
-                  </div> */}
-                  
+          
                 <div className="flex flex-row text-left pt-1">
                   <div>
                     <div
@@ -1249,13 +1152,7 @@ function Product() {
 
                 <div>
                 <table className=" border  border-dgrey1 w-full text-left  font-mono leading-tight text-xs">
-                        {/* <thead className="p-6 border-b border-dgrey1 text-left">
-                          <tr className="my-4 ">
-                            <th className="border-r border-dgrey1 py-4  text-d22">
-                              FEATURES
-                            </th>
-                          </tr>
-                        </thead> */}
+                       
                         <tbody>
                           {productData?.attribute_groups?.map((grp) => (
                             <tr>
@@ -1299,79 +1196,6 @@ function Product() {
                 >
                   PRODUCT INFORMATION
                 </li>
-                {/* <li
-                  className={`border border-dgrey5 flex justify-center items-center text-d14 text-dborderblack2 text-center p-5  cursor-pointer
-                 ${
-                   returnmenu
-                     ? "border-r-0 border-b-0 pr-5 bg-dwhite1 -translate-y-1"
-                     : ""
-                 }
-                `}
-                  onClick={() => {
-                    handleReturnPolicy();
-                    setReturnmenu(true);
-                    setInfomenu(false);
-                    setDeliverymenu(false);
-                    setPaymentmenu(false);
-                    setStoremenu(false);
-                  }}
-                >
-                  RETURN AND EXCHANGE CONDITIONS
-                </li> */}
-                {/* <li
-                  className={`border border-dgrey5 flex justify-center items-center text-d14 text-dborderblack2 text-center p-5  cursor-pointer
-                 ${
-                   deliverymenu
-                     ? "border-r-0 border-b-0 pr-5 bg-dwhite1 -translate-y-1"
-                     : ""
-                 }
-                `}
-                  onClick={() => {
-                    setInfomenu(false);
-                    setReturnmenu(false);
-                    setDeliverymenu(true);
-                    setPaymentmenu(false);
-                    setStoremenu(false);
-                  }}
-                >
-                  DELIVERY
-                </li> */}
-                {/* <li
-                  className={`border border-dgrey5 flex justify-center items-center text-d14 text-dborderblack2 text-center p-5  cursor-pointer flex-1
-                 ${
-                   paymentmenu
-                     ? "border-r-0 border-b-0 pr-5 bg-dwhite1 -translate-y-1"
-                     : ""
-                 }
-                `}
-                  onClick={() => {
-                    setInfomenu(false);
-                    setReturnmenu(false);
-                    setDeliverymenu(false);
-                    setPaymentmenu(true);
-                    setStoremenu(false);
-                  }}
-                >
-                  PAYMENT OPTIONS
-                </li> */}
-                {/* <li
-                  className={`border border-dgrey5 flex justify-center items-center text-d14 text-dborderblack2 text-center p-5  cursor-pointer
-                 ${
-                   storemenu
-                     ? "border-r-0 border-b-0 pr-5 bg-dwhite1 -translate-y-1"
-                     : ""
-                 }
-                `}
-                  onClick={() => {
-                    setInfomenu(false);
-                    setReturnmenu(false);
-                    setDeliverymenu(false);
-                    setPaymentmenu(false);
-                    setStoremenu(true);
-                  }}
-                >
-                  IN WHICH STORE IS IT AVAILABLE?
-                </li> */}
               </ul>
             </div>
             <div className="w-full p-6 border border-dgrey5 border-t -mb-1">
@@ -1381,41 +1205,7 @@ function Product() {
                 }`}
               >
                 <div className="-mx-1 flex flex-col-reverse md:flex-row">
-                  {/* <div className="w-1/2">
-                    <div className="product-information-conten text-left">
-                      <div className="content-titles text-d22 font-bold mb-5">
-                        DESCRIPTIONS
-                      </div>
-                      <ul>
-                        <li className="text-d14 mb-6">
-                          <span className="text-d16 font-bold mb-2.5">
-                            Usage
-                          </span>
-                          <p>Hand washing with warm water is recommended.</p>
-                        </li>
-                        <li className="text-d14 mb-6">
-                          <span className="text-d16 font-bold mb-2.5">
-                            Care
-                          </span>
-                          <ul className="flex flex-wrap">
-                            <li className="flex items-center w-1/2 mb-5 text-d14 capitalize">
-                              No Ironing
-                            </li>
-                            <li className="flex items-center w-1/2 mb-5 text-d14 capitalize">
-                              No Dry Cleaning
-                            </li>
-                            <li className="flex items-center w-1/2 mb-5 text-d14 capitalize">
-                              Hand washable
-                            </li>
-                            <li className="flex items-center w-1/2 mb-5 text-d14 capitalize">
-                              Not machine washable
-                            </li>
-                          </ul>
-                        </li>
-                      </ul>
-                    </div>
-                  </div> */}
-                  
+
                   <div className="w-full text-left flex justify-around">
                     <div className="w-1/2 mr-10">
                       <div className="text-d22 font-bold my-5">
@@ -1468,7 +1258,6 @@ function Product() {
                       __html: unescapeHTML(returnPolicy?.description)
                     }}
                   ></div>
-                  {/* <div className="w-1/2"></div> */}
                 </div>
               </div>
               <div
@@ -1608,11 +1397,7 @@ function Product() {
                   <div className="hidden"></div>
                 </div>
               </div>
-              {/* <div
-                className={`text-dborderblack4 ${
-                  storemenu ? "block" : "hidden"
-                }`}
-              ></div> */}
+             
             </div>
           </div>
         </div>
@@ -1716,39 +1501,7 @@ function Product() {
             )}
         </div>
         {/* end recenty viewed */}
-
-        {/* <div className="mobile-product-info block md:hidden ">
-          <div className="product-infos mb-16 py-2.5 px-5 mt-10 bg-dgrey1 text-left">
-            <div className="return text-d14 text-dblack1">
-              <div className="cursor-pointer relative text-d15 font-bold py-3.5 text-dborderblack2 uppercase flex items-center">
-                <p>CANCELLATION RETURN AND EXCHANGE TERMS</p>
-                <span
-                  className="text-d20"
-                  onClick={() => {
-                    handleReturnPolicy();
-                    togglereturnmenuMob();
-                  }}
-                >
-                  {returnmenuMob ? "x" : "+"}
-                </span>
-              </div>
-              <div
-                className={`collapse-content ${
-                  returnmenuMob ? "block" : "hidden"
-                } `}
-              >
-                <div className="flex">
-                  <div
-                    className=""
-                    dangerouslySetInnerHTML={{
-                      __html: unescapeHTML(returnPolicy?.description)
-                    }}
-                  ></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> */}
+  
       </div>
     </div>
   );
