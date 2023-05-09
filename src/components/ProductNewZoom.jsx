@@ -84,7 +84,7 @@ function ProductNewZoom(props) {
     img.addEventListener("touchmove", moveLens);
     function moveLens(e) {
       var pos, x, y;
-      /*prevent any other actions that may occur when moving over the image:*/
+      /*prevent any other actions that may occur when moving over the imagee:*/
       e.preventDefault();
       /*get the cursor's x and y positions:*/
       pos = getCursorPos(e);
