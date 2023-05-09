@@ -11,16 +11,14 @@ async function getToken() {
   let requestHeader = {
     Authorization: "Basic dGVzdGNsaWVudDp0ZXN0cGFzcw=="
   };
-  console.log("======================");
-  console.log("hiiiii");
+ 
   axios
     .post(buildLink("token"), requestBody, {
       headers: requestHeader
     })
     .then((response) => {
       Cookies.set("api-token", response.data.access_token, { expires: 15 });
-      console.log("======================");
-      console.log("generate");
+      
       excuting = false;
       window.location.reload();
     });

@@ -53,6 +53,7 @@
   },
   "devDependencies": {
     "@tailwindcss/line-clamp": "^0.4.2",
+    "react-prismazoom": "^3.3.3",
     "tailwindcss": "^3.2.2"
   }
 }

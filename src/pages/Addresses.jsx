@@ -8,6 +8,8 @@ import { GrClose } from "react-icons/gr";
 import HandlePhoneModel from "../components/PhoneHandler";
 import PhoneHandler from "../components/PhoneHandler";
 import VerticalNav from "../components/VerticalNav";
+import Loader from "../components/Loader";
+import AccountHeader from "../components/AccountHeader";
 
 function Addresses() {
   const [stateAccount, dispatchAccount] = useContext(AccountContext);
@@ -42,7 +44,7 @@ function Addresses() {
     _axios
       .get(buildLink("address", undefined, window.innerWidth))
       .then((response) => {
-        if (response.status) {
+        if (response.data.success) {
           setAddresses(response.data.data);
           setLoading(false);
         } else {
@@ -253,7 +255,9 @@ function Addresses() {
                   />
                   <PhoneHandler
                     phone={telephone}
-                    nb={`${editAddress ? activeAddress?.telephone.substring(3) : ""}`}
+                    nb={`${
+                      editAddress ? activeAddress?.telephone.substring(3) : ""
+                    }`}
                     phoneHanlder={phoneHanlder}
                   />
                 </div>
@@ -373,93 +377,98 @@ function Addresses() {
         </div>
       )}
       {/* end delete confirmation modal */}
-      <div className="bg-dgrey10">
-        <div className="container py-5">
-          <div className="header-container -mx-1">
-            <div className="w-full">
-              <div className="account-header text-center h-24 py-5 bg-dbeige">
-                <p className="text-d14">MY ACCOUNT</p>
-                <p className="capitalize text-d20">
-                  Hello {stateAccount?.username}
-                </p>
-                <Link
-                  to={"/"}
-                  className="text-sm underline  md:float-right p-1 px-6 -mt-10"
-                >
-                  continue shopping
-                </Link>
+      {addresses.length === 0 ? (
+        <Loader />
+      ) : (
+        <div className="bg-dgrey10">
+          <div className="container py-5">
+            {/* <div className="header-container -mx-1">
+              <div className="w-full">
+                <div className="account-header text-center h-24 py-5 bg-dbeige">
+                  <p className="text-d14">MY ACCOUNT</p>
+                  <p className="capitalize text-d20">
+                    Hello {stateAccount?.username}
+                  </p>
+                  <Link
+                    to={"/"}
+                    className="text-sm underline  md:float-right p-1 px-6 -mt-10"
+                  >
+                    continue shopping
+                  </Link>
+                </div>
               </div>
-            </div>
-          </div>
-          <div className="-mx-1 flex flex-col md:flex-row">
-            <div className="hidden md:block w-full md:w-1/4 mt-6  text-left font-mono text-xs">
-              <VerticalNav />
-            </div>
-            <div className="w-full md:w-3/4 mt-7 md:mt-0">
-              <div className="account-address mt-8">
-                <div className="hidden"></div>
-                <div className="account-address-context">
-                  <div className="-m-1 flex  flex-wrap">
-                    {addresses?.map((address, index) => (
-                      <div className="w-full md:w-1/3 relative px-2.5">
-                        <div className="account-container-box mb-8 h-72 border border-dgrey5  px-6">
-                          <div className="account-summary-title font-bold text-d20 pt-6 pb-4 text-left whitespace-nowrap overflow-hidden text-ellipsis">
-                            {stateAccount.username}
-                          </div>
-                          <div className="account-icon">
-                            <div className="absolute -top-6 m-auto left-1/2 -translate-x-1/2 text-dwhite1 bg-dgrey14 rounded-full p-1 px-4 text-d24">
-                              {index + 1}
+            </div> */}
+            <AccountHeader stateAccount = {stateAccount} />
+            <div className="-mx-1 flex flex-col md:flex-row">
+              <div className="hidden md:block w-full md:w-1/4 mt-6  text-left font-mono text-xs">
+                <VerticalNav />
+              </div>
+              <div className="w-full md:w-3/4 mt-7 md:mt-0">
+                <div className="account-address mt-8">
+                  <div className="hidden"></div>
+                  <div className="account-address-context">
+                    <div className="-m-1 flex  flex-wrap">
+                      {addresses?.map((address, index) => (
+                        <div className="w-full md:w-1/3 relative px-2.5">
+                          <div className="account-container-box mb-8 h-72 border border-dgrey5  px-6">
+                            <div className="account-summary-title font-bold text-d20 pt-6 pb-4 text-left whitespace-nowrap overflow-hidden text-ellipsis">
+                              {stateAccount.username}
+                            </div>
+                            <div className="account-icon">
+                              <div className="absolute -top-6 m-auto left-1/2 -translate-x-1/2 text-dwhite1 bg-dgrey14 rounded-full p-1 px-4 text-d24">
+                                {index + 1}
+                              </div>
+                            </div>
+                            <div className="account-default-address"></div>
+                            <div className="account-desc text-left h-32 text-sm mb-7">
+                              <div>
+                                {address.address_2} {address.zone}{" "}
+                              </div>
+                              <div>Tel: {address.telephone}</div>
+                            </div>
+                            <div className="flex items-center justify-around text-dgreen text-sm">
+                              <u
+                                onClick={() => {
+                                  setActiveAddress(address);
+                                  setDeletemenu(true);
+                                }}
+                                className="cursor-pointer"
+                              >
+                                delete address
+                              </u>
+                              <u
+                                onClick={() => {
+                                  getZones();
+                                  setActiveAddress(address);
+                                  setAddressmenu(true);
+                                  setEditAddress(true);
+                                }}
+                                className="cursor-pointer"
+                              >
+                                edit address
+                              </u>
                             </div>
                           </div>
-                          <div className="account-default-address"></div>
-                          <div className="account-desc text-left h-32 text-sm mb-7">
-                            <div>
-                              {address.address_2} {address.zone}{" "}
+                        </div>
+                      ))}
+                      <div className="w-full md:w-1/3 px-2.5">
+                        <div className="account-container-box mb-8 h-72 border border-dgrey5 bg-clip-padding">
+                          <div className="add-button-wrapper relative">
+                            <div className="absolute -top-6 m-auto left-1/2 -translate-x-1/2 text-dgrey6">
+                              <BsPlusCircleFill className="w-11 h-11 " />
                             </div>
-                            <div>Tel: {address.telephone}</div>
                           </div>
-                          <div className="flex items-center justify-around text-dgreen text-sm">
-                            <u
-                              onClick={() => {
-                                setActiveAddress(address);
-                                setDeletemenu(true);
-                              }}
-                              className="cursor-pointer"
-                            >
-                              delete address
-                            </u>
+                          <div className="container-box-desc text-center pt-36 pb-24">
                             <u
                               onClick={() => {
                                 getZones();
-                                setActiveAddress(address);
                                 setAddressmenu(true);
-                                setEditAddress(true);
                               }}
-                              className="cursor-pointer"
+                              className="text-dgreen text-sm cursor-pointer"
                             >
-                              edit address
+                              Add a new address
                             </u>
                           </div>
-                        </div>
-                      </div>
-                    ))}
-                    <div className="w-full md:w-1/3 px-2.5">
-                      <div className="account-container-box mb-8 h-72 border border-dgrey5 bg-clip-padding">
-                        <div className="add-button-wrapper relative">
-                          <div className="absolute -top-6 m-auto left-1/2 -translate-x-1/2 text-dgrey6">
-                            <BsPlusCircleFill className="w-11 h-11 " />
-                          </div>
-                        </div>
-                        <div className="container-box-desc text-center pt-36 pb-24">
-                          <u
-                            onClick={() => {
-                              getZones();
-                              setAddressmenu(true);
-                            }}
-                            className="text-dgreen text-sm cursor-pointer"
-                          >
-                            Add a new address
-                          </u>
                         </div>
                       </div>
                     </div>
@@ -469,7 +478,7 @@ function Addresses() {
             </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

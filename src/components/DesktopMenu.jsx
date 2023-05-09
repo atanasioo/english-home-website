@@ -24,29 +24,19 @@ function DesktopMenu() {
         .get(buildLink("headerv2", undefined, window.innerWidth))
         .then((response) => {
           const data = response?.data;
-          console.log(data);
           setMenuCategories2(data.data);
           setSelectedMenuCategory2(data[0]);
         });
     }
   }, []);
 
-  console.log(menuCategories2);
 
   return (
     <div className="hidden lg:block relative">
       <nav className="header-menu border-b border-dborderblack1 mt-6 h-17 xl:h-7.5">
         <div className="container">
           <div className="flex flex-col xl:flex-row justify-center items-center mx-auto">
-            <ul className="navigation relative text-center  flex  justify-center">
-              {/* <li className="inline-block">
-                <Link
-                  to={"/latest"}
-                  className="bg-dwhite1 text-dblack2 text-d12 p-2.5"
-                >
-                  NEW PRODUCTS
-                </Link>
-              </li> */}
+            <ul className="navigation relative text-center  flex  justify-center">  
               <div
                 className="whitespace-nowrap"
                 onMouseEnter={() => {
@@ -166,7 +156,7 @@ function DesktopMenu() {
                   (category) =>
                     category?.banners > 0 &&
                     category?.banners?.map((banner) => (
-                      <Link classname="grid grid-flow-col ">
+                      <Link classname="grid grid-flow-col " key={banner.banner_id}>
                         <img
                           src={`${
                             window.config["site-url"] +

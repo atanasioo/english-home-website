@@ -29,6 +29,7 @@ import {
 import Cookies from "js-cookie";
 import CartmenuMobile from "../components/CartmenuMobile";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import ProductNewZoom from "../components/ProductNewZoom";
 
 
 function Product() {
@@ -105,7 +106,6 @@ function Product() {
     nextArrow: <CustomArrows direction={"r"} />
   };
 
-  console.log(stateW?.pIds.indexOf(product_id));
   function handleHoveredSeries(key, name) {
     const seriesOp_name = document.getElementById(key);
     setViewSeriesVal(key);
@@ -207,7 +207,6 @@ function Product() {
       if (cartmenu) {
         function handleClickOutside(event) {
           if (ref.current && !ref.current.contains(event.target)) {
-            console.log(ref.current.contains(event.target));
             setTimeout(() => setCartmenu(false), 200);
             setTimeout(() => setOverlay(false), 200);
           }
@@ -237,7 +236,6 @@ function Product() {
       const op = optionParent.toString();
       o[op] = activeOption["product_option_value_id"];
       obj["option"] = o;
-      console.log(o);
     }
     let error = "";
     _axios
@@ -377,7 +375,6 @@ function Product() {
 
   useEffect(() => {
     handleWishlist(0);
-    console.log("renedered");
   }, [product_id]);
 
   function setOption(option) {
@@ -424,7 +421,6 @@ function Product() {
       )
       .then((response) => {
         const data = response.data.data;
-        // console.log(data);
         setReturnPolicy(data);
       });
   }
@@ -482,7 +478,6 @@ function Product() {
               .get(buildLink("wishlistCount", undefined, window.innerWidth))
               .then((response) => {
                 if (response.data.success) {
-                  console.log("delete");
                   dispatchW({
                     type: "setProductsCount",
                     payload: response.data.data.total
@@ -546,7 +541,6 @@ function Product() {
               .get(buildLink("wishlistCount", undefined, window.innerWidth))
               .then((response) => {
                 if (response.data.success) {
-                  console.log("hii");
                   dispatchW({
                     type: "setProductsCount",
                     payload: response.data.data.total
@@ -789,10 +783,15 @@ function Product() {
         <div className="flex flex-col md:flex-row">
           <div className="mr-4 relative w-full md:w-577">
             {images?.length > 0 ? (
-              <NewZoom
-                // activeOption={activeImageOption.product_option_value_id}
+
+              // <NewZoom
+              //   // activeOption={activeImageOption.product_option_value_id}
+              //   images={images}
+              //   index={"zzzzz"}
+              // />
+              <ProductNewZoom
                 images={images}
-                index={"zzzzz"}
+                productData={productData}
               />
             ):(
               <img className="w-full md:w-11/12" src={product_image} alt="product_image_placeholder" />

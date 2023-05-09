@@ -209,6 +209,9 @@ module.exports = {
         dblackOverlay2: {
           DEFAULT: "rgba(74,74,74,0.3)"
         },
+        dblackOverlay3: {
+          DEFAULT: "rgba(74,74,74,1)"
+        },
         dbeige: {
           DEFAULT: "#f5f3ee"
         },
@@ -223,9 +226,16 @@ module.exports = {
         },
         
       },
+      borderWidth:{
+        3: "3px"
+      },
+      ringWidth:{
+        788: "78%"
+      },
       height: {
         7.5: "31.5px",
-        17: "70px"
+        17: "70px",
+        "unset" : "unset",
       },
       width: {
         488: "48%",

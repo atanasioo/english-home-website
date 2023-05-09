@@ -8,6 +8,7 @@ import { FaDigitalTachograph } from "react-icons/fa";
 import PhoneHandler from "../components/PhoneHandler";
 import ChangePassword from "./ChangePassword";
 import Loader from "../components/Loader";
+import AccountHeader from "../components/AccountHeader";
 export default function Profile() {
   const [stateAccount, dispatchAccount] = useContext(AccountContext);
   const [data, setData] = useState();
@@ -97,22 +98,8 @@ export default function Profile() {
               window.innerWidth < 650 ? "px-0" : "px-12"
             }`}
           >
-            <div className="header-container -mx-1">
-              <div className="w-full">
-                <div className="account-header text-center h-24 py-5 bg-dbeige">
-                  <p className="text-d14">MY ACCOUNT</p>
-                  <p className="capitalize text-d20">
-                    Hello {stateAccount?.username}
-                  </p>
-                  <Link
-                    to={"/"}
-                    className="text-sm underline  md:float-right p-1 px-6 -mt-10"
-                  >
-                    continue shopping
-                  </Link>
-                </div>
-              </div>
-            </div>
+            
+            <AccountHeader stateAccount={stateAccount} />
             <div className="flex mt-2">
               {window.innerWidth > 650 && (
                 <div className="">
