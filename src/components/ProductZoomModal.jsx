@@ -106,7 +106,7 @@ function ProductZoomModal(props) {
   return (
     <div className="fixed bg-dblackOverlay top-0 lef-0 right-0 w-full h-full z-40 overflow-hidden">
       <div className="relative z-50 h-screen mx-auto text-center box-border">
-        <div className="absolute w-full lg:w-11/12 m-auto h-full lg:h-5/6 z-50 md:bg-white top-0 left-0 right-0 bottom-0 rounded-lg">
+        <div className="absolute w-full lg:w-11/12 m-auto h-full lg:h-5/6 z-50 bg-white top-0 left-0 right-0 bottom-0 rounded-lg">
           <GrClose
             className="absolute right-1 m-3 w-7 h-7 md:w-5 md:h-5 cursor-pointer text-white md:text-black"
             onClick={() => closeModal()}
