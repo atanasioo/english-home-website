@@ -513,6 +513,14 @@ input[type="number"] {
     .thumbss-slider  .slick-current>div>div{
       width: 73px !important; 
     }
+  
+    .thumbss-center-slider .slick-track {
+      place-items: center;
+      display: flex;
+      justify-content: center !important;
+      align-items: center;
+      width: 100% !important;
+    }
   }
 
   .img-zoom-lens {
@@ -542,8 +550,10 @@ input[type="number"] {
     left: 0;
     width: 130%;
     height: 130%;
+    overflow-y: hidden;
     margin-left: -30px;
     margin-top: -15px;
+
     background-size: cover;
     filter: blur(30px);
     z-index: -1;

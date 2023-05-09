@@ -50,6 +50,7 @@ function ProductZoomModal(props) {
     autoplay: false,
     currentSlide: currentSlide,
     ref: slider2,
+    
   };
 
   const mobileSingleSetting = {
@@ -187,11 +188,11 @@ function ProductZoomModal(props) {
                       ))}
                     </div>
                   ) : (
-                    <Slider {...mobileSetting} className="place-content-center thumbss-slider">
+                    <Slider {...mobileSetting} className={` thumbss-slider ${ images.length < 4 ? "thumbss-center-slider" : ""  }`}>
                       {images?.map((i) => (
                         <div
                           key={i["thumb"]}
-                          className={` flex justify-center mt-2 mr-4 w-20 cursor-pointer ${
+                          className={` flex justify-center  mt-2 mr-4 w-20  cursor-pointer ${
                             activeImage["popup"] === i["popup"]
                               ? "border-3 border-dborderblack1"
                               : ""
