@@ -132,10 +132,17 @@ function Product() {
       .then((response) => {
         const data = response?.data?.data;
         setProductData(data);
-        data?.images.unshift({
-          popup: data.popup,
-          thumb: data.thumb
+        const includesImage = data?.images.some(image => {
+          return image.popup === data.popup && image.thumb === data.thumb;
         });
+        console.log(includesImage);
+        if(!includesImage){
+          data?.images.unshift({
+            popup: data.popup,
+            thumb: data.thumb
+          });
+        }
+        
 
         setImages(data?.images);
         setHasOption(data?.options?.length > 0);
@@ -553,6 +560,8 @@ function Product() {
       }
     }
   }
+
+
 
   var htmlEntities = {
     nbsp: " ",

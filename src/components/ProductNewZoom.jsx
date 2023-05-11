@@ -148,9 +148,14 @@ function ProductNewZoom(props) {
           item.thumb === imgSrc.thumb
       );
       setCurrentSlide(selectedImgIndex);
-      image.style.opacity = "1"; // set the opacity to 1 after a short delay
+      image.addEventListener('load', () =>{
+       image.style.opacity = "1"; // set the opacity to 1 after a short delay 
+      })
+      
     }, 250); // the delay in milliseconds, should match the duration of the CSS transition
   }
+
+  console.log(images);
 
   return (
     <div>
@@ -214,6 +219,7 @@ function ProductNewZoom(props) {
                         : ""
                     } outline-none`}
                   >
+                    
                     <img
                       src={i["thumb"]}
                       alt=""

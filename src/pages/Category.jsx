@@ -219,6 +219,7 @@ function Category() {
     _axios
     .post(
       buildLink(type, undefined, undefined) + id
+      +`${stateAccount.admin ? "&adm_quantity=true" : ""}`
     )
     .then((response) => {
       // setData((prevData) => {
@@ -243,6 +244,9 @@ function Category() {
     // }
 
     newPath += "&" + queryString.stringify(q_s);
+    if(stateAccount.admin){
+      newPath += "&adm_quantity=true";
+    }
     _axios
       .post(
         buildLink(type, undefined, undefined) + newPath.replace("undefined", "")
@@ -302,7 +306,7 @@ function Category() {
         }
       }
     }
-  }, [location, sort]);
+  }, [location, sort, stateAccount.admin]);
 
   function getType() {
     if (window.location.href.indexOf("c=") > 0) return "category";
@@ -916,10 +920,11 @@ function Category() {
                       <div className="flex">
                         <div className="">sort</div>
                         <div
-                          className=" ml-3 text-center bg-white border border-dbgrey1 w-44"
+                          className=" cursor-pointer ml-3 text-center bg-white border border-dbgrey1 w-44"
                           onClick={() => setShowSort(!showSort ? true : false)}
                         >
                           <div
+                          className=""
                             dangerouslySetInnerHTML={{
                               __html: sort?.text ? sort?.text : sort
                             }}
@@ -933,7 +938,7 @@ function Category() {
                       >
                         {data?.sorts?.map((sort) => (
                           <div
-                            className="pl-5 py-1 "
+                            className="pl-5 py-1 cursor-pointer"
                             onClick={() => sortSetter(sort)}
                             dangerouslySetInnerHTML={{
                               __html: sort.text

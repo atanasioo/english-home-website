@@ -50,7 +50,6 @@ function ProductZoomModal(props) {
     autoplay: false,
     currentSlide: currentSlide,
     ref: slider2,
-    
   };
 
   const mobileSingleSetting = {
@@ -80,7 +79,9 @@ function ProductZoomModal(props) {
       setActiveImage(imgSrc);
 
       if (width > 840) {
-        image.style.opacity = "1"; // set the opacity to 1 after a short delay
+        image.addEventListener("load", () => {
+          image.style.opacity = "1"; // set the opacity to 1 after a short delay
+        });
       } else {
         slider1.current.slickGoTo(selectedImgIndex);
       }
@@ -188,7 +189,12 @@ function ProductZoomModal(props) {
                       ))}
                     </div>
                   ) : (
-                    <Slider {...mobileSetting} className={` thumbss-slider ${ images.length < 4 ? "thumbss-center-slider" : ""  }`}>
+                    <Slider
+                      {...mobileSetting}
+                      className={` thumbss-slider ${
+                        images.length < 4 ? "thumbss-center-slider" : ""
+                      }`}
+                    >
                       {images?.map((i) => (
                         <div
                           key={i["thumb"]}
