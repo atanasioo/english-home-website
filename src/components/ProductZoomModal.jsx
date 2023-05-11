@@ -85,7 +85,7 @@ function ProductZoomModal(props) {
       } else {
         slider1.current.slickGoTo(selectedImgIndex);
       }
-    }, 250); // the delay in milliseconds, should match the duration of the CSS transition
+    }, 250); /// the delay in milliseconds, should match the duration of the CSS transition
   }
 
   const handleFirstSliderChange = (index) => {
