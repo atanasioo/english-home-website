@@ -560,6 +560,10 @@ input[type="number"] {
     
   }
   }
+
+  .popup-open {
+    overflow-y: hidden;
+  }
  
 
 

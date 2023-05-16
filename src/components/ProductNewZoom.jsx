@@ -135,6 +135,8 @@ function ProductNewZoom(props) {
   function closeModal() {
     setShowModal(false);
     props.hideFixedCartMenu(false);
+    const htmlElement = document.querySelector('html');
+    htmlElement.classList.remove('popup-open');
   }
 
   function changeImage(imgSrc) {
@@ -152,7 +154,13 @@ function ProductNewZoom(props) {
     }, 250); // the delay in milliseconds, should match the duration of the CSS transition
   }
 
-  console.log(images);
+  function htmlOverflow(){
+    const htmlElement = document.querySelector('html');
+    
+    // Add a CSS class to remove the overflow-y
+    htmlElement.classList.add('popup-open');
+    
+  }
 
   return (
     <div>
@@ -186,6 +194,7 @@ function ProductNewZoom(props) {
                   onClick={() => {
                     setShowModal(true);
                     props.hideFixedCartMenu(true);
+                    htmlOverflow();
                   }}
                 >
                   <img
