@@ -511,7 +511,7 @@ input[type="number"] {
   }
   @media (max-width: 840px){
     .thumbss-slider  .slick-current>div>div{
-      width: 73px !important; 
+      width: 77px !important; 
     }
   
     .thumbss-center-slider .slick-track {
