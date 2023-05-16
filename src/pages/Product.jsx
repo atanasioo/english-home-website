@@ -68,6 +68,7 @@ function Product() {
   const [hoveredCart, setHoveredCart] = useState(false);
   const [viewSeriesVal, setViewSeriesVal] = useState();
   const [seriesOpSelected, setSeriesOpSelected] = useState();
+  const [productZoomModal, setProductZoomModal] = useState(false);
 
   const width = window.innerWidth;
   const location = useLocation();
@@ -436,6 +437,10 @@ function Product() {
     setReturnmenuMob(!returnmenuMob);
   }
 
+  function hideFixedCartMenu(bool){
+    setProductZoomModal(bool)
+  }
+
   function unescapeHTML(str) {
     if (!str) {
       return;
@@ -800,6 +805,7 @@ function Product() {
               // />
               <ProductNewZoom
                 images={images}
+                hideFixedCartMenu={hideFixedCartMenu}
                 productData={productData}
               />
             ):(
@@ -1008,7 +1014,7 @@ function Product() {
                   </button>
                 </div>
               ) : (
-                <div className="w-full fixed -bottom-1 left-0 text-center z-10 flex items-center overflow-x-hidden">
+                <div className={`w-full fixed -bottom-1 left-0 text-center z-10 flex items-center overflow-x-hidden ${productZoomModal ? "hidden" : ""} `}>
                   <div className="w-1/3 flex  align-middle text-center py-3 mb-1 text-d22 font-bold text-dborderblack2 px-3 items-center bg-dwhite1 justify-center">
                     <button onClick={() => decrementQuantity()}>
                       <span className="w-3/12">-</span>
@@ -1053,45 +1059,8 @@ function Product() {
                 </div>
               )}
 
-              {/* <div className="w-full flex my-3">
-                <div className="text-dborderblack2 w-1/4 mr-1 p-3.5 text-d8 md:text-d12 flex flex-col justify-center text-center font-bold items-center">
-                  <img
-                    src="https://akn-eh.b-cdn.net/cms/2021/02/08/08907807-82d0-41ca-b167-40f5f3a794ae.png"
-                    alt=""
-                    width={27}
-                    height={27}
-                  />
-                  <p>150 TL and Over Free Shipping</p>
-                </div>
-                <div className="text-dborderblack2 w-1/4 mr-1 p-3.5 text-d10 md:text-d12 flex flex-col justify-center text-center font-bold items-center">
-                  <img
-                    src="https://akn-eh.b-cdn.net/cms/2021/02/08/da3fd01a-66e9-450b-a09c-b9201ee4bd7c.png"
-                    alt=""
-                    width={27}
-                    height={27}
-                  />
-                  <p>Shipping in 6 Days</p>
-                </div>
-                <div className="text-dborderblack2 w-1/4 mr-1 p-3.5 text-d10 md:text-d12 flex flex-col justify-center text-center font-bold items-center">
-                  <img
-                    src="https://akn-eh.b-cdn.net/cms/2021/02/08/4ca462a2-a7e6-4cdb-b855-3648443b360c.png"
-                    alt=""
-                    width={27}
-                    height={27}
-                  />
-                  <p>30 Days Return Guarantee</p>
-                </div>
-                <div className="text-dborderblack2 w-1/4 mr-1 p-3.5 text-d10 md:text-d12 flex flex-col justify-center text-center font-bold items-center">
-                  <img
-                    src="https://akn-eh.b-cdn.net/cms/2021/02/08/3fe79e3b-6c64-4a39-85c7-f6321596a7b5.png"
-                    alt=""
-                    width={27}
-                    height={27}
-                  />
-                  <p>Store Returns</p>
-                </div>
-              </div> */}
-                  <div className="pt-1">
+              
+              <div className="pt-1">
               {productData?.product_categories &&
                 productData?.product_categories?.length > 0 && (
                   <div className=" w-full  ">

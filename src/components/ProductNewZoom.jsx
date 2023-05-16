@@ -15,7 +15,6 @@ function ProductNewZoom(props) {
 
   const width = window.innerWidth;
 
-
   useEffect(() => {
     setImages(props.images);
 
@@ -89,8 +88,8 @@ function ProductNewZoom(props) {
       /*get the cursor's x and y positions:*/
       pos = getCursorPos(e);
       /*calculate the position of the lenss:*/
-      x = pos.x - lens.offsetWidth / (10 *1.5);
-      y = pos.y - lens.offsetHeight / (10 *1.5);
+      x = pos.x - lens.offsetWidth / (10 * 1.5);
+      y = pos.y - lens.offsetHeight / (10 * 1.5);
       /*prevent the lens from being positioned outside the image:*/
       if (x < 0) {
         x = 0;
@@ -107,8 +106,8 @@ function ProductNewZoom(props) {
       }
 
       // prevent the lens from being positioned outside the image:
-      x = Math.max(Math.min(x/1.5, img.width - lens.offsetWidth), 0);
-      y = Math.max(Math.min(y/1.5, img.height - lens.offsetHeight), 0);
+      x = Math.max(Math.min(x / 1.5, img.width - lens.offsetWidth), 0);
+      y = Math.max(Math.min(y / 1.5, img.height - lens.offsetHeight), 0);
 
       /*set the position of the lens:*/
       lens.style.left = x + "px";
@@ -135,6 +134,7 @@ function ProductNewZoom(props) {
 
   function closeModal() {
     setShowModal(false);
+    props.hideFixedCartMenu(false);
   }
 
   function changeImage(imgSrc) {
@@ -143,15 +143,12 @@ function ProductNewZoom(props) {
     setTimeout(function () {
       setActiveImage(imgSrc);
       const selectedImgIndex = images.findIndex(
-        (item) =>
-          item.popup === imgSrc.popup &&
-          item.thumb === imgSrc.thumb
+        (item) => item.popup === imgSrc.popup && item.thumb === imgSrc.thumb
       );
       setCurrentSlide(selectedImgIndex);
-      image.addEventListener('load', () =>{
-       image.style.opacity = "1"; // set the opacity to 1 after a short delay 
-      })
-      
+      image.addEventListener("load", () => {
+        image.style.opacity = "1"; // set the opacity to 1 after a short delay
+      });
     }, 250); // the delay in milliseconds, should match the duration of the CSS transition
   }
 
@@ -166,6 +163,7 @@ function ProductNewZoom(props) {
           productData={props.productData}
           currentSlideIndex={currentSlide}
           closeModal={closeModal}
+          hideFixedCartMenu={props.hideFixedCartMenu}
         />
       )}
 
@@ -184,7 +182,12 @@ function ProductNewZoom(props) {
               className={"hover:cursor-zoom-in   "}
             >
               {activeImage["popup"]?.length > 0 ? (
-                <div onClick={() => setShowModal(true)}>
+                <div
+                  onClick={() => {
+                    setShowModal(true);
+                    props.hideFixedCartMenu(true);
+                  }}
+                >
                   <img
                     id="myimage"
                     src={activeImage["popup"]}
@@ -219,7 +222,6 @@ function ProductNewZoom(props) {
                         : ""
                     } outline-none`}
                   >
-                    
                     <img
                       src={i["thumb"]}
                       alt=""

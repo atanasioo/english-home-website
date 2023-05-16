@@ -236,6 +236,7 @@ module.exports = {
         7.5: "31.5px",
         17: "70px",
         "unset" : "unset",
+        955: "95%"
       },
       width: {
         488: "48%",
