@@ -192,9 +192,10 @@ function ProductNewZoom(props) {
               {activeImage["popup"]?.length > 0 ? (
                 <div
                   onClick={() => {
+                    htmlOverflow();
                     setShowModal(true);
                     props.hideFixedCartMenu(true);
-                    htmlOverflow();
+                    
                   }}
                 >
                   <img
