@@ -560,10 +560,12 @@ input[type="number"] {
     
   }
   }
-
-  .popup-open {
-    overflow-y: hidden;
+  @media (max-width: 840px){
+    .popup-open {
+      overflow-y: hidden !important;
+    }
   }
+  
  
 
 
