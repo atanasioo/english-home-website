@@ -109,14 +109,14 @@ function ProductZoomModal(props) {
   return (
     <div className="fixed bg-dblackOverlay top-0 lef-0 right-0 w-full h-full z-40 overflow-hidden">
       <div className="relative z-50 h-screen mx-auto text-center box-border">
-        <div className="absolute w-full lg:w-11/12 m-auto h-full lg:h-5/6 z-50 bg-white top-0 left-0 right-0 bottom-0 md:rounded-lg">
+        <div className="absolute w-full lg:w-11/12 m-auto h-screen lg:h-5/6 z-50 bg-white top-0 left-0 right-0 bottom-0 md:rounded-lg">
           <GrClose
             className="absolute right-1 m-3 w-7 h-7 md:w-5 md:h-5 cursor-pointer text-white md:text-black"
             onClick={() => closeModal()}
           />
           <div
             id="popup_modal"
-            className="flex flex-col justify-center h-955 "
+            className="flex flex-col justify-center h-900"
           >
             <div className=" flex flex-col h-full lg:h-unset justify-between lg:flex-row lg:mx-8 py-2 md:py-0  lg:bg-white">
               <div className="product-big-img lg:mr-3 w-full lg:w-2/3 h-full flex flex-col justify-center items-center">
