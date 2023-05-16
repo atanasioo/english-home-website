@@ -21,7 +21,7 @@ function ProductZoomModal(props) {
     props?.images?.map((i) => {
       //   if (i.product_option_value_id === props.activeOption) {
       //     console.log("entered");
-      //     setActiveImage(i);
+      //     setActiveImage(i);;
       //   }
     });
     if (width < 840) {
