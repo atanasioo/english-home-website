@@ -137,6 +137,9 @@ function ProductNewZoom(props) {
     props.hideFixedCartMenu(false);
     const htmlElement = document.querySelector('html');
     htmlElement.classList.remove('popup-open');
+    const bodyElement = document.querySelector('body');
+    bodyElement.classList.remove('popup-open');
+
   }
 
   function changeImage(imgSrc) {
@@ -156,10 +159,12 @@ function ProductNewZoom(props) {
 
   function htmlOverflow(){
     const htmlElement = document.querySelector('html');
-    
+    const bodyElement = document.querySelector('body');
+
     // Add a CSS class to remove the overflow-y
     htmlElement.classList.add('popup-open');
-    
+    bodyElement.classList.add('popup-open');
+
   }
 
   return (
