@@ -19,7 +19,7 @@ import { path } from "../urls";
 import { FaWhatsappSquare, FaTwitterSquare, FaWhatsapp } from "react-icons/fa";
 import ReactPixel from "react-facebook-pixel";
 import { ImFacebook2 } from "react-icons/im";
-import product_image from "../assets/images/product.png"
+import product_image from "../assets/images/product.png";
 import {
   EmailShareButton,
   FacebookShareButton,
@@ -30,7 +30,6 @@ import Cookies from "js-cookie";
 import CartmenuMobile from "../components/CartmenuMobile";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import ProductNewZoom from "../components/ProductNewZoom";
-
 
 function Product() {
   const [state, dispatch] = useContext(CartContext);
@@ -120,7 +119,7 @@ function Product() {
 
   useEffect(() => {
     // setQuantity(1)
-    quantityRef.current.value= 1
+    quantityRef.current.value = 1;
     window.scrollTo(
       {
         top: 0
@@ -133,17 +132,16 @@ function Product() {
       .then((response) => {
         const data = response?.data?.data;
         setProductData(data);
-        const includesImage = data?.images.some(image => {
+        const includesImage = data?.images.some((image) => {
           return image.popup === data.popup && image.thumb === data.thumb;
         });
         console.log(includesImage);
-        if(!includesImage){
+        if (!includesImage) {
           data?.images.unshift({
             popup: data.popup,
             thumb: data.thumb
           });
         }
-        
 
         setImages(data?.images);
         setHasOption(data?.options?.length > 0);
@@ -174,33 +172,35 @@ function Product() {
           // //  event_id: data?.data?.social_data?.event_id,
           //   currency: data?.data?.social_data?.currency,
           //   // country: data?.data?.social_data?.country_code,
-           
+
           // }, {eventID: data?.data?.social_data?.event_id} );
 
-          window.fbq('track', 'ViewContent', {
-            content_type: "product",
-            content_ids: [product_id],
-            content_name: data?.data?.social_data?.name,
-            value: data?.data?.social_data?.value,
-            currency: data?.data?.social_data?.currency,
-           
-          }, {eventID:  data?.data?.social_data?.event_id});
-
-          
+          window.fbq(
+            "track",
+            "ViewContent",
+            {
+              content_type: "product",
+              content_ids: [product_id],
+              content_name: data?.data?.social_data?.name,
+              value: data?.data?.social_data?.value,
+              currency: data?.data?.social_data?.currency
+            },
+            { eventID: data?.data?.social_data?.event_id }
+          );
         }
       });
   }, [location]);
 
   function incrementQuantity(quantity) {
     // const newquantity = quantity + 1;
-    quantityRef.current.value = parseInt(quantityRef.current.value) + 1
+    quantityRef.current.value = parseInt(quantityRef.current.value) + 1;
     // setQuantity(newquantity);
   }
   function decrementQuantity(quantity) {
-    if ( quantityRef.current.value  <= 1) {
-      quantityRef.current.value =1
+    if (quantityRef.current.value <= 1) {
+      quantityRef.current.value = 1;
     } else {
-      quantityRef.current.value = parseInt(quantityRef.current.value) - 1
+      quantityRef.current.value = parseInt(quantityRef.current.value) - 1;
 
       // setQuantity(newquantity);
     }
@@ -234,10 +234,10 @@ function Product() {
 
     setHasAddToCartError(false);
     setAddingToCart(true);
-    const quantity =   quantityRef?.current?.value
+    const quantity = quantityRef?.current?.value;
     let obj = {
-      product_id,   quantity
-    
+      product_id,
+      quantity
     };
     if (hasOption) {
       let o = {};
@@ -312,39 +312,36 @@ function Product() {
           });
           ReactPixel.pageView();
           ReactPixel.fbq("track", "PageView");
-      
 
-          window.fbq('track', 'AddToCart', {
-            content_type: "product",
-            content_ids: data?.content_ids,
-            content_name: data?.name,
-            value: data?.value,
-            content_category: productData?.product_categories[0]?.name,             
-            currency: data?.currency,
-            fbp: Cookies.get("_fbp")
-           
-          }, {eventID:  data?.event_id});
+          window.fbq(
+            "track",
+            "AddToCart",
+            {
+              content_type: "product",
+              content_ids: data?.content_ids,
+              content_name: data?.name,
+              value: data?.value,
+              content_category: productData?.product_categories[0]?.name,
+              currency: data?.currency,
+              fbp: Cookies.get("_fbp")
+            },
+            { eventID: data?.event_id }
+          );
 
-        
-         
-         
-            var dataSocial = productData.social_data;
-            dataSocial["link"] = window.location.href;
-            dataSocial["fbp"] = Cookies.get("_fbp");
-            dataSocial["fbc"] = Cookies.get("_fbc");
-            dataSocial["ttp"] = Cookies.get("_ttp");
- 
+          var dataSocial = productData.social_data;
+          dataSocial["link"] = window.location.href;
+          dataSocial["fbp"] = Cookies.get("_fbp");
+          dataSocial["fbc"] = Cookies.get("_fbc");
+          dataSocial["ttp"] = Cookies.get("_ttp");
+
           _axios
-          .post(
-            buildLink("pixel", undefined, window.innerWidth),
-            dataSocial
-          )
-          .then((response) => {
-            const data = response.data;
-            if (data.success === true) {
-            }
-          });
-    
+            .post(buildLink("pixel", undefined, window.innerWidth), dataSocial)
+            .then((response) => {
+              const data = response.data;
+              if (data.success === true) {
+              }
+            });
+
           // }
           setSuccessAdded(true);
           if (width > 650) {
@@ -437,8 +434,8 @@ function Product() {
     setReturnmenuMob(!returnmenuMob);
   }
 
-  function hideFixedCartMenu(bool){
-    setProductZoomModal(bool)
+  function hideFixedCartMenu(bool) {
+    setProductZoomModal(bool);
   }
 
   function unescapeHTML(str) {
@@ -566,8 +563,6 @@ function Product() {
     }
   }
 
-
-
   var htmlEntities = {
     nbsp: " ",
     cent: "¢",
@@ -584,7 +579,7 @@ function Product() {
   };
 
   return (
-    <div className={`bg-dgrey10 ${ width > 650 ? 'px-6' : ''}`}>
+    <div className={`bg-dgrey10 ${width > 650 ? "px-6" : ""}`}>
       {cartmenu && width > 650 && (
         <div ref={wrapperRef} onMouseEnter={() => setHoveredCart(true)}>
           <TopCart cartmenu={cartmenu} />
@@ -705,7 +700,10 @@ function Product() {
                   >
                     CONTINUE SHOPPING
                   </button>
-                  <Link to={'/cart'} className="text-dwhite1 border border-dblue1 bg-dblue1 h-10 text-d16 w-3/4 m-auto  mb-2.5 pt-1.5">
+                  <Link
+                    to={"/cart"}
+                    className="text-dwhite1 border border-dblue1 bg-dblue1 h-10 text-d16 w-3/4 m-auto  mb-2.5 pt-1.5"
+                  >
                     GO TO CART
                   </Link>
                 </div>
@@ -756,7 +754,7 @@ function Product() {
         </div>
       )}
 
-      <div className={`py-5 ${ width > 650 ? 'container' : 'px-2'}`}>
+      <div className={`py-5 ${width > 650 ? "container" : "px-2"}`}>
         <div className="text-d12 my-2.5 text-dgrey11 text-left flex flex-wrap items-center">
           <Link to={"/"}>{productData?.breadcrumbs?.text_home}</Link>
           <BsChevronRight className="mx-2 mt-0.5" />
@@ -797,7 +795,6 @@ function Product() {
         <div className="flex flex-col md:flex-row">
           <div className="mr-4 relative w-full md:w-577">
             {images?.length > 0 ? (
-
               // <NewZoom
               //   // activeOption={activeImageOption.product_option_value_id}
               //   images={images}
@@ -808,8 +805,12 @@ function Product() {
                 hideFixedCartMenu={hideFixedCartMenu}
                 productData={productData}
               />
-            ):(
-              <img className="w-full md:w-11/12" src={product_image} alt="product_image_placeholder" />
+            ) : (
+              <img
+                className="w-full md:w-11/12"
+                src={product_image}
+                alt="product_image_placeholder"
+              />
             )}
           </div>
 
@@ -845,20 +846,30 @@ function Product() {
               <div className="flex my-3">
                 <div className=" bg-dborderblack2 text-white w-16 h-16 font-black align-middle pt-4 text-d20">
                   {/* DiSCOUNT IN CART */}
-                  {productData?.saving && productData?.saving + '%'}
+                  {productData?.saving && productData?.saving + "%"}
                 </div>
 
                 <div className="pl-5 flex-nowrap text-d20  text-left align-middle my-1">
-                  <div className="font-light line-through"> {productData?.price}</div>
+                  <div className="font-light line-through">
+                    {" "}
+                    {productData?.price}
+                  </div>
                   <div className="font-bold text-d25 leading-5">
                     {" "}
                     {productData?.special}
                   </div>
                 </div>
               </div>
-              <div className="flex font-light text-d11 pl-2 py-3">Model Number : {productData?.sku}</div>
+              <div className="flex font-light text-d11 pl-2 py-3">
+                Model Number : {productData?.sku}
+              </div>
 
-              {stateAccount.admin &&   <div className="flex  text-d14 pl-2 py-1"> Quantity:  {productData?.quantity } </div>}
+              {stateAccount.admin && (
+                <div className="flex  text-d14 pl-2 py-1">
+                  {" "}
+                  Quantity: {productData?.quantity}{" "}
+                </div>
+              )}
 
               {/* series options */}
 
@@ -907,7 +918,8 @@ function Product() {
                               }}
                               className={`flex justify-center items-center w-20 mr-5 mb-5  border-2 hover:shadow cursor-pointer p-1 rounded-md
                             ${
-                            (  option_val.product_id === product_id && option_val.product_id !=="" )
+                              option_val.product_id === product_id &&
+                              option_val.product_id !== ""
                                 ? "border-dblue1"
                                 : "border-dgrey"
                             }
@@ -987,7 +999,10 @@ function Product() {
                     <button onClick={() => decrementQuantity()}>
                       <span className="w-3/12">-</span>
                     </button>
-                    <input  className="w-6/12 text-center mx-2" ref={quantityRef} />
+                    <input
+                      className="w-6/12 text-center mx-2"
+                      ref={quantityRef}
+                    />
                     {/* <span className="w-6/12 text-center ">{quantity}</span> */}
                     <button onClick={() => incrementQuantity()}>
                       <span className="w-3/12">+</span>
@@ -1006,7 +1021,6 @@ function Product() {
                         "Out Of Stock"
                       ) : (
                         <div>
-                          
                           <span className="">ADD TO BASKET </span>
                         </div>
                       )}
@@ -1014,12 +1028,19 @@ function Product() {
                   </button>
                 </div>
               ) : (
-                <div className={`w-full fixed -bottom-1 left-0 text-center z-10 flex items-center overflow-x-hidden ${productZoomModal ? "hidden" : ""} `}>
+                <div
+                  className={`w-full fixed -bottom-1 left-0 text-center z-10 flex items-center overflow-x-hidden ${
+                    productZoomModal ? "hidden" : ""
+                  } `}
+                >
                   <div className="w-1/3 flex  align-middle text-center py-3 mb-1 text-d22 font-bold text-dborderblack2 px-3 items-center bg-dwhite1 justify-center">
                     <button onClick={() => decrementQuantity()}>
                       <span className="w-3/12">-</span>
                     </button>
-                    <input  className="w-6/12 text-center mx-2" ref={quantityRef} />
+                    <input
+                      className="w-6/12 text-center mx-2"
+                      ref={quantityRef}
+                    />
 
                     <button onClick={() => incrementQuantity()}>
                       <span className="w-3/12">+</span>
@@ -1038,7 +1059,6 @@ function Product() {
                         "Out Of Stock"
                       ) : (
                         <div>
-                         
                           <span className="">ADD TO BASKET </span>
                         </div>
                       )}
@@ -1058,18 +1078,31 @@ function Product() {
                   </span>
                 </div>
               )}
+              <div className="my-4 align-center">
+                <a
+                  className="flex justify-start text-center"
+                  href={`https://api.whatsapp.com/send?phone=${
+                    window.config["countryCode"] + stateAccount.wtspNumber
+                  }&text=Hi%20there%20i%27m%20interested%20in%20${
+                    window.config["site-url"]
+                  }/product/${product_id}`}
+                >
+                  <div className={`  flex justify-center items-center bg-dwhatsapp  rounded py-2 px-4 text-white${width < 650 ? "w-full" : "text-d18 w-8/12"}`}>
+                    <FaWhatsapp className="w-8 h-10   text-white mr-2" />
+                    <span className=" text-white ">Whatsapp Support</span>
+                  </div>
+                </a>
+              </div>
 
-              
               <div className="pt-1">
-              {productData?.product_categories &&
-                productData?.product_categories?.length > 0 && (
-                  <div className=" w-full  ">
-                    <div className=" ">
+                {productData?.product_categories &&
+                  productData?.product_categories?.length > 0 && (
+                    <div className=" w-full  ">
+                      <div className=" ">
                         <div className="flex justify-around mt-2.5">
-                            {productData?.product_categories?.map(
-                              (category, Key ) => (
-                                Key < 2 &&
-                              
+                          {productData?.product_categories?.map(
+                            (category, Key) =>
+                              Key < 2 && (
                                 <Link
                                   key={category.category_id}
                                   to={`${path}/${category.name
@@ -1080,27 +1113,26 @@ function Product() {
                                     category.category_id
                                   }`}
                                   className="text-d10 border border-dgrey2 p-3 w-1/2 text-center flex justify-center items-center ml-2"
-
                                 >
                                   All
-  
                                   <span
                                     dangerouslySetInnerHTML={{
                                       __html: category.name
                                     }}
                                     className="text-center px-0.5 font-bold text-d11 lowercase"
-                                  ></span>Products
-                                  <BsChevronRight className="ml-1"/>
+                                  ></span>
+                                  Products
+                                  <BsChevronRight className="ml-1" />
                                 </Link>
                               )
-                            )}
+                          )}
                         </div>
-                      {/* )} */}
+                        {/* )} */}
+                      </div>
                     </div>
-                  </div>
-                )}
-            </div>
-             
+                  )}
+              </div>
+
               <div className="add-to-basket-wrapper flex-xs w-full h-14 fixed z-30 bottom-0 bg-dwhite1 hidden"></div>
               <div className="error js-error-price-down text-d13 text-left mt-2.5 text-dred4"></div>
               <div className="desktop-product-infos md:hidden"></div>
@@ -1116,7 +1148,6 @@ function Product() {
                 PRODUCT INFORMATION
               </div>
               <div className="mx-1 flex flex-col md:flex-row">
-          
                 <div className="flex flex-row text-left pt-1">
                   <div>
                     <div
@@ -1128,25 +1159,23 @@ function Product() {
                 </div>
 
                 <div>
-                <table className=" border  border-dgrey1 w-full text-left  font-mono leading-tight text-xs">
-                       
-                        <tbody>
-                          {productData?.attribute_groups?.map((grp) => (
-                            <tr>
-                              <td className="font-bold whitespace-nowrap">
-                                {grp.name}
-                              </td>
-                              {grp?.attribute?.map((attr) => (
-                                <>
-                                  <td className="p-2.5">{attr.name}</td>
-                                </>
-                              ))}
-                            </tr>
+                  <table className=" border  border-dgrey1 w-full text-left  font-mono leading-tight text-xs">
+                    <tbody>
+                      {productData?.attribute_groups?.map((grp) => (
+                        <tr>
+                          <td className="font-bold whitespace-nowrap">
+                            {grp.name}
+                          </td>
+                          {grp?.attribute?.map((attr) => (
+                            <>
+                              <td className="p-2.5">{attr.name}</td>
+                            </>
                           ))}
-                        </tbody>
-                      </table>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
-                
               </div>
             </div>
           </div>
@@ -1182,7 +1211,6 @@ function Product() {
                 }`}
               >
                 <div className="-mx-1 flex flex-col-reverse md:flex-row">
-
                   <div className="w-full text-left flex justify-around">
                     <div className="w-1/2 mr-10">
                       <div className="text-d22 font-bold my-5">
@@ -1374,11 +1402,10 @@ function Product() {
                   <div className="hidden"></div>
                 </div>
               </div>
-             
             </div>
           </div>
         </div>
-    
+
         {/* / 10 products */}
         {productData?.smallest_cat_products &&
           productData?.smallest_cat_products?.length > 0 && (
@@ -1392,7 +1419,10 @@ function Product() {
                     {productData.smallest_cat_products.map((item) => (
                       <div>
                         {" "}
-                        <SingleProducts item={item} showCartmenuMob={showCart}></SingleProducts>
+                        <SingleProducts
+                          item={item}
+                          showCartmenuMob={showCart}
+                        ></SingleProducts>
                       </div>
                     ))}
                   </Slider>
@@ -1402,7 +1432,10 @@ function Product() {
                       {productData.smallest_cat_products.map((item) => (
                         <div className="px-1.5">
                           {" "}
-                          <SingleProducts item={item} showCartmenu={showCart}></SingleProducts>
+                          <SingleProducts
+                            item={item}
+                            showCartmenu={showCart}
+                          ></SingleProducts>
                         </div>
                       ))}
                     </Slider>
@@ -1458,7 +1491,10 @@ function Product() {
                     {productData?.product_recentlyViewed?.map((item) => {
                       return (
                         <div className="pr-2" key={item.product_id}>
-                          <SingleProducts item={item} showCartmenuMob={showCart}/>
+                          <SingleProducts
+                            item={item}
+                            showCartmenuMob={showCart}
+                          />
                         </div>
                       );
                     })}
@@ -1468,7 +1504,7 @@ function Product() {
                     {productData?.product_recentlyViewed?.map((item) => {
                       return (
                         <div className="pr-2" key={item.product_id}>
-                          <SingleProducts item={item} showCartmenu={showCart}/>
+                          <SingleProducts item={item} showCartmenu={showCart} />
                         </div>
                       );
                     })}
@@ -1478,7 +1514,6 @@ function Product() {
             )}
         </div>
         {/* end recenty viewed */}
-  
       </div>
     </div>
   );
