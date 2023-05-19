@@ -116,10 +116,10 @@ function ProductZoomModal(props) {
           />
           <div
             id="popup_modal"
-            className="flex flex-col justify-center h-900"
+            className="flex flex-col justify-center h-full"
           >
             <div className=" flex flex-col h-full lg:h-unset justify-between lg:flex-row lg:mx-8 py-2 md:py-0  lg:bg-white">
-              <div className="product-big-img lg:mr-3 w-full lg:w-2/3 h-full flex flex-col justify-center items-center">
+              <div className="product-big-img lg:mr-3 w-full lg:w-2/3 flex flex-col justify-center items-center">
                 {width > 840 ? (
                   <PrismaZoom
                     minZoom={1}
@@ -162,7 +162,7 @@ function ProductZoomModal(props) {
                   </Slider>
                 )}
               </div>
-              <div className="product-info ml-4">
+              <div className="product-info ml-4 w-1/3">
                 <div className="flex flex-col text-dborderblack2 text-left place-content-center">
                   <div className="product-title hidden lg:block font-mono md:font-mono font-semibold  text-dborderblack2 text-d17 md:text-d20 w-8/12">
                     {productData.name}
@@ -172,11 +172,11 @@ function ProductZoomModal(props) {
                   </div>
                   {/* selector-div */}
                   {width > 840 ? (
-                    <div className="grid grid-cols-3 xl:grid-col-4 mt-7 ">
+                    <div className={`grid ${images.length<4 ? "grid-cols-4" : "grid-cols-3" }  xl:grid-col-4 mt-7 `}>
                       {images?.map((i) => (
                         <div
                           key={i["thumb"]}
-                          className={`  mt-3 mr-4 w-24 cursor-pointer ${
+                          className={`mt-3 mr-2 w-24 cursor-pointer ${
                             activeImage["popup"] === i["popup"]
                               ? "border-3 border-dborderblack1"
                               : ""
