@@ -1091,17 +1091,17 @@ function Product() {
                   </span>
                 </div>
               )}
-              <div className="my-4 align-center">
+              <div className="my-4 align-center mr-12">
                 <a
-                  className="flex justify-start text-center"
+                  className="flex justify-start text-center "
                   href={`https://api.whatsapp.com/send?phone=${
-                    window.config["countryCode"] + stateAccount.wtspNumber
+                    window.config["countryCode"] + "76400008"
                   }&text=Hi%20there%20i%27m%20interested%20in%20${
                     window.config["site-url"]
                   }/product/${product_id}`}
                 >
-                  <div className={`  flex justify-center items-center bg-dwhatsapp  rounded py-2 px-4 text-white${width < 650 ? "w-full" : "text-d18 w-8/12"}`}>
-                    <FaWhatsapp className="w-8 h-10   text-white mr-2" />
+                  <div className={`  flex justify-center items-center bg-dwhatsapp  rounded py-2 px-6 text-white${width < 650 ? "w-full" : "text-d18 w-auto"}`}>
+                    <FaWhatsapp className="w-7 h-7   text-white mr-2 text-d9" />
                     <span className=" text-white ">Whatsapp Support</span>
                   </div>
                 </a>
