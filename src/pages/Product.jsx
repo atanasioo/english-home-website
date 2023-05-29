@@ -331,7 +331,7 @@ function Product() {
             "AddToCart",
             {
               content_type: "product",
-              content_ids: data?.content_ids,
+              content_ids: data?.data.social_data?.content_ids,
               content_name: data?.name,
               value: data?.value,
               content_category: productData?.product_categories[0]?.name,
@@ -347,13 +347,13 @@ function Product() {
           dataSocial["fbc"] = Cookies.get("_fbc");
           dataSocial["ttp"] = Cookies.get("_ttp");
 
-          _axios
-            .post(buildLink("pixel", undefined, window.innerWidth), dataSocial)
-            .then((response) => {
-              const data = response.data;
-              if (data.success === true) {
-              }
-            });
+          // _axios
+          //   .post(buildLink("pixel", undefined, window.innerWidth), dataSocial)
+          //   .then((response) => {
+          //     const data = response.data;
+          //     if (data.success === true) {
+          //     }
+          //   });
 
           // }
           setSuccessAdded(true);
