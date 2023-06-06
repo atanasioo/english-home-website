@@ -150,11 +150,11 @@ function Product() {
         // // ---> Facebook PIXEL <---
         if (!stateAccount.admin) {
           const advancedMatching = {
-            em: data?.data?.social_data?.email,
-            fn: data?.data?.social_data?.firstname,
-            ln: data?.data?.social_data?.lastname,
-            external_id: data?.data?.social_data?.external_id,
-            country: data?.data?.social_data?.country_code,
+            em: data?.social_data?.email,
+            fn: data?.social_data?.firstname,
+            ln: data?.social_data?.lastname,
+            external_id: data?.social_data?.external_id,
+            country: data?.social_data?.country_code,
             fbp: Cookies.get("_fbp")
           };
           ReactPixel.init(pixelID, advancedMatching, {
@@ -175,18 +175,31 @@ function Product() {
 
           // }, {eventID: data?.data?.social_data?.event_id} );
 
-          window.fbq(
-            "track",
-            "ViewContent",
-            {
-              content_type: "product",
-              content_ids: [product_id],
-              content_name: data?.data?.social_data?.name,
-              value: data?.data?.social_data?.value,
-              currency: data?.data?.social_data?.currency
-            },
-            { eventID: data?.data?.social_data?.event_id }
-          );
+          window.fbq('track', 'ViewContent', {
+            content_type: "product",
+            content_ids: [product_id],
+            content_name: data?.social_data?.name,
+            value: data?.social_data?.value,
+            currency: data?.social_data?.currency,
+           
+          }, {eventID:  data?.social_data?.event_id});
+
+          var dataSocial = data.social_data;
+          dataSocial["fbp"] = Cookies.get("_fbp");
+          dataSocial["fbc"] = Cookies.get("_fbc");
+          dataSocial["ttp"] = Cookies.get("_ttp");
+          dataSocial["link"] = window.location.href;
+
+          _axios
+          .post(buildLink("pixel", undefined, window.innerWidth), dataSocial)
+          .then((response) => {
+            const data = response.data;
+            if (data.success === true) {
+            }
+          });
+
+          
+          
         }
       });
   }, [location]);

@@ -34,7 +34,7 @@ function Checkout() {
   const [error, setError] = useState("");
   const zone = useRef({
     id: window.config["initial-zone"].id,
-    name: window.config["initial-zone"].name
+    name: window.config["initial-zone"].name,
   });
   const [addrInfo, setAddrInfo] = useState({
     addr1: "",
@@ -44,7 +44,7 @@ function Checkout() {
     zn: zone.current.name || "",
     znId: zone.current.id || "",
     fn: "",
-    ln: ""
+    ln: "",
   });
   const [loged, setloged] = useState();
   const [accountData, setAccountData] = useState([]);
@@ -56,7 +56,7 @@ function Checkout() {
 
   const town = useRef({
     id: 0,
-    name: ""
+    name: "",
   });
   const [termCondition, setTermCondition] = useState();
 
@@ -123,7 +123,7 @@ function Checkout() {
       town_id: 0,
       country_id,
       city,
-      postcode
+      postcode,
     };
     setphoneValidate("");
     if (window.config["zone"] === "82" && telephone.current.value.length < 11) {
@@ -210,11 +210,11 @@ function Checkout() {
                   fn: manualResponse?.social_data?.firstname,
                   ln: manualResponse?.social_data?.lastname,
                   external_id: manualResponse?.social_data?.external_id,
-                  country: manualResponse?.social_data?.country_code
+                  country: manualResponse?.social_data?.country_code,
                 };
                 ReactPixel.init(pixelID, advancedMatching, {
                   debug: true,
-                  autoConfig: false
+                  autoConfig: false,
                 });
                 ReactPixel.pageView();
                 ReactPixel.fbq("track", "PageView");
@@ -235,7 +235,7 @@ function Checkout() {
                     content_type: "product",
                     content_ids: productArray,
                     num_items: manualResponse?.order_product?.length,
-                    currency: manualResponse?.social_data?.currency
+                    currency: manualResponse?.social_data?.currency,
                   },
                   { eventID: manualResponse?.social_data?.event_id }
                 );
@@ -279,20 +279,20 @@ function Checkout() {
 
         dispatch({
           type: "setProducts",
-          payload: response.data.data.products
+          payload: response.data.data.products,
         });
 
         dispatch({
           type: "setProductsCount",
-          payload: response.data.data.total_product_count
+          payload: response.data.data.total_product_count,
         });
         dispatch({
           type: "setTotals",
-          payload: response.data.data.totals
+          payload: response.data.data.totals,
         });
         dispatch({
           type: "loading",
-          payload: false
+          payload: false,
         });
       });
   }
@@ -378,7 +378,7 @@ function Checkout() {
     setActiveAddress(address);
     const obj = {
       name: address.zone,
-      value: address.zone_id
+      value: address.zone_id,
     };
     zone.current.name = address.zone;
     zone.current.id = address.zone_id;
@@ -440,10 +440,8 @@ function Checkout() {
   }, []);
 
   function handleSubmit(e) {
-  
-
     e.preventDefault();
-    manualErrors.current = ''
+    manualErrors.current = "";
     // manual(manualCart, zone, paymentMeth, false);
 
     const btn = document.getElementById("savebtn");
@@ -459,14 +457,12 @@ function Checkout() {
         setPaymenttab(true);
       }
     } else {
-
       manual(manualCart, zone, paymentMeth, false);
       // alert(manualR.success)
       if (manualR.success === true) {
         btn.disabled = false;
         setAddresstab(false);
         setPaymenttab(true);
- 
       }
     }
   }
@@ -477,11 +473,11 @@ function Checkout() {
     const sel = e.target;
     const obj = {
       name: sel.options[sel.selectedIndex].text,
-      value: sel.value
+      value: sel.value,
     };
     zone.current.id = sel.value;
     zone.current.name = sel.options[sel.selectedIndex].text;
-    manual(manualCart, obj, activePaymentMethod, false , true);
+    manual(manualCart, obj, activePaymentMethod, false, true);
 
     // _axios
     //   .get(buildLink("town", undefined, window.innerWidth) + zone.current.id)
@@ -551,7 +547,7 @@ function Checkout() {
         //     : true,
         source_id: 1,
         coupon: "",
-        code_version: window.innerWidth > 600 ? "web_desktop" : "web_mobile"
+        code_version: window.innerWidth > 600 ? "web_desktop" : "web_mobile",
       };
     } else {
       body = {
@@ -593,7 +589,7 @@ function Checkout() {
         payment_session: manualResponse.payment_session,
         source_id: 1,
         coupon: coupon?.current?.value || "",
-        code_version: window.innerWidth > 600 ? "web_desktop" : "web_mobile"
+        code_version: window.innerWidth > 600 ? "web_desktop" : "web_mobile",
       };
       const adminId = Cookies.get("user_id");
       if (typeof adminId != "undefined") {
@@ -613,8 +609,8 @@ function Checkout() {
           setConfirmDisalbe(false);
           // if (manualErrors.current["0"].errorCode === "payment_method") {
           //   setAddresstab(false);
-            setPaymenttab(false);
-            setAddresstab(true);
+          setPaymenttab(false);
+          setAddresstab(true);
 
           //   setPaymentMeth("Cash On Delivery");
           // } else {
@@ -623,23 +619,40 @@ function Checkout() {
           manualErrors.current = "";
           paymentForm(confirm, paymentcode);
           setLoading(false);
-         
 
-          if(bool===true){
+          const data = response.data.data;
+
+          var dataSocial = data.social_data;
+          dataSocial["link"] = window.location.href;
+          dataSocial["fbp"] = Cookies.get("_fbp");
+          dataSocial["fbc"] = Cookies.get("_fbc");
+          dataSocial["ttp"] = Cookies.get("_ttp");
+
+          if (bool === true) {
             setPaymenttab(false);
             setAddresstab(true);
+          } else {
+            // handleInputs()
+            if (firstAttemp) {
+              _axios
+                .post(
+                  buildLink("pixel", undefined, window.innerWidth),
+                  dataSocial
+                )
+                .then((response) => {
+                  const data = response.data;
+                  if (data.success === true) {
+                  }
+                });
 
-          }else{
-          // handleInputs()
-          if (firstAttemp  ) 
-           {setFirstAttemp(false);
-            setPaymenttab(false);
-            setAddresstab(true);
-          }else{
-            setPaymenttab(true);
-            setAddresstab(false);
+              setFirstAttemp(false);
+              setPaymenttab(false);
+              setAddresstab(true);
+            } else {
+              setPaymenttab(true);
+              setAddresstab(false);
+            }
           }
-        }
         }
       });
 
@@ -657,7 +670,7 @@ function Checkout() {
       ln: lastname.current.value,
       tel: telephone.current.value,
       zn: zone.current.name,
-      znId: zone_id.current.value
+      znId: zone_id.current.value,
     });
   }
 
@@ -695,11 +708,11 @@ function Checkout() {
               fn: data?.data?.social_data?.firstname,
               ln: data?.data?.social_data?.lastname,
               external_id: data?.data?.social_data?.external_id,
-              country: data?.data?.social_data?.country_code
+              country: data?.data?.social_data?.country_code,
             };
             ReactPixel.init(pixelID, advancedMatching, {
               debug: true,
-              autoConfig: false
+              autoConfig: false,
             });
             ReactPixel.pageView();
             ReactPixel.fbq("track", "PageView");
@@ -724,7 +737,7 @@ function Checkout() {
                   content_ids: data?.data?.social_data?.content_ids,
                   value: data?.data?.social_data?.value,
                   num_items: data?.data?.social_data?.num_items,
-                  currency: data?.data?.social_data?.currency
+                  currency: data?.data?.social_data?.currency,
                 },
                 { eventID: data?.data?.social_data?.event_id }
               );
@@ -761,7 +774,7 @@ function Checkout() {
   function setCoupon() {
     const obj = {
       name: zone.current.name,
-      value: zone.current.id
+      value: zone.current.id,
     };
     if (coupon.current.value.length > 1) {
       manual(manualCart, obj, activePaymentMethod, false, false);
@@ -813,7 +826,7 @@ function Checkout() {
     setLoading(true);
     dispatch({
       type: "loading",
-      payload: true
+      payload: true,
     });
     const obj = { key, quantity };
     _axios
@@ -824,7 +837,7 @@ function Checkout() {
 
         dispatch({
           type: "loading",
-          payload: false
+          payload: false,
         });
       });
   }
@@ -839,7 +852,7 @@ function Checkout() {
 
       dispatch({
         type: "loading",
-        payload: true
+        payload: true,
       });
       _axios
         .put(buildLink("cart", undefined, window.innerWidth), obj)
@@ -1504,7 +1517,9 @@ function Checkout() {
                                 <button
                                   id="savebtn"
                                   //type="submit"
-                                  onClick={(e) =>{ handleSubmit(e)}}
+                                  onClick={(e) => {
+                                    handleSubmit(e);
+                                  }}
                                   className="text-d14 tracking-tight uppercase mt-3.5 h-11 text-center w-full bg-dblue1 text-dwhite1 flex items-center justify-center "
                                 >
                                   <span>SAVE AND CONTINUE</span>
@@ -1636,7 +1651,7 @@ function Checkout() {
                                                               }`}
                                                               dangerouslySetInnerHTML={{
                                                                 __html:
-                                                                  product?.name
+                                                                  product?.name,
                                                               }}
                                                             ></Link>
 
@@ -1912,7 +1927,7 @@ function Checkout() {
                                             product.product_id
                                           }`}
                                           dangerouslySetInnerHTML={{
-                                            __html: product?.name
+                                            __html: product?.name,
                                           }}
                                         ></Link>
 

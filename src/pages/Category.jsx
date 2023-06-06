@@ -4,7 +4,7 @@ import {
   useParams,
   useNavigate,
   Link,
-  useNavigationType
+  useNavigationType,
 } from "react-router-dom";
 import _axios from "../axios";
 import SingleProductCategory from "../components/SingleProductCategory";
@@ -55,7 +55,7 @@ function Category() {
     filter_manufacturers: [],
     adv_filters: [],
     filter_options: [],
-    filter_attributes: []
+    filter_attributes: [],
   });
   const wrapperRef = useRef(null);
 
@@ -78,7 +78,7 @@ function Category() {
   useEffect(() => {
     window.scrollTo({
       top: 0,
-      behavior: "smooth"
+      behavior: "smooth",
     });
     if (window.location.href.indexOf("all") > 0) {
       setShowWidgets(false);
@@ -125,7 +125,7 @@ function Category() {
         filter_manufacturers: [],
         adv_filters: [],
         filter_options: [],
-        filter_attributes: []
+        filter_attributes: [],
       });
       urlRef.current = location.pathname;
     }
@@ -160,7 +160,7 @@ function Category() {
           filter_categories: [],
           filter_manufacturers: [],
           adv_filters: [],
-          filter_attributes: []
+          filter_attributes: [],
         });
       }
       if (value === categoryIndex) {
@@ -170,7 +170,7 @@ function Category() {
           filter_manufacturers: [],
           filter_sellers: [],
           adv_filters: [],
-          filter_attributes: []
+          filter_attributes: [],
         });
       }
       if (value === brandIndex) {
@@ -180,7 +180,7 @@ function Category() {
           filter_categories: [],
           filter_options: [],
           adv_filters: [],
-          filter_attributes: []
+          filter_attributes: [],
         });
       }
       if (value === attrIndex) {
@@ -189,7 +189,7 @@ function Category() {
           filter_sellers: [],
           filter_categories: [],
           filter_options: [],
-          adv_filters: []
+          adv_filters: [],
         });
       }
       if (value === advfiltersIndex) {
@@ -199,68 +199,68 @@ function Category() {
           filter_categories: [],
           filter_manufacturers: [],
           filter_options: [],
-          filter_attributes: []
+          filter_attributes: [],
         });
       }
     }
 
     let url_type =
-    window.location.href.indexOf("has_filter") < 0 ? "default" : "filter";
-  // setData({});
+      window.location.href.indexOf("has_filter") < 0 ? "default" : "filter";
+    // setData({});
 
-  if (url_type === "default") {
-    const q_s = queryString.parse(location.search);
-    // q_s.page = q_s.page ? q_s.page : page;
-    // q_s.limit = q_s.limit ? q_s.limit : limit.value;
-    q_s.sort = q_s.sort ? q_s.sort : "p2co.sort_order";
-    q_s.order = q_s.order ? q_s.order : "ASC";
-    // if (width > 650) {
-    q_s.source_id = 1;
-    _axios
-    .post(
-      buildLink(type, undefined, undefined) + id
-      +`${stateAccount.admin ? "&adm_quantity=true" : ""}`
-    )
-    .then((response) => {
-      // setData((prevData) => {
-      //   return [
-      //     ...new Set([...prevData, ...response?.data?.data]),
-      //   ];
-      // });
-      setData(response?.data?.data);
-      setfilters(response?.data?.data?.filters);
-      setPointer(true);
-    });
+    if (url_type === "default") {
+      const q_s = queryString.parse(location.search);
+      // q_s.page = q_s.page ? q_s.page : page;
+      // q_s.limit = q_s.limit ? q_s.limit : limit.value;
+      q_s.sort = q_s.sort ? q_s.sort : "p2co.sort_order";
+      q_s.order = q_s.order ? q_s.order : "ASC";
+      // if (width > 650) {
+      q_s.source_id = 1;
+      _axios
+        .post(
+          buildLink(type, undefined, undefined) +
+            id +
+            `${stateAccount.admin ? "&adm_quantity=true" : ""}`
+        )
+        .then((response) => {
+          // setData((prevData) => {
+          //   return [
+          //     ...new Set([...prevData, ...response?.data?.data]),
+          //   ];
+          // });
+          setData(response?.data?.data);
+          setfilters(response?.data?.data?.filters);
+          setPointer(true);
+        });
+    } else {
+      const q_s = queryString.parse(location.search);
+      // q_s.page = q_s.page ? q_s.page : page;
+      // q_s.limit = q_s.limit ? q_s.limit : limit.value;
+      q_s.sort = q_s.sort ? q_s.sort : "p2co.sort_order";
+      q_s.order = q_s.order ? q_s.order : "ASC";
+      // if (width > 650) {
+      q_s.source_id = 1;
+      // }
 
-
-  }else{
-    const q_s = queryString.parse(location.search);
-    // q_s.page = q_s.page ? q_s.page : page;
-    // q_s.limit = q_s.limit ? q_s.limit : limit.value;
-    q_s.sort = q_s.sort ? q_s.sort : "p2co.sort_order";
-    q_s.order = q_s.order ? q_s.order : "ASC";
-    // if (width > 650) {
-    q_s.source_id = 1;
-    // }
-
-    newPath += "&" + queryString.stringify(q_s);
-    if(stateAccount.admin){
-      newPath += "&adm_quantity=true";
-    }
-    _axios
-      .post(
-        buildLink(type, undefined, undefined) + newPath.replace("undefined", "")
-      )
-      .then((response) => {
-        // setData((prevData) => {
-        //   return [
-        //     ...new Set([...prevData, ...response?.data?.data]),
-        //   ];
-        // });
-        setData(response?.data?.data);
-        setfilters(response?.data?.data?.filters);
-        setPointer(true);
-      });
+      newPath += "&" + queryString.stringify(q_s);
+      if (stateAccount.admin) {
+        newPath += "&adm_quantity=true";
+      }
+      _axios
+        .post(
+          buildLink(type, undefined, undefined) +
+            newPath.replace("undefined", "")
+        )
+        .then((response) => {
+          // setData((prevData) => {
+          //   return [
+          //     ...new Set([...prevData, ...response?.data?.data]),
+          //   ];
+          // });
+          setData(response?.data?.data);
+          setfilters(response?.data?.data?.filters);
+          setPointer(true);
+        });
     }
     let productArray = [];
     let productDetails = [];
@@ -280,13 +280,13 @@ function Category() {
           ln: data?.social_data?.lastname,
           external_id: data?.social_data?.external_id,
           country: data?.social_data?.country_code,
-          fbp: Cookies.get("_fbp")
+          fbp: Cookies.get("_fbp"),
         };
         // window.fbq('init', pixelID, advancedMatching);
 
         ReactPixel.init(pixelID, advancedMatching, {
           debug: true,
-          autoConfig: false
+          autoConfig: false,
         });
         ReactPixel.pageView();
         ReactPixel.fbq("track", "PageView");
@@ -299,11 +299,23 @@ function Category() {
               content_type: "product",
               content_ids: productArray,
               contents: productDetails,
-              content_name: data?.social_data?.name
+              content_name: data?.social_data?.name,
             },
             { eventID: data?.social_data?.event_id }
           );
         }
+        var dataSocial = data.social_data;
+        dataSocial["fbp"] = Cookies.get("_fbp");
+        dataSocial["fbc"] = Cookies.get("_fbc");
+        dataSocial["ttp"] = Cookies.get("_ttp");
+        dataSocial["link"] = window.location.href;
+        _axios
+          .post(buildLink("pixel", undefined, window.innerWidth), dataSocial)
+          .then((response) => {
+            const data = response.data;
+            if (data.success === true) {
+            }
+          });
       }
     }
   }, [location, sort, stateAccount.admin]);
@@ -436,7 +448,7 @@ function Category() {
 
       setUserFilters({
         ...userFilters,
-        type_key: values_array
+        type_key: values_array,
       });
 
       let active_filters = {};
@@ -493,7 +505,7 @@ function Category() {
 
       setUserFilters({
         ...userFilters,
-        type_key: values_array
+        type_key: values_array,
       });
 
       if (location.search.indexOf(id) > -1) {
@@ -631,7 +643,7 @@ function Category() {
                     to="/"
                     className=" md:block text-dborderblack0 font-light truncate text-d16 md:text-tiny mr-2 hover:text-dblue"
                     dangerouslySetInnerHTML={{
-                      __html: "Home"
+                      __html: "Home",
                     }}
                   />{" "}
                   <RiArrowRightSLine className="text-d22 font-light mt-0.5 -mx-2 " />
@@ -924,9 +936,9 @@ function Category() {
                           onClick={() => setShowSort(!showSort ? true : false)}
                         >
                           <div
-                          className=""
+                            className=""
                             dangerouslySetInnerHTML={{
-                              __html: sort?.text ? sort?.text : sort
+                              __html: sort?.text ? sort?.text : sort,
                             }}
                           ></div>
                         </div>
@@ -941,7 +953,7 @@ function Category() {
                             className="pl-5 py-1 cursor-pointer"
                             onClick={() => sortSetter(sort)}
                             dangerouslySetInnerHTML={{
-                              __html: sort.text
+                              __html: sort.text,
                             }}
                           ></div>
                         ))}
@@ -988,7 +1000,7 @@ function Category() {
                   )}
                 </div>
               ) : (
-                <div style={{width:window.innerWidth}}>
+                <div style={{ width: window.innerWidth }}>
                   <div className="grid grid-cols-2 ">
                     <div className="flex w-full " onClick={showMobilefilter}>
                       <span className="w-2/6"></span>
@@ -1016,7 +1028,7 @@ function Category() {
                             className="pl-5 py-2 "
                             onClick={() => sortSetter(sort)}
                             dangerouslySetInnerHTML={{
-                              __html: sort.text
+                              __html: sort.text,
                             }}
                           ></div>
                         ))}
@@ -1050,7 +1062,6 @@ function Category() {
                   <div className="grid grid-cols-2">
                     {data?.products?.map((product) => (
                       <div className="">
-                  
                         <SingleProductCategory
                           item={product}
                         ></SingleProductCategory>
@@ -1103,7 +1114,7 @@ function Category() {
                                   )
                                     ? setFilterMobile((filterMobile) => [
                                         ...filterMobile,
-                                        filters[key].attribute_group_id
+                                        filters[key].attribute_group_id,
                                       ])
                                     : setFilterMobile((filterMobile) =>
                                         filterMobile.filter(

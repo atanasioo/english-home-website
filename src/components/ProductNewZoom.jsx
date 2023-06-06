@@ -217,7 +217,7 @@ function ProductNewZoom(props) {
             <div>
               <div
                 id="myresult"
-                className={`img-zoom-result absolute rounded-lg top-0 ml-4  w-full    ${
+                className={`img-zoom-result absolute z-10 rounded-lg top-0 ml-4      ${
                   hoverZoom && width > 650 ? "" : "hidden"
                 }`}
               ></div>
