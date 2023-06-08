@@ -740,62 +740,58 @@ function Checkout() {
           ReactPixel.init(pixelID, {}, { debug: true, autoConfig: false });
           ReactPixel.pageView();
           ReactPixel.fbq("track", "PageView");
-          if (!state.admin) {
-            const advancedMatching = {
-              em: data?.data?.social_data?.email,
-              fn: data?.data?.social_data?.firstname,
-              ln: data?.data?.social_data?.lastname,
-              external_id: data?.data?.social_data?.external_id,
-              country: data?.data?.social_data?.country_code,
-            };
-            ReactPixel.init(pixelID, advancedMatching, {
-              debug: true,
-              autoConfig: false,
-            });
-            ReactPixel.pageView();
-            ReactPixel.fbq("track", "PageView");
-            if (data) {
-              // ReactPixel.track("Purchase", {
-              //   content_type: "product",
-              //   content_ids: data?.data?.social_data?.content_ids,
-              //   value: data?.data?.social_data?.value,
-              //   num_items: data?.data?.social_data?.num_items,
-              //   event_id: data?.data?.social_data?.event_id,
-              //   country: data?.data?.social_data?.country_code,
-              //   currency: data?.data?.social_data?.currency,
-              //   fbp: Cookies.get("_fbp")
 
-              // }, { eventID : data?.data?.social_data?.event_id, event_id : data?.data?.social_data?.event_id  });
+          const advancedMatching = {
+            em: data?.data?.social_data?.email,
+            fn: data?.data?.social_data?.firstname,
+            ln: data?.data?.social_data?.lastname,
+            external_id: data?.data?.social_data?.external_id,
+            country: data?.data?.social_data?.country_code,
+          };
+          ReactPixel.init(pixelID, advancedMatching, {
+            debug: true,
+            autoConfig: false,
+          });
+          ReactPixel.pageView();
+          ReactPixel.fbq("track", "PageView");
+          if (data) {
+            // ReactPixel.track("Purchase", {
+            //   content_type: "product",
+            //   content_ids: data?.data?.social_data?.content_ids,
+            //   value: data?.data?.social_data?.value,
+            //   num_items: data?.data?.social_data?.num_items,
+            //   event_id: data?.data?.social_data?.event_id,
+            //   country: data?.data?.social_data?.country_code,
+            //   currency: data?.data?.social_data?.currency,
+            //   fbp: Cookies.get("_fbp")
 
-              window.fbq(
-                "track",
-                "Purchase",
-                {
-                  content_type: "product",
-                  content_ids: data?.data?.social_data?.content_ids,
-                  value: data?.data?.social_data?.value,
-                  num_items: data?.data?.social_data?.num_items,
-                  currency: data?.data?.social_data?.currency,
-                },
-                { eventID: data?.data?.social_data?.event_id }
-              );
-            }
-            var dataSocial = data?.data?.social_data;
-            dataSocial["link"] = window.location.href;
-            dataSocial["fbp"] = Cookies.get("_fbp");
-            dataSocial["fbc"] = Cookies.get("_fbc");
-            dataSocial["ttp"] = Cookies.get("_ttp");
-            _axios
-              .post(
-                buildLink("pixel", undefined, window.innerWidth),
-                dataSocial
-              )
-              .then((response) => {
-                const data = response.data;
-                if (data.success === true) {
-                }
-              });
+            // }, { eventID : data?.data?.social_data?.event_id, event_id : data?.data?.social_data?.event_id  });
+
+            window.fbq(
+              "track",
+              "Purchase",
+              {
+                content_type: "product",
+                content_ids: data?.data?.social_data?.content_ids,
+                value: data?.data?.social_data?.value,
+                num_items: data?.data?.social_data?.num_items,
+                currency: data?.data?.social_data?.currency,
+              },
+              { eventID: data?.data?.social_data?.event_id }
+            );
           }
+          var dataSocial = data?.data?.social_data;
+          dataSocial["link"] = window.location.href;
+          dataSocial["fbp"] = Cookies.get("_fbp");
+          dataSocial["fbc"] = Cookies.get("_fbc");
+          dataSocial["ttp"] = Cookies.get("_ttp");
+          _axios
+            .post(buildLink("pixel", undefined, window.innerWidth), dataSocial)
+            .then((response) => {
+              const data = response.data;
+              if (data.success === true) {
+              }
+            });
         }
         navigate("/success");
       }
