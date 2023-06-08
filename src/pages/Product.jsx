@@ -332,11 +332,12 @@ function Product() {
             {
               content_type: "product",
               content_ids: data?.data.social_data?.content_ids,
-              content_name: data?.name,
-              value: data?.value,
+              content_name: data?.data.social_data?.name,
+              value: data?.data.social_data?.value,
               content_category: productData?.product_categories[0]?.name,
-              currency: data?.currency,
-              fbp: Cookies.get("_fbp")
+              currency: data?.data.social_data?.currency,
+              fbp: Cookies.get("_fbp"),
+       
             },
             { eventID: data?.event_id }
           );
