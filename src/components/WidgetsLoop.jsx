@@ -233,8 +233,8 @@ function WidgetsLoop({ widget, showCartmenu }) {
                             `https://www.englishhome.com.lb/image/` + item.image
                           }
                           className="w-full"
-                           width={widget.banner_width}
-                          height={widget.banner_height}
+                          //  width={widget.banner_width}
+                          // height={widget.banner_height}
                           title={item.name}
                           placeholdersrc={SliderPlace}
                         />

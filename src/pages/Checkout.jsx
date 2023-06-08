@@ -203,44 +203,43 @@ function Checkout() {
               //     productArray = p.product_id + ",";
               //   }
               // });
-              if (!state.admin && manualResponse.order_product?.length > 0) {
-                // ---> Facebook PIXEL <---
-                const advancedMatching = {
-                  em: manualResponse?.social_data?.email,
-                  fn: manualResponse?.social_data?.firstname,
-                  ln: manualResponse?.social_data?.lastname,
-                  external_id: manualResponse?.social_data?.external_id,
-                  country: manualResponse?.social_data?.country_code,
-                };
-                ReactPixel.init(pixelID, advancedMatching, {
-                  debug: true,
-                  autoConfig: false,
-                });
-                ReactPixel.pageView();
-                ReactPixel.fbq("track", "PageView");
-                // if (data) {
-                let productArray = "";
-
-                manualResponse?.order_product?.map((p, index) => {
-                  if (index === manualResponse.order_product?.length - 1) {
-                    productArray += p.product_id;
-                  } else {
-                    productArray = p.product_id + ",";
-                  }
-                });
-                window.fbq(
-                  "track",
-                  "InitiateCheckout",
-                  {
-                    content_type: "product",
-                    content_ids: productArray,
-                    num_items: manualResponse?.order_product?.length,
-                    currency: manualResponse?.social_data?.currency,
-                  },
-                  { eventID: manualResponse?.social_data?.event_id }
-                );
-                // }
-              }
+              // if (!stateAccount.admin && manualResponse.order_product?.length > 0) {
+              //   // ---> Facebook PIXEL <---
+              //   const advancedMatching = {
+              //     em: manualResponse?.social_data?.email,
+              //     fn: manualResponse?.social_data?.firstname,
+              //     ln: manualResponse?.social_data?.lastname,
+              //     external_id: manualResponse?.social_data?.external_id,
+              //     country: manualResponse?.social_data?.country_code,
+              //   };
+              //   ReactPixel.init(pixelID, advancedMatching, {
+              //     debug: true,
+              //     autoConfig: false,
+              //   });
+              //   // ReactPixel.pageView();
+              //   // ReactPixel.fbq("track", "PageView");
+              //   // if (data) {
+              //   let productArray = "";
+              //   manualResponse?.order_product?.map((p, index) => {
+              //     if (index === manualResponse.order_product?.length - 1) {
+              //       productArray += p.product_id;
+              //     } else {
+              //       productArray = p.product_id + ",";
+              //     }
+              //   });
+              //   window.fbq(
+              //     "track",
+              //     "InitiateCheckout",
+              //     {
+              //       content_type: "product",
+              //       content_ids: productArray,
+              //       num_items: manualResponse?.order_product?.length,
+              //       currency: manualResponse?.social_data?.currency,
+              //     },
+              //     { eventID: manualResponse?.social_data?.event_id }
+              //   );
+              //   // }
+              // }
             }
           }
           if (data) {
@@ -360,7 +359,50 @@ function Checkout() {
           setZones(response?.data?.data?.zones);
         });
     }
+
+    // // ---> Facebook PIXEL <---
+    // if (!stateAccount.admin && manualResponse.order_product?.length > 0) {
+    //   console.log("hello");
+    //   const advancedMatching = {
+    //     em: manualResponse?.social_data?.email,
+    //     fn: manualResponse?.social_data?.firstname,
+    //     ln: manualResponse?.social_data?.lastname,
+    //     external_id: manualResponse?.social_data?.external_id,
+    //     country: manualResponse?.social_data?.country_code,
+    //   };
+
+    //   ReactPixel.init(pixelID, advancedMatching, {
+    //     debug: true,
+    //     autoConfig: false,
+    //   });
+    //   ReactPixel.pageView();
+    //   ReactPixel.fbq("track", "PageView");
+    //   // if (data) {
+    //   let productArray = "";
+
+    //   manualResponse?.order_product?.map((p, index) => {
+    //     if (index === manualResponse.order_product?.length - 1) {
+    //       productArray += p.product_id;
+    //     } else {
+    //       productArray = p.product_id + ",";
+    //     }
+    //   });
+    //   window.fbq(
+    //     "track",
+    //     "InitiateCheckout",
+    //     {
+    //       content_type: "product",
+    //       content_ids: productArray,
+    //       num_items: manualResponse?.order_product?.length,
+    //       currency: manualResponse?.social_data?.currency,
+    //     },
+    //     { eventID: manualResponse?.social_data?.event_id }
+    //   );
+    // }
   }, []);
+
+  console.log(!stateAccount.admin && manualResponse.order_product?.length > 0);
+  // console.log(stateAccount.admin);
 
   const phoneHanlder = (childData, isValid) => {
     if (isValid === true) {
@@ -627,6 +669,13 @@ function Checkout() {
           dataSocial["fbp"] = Cookies.get("_fbp");
           dataSocial["fbc"] = Cookies.get("_fbc");
           dataSocial["ttp"] = Cookies.get("_ttp");
+          _axios
+            .post(buildLink("pixel", undefined, window.innerWidth), dataSocial)
+            .then((response) => {
+              const data = response.data;
+              if (data.success === true) {
+              }
+            });
 
           if (bool === true) {
             setPaymenttab(false);
@@ -634,17 +683,6 @@ function Checkout() {
           } else {
             // handleInputs()
             if (firstAttemp) {
-              _axios
-                .post(
-                  buildLink("pixel", undefined, window.innerWidth),
-                  dataSocial
-                )
-                .then((response) => {
-                  const data = response.data;
-                  if (data.success === true) {
-                  }
-                });
-
               setFirstAttemp(false);
               setPaymenttab(false);
               setAddresstab(true);
@@ -863,6 +901,48 @@ function Checkout() {
         });
     }
   }
+
+  useEffect(() => {
+    if (!stateAccount.admin && manualResponse.order_product?.length > 0) {
+      // ---> Facebook PIXEL <---
+      const advancedMatching = {
+        em: manualResponse?.social_data?.email,
+        fn: manualResponse?.social_data?.firstname,
+        ln: manualResponse?.social_data?.lastname,
+        external_id: manualResponse?.social_data?.external_id,
+        country: manualResponse?.social_data?.country_code,
+      };
+      ReactPixel.init(pixelID, advancedMatching, {
+        debug: true,
+        autoConfig: false,
+      });
+      // ReactPixel.pageView();
+      // ReactPixel.fbq("track", "PageView");
+
+      // if (data) {
+      let productArray = "";
+
+      manualResponse?.order_product?.map((p, index) => {
+        if (index === manualResponse.order_product?.length - 1) {
+          productArray += p.product_id;
+        } else {
+          productArray = p.product_id + ",";
+        }
+      });
+      window.fbq(
+        "track",
+        "InitiateCheckout",
+        {
+          content_type: "product",
+          content_ids: productArray,
+          num_items: manualResponse?.order_product?.length,
+          currency: manualResponse?.social_data?.currency,
+        },
+        { eventID: manualResponse?.social_data?.event_id }
+      );
+      // }
+    }
+  }, [manualResponse]);
 
   return (
     <div>
