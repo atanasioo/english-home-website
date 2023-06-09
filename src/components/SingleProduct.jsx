@@ -10,6 +10,7 @@ import { AccountContext } from "../contexts/AccountContext";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
 import product_image from "../assets/images/singleProduct.png";
+import ImageFilter from "react-image-filter/lib/ImageFilter";
 
 export default function SingleProduct(props) {
   const [hovered, isHovered] = useState(false);
@@ -176,24 +177,39 @@ export default function SingleProduct(props) {
         onClickCapture={props.click}
       >
         <div className="relative m-2.5">
-        {window.innerWidth < 650 ? (
-            <LazyLoadImage
-              style={{ height: "105px" }}
-              src={props.item.thumb}
-              alt={props.item.name}
-              placeholderSrc={product_image}
+          {window.innerWidth < 650 ? (
+            props.item.quantity === "0" ? (
+              <ImageFilter
+                image={props.item.thumb}
+                filter={"duotone"} // see docs beneath
+                colorOne={[96, 96, 96]}
+                colorTwo={[255, 255, 255]}
+              />
+            ) : (
+              <LazyLoadImage
+                style={{ height: "105px" }}
+                src={props.item.thumb}
+                alt={props.item.name}
+                placeholderSrc={product_image}
+              />
+            )
+          ) : props.item.quantity === "0" ? (
+            <ImageFilter
+              image={props.item.thumb}
+              filter={"duotone"} // see docs beneath
+              colorOne={[96, 96, 96]}
+              colorTwo={[255, 255, 255]}
             />
           ) : (
             <LazyLoadImage
-            style={{ height: "212px" }}
-
+              style={{ height: "212px" }}
               src={props.item.thumb}
               alt={props.item.name}
               placeholderSrc={product_image}
             />
           )}
 
-          {window.innerWidth > 650 && (
+          {window.innerWidth > 650 && props.item.quantity !== "0" && (
             <>
               {" "}
               <button
@@ -203,7 +219,6 @@ export default function SingleProduct(props) {
                     ? "  bottom-0.5  inset-x-0  opacity-100 text-d16 bg-dgreyTransp2 hover:bg-black hover:opacity-70 hover:text-white w-full  duration-300 delay-100"
                     : "  -bottom-2.5 inset-x-0  opacity-0 text-d16 transition-all  duration-500 "
                 } " "`}
-                // onMouseEnter={() => isHovered1(true)}
               >
                 {" "}
                 <HiOutlineShoppingBag />{" "}
@@ -224,20 +239,26 @@ export default function SingleProduct(props) {
               __html: props.item.name,
             }}
           ></span>
-          {props?.wishlist && <AiFillHeart onClick={(e)=> props.removeW(e, props.item.product_id)} className="w-5 h-5" />}
+          {props?.wishlist && (
+            <AiFillHeart
+              onClick={(e) => props.removeW(e, props.item.product_id)}
+              className="w-5 h-5"
+            />
+          )}
           {window.innerWidth > 650 ? (
             <div className="flex flex-col lg:flex-row">
               <span className="text-left  pt-3 flex-auto  ">
-              {props.item.price}
-
-              
+                {props.item.price}
               </span>
 
               <button className="border-gray-200 border-2 p-3 flex-auto text-sm">
                 in the basket{" "}
-                <span className="font-bold"> {props.item.special !== "0"
-                  ? props.item.special
-                  : props.item.price}</span>
+                <span className="font-bold">
+                  {" "}
+                  {props.item.special !== "0"
+                    ? props.item.special
+                    : props.item.price}
+                </span>
               </button>
             </div>
           ) : (
@@ -250,25 +271,27 @@ export default function SingleProduct(props) {
               <button className="flex border border-black p-1  flex-auto text-d14 ">
                 <span className="w-1/2">in the basket</span>{" "}
                 <span className="font-bold ml-2 text-center pt-3 w-1/2">
-                
-                  {props.item.special 
-                  ? props.item.special
-                  : props.item.price}
+                  {props.item.special ? props.item.special : props.item.price}
                 </span>
-                {accountContext.admin  &&   <div className=" font-bold text-d14 -mb-2 w-full"> {props.item.quantity}</div>}
-
-
+                {accountContext.admin && (
+                  <div className=" font-bold text-d14 -mb-2 w-full">
+                    {" "}
+                    {props.item.quantity}
+                  </div>
+                )}
               </button>
-              <button
-                className={`py-3  text-dblue1 bottom-0  flex p-1 text-d12 bg-dgrey3 w-full justify-center items-center"`}
-                onClick={(e) => addToCart(e, props.item.product_id)}
-              >
-                {" "}
-                {/* <HiOutlineShoppingBag className="mt-1" />{" "} */}
-                <span className="ml-1 whitespace-nowrap uppercase ">
-                  add to Basket
-                </span>
-              </button>
+              {props.item.quantity !== "0" && (
+                <button
+                  className={`py-3  text-dblue1 bottom-0  flex p-1 text-d12 bg-dgrey3 w-full justify-center items-center"`}
+                  onClick={(e) => addToCart(e, props.item.product_id)}
+                >
+                  {" "}
+                  {/* <HiOutlineShoppingBag className="mt-1" />{" "} */}
+                  <span className="ml-1 whitespace-nowrap uppercase ">
+                    add to Basket
+                  </span>
+                </button>
+              )}
             </div>
           )}
         </div>

@@ -6,13 +6,14 @@ import { CartContext } from "../contexts/CartContext";
 import _axios from "../axios";
 import { AccountContext } from "../contexts/AccountContext";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import product_image from "../assets/images/singleProduct.png"
+import product_image from "../assets/images/singleProduct.png";
+import ImageFilter from "react-image-filter/lib/ImageFilter";
 
 export default function SingleProducCategory(props) {
   const [hovered, isHovered] = useState(false);
   const [state, dispatch] = useContext(CartContext);
   const [hasAddToCartError, setHasAddToCartError] = useState(false);
-  const [AddToCartError, setAddToCartError] = useState("")
+  const [AddToCartError, setAddToCartError] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [addingToCart, setAddingToCart] = useState(false);
   const [overlay, setOverlay] = useState(true);
@@ -29,23 +30,22 @@ export default function SingleProducCategory(props) {
     // isHovered1(false);
   }
   function ToSeoUrl(url) {
-        
-    // make the url lowercase         
-    var encodedUrl = url.toString().toLowerCase(); 
-  
-    // replace & with and           
-    encodedUrl = encodedUrl.split(/\&+/).join("-and-")
-  
-    // remove invalid characters 
-    encodedUrl = encodedUrl.split(/[^a-z0-9]/).join("-");       
-  
-    // remove duplicates 
+    // make the url lowercase
+    var encodedUrl = url.toString().toLowerCase();
+
+    // replace & with and
+    encodedUrl = encodedUrl.split(/\&+/).join("-and-");
+
+    // remove invalid characters
+    encodedUrl = encodedUrl.split(/[^a-z0-9]/).join("-");
+
+    // remove duplicates
     encodedUrl = encodedUrl.split(/-+/).join("-");
-  
-    // trim leading & trailing characters 
-    encodedUrl = encodedUrl.trim('-'); 
-  
-    return encodedUrl; 
+
+    // trim leading & trailing characters
+    encodedUrl = encodedUrl.trim("-");
+
+    return encodedUrl;
   }
 
   function addToCart(e, product_id) {
@@ -145,28 +145,53 @@ export default function SingleProducCategory(props) {
       onMouseLeave={onMouseLeave}
     >
       <div className="relative m-2.5">
-        <div >
-        {window.innerWidth < 650 ? (
-            <LazyLoadImage
-            className="mr-1.5"
-              style={{ height: "105px" }}
-              src={props.item.thumb}
-              alt={props.item.name}
-              placeholderSrc={product_image}
+        <div>
+          {props.item.quantity === "0" && (
+            <div
+              className={
+                window.innerWidth > 650
+                  ? "absolute z-20 text-red-700 text-d18 font-mono font-semibold w-full text-center  bottom-0"
+                  : "absolute z-20 text-red-700  w-full text-center  bottom-0 "
+              }
+            >
+              Out Of Stock
+            </div>
+          )}
+          {window.innerWidth < 650 ? (
+            props.item.quantity === "0" ? (
+              <ImageFilter
+                image={props.item.thumb}
+                filter={"duotone"} // see docs beneath
+                colorOne={[96, 96, 96]}
+                colorTwo={[255, 255, 255]}
+              />
+            ) : (
+              <LazyLoadImage
+                className="mr-1.5"
+                style={{ height: "105px" }}
+                src={props.item.thumb}
+                alt={props.item.name}
+                placeholderSrc={product_image}
+              />
+            )
+          ) : props.item.quantity === "0" ? (
+            <ImageFilter
+              image={props.item.thumb}
+              filter={"duotone"} // see docs beneath
+              colorOne={[96, 96, 96]}
+              colorTwo={[255, 255, 255]}
             />
           ) : (
             <LazyLoadImage
-            style={{ height: "212px" }}
-
+              style={{ height: "212px" }}
               src={props.item.thumb}
               alt={props.item.name}
               placeholderSrc={product_image}
             />
           )}
-
         </div>
 
-        {window.innerWidth > 650 && (
+        {window.innerWidth > 650 && props.item.quantity !== "0" && (
           <>
             {" "}
             <button
@@ -187,13 +212,13 @@ export default function SingleProducCategory(props) {
         )}
       </div>
 
-      <div className="flex flex-col md:mt-2 text-d17 font-mono px-4">
+      <div className={`flex flex-col md:mt-2 text-d17 font-mono px-4 ${props.item.quantity === "0" && "opacity-50"} `}>
         <span
           className={`text-left font-normal h-14 capitalize ${
             window.innerWidth > 650 ? "text-d15" : "text-d14"
           } `}
           dangerouslySetInnerHTML={{
-            __html: props.item.name
+            __html: props.item.name,
           }}
         ></span>
         {window.innerWidth > 650 ? (
@@ -201,8 +226,12 @@ export default function SingleProducCategory(props) {
             <span className="flex flex-col text-left   w-1/2">
               <span className="w-full line-through">{props.item.price}</span>
               <span className="w-full text-bold ">{props.item.special}</span>
-              {accountContext.admin  &&   <div className=" font-bold text-d14 -mb-2 w-full"> {props.item.quantity}</div>}
-
+              {accountContext.admin && (
+                <div className=" font-bold text-d14 -mb-2 w-full">
+                  {" "}
+                  {props.item.quantity}
+                </div>
+              )}
             </span>
 
             <button className="border px-1 flex-auto text-dblue1 border-dblue1 text-d13 w-1/2">
@@ -212,15 +241,23 @@ export default function SingleProducCategory(props) {
         ) : (
           <div className="flex flex-row text-d14 pt-5">
             <span className="flex flex-col text-left w-1/2 ">
-              <span className="w-full text-dgrey12 -mt-2 mb-2 line-through">{props.item.price}</span>
-              <span className="w-full font-bold text-d18 -mb-2 text-dblue2">{props.item.special}</span>
-              {accountContext.admin  &&   <span className=" font-bold text-d14 -mb-2  w-full "> {props.item.quantity}</span>}
-
+              <span className="w-full text-dgrey12 -mt-2 mb-2 line-through">
+                {props.item.price}
+              </span>
+              <span className="w-full font-bold text-d18 -mb-2 text-dblue2">
+                {props.item.special}
+              </span>
+              {accountContext.admin && (
+                <span className=" font-bold text-d14 -mb-2  w-full ">
+                  {" "}
+                  {props.item.quantity}
+                </span>
+              )}
             </span>
 
-       
-         
-              <span className=" text-dblue1 flex  text-d11  w-1/2  border border-dblue1">{props.item.saving}% Discount</span>
+            <span className=" text-dblue1 flex  text-d11  w-1/2  border border-dblue1">
+              {props.item.saving}% Discount
+            </span>
           </div>
         )}
       </div>
