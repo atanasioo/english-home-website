@@ -41,7 +41,9 @@ export default function SingleProduct(props) {
   function useOutsideAlerter(ref) {
     useEffect(() => {
       /**
-       * Alert if clicked on outside of element
+       * Alert if clicked on outside of element 
+       * 
+       * 
        */
 
       if (cartmenu) {

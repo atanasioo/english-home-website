@@ -348,13 +348,13 @@ function Product() {
           dataSocial["fbc"] = Cookies.get("_fbc");
           dataSocial["ttp"] = Cookies.get("_ttp");
 
-          // _axios
-          //   .post(buildLink("pixel", undefined, window.innerWidth), dataSocial)
-          //   .then((response) => {
-          //     const data = response.data;
-          //     if (data.success === true) {
-          //     }
-          //   });
+          _axios
+            .post(buildLink("pixel", undefined, window.innerWidth), dataSocial)
+            .then((response) => {
+              const data = response.data;
+              if (data.success === true) {
+              }
+            });
 
           // }
           setSuccessAdded(true);

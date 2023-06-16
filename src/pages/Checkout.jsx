@@ -401,7 +401,6 @@ function Checkout() {
     // }
   }, []);
 
-  console.log(!stateAccount.admin && manualResponse.order_product?.length > 0);
   // console.log(stateAccount.admin);
 
   const phoneHanlder = (childData, isValid) => {
@@ -550,6 +549,7 @@ function Checkout() {
     }
 
     if (firstAttemp) {
+      
       body = {
         order_product: manualCartProducts,
         customer_id: customerId,
@@ -568,19 +568,19 @@ function Checkout() {
         country_id: window.config["zone"],
         payment_session: "",
         zone_id:
-          stateAccount.loged && activeAddress.length > 0
+          stateAccount.loged && Object.keys(activeAddress).length > 0
             ? activeAddress.zone_id
             : zone.current.id,
         zone:
-          stateAccount.loged && activeAddress.length > 0
+          stateAccount.loged && Object.keys(activeAddress).length > 0
             ? activeAddress.zone
             : zone.current.name,
         town_id:
-          stateAccount.loged && activeAddress.length > 0
+          stateAccount.loged && Object.keys(activeAddress).length > 0
             ? activeAddress.town_id
             : town.current.id,
         town:
-          stateAccount.loged && activeAddress.length > 0
+          stateAccount.loged && Object.keys(activeAddress).length > 0
             ? activeAddress.town_name
             : town.current.name,
         is_web: true,
@@ -595,21 +595,24 @@ function Checkout() {
       body = {
         order_product: manualCartProducts,
         customer_id: customerId || "",
-        firstname: stateAccount.loged
+        // firstname: stateAccount.loged
+        //   ? activeAddress.firstname
+        //   : firstname?.current?.value || addrInfo.fn,
+        firstname: stateAccount.loged && Object.keys(activeAddress).length >0
           ? activeAddress.firstname
           : firstname?.current?.value || addrInfo.fn,
-        lastname: stateAccount.loged
+        lastname: stateAccount.loged && Object.keys(activeAddress).length >0
           ? activeAddress.lastname
           : lastname?.current?.value || addrInfo.ln,
         email: addrInfo.em || "",
-        address_1: stateAccount.loged
+        address_1: stateAccount.loged && Object.keys(activeAddress).length >0
           ? activeAddress.address_1
           : address_1?.current?.value || addrInfo.addr1,
-        telephone: stateAccount.loged
+        telephone: stateAccount.loged && Object.keys(activeAddress).length >0
           ? activeAddress.telephone
           : telephone?.current?.value?.replace("-", "") ||
             addrInfo.tel?.replace("-", ""),
-        address_2: stateAccount.loged
+        address_2: stateAccount.loged && Object.keys(activeAddress).length >0
           ? activeAddress.address_2
           : address_2?.current?.value || addrInfo.addr2,
         city: "",
@@ -645,6 +648,8 @@ function Checkout() {
         if (!firstAttemp) setManualR(response.data);
         const data = response.data;
 
+        console.log(data);
+
         if (data?.success === false) {
           manualErrors.current = response.data.errors;
 
@@ -663,7 +668,7 @@ function Checkout() {
           setLoading(false);
 
           const data = response.data.data;
-
+          console.log("heree");
           var dataSocial = data.social_data;
           dataSocial["link"] = window.location.href;
           dataSocial["fbp"] = Cookies.get("_fbp");
@@ -711,6 +716,8 @@ function Checkout() {
       znId: zone_id.current.value,
     });
   }
+
+  console.log(activeAddress);
 
   //submit form
   function submitForm(e) {
