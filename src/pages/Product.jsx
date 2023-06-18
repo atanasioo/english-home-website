@@ -1151,7 +1151,7 @@ function Product() {
               {productData?.special_end !== 0 &&
                     
                       <Timer
-                        date={ productData?.special_end}
+                        date={ productData?.special_end || "2023-06-26"}
                       />
                       }
 
