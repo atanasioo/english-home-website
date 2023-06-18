@@ -20,6 +20,8 @@ import { FaWhatsappSquare, FaTwitterSquare, FaWhatsapp } from "react-icons/fa";
 import ReactPixel from "react-facebook-pixel";
 import { ImFacebook2 } from "react-icons/im";
 import product_image from "../assets/images/product.png";
+import Timer from "../components/Timer";
+
 import {
   EmailShareButton,
   FacebookShareButton,
@@ -1146,6 +1148,12 @@ function Product() {
                     </div>
                   )}
               </div>
+              {productData?.special_end !== 0 &&
+                    
+                      <Timer
+                        date={ productData?.special_end}
+                      />
+                      }
 
               <div className="add-to-basket-wrapper flex-xs w-full h-14 fixed z-30 bottom-0 bg-dwhite1 hidden"></div>
               <div className="error js-error-price-down text-d13 text-left mt-2.5 text-dred4"></div>

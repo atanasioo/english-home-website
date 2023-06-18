@@ -31,23 +31,24 @@ import Latest from "./pages/Latest";
 import NotFound from "./pages/NotFound";
 import Contact from "./pages/Contact";
 
-
-
+import PosOrders from "./pages/PosOrders";
+import Pos from "./pages/Pos";
+import PosPrinttest from "./components/Posprint";
 
 function App() {
   const width = window.innerWidth;
-  
 
   return (
-    <div className="App ">
+    <div className={`App ${(window.location.href.split("/")[3] === "pos"  ) && 'fixed' }`}>
       <CartProvider>
         <AccountProvider>
           <WishlistProvider>
             <InformationProvider>
-              <Header />
+              {window.location.href.split("/")[3] !== "posprint" && <Header />}
+
               {width > 650 && <HeaderCampaigns />}
               <Routes>
-                <Route path="/" element={ <Home />} />
+                <Route path="/" element={<Home />} />
                 <Route path="category" element={<Category />} />
                 <Route path={"/:name/c=:id"} element={<Category />} exact />
                 <Route path={"/:name/c=:id/all"} element={<Category />} exact />
@@ -67,6 +68,10 @@ function App() {
                 <Route path="/information/:id" element={<Information />} />
                 <Route path="/contact" element={<Contact />} />
 
+                <Route path="pos" element={<Pos />} />
+                <Route path="Orders" element={<PosOrders />} />
+                <Route path="/posprint/:id" element={<PosPrinttest />} />
+
                 <Route path="search" element={<Search />} />
                 <Route path="latest" element={<Latest />} />
                 <Route path="account/change-email" element={<ChangeEmail />} />
@@ -82,7 +87,7 @@ function App() {
                 <Route path="success" element={<Success />} />
                 <Route path="/:name" element={<NotFound />} exact />
               </Routes>
-              <Footer />
+              {window.location.href.split("/")[3] !== "posprint" &&  window.location.href.split("/")[3] !== "pos" &&  window.location.href.split("/")[3] !== "orders"  && <Footer />}
             </InformationProvider>
           </WishlistProvider>
         </AccountProvider>

@@ -142,7 +142,7 @@ function PhoneHandler(props) {
             // required
             ref={phone}
             defaultValue={parentData?.telephone}
-            className={`text-d14 font-light ${!valid && `${red} !important`}`}
+            className={`border text-d14 font-light ${!valid && `${red} !important`}`}
             minLength={7}
             maxLength={15}
             onChange={(e) => onChangeHandler(e.target.value)}
@@ -170,7 +170,7 @@ function PhoneHandler(props) {
           />
         )}
         <div className={show ? "relative" : "hidden"}>
-          <div className="absolute  top-16 bg-white w-full h-80 atTheTop rounded-lg overflow-scroll border border-dblue shadow-lg">
+          <div className="absolute  top-0 bg-white w-full h-80 atTheTop rounded-lg overflow-scroll border border-dblue shadow-lg">
             {data?.data?.length > 0 &&
               data?.data?.map((number, index) => {
                 return index % 2 === 0 ? (

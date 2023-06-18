@@ -704,7 +704,7 @@ function Checkout() {
     // }
   }
 
-  function handleInputs() {
+  function handleInputs(){
     setAddrInfo({
       addr1: address_1.current.value,
       addr2: address_2.current.value,

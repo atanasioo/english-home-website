@@ -57,6 +57,8 @@ var urls = {
   contactUs: "v2/index.php?route=account/contact_us",
   disabledAccount: "v2/index.php?route=account/logout/disableAccount",
   pixel: "v2/index.php?route=marketing/st",
+  pos : "v2/index.php?route=checkout/cart/addToCartPos",
+  getSalesMan: "v2/index.php?route=stockapi/admin_login/getSalesMan",
 
 };
 

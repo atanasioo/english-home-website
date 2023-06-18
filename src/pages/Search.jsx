@@ -3,14 +3,13 @@ import {
   Link,
   useLocation,
   useNavigate,
-  NavigationType,
   useNavigationType
 } from "react-router-dom";
 import { GiSquare } from "react-icons/gi";
 import queryString from "query-string";
 import _axios from "../axios";
 import buildLink from "../urls";
-import SingleProducts from "../components/SingleProduct";
+
 import { AccountContext } from "../contexts/AccountContext";
 import SingleProductCategory from "../components/SingleProductCategory";
 import { GoPlus } from "react-icons/go";
@@ -26,7 +25,6 @@ function Search() {
   const [noData, setNoData] = useState("");
   const [filters, setFilters] = useState([]);
   const [view, setView] = useState(4);
-  const [sort, setSort] = useState("Default");
   const [loading, setLoading] = useState(true);
   const parsedQueryString = queryString.parse(location.search);
   let brand = parsedQueryString.brand || 0;

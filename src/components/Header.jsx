@@ -106,25 +106,59 @@ function Header() {
         style={{ background: "#555" }}
       >
         <div className="container flex justify-between  items-center">
-          <div className="space-x-10 flex ">
-            <a
-              target="_blank"
-              rel="noreferrer"
-              href={window.config["admin-products-url"] + token}
+          {(location?.pathname === "/pos" ||
+            location?.pathname === "/posOrders") && (
+            <Link
+              to={"/cart"}
+              className="md:mr-10 text-d22 text-dwhite  font-serif"
             >
-              Products
-            </a>
-            <a
-              target="_blank"
-              rel="noreferrer"
-              href={window.config["admin-orders-url"] + token}
-            >
-              Orders
-            </a>
-          </div>
-          <div> {showMessage && remove() && "Link COPIED"}</div>
-          <div className=" cursor-pointer">
-            <p onClick={copy}>Copy Link</p>
+              ENGLISH HOME
+            </Link>
+          )}
+          <div className="flex space-x-10">
+            <div className="space-x-10 flex ">
+              <a
+                target="_blank"
+                className="px-2"
+                rel="noreferrer"
+                href={"/pos"}
+              >
+                Pos
+              </a>
+              <a
+                target="_blank"
+                className="px-2"
+                rel="noreferrer"
+                href={"/orders"}
+              >
+                orders list
+              </a>
+            </div>
+            {/* ) : ( */}
+            {location?.pathname !== "/pos" &&
+              location?.pathname !== "/posOrders" && (
+                <>
+                  <a
+                    target="_blank"
+                    rel="noreferrer"
+                    href={window.config["admin-products-url"] + token}
+                  >
+                    Products
+                  </a>
+                  <a
+                    target="_blank"
+                    rel="noreferrer"
+                    href={window.config["admin-orders-url"] + token}
+                  >
+                    Orders
+                  </a>
+
+                  <div> {showMessage && remove() && "Link COPIED"}</div>
+                  <div className=" cursor-pointer">
+                    <p onClick={copy}>Copy Link</p>
+                  </div>
+                </>
+              )}
           </div>
         </div>
       </div>
@@ -134,7 +168,9 @@ function Header() {
       </div>
       {
         //state?.admin &&
-        location?.pathname !== "/checkout" ? (
+        location?.pathname !== "/checkout" &&
+        location?.pathname !== "/pos" &&
+        location?.pathname !== "/posOrders" ? (
           <>
             <section className="hidden md:block h-10 bg-dgrey1">
               <div className="container">
@@ -325,7 +361,7 @@ function Header() {
                               }}
                               className="menu-item--title relative flex items-center uppercase text-d16 font-bold text-dbasenavy text-left font-mono"
                               dangerouslySetInnerHTML={{
-                                __html: category?.name,
+                                __html: category?.name
                               }}
                             ></Link>
                             {/* <img
@@ -375,7 +411,7 @@ function Header() {
                             />
                             <p
                               dangerouslySetInnerHTML={{
-                                __html: activeCategory?.name,
+                                __html: activeCategory?.name
                               }}
                             ></p>
                           </div>
@@ -414,7 +450,7 @@ function Header() {
                                   <span
                                     className="js-menu-subitem--link-text mr-2 uppercase"
                                     dangerouslySetInnerHTML={{
-                                      __html: subcategory?.name,
+                                      __html: subcategory?.name
                                     }}
                                   ></span>
                                 </Link>
@@ -458,9 +494,7 @@ function Header() {
                               </Link>
                             </div>
                           ))}
-                          <div
-                            className="font-d16 p-4 border-t border-dbordergrey4 flex items-center"
-                          >
+                          <div className="font-d16 p-4 border-t border-dbordergrey4 flex items-center">
                             <Link
                               to={`/contact`}
                               onClick={() => {
@@ -488,16 +522,19 @@ function Header() {
           </>
         ) : (
           <div className="checkout-header overflow-hidden">
-            <div className="container">
-              <div className="fix-header border-b border-dgrey3 mb-9 pb-7  w-full z-10 bg-dwhite1 flex items-center justify-center md:justify-between">
-                <Link
-                  to={"/cart"}
-                  className="mt-5 md:mr-10 text-d30 text-dborderblack2 font-serif"
-                >
-                  ENGLISH HOME
-                </Link>
-              </div>
-            </div>
+            {location?.pathname !== "/pos" &&
+              location?.pathname !== "/posOrders" && (
+                <div className="container">
+                  <div className="fix-header border-b border-dgrey3 mb-9 pb-7  w-full z-10 bg-dwhite1 flex items-center justify-center md:justify-between">
+                    <Link
+                      to={"/cart"}
+                      className="mt-5 md:mr-10 text-d30 text-dborderblack2 font-serif"
+                    >
+                      ENGLISH HOME
+                    </Link>
+                  </div>
+                </div>
+              )}
           </div>
         )
       }

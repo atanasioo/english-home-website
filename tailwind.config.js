@@ -162,7 +162,9 @@ module.exports = {
         dbasenavy: {
           DEFAULT: "#002b5c"
         },
-
+        dblue: {
+          DEFAULT: "#3866de"
+        },
         dred1: {
           DEFAULT: "#FF0000"
         },
