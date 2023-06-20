@@ -23,6 +23,7 @@ export default function Pos() {
   const [modificationError, setModificationError] = useState({});
   const [showSearch, setShowSearch] = useState(false);
   const [dataSearch, setDataSearch] = useState(false);
+  const [holdArray, setHoldArray] = useState([]);
 
   const [success, setSuccess] = useState(false);
   // const printRef = useRef();
@@ -54,6 +55,21 @@ export default function Pos() {
   const telephone = useRef("");
   const navigate = useNavigate();
   const couponRef = useRef("");
+
+
+  useEffect(() => {
+    // Load the array from local storage on component mount
+    const storedHold = localStorage.getItem("hold-order");
+    if (storedHold) {
+      setHoldArray(JSON.parse(storedHold));
+    }
+  }, []);
+
+  useEffect(() => {
+    // Save the array to local storage whenever it changes
+
+    localStorage.setItem("hold-order", JSON.stringify(holdArray));
+  }, [holdArray]);
 
   function setCoupon() {
     if (couponRef.current.value.length > 1) {
@@ -323,7 +339,7 @@ export default function Pos() {
               });
             document.getElementById("code").value = "";
           } else {
-            setErrorProduct(responses?.data?.errors[0]?.errorMsg);
+            setErrorProduct(responses?.data?.errors && responses?.data?.errors[0]?.errorMsg);
             setLoader(false);
           }
         });
@@ -555,6 +571,16 @@ export default function Pos() {
         if (response?.data?.success === false) {
           console.log(response?.data);
           setError(response?.data?.errors);
+
+          if(response?.data?.errors.length === 1 &&  (response?.data.message ==="OUT OF STOCK" || response?.data?.message?.indexOf('STOCK') > -1 ||  response?.data?.message?.indexOf('Stock') > 0 ||  response?.data?.message?.indexOf('stock') > 0) ){
+            setSuccess(true);
+            body.hold_reason  = response?.data.message 
+            addToHold(body)    
+            setShowCalculate(false);
+            setOpacity(true);
+          
+            handlePrintHolder(holdArray.length)
+          }
          
         } else {
           if (calculate === true) {
@@ -634,6 +660,19 @@ export default function Pos() {
   }
   function addToLocalStorage(order) {
     setMyArray((prevArray) => [...prevArray, order]);
+  }
+  function addToHold(order) {
+    setHoldArray((prevArray) => [...prevArray, order]);
+  }
+
+  function handlePrintHolder(id) {
+    const url = "/posprinthold/"+id
+
+    const windowFeatures =
+      " toolbar=no, location=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=302.36220472441, height=250";
+
+    window.open(url, "_blank", windowFeatures);
+ 
   }
 
   // const handlePrint = useReactToPrint({

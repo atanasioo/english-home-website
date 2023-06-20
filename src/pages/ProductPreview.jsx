@@ -94,7 +94,7 @@ function ProductPreview() {
     );
 
     _axios
-      .get(buildLink("productpreview", undefined, undefined) + product_id)
+      .get(buildLink("productpreview", undefined, undefined) + product_id?.replace("p=","") +`&source_id=1${stateAccount.admin && "&admin=true"}`) 
       .then((response) => {
         const data = response?.data?.data;
         setProductData(data);
@@ -108,7 +108,7 @@ function ProductPreview() {
         data?.options?.length > 0 &&
           setOptionParent(data?.options[0]["product_option_id"]);
       });
-  }, [location]);
+  }, [location, stateAccount]);
 
   function incrementQuantity(quantity) {
     const newquantity = quantity + 1;

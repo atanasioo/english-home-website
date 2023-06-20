@@ -39,7 +39,7 @@ function App() {
   const width = window.innerWidth;
 
   return (
-    <div className={`App ${(window.location.href.split("/")[3] === "pos"  ) && 'fixed' }`}>
+    <div className={`App w-full ${(window.location.href.split("/")[3] === "pos") && 'fixed' }`}>
       <CartProvider>
         <AccountProvider>
           <WishlistProvider>
@@ -67,6 +67,7 @@ function App() {
                 <Route path="account/addresses" element={<Addresses />} />
                 <Route path="/information/:id" element={<Information />} />
                 <Route path="/contact" element={<Contact />} />
+                <Route path="/productpreview/:id" element={<ProductPreview />} />
 
                 <Route path="pos" element={<Pos />} />
                 <Route path="Orders" element={<PosOrders />} />

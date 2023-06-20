@@ -130,7 +130,7 @@ function Product() {
       []
     );
     _axios
-      .get(buildLink("product", undefined, undefined) + product_id)
+      .get(buildLink("product", undefined, undefined) + product_id?.replace("p=","") +`&source_id=1${stateAccount.admin && "&employer=true"}`) 
       .then((response) => {
         const data = response?.data?.data;
         setProductData(data);
@@ -204,7 +204,7 @@ function Product() {
           
         }
       });
-  }, [location]);
+  }, [location, stateAccount]);
 
   function incrementQuantity(quantity) {
     // const newquantity = quantity + 1;

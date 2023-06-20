@@ -97,17 +97,13 @@ function Header() {
         className={
           !state.admin
             ? "hidden"
-            : `h-12 px-10 text-white flex items-center ${
-                (localStorage.getItem("site-local-name") === "energy-plus" ||
-                  window.location.host === "www.energyplus-lb.com") &&
-                "bg-Energyplus text-dblackk"
-              }`
+            : `h-12 px-10 text-white flex items-center`
         }
         style={{ background: "#555" }}
       >
         <div className="container flex justify-between  items-center">
           {(location?.pathname === "/pos" ||
-            location?.pathname === "/posOrders") && (
+            location?.pathname === "/orders") && (
             <Link
               to={"/cart"}
               className="md:mr-10 text-d22 text-dwhite  font-serif"
@@ -136,7 +132,7 @@ function Header() {
             </div>
             {/* ) : ( */}
             {location?.pathname !== "/pos" &&
-              location?.pathname !== "/posOrders" && (
+              location?.pathname !== "/orders" && (
                 <>
                   <a
                     target="_blank"
@@ -170,7 +166,7 @@ function Header() {
         //state?.admin &&
         location?.pathname !== "/checkout" &&
         location?.pathname !== "/pos" &&
-        location?.pathname !== "/posOrders" ? (
+        location?.pathname !== "/orders" ? (
           <>
             <section className="hidden md:block h-10 bg-dgrey1">
               <div className="container">
@@ -523,7 +519,7 @@ function Header() {
         ) : (
           <div className="checkout-header overflow-hidden">
             {location?.pathname !== "/pos" &&
-              location?.pathname !== "/posOrders" && (
+              location?.pathname !== "/orders" && (
                 <div className="container">
                   <div className="fix-header border-b border-dgrey3 mb-9 pb-7  w-full z-10 bg-dwhite1 flex items-center justify-center md:justify-between">
                     <Link
