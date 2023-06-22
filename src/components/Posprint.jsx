@@ -63,8 +63,7 @@ export default function PosPrint(props) {
           {result?.telephone !== "0961" &&
             result?.telephone
               ?.replace("961", "")
-              ?.replace("0961", "")
-              ?.replace("0", "")}
+              ?.replace("0961", "")}
         </span>
       </div>
       <div className="flex w-full  pt-3 border-b pb-2  text-4xxl">
