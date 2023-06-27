@@ -109,7 +109,7 @@ function TopAccount() {
           </span>
         </Link>
       ) : !state.loged ? (
-        <Link to={"/login"} className="header__user__auth__link">
+        <Link to={`${path}//login`} className="header__user__auth__link">
           <div className="h-9 w-6 md:w-10 leading-8 mx-auto md:border md:border-dblue1 text-dbasenavy md:text-dblue1 flex justify-center items-center mb-1">
             <FiUser className="h-5 w-5 md:h-6 md:w-6 " />
           </div>
@@ -136,13 +136,13 @@ function TopAccount() {
           onMouseLeave={() => setShowmenu(false)}
         >
           <Link
-            to={"/login"}
+            to={`${path}/login`}
             className="cursor-pointer bg-dblue1 hover:bg-dblack2 text-dwhite1 border border-dborderblack3 text-center p-1 mb-1.5 text-sm font-mono"
           >
             LOGIN
           </Link>
           <Link
-            to={"/login"}
+            to={`${path}/login`}
             className="cursor-pointer bg-dwhite1 text-dblue1 hover:text-dblack2 border border-dborderblack3 text-center p-1 mb-1.5 text-sm font-mono"
           >
             SIGN UP
@@ -160,7 +160,7 @@ function TopAccount() {
             {state?.username}
           </div>
           <Link
-            to="account/profile"
+            to={`${path}/account/profile`}
             onClick={() => setShowmenu(false)}
             className="cursor-pointer w-full text-left h-9 leading-3 p-3  text-d14 text-dblack2 border-b
          border-dgrey5 hover:text-dblue1 hover:underline transition-all"
@@ -168,7 +168,7 @@ function TopAccount() {
             My Account
           </Link>
           <Link
-            to="account/orders"
+            to={`${path}/account/orders`}
             onClick={() => setShowmenu(false)}
             className="cursor-pointer w-full text-left h-9 leading-3 p-3  text-d14 text-dblack2 border-b
          border-dgrey5 hover:text-dblue1 hover:underline transition-all"
@@ -176,7 +176,7 @@ function TopAccount() {
             My Orders
           </Link>
           <Link
-            to="account/orders"
+            to={`${path}/account/orders`}
             onClick={() => setShowmenu(false)}
             className="cursor-pointer w-full text-left h-9 leading-3 p-3  text-d14 text-dblack2 border-b
          border-dgrey5 hover:text-dblue1 hover:underline transition-all"
@@ -191,7 +191,7 @@ function TopAccount() {
             My Discount Coupons
           </Link> */}
           <Link
-            to="account/addresses"
+            to={`${path}/account/addresses`}
             onClick={() => setShowmenu(false)}
             className="cursor-pointer w-full text-left h-9 leading-3 p-3  text-d14 text-dblack2 border-b
          border-dgrey5 hover:text-dblue1 hover:underline transition-all"

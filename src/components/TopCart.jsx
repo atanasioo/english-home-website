@@ -151,7 +151,7 @@ function TopCart(props) {
       {!props.cartmenu ? (
         <div className="relative">
           <Link
-            to={"/cart"}
+            to={`${path}/cart`}
             className="relative"
             onMouseEnter={() => {
               getCart();
