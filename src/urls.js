@@ -1,8 +1,27 @@
 // Flo
 var host = window.location.host;
-export const path = "";
-export var pixelID = "";
+const firstPath = window.location.href.split('/')[3];
 var path1 = "";
+
+export var path = "";
+if (window.location.href.split("/")[3] === "store_one") {
+  path = "/store_one";
+}
+
+if (
+  localStorage.getItem("site-local-name") === "english-home-store_one" ||
+  ((host === "www.englishhome.com.lb" || host === "englishhome.com.lb") &&
+    firstPath === "store_one")
+) {
+  host = "https://www.englishhome.com.lb/";
+  path1 = "store_one/api/";
+}else{
+  host = window.location.host;
+  host = "https://www.englishhome.com.lb/api/";
+}
+
+export var pixelID = "";
+
 var urls = {
   token: "v2/index.php?route=token/token&grant_type=client_credentials",
   login: "v2/index.php?route=account/login/login",
@@ -11,7 +30,7 @@ var urls = {
   change_password: "v2/index.php?route=account/account/changePassword",
   forget_password: "v2/index.php?route=account/forgotten/forgotten",
   wishlist: "v2/index.php?route=account/wishlist/wishlist",
-  wishlistCount:"v2/index.php?route=account/wishlist/getTotalWishlist",
+  wishlistCount: "v2/index.php?route=account/wishlist/getTotalWishlist",
   orders: "v2/index.php?route=account/order/orders",
   order_details: "v2/index.php?route=account/order/orders&id=",
   register: "v2/index.php?route=account/register/register",
@@ -47,8 +66,7 @@ var urls = {
   footerv2: "v2/index.php?route=common/footerItem",
   headerv2: "v2/index.php?route=design/headerMenu",
   currency: "v2/index.php?route=account/change/currency",
-  notify:
-    "v2/index.php?route=marketing/notify/addNotification",
+  notify: "v2/index.php?route=marketing/notify/addNotification",
   insertLike: "v2/index.php?route=catalog/product/likeProduct",
   deleteLike: "v2/index.php?route=catalog/product/unlikeProduct",
   getLikeProduct: "v2/index.php?route=catalog/product/getLikedProducts",
@@ -57,21 +75,14 @@ var urls = {
   contactUs: "v2/index.php?route=account/contact_us",
   disabledAccount: "v2/index.php?route=account/logout/disableAccount",
   pixel: "v2/index.php?route=marketing/st",
-  pos : "v2/index.php?route=checkout/cart/addToCartPos",
-  getSalesMan: "v2/index.php?route=stockapi/admin_login/getSalesMan",
-
 };
 
+pixelID = "597971315174718";
 
-  pixelID = "597971315174718";
-  host = "https://www.englishhome.com.lb/api/";
-  //path1 = "motor/";
-
+//path1 = "motor/";
 
 function buildLink(link, payload, width) {
-
-    const extra_params = typeof payload == "undefined" ? "" : payload;
-    return host + path1 + urls[link] + extra_params;
-  
+  const extra_params = typeof payload == "undefined" ? "" : payload;
+  return host + path1 + urls[link] + extra_params;
 }
 export default buildLink;

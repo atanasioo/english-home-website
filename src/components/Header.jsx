@@ -12,6 +12,7 @@ import buildLink, { path } from "../urls";
 import { AccountContext } from "../contexts/AccountContext";
 import { InformationContext } from "../contexts/InformationContext";
 import Cookies from "js-cookie";
+import SitesHeader from "./SitesHeader";
 
 function Header() {
   const width = window.innerWidth;
@@ -28,8 +29,13 @@ function Header() {
   const location = useLocation();
   const [token, setToken] = useState();
   const [showMessage, setShowMessage] = useState(false);
+  const [local, setLocal] = useState(false);
 
   useEffect(() => {
+    if (window.location.host === "localhost:3000" || window.location.host === "localhost:3001") {
+      setLocal(true);
+    }
+
     if (width < 1000) {
       _axios
         .get(buildLink("all_categories", undefined, window.innerWidth))
@@ -92,6 +98,9 @@ function Header() {
 
   return (
     <div className="relative ">
+      {/* Sites Header */}
+      {local && <SitesHeader />}
+
       {/* Admin Top Bar */}
       <div
         className={

@@ -177,8 +177,8 @@ function TopSearch() {
                     isNaN(type)
                       //? "search?keyword=" + value
                       ? `${path}/search?keyword=${value}`
-                      : state.admin
-                      ? `${path}/${types[type]}/${id}`
+                      // : state.admin
+                      // ? `${path}/${types[type]}/${id}`
                       : `${path}/${value
                           .replaceAll("/", "-")
                           .replaceAll("%20", "-")}/${types[type]?.slice(
