@@ -221,7 +221,7 @@ function Header() {
                         </Link>
                         <Link className=""></Link>
                       </div>
-                      <Link to={`${path}/`} className="md:text-d30 ">
+                      <Link to={"/"} className="md:text-d30 ">
                         <span className="icon-logo text-xl md:text-2xl lg:text-4xl font-serif text-dbasenavy md:text-dblack1 whitespace-nowrap">
                           ENGLISH HOME
                         </span>
@@ -256,7 +256,7 @@ function Header() {
                           </Link>
                           <Link className=""></Link>
                         </div>
-                        <Link to={`${path}/`} className="text-d30 ">
+                        <Link to={"/"} className="text-d30 ">
                           <span className="icon-logo text-d16 xs:text-xl md:text-4xl font-serif whitespace-nowrap">
                             ENGLISH HOME
                           </span>
