@@ -41,6 +41,7 @@ export default function PosPrint(props) {
   // window.close()
 
   //  }
+  
   // console.log(props)
   return (
     <div className="fixed pb-2 top-0   px-3" style={{color :"rgb(20,20,20)"}} >
