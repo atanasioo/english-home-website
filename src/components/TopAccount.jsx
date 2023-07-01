@@ -109,7 +109,7 @@ function TopAccount() {
           </span>
         </Link>
       ) : !state.loged ? (
-        <Link to={`${path}//login`} className="header__user__auth__link">
+        <Link to={`${path}/login`} className="header__user__auth__link">
           <div className="h-9 w-6 md:w-10 leading-8 mx-auto md:border md:border-dblue1 text-dbasenavy md:text-dblue1 flex justify-center items-center mb-1">
             <FiUser className="h-5 w-5 md:h-6 md:w-6 " />
           </div>

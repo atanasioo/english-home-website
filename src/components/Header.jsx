@@ -221,7 +221,7 @@ function Header() {
                         </Link>
                         <Link className=""></Link>
                       </div>
-                      <Link to={"/"} className="md:text-d30 ">
+                      <Link to={`${path}/`} className="md:text-d30 ">
                         <span className="icon-logo text-xl md:text-2xl lg:text-4xl font-serif text-dbasenavy md:text-dblack1 whitespace-nowrap">
                           ENGLISH HOME
                         </span>
@@ -256,7 +256,7 @@ function Header() {
                           </Link>
                           <Link className=""></Link>
                         </div>
-                        <Link to={"/"} className="text-d30 ">
+                        <Link to={`${path}/`} className="text-d30 ">
                           <span className="icon-logo text-d16 xs:text-xl md:text-4xl font-serif whitespace-nowrap">
                             ENGLISH HOME
                           </span>
@@ -325,7 +325,7 @@ function Header() {
                                 onClick={() => {
                                   setViewMenu(false);
                                 }}
-                                to={"/latest"}
+                                to={`${path}/latest`}
                                 className="special-item bg-transparent flex justify-between items-center  h-11"
                               >
                                 <span className="align-middle p-0.5 flex justify-center items-center text-d16 font-bold text-dbasenavy uppercase font-mono">

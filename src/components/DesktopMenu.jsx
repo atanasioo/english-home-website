@@ -10,6 +10,9 @@ function DesktopMenu() {
   const [viewMenuCategories2, setViewMenuCategories2] = useState(true);
   const width = window.innerWidth;
 
+  console.log(path);
+  //
+
   useEffect(() => {
     if (width > 650) {
       _axios
@@ -69,7 +72,7 @@ function DesktopMenu() {
               </div>
             </ul>
             <div className="inline-block mt-4 xl:mt-0 ml-1">
-              <Link  to={"/latest"} className="bg-dred1 text-dwhite1 text-d12 p-2.5 whitespace-nowrap">
+              <Link  to={`${path}/latest`} className="bg-dred1 text-dwhite1 text-d12 p-2.5 whitespace-nowrap">
                 NEW PRODUCTS
               </Link>
             </div>
