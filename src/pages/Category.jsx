@@ -26,6 +26,8 @@ import WidgetsLoop from "../components/WidgetsLoop";
 import ReactPixel from "react-facebook-pixel";
 import { AccountContext } from "../contexts/AccountContext";
 import Cookies from "js-cookie";
+import CategoryPlaceholder from "../components/CategoryPlaceholder";
+import CategoryMobilePlaceholder from "../components/CategoryMobilePlaceholder";
 function Category() {
   const location = useLocation();
   const params = useParams();
@@ -48,6 +50,8 @@ function Category() {
   const [showWidgets, setShowWidgets] = useState(true);
   const [stateAccount] = useContext(AccountContext);
 
+
+
   // const { userFilters, setUserFilters } = useFiltersContext();
   const [userFilters, setUserFilters] = useState({
     filter_sellers: [],
@@ -65,6 +69,9 @@ function Category() {
   const navType = useNavigationType();
   const width = window.innerWidth;
   const parsedQueryString = queryString.parse(location.search);
+  const parsedQueryStringNavigate = queryString.parse(location.pathname);
+
+  console.log(parsedQueryStringNavigate);
 
   function showCart() {
     setShowCartmenu(true);
@@ -74,6 +81,9 @@ function Category() {
       setOverlay(false);
     }, 3000);
   }
+
+    console.log();
+    console.log(location);
 
   useEffect(() => {
     window.scrollTo({
@@ -206,7 +216,7 @@ function Category() {
 
     let url_type =
       window.location.href.indexOf("has_filter") < 0 ? "default" : "filter";
-    // setData({});
+    setData({});
 
     if (url_type === "default") {
       const q_s = queryString.parse(location.search);
@@ -600,7 +610,16 @@ function Category() {
     <div className=" bg-dgrey10 pt-1 w-full">
       <div className="md:container">
         {!data?.products ? (
-          <Loader />
+          <>
+          {window.innerWidth > 650 ? (
+            <CategoryPlaceholder />
+          ):(
+            <CategoryMobilePlaceholder />
+          )}
+          
+          {/* <Loader /> */}
+          </>
+          
         ) : 1 === 1 ? (
           <>
             {showCartmenu && (
@@ -992,8 +1011,8 @@ function Category() {
                       nextLabel={<BsChevronRight className="mt-1 pt-0.5" />}
                       activeClassName={"active-pagination-category"}
                       forcePage={
-                        parsedQueryString.page
-                          ? parseInt(parsedQueryString.page) - 1
+                        parsedQueryStringNavigate.page
+                          ? parseInt(parsedQueryStringNavigate.page) - 1
                           : 0
                       }
                     ></ReactPaginate>
@@ -1082,8 +1101,8 @@ function Category() {
                       nextLabel={<BsChevronRight className="mt-1 pt-0.5" />}
                       activeClassName={"active-pagination-category"}
                       forcePage={
-                        parsedQueryString.page
-                          ? parseInt(parsedQueryString.page) - 1
+                        parsedQueryStringNavigate.page
+                          ? parseInt(parsedQueryStringNavigate.page) - 1
                           : 0
                       }
                     ></ReactPaginate>

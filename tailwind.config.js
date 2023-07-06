@@ -20,6 +20,10 @@ module.exports = {
 
       //   "2xl": "1536px"
       // },
+      minHeight:{
+        "430px": "430px",
+        "260px": "260px"
+      },
       screens: {
         xs: "320px",
         'tablet': '640px',

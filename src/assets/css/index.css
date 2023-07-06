@@ -567,7 +567,71 @@ input[type="number"] {
       width: 100%;
     }
   }
+
+  @media screen and (-webkit-min-device-pixel-ratio: 0) {
+    .placeholder_animation {
+      background-image: radial-gradient(
+        rgba(254, 254, 254, 0.925),
+        rgba(229, 227, 232, 0.642)
+      );
+      /* background-image: radial-gradient(rgba(254, 254, 254, 0.925), rgba(210, 210, 210, 0.323)); */
+      /* background-image: radial-gradient(
+        
+        rgba(255, 255, 255, 0) 0px,
+        rgba(255, 255, 255, 0.2) 20%,
+        rgba(255, 255, 255, 0.7) 60%,
+        rgba(255, 255, 255, 0) 100%,
   
- 
+      ); */
+      background-size: 200% 100%;
+      animation: anmBg 0.8s linear infinite;
+    }
+    @keyframes anmBg {
+      to {
+        background-position: -170% 0;
+      }
+    }
+    @media (max-width: 650px) {
+      .placeholder_animation {
+        background-image: radial-gradient(
+          rgba(254, 254, 254, 0.925),
+          rgba(215, 211, 223, 0.474)
+        );
+      }
+    }
+  }
+  
+  @media screen and (-webkit-min-device-pixel-ratio: 0) {
+    .placeholder_animation_latest {
+      background-image: radial-gradient(
+        rgba(254, 254, 254, 0.925),
+        rgba(218, 216, 220, 0.642)
+      );
+      /* background-image: radial-gradient(rgba(254, 254, 254, 0.925), rgba(210, 210, 210, 0.323)); */
+      /* background-image: radial-gradient(
+        
+        rgba(255, 255, 255, 0) 0px,
+        rgba(255, 255, 255, 0.2) 20%,
+        rgba(255, 255, 255, 0.7) 60%,
+        rgba(255, 255, 255, 0) 100%,
+  
+      ); */
+      background-size: 200% 100%;
+      animation: anmBg 0.8s linear infinite;
+    }
+    @keyframes anmBg {
+      to {
+        background-position: -170% 0;
+      }
+    }
+    @media (max-width: 650px) {
+      .placeholder_animation {
+        background-image: radial-gradient(
+          rgba(254, 254, 254, 0.925),
+          rgba(215, 211, 223, 0.474)
+        );
+      }
+    }
+  }
 
 

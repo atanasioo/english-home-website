@@ -13,6 +13,8 @@ import { FiChevronDown } from "react-icons/fi";
 import { GrClose } from "react-icons/gr";
 import Loader from "../components/Loader";
 import TopCart from "../components/TopCart";
+import LatestPlaceholder from "../components/LatestPlaceholder";
+import LatestMobilePlaceholder from "../components/LatestMobilePlaceholder";
 
 function Latest() {
   const width = window.innerWidth;
@@ -141,7 +143,12 @@ function Latest() {
       )}
 
       {loading ? (
-        <Loader />
+        width > 650 ? (
+          <LatestPlaceholder />
+        ):(
+          <LatestMobilePlaceholder  />
+        )
+        
       ) : (
         <div className={`${width > 560 && 'container'}`}>
           {showCartmenu && (

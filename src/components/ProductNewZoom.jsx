@@ -202,10 +202,12 @@ function ProductNewZoom(props) {
                     props.hideFixedCartMenu(true);
                     
                   }}
+                  className="min-h-260px lg:min-h-430px"
                 >
                   <img
                     id="myimage"
                     src={activeImage["popup"]}
+                    
                     alt=""
                     className="rounded-lg myimage-product-zoom"
                   />
