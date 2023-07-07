@@ -208,7 +208,9 @@ function Product() {
 
   function incrementQuantity(quantity) {
     // const newquantity = quantity + 1;
-    quantityRef.current.value = parseInt(quantityRef.current.value) + 1;
+    if(parseInt(quantityRef.current.value) < parseInt(productData.quantity)){
+      quantityRef.current.value = parseInt(quantityRef.current.value) + 1;
+    }
     // setQuantity(newquantity);
   }
   function decrementQuantity(quantity) {
@@ -218,6 +220,13 @@ function Product() {
       quantityRef.current.value = parseInt(quantityRef.current.value) - 1;
 
       // setQuantity(newquantity);
+    }
+  }
+
+  function handleQuantity(e){
+    console.log(quantityRef.current.value);
+    if(parseInt(quantityRef.current.value) > parseInt(productData.quantity)){
+      quantityRef.current.value = parseInt(productData.quantity)
     }
   }
 
@@ -1018,6 +1027,7 @@ function Product() {
                     <input
                       className="w-6/12 text-center mx-2"
                       ref={quantityRef}
+                      onChange={(e)=> handleQuantity(e)}
                     />
                     {/* <span className="w-6/12 text-center ">{quantity}</span> */}
                     <button onClick={() => incrementQuantity()}>
