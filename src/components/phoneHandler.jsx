@@ -142,12 +142,13 @@ function PhoneHandler(props) {
             // required
             ref={phone}
             defaultValue={parentData?.telephone}
-            className={`border text-d14 font-light ${!valid && `${red} !important`}`}
+            className={`border text-d14 font-light ${fromContact && "border border-dplaceHolder text-d16 w-full h-14 mb-2.5 px-5 outline-none rounded-sm"} ${!valid && `${red} !important`}`}
             minLength={7}
             maxLength={15}
             onChange={(e) => onChangeHandler(e.target.value)}
             onKeyDown={(e) => onChangeHandlerAdmin(e, e.target.value)}
             onKeyUp={(e) => onChangeHandler(e.target.value)}
+            placeholder={fromContact ? "Telephone" : ""}
           />
         ) : (
           <input

@@ -41,9 +41,9 @@ export default function SingleProduct(props) {
   function useOutsideAlerter(ref) {
     useEffect(() => {
       /**
-       * Alert if clicked on outside of element 
-       * 
-       * 
+       * Alert if clicked on outside of element
+       *
+       *
        */
 
       if (cartmenu) {
@@ -248,30 +248,47 @@ export default function SingleProduct(props) {
             />
           )}
           {window.innerWidth > 650 ? (
-            <div className="flex flex-col lg:flex-row">
-              <span className="text-left  pt-3 flex-auto  ">
-                {props.item.price}
-              </span>
-
-              <button className="border-gray-200 border-2 p-3 flex-auto text-sm">
-                in the basket{" "}
+            <div className="flex flex-col lg:flex-row lg:gap-4">
+              {props.item.special !== "0" ? (
+                <div className="flex flex-col ">
+                  <div className="line-through">{props.item.price}</div>
+                  <div>{props.item.special}</div>
+                </div>
+              ) : (
+                <span className="text-left  pt-3 flex-auto">
+                  {props.item.price}
+                </span>
+              )}
+              {props.item.saving !== 0 && (
+                <button className="border-dblue1 text-dblue1 border p-3 flex-auto text-sm">
+                  {/* in the basket{" "}
                 <span className="font-bold">
                   {" "}
                   {props.item.special !== "0"
                     ? props.item.special
                     : props.item.price}
-                </span>
-              </button>
+                </span> */}
+                  {props.item.saving}% Discount
+                </button>
+              )}
             </div>
           ) : (
             <div className="flex flex-col text-d14 ">
-              <span className="text-left  pt-1 flex-auto  mt-1">
+              {props.item.special !== "0" ? (
+                <div className="flex gap-3">
+                  <div className="line-through text-d13">{props.item.price}</div>
+                  <div>{props.item.special}</div>
+                </div>
+              ):(
+                <span className="text-left  pt-1 flex-auto  mt-1">
                 {" "}
                 {props.item.price}
               </span>
-
-              <button className="flex border border-black p-1  flex-auto text-d14 ">
-                <span className="w-1/2">in the basket</span>{" "}
+              )}
+              
+              {props.item.saving !== 0 && (
+                <button className="flex border border-dblue1 text-dblue1 p-1  flex-auto text-d13 ">
+                  {/* <span className="w-1/2">in the basket</span>{" "}
                 <span className="font-bold ml-2 text-center pt-3 w-1/2">
                   {props.item.special ? props.item.special : props.item.price}
                 </span>
@@ -280,8 +297,11 @@ export default function SingleProduct(props) {
                     {" "}
                     {props.item.quantity}
                   </div>
-                )}
-              </button>
+                )} */}
+                  {props.item.saving}% Discount
+                </button>
+              )}
+
               {props.item.quantity !== "0" && (
                 <button
                   className={`py-3  text-dblue1 bottom-0  flex p-1 text-d12 bg-dgrey3 w-full justify-center items-center"`}
