@@ -50,7 +50,7 @@ function App() {
               <Routes>
                 {window.location.href.split("/")[3] === "store_one" ? (
                   <>
-                    <Route path="/store_one/" element={<Home />} exact />
+                    <Route path="/store_one" element={<Home />} exact />
                     <Route path="/store_one/category" element={<Category />} />
                     <Route path={"/store_one/:name/c=:id"} element={<Category />} exact />
                     <Route

@@ -21,7 +21,7 @@ function Contact() {
   const contactPhone = useRef("");
   const navigate = useNavigate();
   const width = window.innerWidth;
-
+////
   
   function submitForm(e) {
     e.preventDefault();
