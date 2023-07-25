@@ -1,16 +1,17 @@
 import React, { useState, useContext, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { HiOutlineShoppingBag } from "react-icons/hi";
-import buildLink, { path } from "../urls";
+import buildLink, { path, pixelID } from "../urls";
 import { CartContext } from "../contexts/CartContext";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import _axios from "../axios";
 import TopCart from "./TopCart";
 import { AccountContext } from "../contexts/AccountContext";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-
 import product_image from "../assets/images/singleProduct.png";
 import ImageFilter from "react-image-filter/lib/ImageFilter";
+import ReactPixel from "react-facebook-pixel";
+import Cookies from "js-cookie";
 
 export default function SingleProduct(props) {
   const [hovered, isHovered] = useState(false);
@@ -110,6 +111,21 @@ export default function SingleProduct(props) {
             type: "loading",
             payload: true,
           });
+
+          var dataSocial = data.data.social_data;
+          dataSocial["link"] = window.location.href;
+          dataSocial["fbp"] = Cookies.get("_fbp");
+          dataSocial["fbc"] = Cookies.get("_fbc");
+          dataSocial["ttp"] = Cookies.get("_ttp");
+
+          _axios
+            .post(buildLink("pixel", undefined, window.innerWidth), dataSocial)
+            .then((response) => {
+              const data = response.data;
+              if (data.success === true) {
+              }
+            });
+
           _axios
             .get(buildLink("cart", undefined, window.innerWidth))
             .then((response) => {
@@ -276,16 +292,18 @@ export default function SingleProduct(props) {
             <div className="flex flex-col text-d14 ">
               {props.item.special !== "0" ? (
                 <div className="flex gap-3">
-                  <div className="line-through text-d13">{props.item.price}</div>
+                  <div className="line-through text-d13">
+                    {props.item.price}
+                  </div>
                   <div>{props.item.special}</div>
                 </div>
-              ):(
+              ) : (
                 <span className="text-left  pt-1 flex-auto  mt-1">
-                {" "}
-                {props.item.price}
-              </span>
+                  {" "}
+                  {props.item.price}
+                </span>
               )}
-              
+
               {props.item.saving !== 0 && (
                 <button className="flex border border-dblue1 text-dblue1 p-1  flex-auto text-d13 ">
                   {/* <span className="w-1/2">in the basket</span>{" "}
