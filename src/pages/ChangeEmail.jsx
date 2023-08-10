@@ -71,10 +71,16 @@ export default function ChangeEmail() {
             </div> */}
             <AccountHeader stateAccount={stateAccount} />
             <div className="flex mt-2">
+              {window.innerWidth > 650 && (
               <div className="w-">
                 <VerticalNav />
               </div>
-              <div className="w-8/12 p-10 border">
+            )}
+                 <div
+              className={` p-10 border  ${
+                window.innerWidth < 650 ? "w-full" : "w-8/12 "
+              }`}
+            >
                 <form onSubmit={(e) => saveDetails(e)}>
                   <div classname="flex text-left	 border border-1 ">
                     <div className=" w-full text-left py-2 text-d14">

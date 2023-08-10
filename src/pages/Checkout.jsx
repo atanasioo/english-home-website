@@ -8,7 +8,7 @@ import { AccountContext } from "../contexts/AccountContext";
 import buildLink, { path, pixelID } from "../urls";
 import _axios from "../axios";
 import Cookies from "js-cookie";
-import HandlePhoneModel from "../components/phoneHandler";
+import HandlePhoneModel from "../components/PhoneHandler";
 import ReactPixel from "react-facebook-pixel";
 function Checkout() {
   const [state, dispatch] = useContext(CartContext);
