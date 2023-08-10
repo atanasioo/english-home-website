@@ -8,7 +8,7 @@ import { AccountContext } from "../contexts/AccountContext";
 import buildLink, { path, pixelID } from "../urls";
 import _axios from "../axios";
 import Cookies from "js-cookie";
-import HandlePhoneModel from "../components/PhoneHandler";
+import HandlePhoneModel from "../components/phoneHandler";
 import ReactPixel from "react-facebook-pixel";
 function Checkout() {
   const [state, dispatch] = useContext(CartContext);
@@ -2018,7 +2018,7 @@ function Checkout() {
                 </div>
               </div>
             </div>
-            {window.innerWidth > 650 && (
+            {window.innerWidth  && (
               <div className=" w-full md:w-1/3 ">
                 <div>
                   <div className="analytics-data hidden"></div>

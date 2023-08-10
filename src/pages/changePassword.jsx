@@ -169,7 +169,7 @@ export default function ChangePassword() {
                   </div>
                   <div className="text-d13 w-full text-left pt-3 pb-1">
                     {" "}
-                    Passowrd{" "}
+                    Password{" "}
                   </div>
                   <div className="text-d13 w-full text-left">
                     <input

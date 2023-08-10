@@ -99,7 +99,7 @@ export default function ChangeEmail() {
                     </div>
                     <div className="text-d13 w-full text-left py-2">
                       {" "}
-                      Passowrd{" "}
+                      Password{" "}
                     </div>
                     <div className="text-d13 w-full text-left">
                       <input
