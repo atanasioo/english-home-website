@@ -784,7 +784,7 @@ function Checkout() {
               {
                 content_type: "product",
                 content_ids: data?.data?.social_data?.content_ids,
-                value: data?.data?.social_data?.value,
+                value: data?.data?.social_data?.value ? data?.data?.social_data?.value : 10,
                 num_items: data?.data?.social_data?.num_items,
                 currency: data?.data?.social_data?.currency,
               },
