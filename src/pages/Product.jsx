@@ -119,6 +119,8 @@ function Product() {
     seriesOp_name.textContent = "";
   }
 
+  console.log(location);
+
   useEffect(() => {
     // setQuantity(1)
     quantityRef.current.value = 1;
@@ -130,7 +132,7 @@ function Product() {
       []
     );
     _axios
-      .get(buildLink("product", undefined, undefined) + product_id?.replace("p=","") +`&source_id=1${stateAccount.admin && "&employer=true"}`) 
+      .get(buildLink("product", undefined, undefined) + product_id?.replace("p=","") +`&source_id=1${stateAccount.admin ? "&employer=true" : ""}`) 
       .then((response) => {
         const data = response?.data?.data;
         setProductData(data);
@@ -204,7 +206,7 @@ function Product() {
           
         }
       });
-  }, [location, stateAccount]);
+  }, [location, stateAccount.admin]);
 
   function incrementQuantity(quantity) {
     // const newquantity = quantity + 1;
