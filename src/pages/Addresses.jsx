@@ -377,9 +377,9 @@ function Addresses() {
         </div>
       )}
       {/* end delete confirmation modal */}
-      {addresses.length === 0 ? (
+      {/* {addresses.length === 0 ? (
         <Loader />
-      ) : (
+      ) : ( */}
         <div className="bg-dgrey10">
           <div className="container py-5">
             {/* <div className="header-container -mx-1">
@@ -406,6 +406,26 @@ function Addresses() {
               <div className="w-full md:w-3/4 mt-7 md:mt-0">
                 <div className="account-address mt-8">
                   <div className="hidden"></div>
+                  <div className="w-full md:w-1/3 px-2.5">
+                        <div className="account-container-box mb-8 h-72 border border-dgrey5 bg-clip-padding">
+                          <div className="add-button-wrapper relative">
+                            <div className="absolute -top-6 m-auto left-1/2 -translate-x-1/2 text-dgrey6">
+                              <BsPlusCircleFill className="w-11 h-11 " />
+                            </div>
+                          </div>
+                          <div className="container-box-desc text-center pt-36 pb-24">
+                            <u
+                              onClick={() => {
+                                getZones();
+                                setAddressmenu(true);
+                              }}
+                              className="text-dgreen text-sm cursor-pointer"
+                            >
+                              Add a new address
+                            </u>
+                          </div>
+                        </div>
+                      </div>
                   <div className="account-address-context">
                     <div className="-m-1 flex  flex-wrap">
                       {addresses?.map((address, index) => (
@@ -451,26 +471,7 @@ function Addresses() {
                           </div>
                         </div>
                       ))}
-                      <div className="w-full md:w-1/3 px-2.5">
-                        <div className="account-container-box mb-8 h-72 border border-dgrey5 bg-clip-padding">
-                          <div className="add-button-wrapper relative">
-                            <div className="absolute -top-6 m-auto left-1/2 -translate-x-1/2 text-dgrey6">
-                              <BsPlusCircleFill className="w-11 h-11 " />
-                            </div>
-                          </div>
-                          <div className="container-box-desc text-center pt-36 pb-24">
-                            <u
-                              onClick={() => {
-                                getZones();
-                                setAddressmenu(true);
-                              }}
-                              className="text-dgreen text-sm cursor-pointer"
-                            >
-                              Add a new address
-                            </u>
-                          </div>
-                        </div>
-                      </div>
+                   
                     </div>
                   </div>
                 </div>
@@ -478,7 +479,7 @@ function Addresses() {
             </div>
           </div>
         </div>
-      )}
+      {/* )} */}
     </div>
   );
 }

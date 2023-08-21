@@ -198,13 +198,13 @@ function TopAccount() {
           >
             My Address Information
           </Link>
-          <Link
+          {/* <Link
             onClick={() => setShowmenu(false)}
             className="cursor-pointer w-full text-left h-9 leading-3 p-3  text-d14 text-dblack2 border-b
          border-dgrey5 hover:text-dblue1 hover:underline transition-all"
           >
             Help
-          </Link>
+          </Link> */}
           <Link
             className="cursor-pointer w-full text-left h-9 leading-3 p-3  text-d14 text-dblack2 border-b
          border-dgrey5 hover:text-dblue1 hover:underline transition-all bg-dgrey7"

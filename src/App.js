@@ -40,7 +40,11 @@ function App() {
   const width = window.innerWidth;
 
   return (
-    <div className={`App w-full ${(window.location.href.split("/")[3] === "pos") && 'fixed' }`}>
+    <div
+      className={`App w-full ${
+        window.location.href.split("/")[3] === "pos" && "fixed"
+      }`}
+    >
       <CartProvider>
         <AccountProvider>
           <WishlistProvider>
@@ -53,14 +57,26 @@ function App() {
                   <>
                     <Route path="/store_one" element={<Home />} exact />
                     <Route path="/store_one/category" element={<Category />} />
-                    <Route path={"/store_one/:name/c=:id"} element={<Category />} exact />
+                    <Route
+                      path={"/store_one/:name/c=:id"}
+                      element={<Category />}
+                      exact
+                    />
                     <Route
                       path={"/store_one/:name/c=:id/all"}
                       element={<Category />}
                       exact
                     />
-                    <Route path={"/store_one/:name/s=:id"} element={<Category />} exact />
-                    <Route path={"/store_one/:name/m=:id"} element={<Category />} exact />
+                    <Route
+                      path={"/store_one/:name/s=:id"}
+                      element={<Category />}
+                      exact
+                    />
+                    <Route
+                      path={"/store_one/:name/m=:id"}
+                      element={<Category />}
+                      exact
+                    />
                     <Route path="/store_one/cart" element={<Cart />} />
                     <Route path="/store_one/checkout" element={<Checkout />} />
                     <Route path="/store_one/login" element={<Login />} />
@@ -68,8 +84,15 @@ function App() {
                       path="/store_one/forgotmypassword"
                       element={<ForgotMyPassword />}
                     />
-                    <Route path="/store_one/product/:id" element={<Product />} />
-                    <Route path="/store_one/:name/p=:id" element={<Product />} exact />
+                    <Route
+                      path="/store_one/product/:id"
+                      element={<Product />}
+                    />
+                    <Route
+                      path="/store_one/:name/p=:id"
+                      element={<Product />}
+                      exact
+                    />
 
                     <Route path="/store_one/account" element={<Account />} />
                     <Route path="/store_one/account/orders" element={<Orders />} />
@@ -82,6 +105,13 @@ function App() {
                     <Route path="/store_one/search" element={<Search />} />
                     <Route path="/store_one/latest" element={<Latest />} />
                     <Route
+                      path="/store_one/posOrders"
+                      element={<posOrders />}
+                    />
+
+                    <Route path="/store_one/pos" element={<Pos />} />
+
+                    <Route
                       path="/store_one/account/change-email"
                       element={<ChangeEmail />}
                     />
@@ -93,9 +123,16 @@ function App() {
                       path="/store_one/account/order-details"
                       element={<OrderDetails />}
                     />
-                    <Route path="/store_one/account/wishlist" element={<Wishlist />} />
+                    <Route
+                      path="/store_one/account/wishlist"
+                      element={<Wishlist />}
+                    />
                     <Route path="/store_one/success" element={<Success />} />
-                    <Route path="/store_one/:name" element={<NotFound />} exact />
+                    <Route
+                      path="/store_one/:name"
+                      element={<NotFound />}
+                      exact
+                    />
                   </>
                 ) : (
                   <>
@@ -141,13 +178,18 @@ function App() {
                       path="account/order-details"
                       element={<OrderDetails />}
                     />
+                    <Route path="/posOrders" element={<PosOrders />} />
+
+                    <Route path="/pos" element={<Pos />} />
                     <Route path="account/wishlist" element={<Wishlist />} />
                     <Route path="success" element={<Success />} />
                     <Route path="/:name" element={<NotFound />} exact />
                   </>
                 )}
               </Routes>
-              {window.location.href.split("/")[3] !== "posprint" &&  window.location.href.split("/")[3] !== "pos" &&  window.location.href.split("/")[3] !== "orders"  && <Footer />}
+              {window.location.href.split("/")[3] !== "posprint" &&
+                window.location.href.split("/")[3] !== "pos" &&
+                window.location.href.split("/")[3] !== "orders" && <Footer />}
             </InformationProvider>
           </WishlistProvider>
         </AccountProvider>

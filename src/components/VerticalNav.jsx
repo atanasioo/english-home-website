@@ -79,11 +79,11 @@ export default function VerticalNav() {
           </ul>
         </div> */}
         <div className="mb-7 font-bold leading-7 capitalize">
-          <Link 
+          {/* <Link 
             to={"/information/11"}
             className="hover:underline cursor-pointer">
             Frequently Asked questions
-          </Link>
+          </Link> */}
           <p className="hover:underline cursor-pointer" onClick={()=> logout()}>log out</p>
         </div>
       </div>
