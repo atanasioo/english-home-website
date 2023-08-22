@@ -183,7 +183,26 @@ function DesktopMenu() {
                       </Link>
                     ))
                 )}
-
+                {selectedMenuCategory2["top-category"].top_images?.map(
+                  (image) =>
+                 
+               
+                      <Link
+                        classname="grid grid-flow-col "
+                        key={image.src}
+                      >
+                        <img
+                        className="w-full"
+                          src={`${
+                            window.config["site-url"] +
+                            "/image/" +
+                            image?.src
+                          }`}
+                          alt={image.alt}
+                        />
+                      </Link>
+                
+                )}
                 {/* <p className="title"></p>
                 <p className="subtitle"></p>
                 <Link></Link> */}
