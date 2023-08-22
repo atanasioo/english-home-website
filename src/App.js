@@ -34,6 +34,7 @@ import Contact from "./pages/Contact";
 import PosOrders from "./pages/PosOrders";
 import Pos from "./pages/Pos";
 import PosPrinttest from "./components/Posprint";
+import StoreLocator from "./pages/StoreLocator";
 
 function App() {
   const width = window.innerWidth;
@@ -74,6 +75,7 @@ function App() {
                     <Route path="/store_one/account/orders" element={<Orders />} />
                     <Route path="/store_one/account/profile" element={<Profile />} />
                     <Route path="/store_one/account/addresses" element={<Addresses />} />
+                    <Route path="/store_one/storeLocator" element={<StoreLocator />} />
                     <Route path="/store_one/information/:id" element={<Information />} />
                     <Route path="/store_one/contact" element={<Contact />} />
 
@@ -121,6 +123,7 @@ function App() {
                     <Route path="account/orders" element={<Orders />} />
                     <Route path="account/profile" element={<Profile />} />
                     <Route path="account/addresses" element={<Addresses />} />
+                    <Route path="/storeLocator" element={<StoreLocator />} />
                     <Route path="/information/:id" element={<Information />} />
                     <Route path="/contact" element={<Contact />} />
 
