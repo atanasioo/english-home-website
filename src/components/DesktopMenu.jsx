@@ -187,8 +187,8 @@ function DesktopMenu() {
                   (image) =>
                  
                
-                      <Link
-                        classname="grid grid-flow-col "
+                      <div
+                        classname="grid grid-flow-col  p-5"
                         key={image.src}
                       >
                         <img
@@ -200,7 +200,7 @@ function DesktopMenu() {
                           }`}
                           alt={image.alt}
                         />
-                      </Link>
+                      </div>
                 
                 )}
                 {/* <p className="title"></p>
