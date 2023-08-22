@@ -162,7 +162,7 @@ function DesktopMenu() {
                 </div>
               </div>
             </div>
-            <div className="w-1/12 flex pt-7 ">
+            <div className="w-3/12 flex py-7 px-3">
               <div className="dropdown-extra-content">
                 {selectedMenuCategory2["partitions"]?.map(
                   (category) =>
@@ -183,16 +183,17 @@ function DesktopMenu() {
                       </Link>
                     ))
                 )}
-                {selectedMenuCategory2["top-category"].top_images?.map(
+                 {selectedMenuCategory2["top-category"].top_images && selectedMenuCategory2["top-category"]?.top_images?.map(
                   (image) =>
                  
-               
+              
                       <div
-                        classname="grid grid-flow-col  p-5"
+                        classname="  mx-5"
                         key={image.src}
                       >
                         <img
                         className="w-full"
+                    
                           src={`${
                             window.config["site-url"] +
                             "/image/" +
