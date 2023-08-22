@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import _axios from "../axios";
 import buildLink, { path } from "../urls";
-import {MdDoubleArrow} from 'react-icons/md';
+import { MdDoubleArrow } from "react-icons/md";
 function DesktopMenu() {
   const [selectedTopCategory, setSelectedTopCategory] = useState({});
   const [menuCategories2, setMenuCategories2] = useState([]);
@@ -33,13 +33,12 @@ function DesktopMenu() {
     }
   }, []);
 
-
   return (
     <div className="hidden lg:block relative">
       <nav className="header-menu border-b border-dborderblack1 mt-6 h-17 xl:h-7.5">
         <div className="container">
           <div className="flex flex-col xl:flex-row justify-center items-center mx-auto">
-            <ul className="navigation relative text-center  flex  justify-center">  
+            <ul className="navigation relative text-center  flex  justify-center">
               <div
                 className="whitespace-nowrap"
                 onMouseEnter={() => {
@@ -72,7 +71,10 @@ function DesktopMenu() {
               </div>
             </ul>
             <div className="inline-block mt-4 xl:mt-0 ml-1">
-              <Link  to={`${path}/latest`} className="bg-dred1 text-dwhite1 text-d12 p-2.5 whitespace-nowrap">
+              <Link
+                to={`${path}/latest`}
+                className="bg-dred1 text-dwhite1 text-d12 p-2.5 whitespace-nowrap"
+              >
                 NEW PRODUCTS
               </Link>
             </div>
@@ -112,7 +114,13 @@ function DesktopMenu() {
                     (subcategory, key) => (
                       <ul
                         className={`	 ${
-                         ( key <= 1 || key === 5 || key === 0 || key === 2 || key===9 ) ? "w-1/4 float-left" : "w-1/4 float-right"
+                          key <= 1 ||
+                          key === 5 ||
+                          key === 0 ||
+                          key === 2 ||
+                          key === 9
+                            ? "w-1/4 float-left"
+                            : "w-1/4 float-right"
                         }`}
                       >
                         <li key={subcategory.category_id} className="">
@@ -125,10 +133,11 @@ function DesktopMenu() {
                               }`}
                               className="cursor-pointer hover:underline text-xs capitalize font-bold "
                               dangerouslySetInnerHTML={{
-                                __html: subcategory.name 
+                                __html: subcategory.name
                               }}
                               key={subcategory.category_id}
-                            ></Link><MdDoubleArrow className="text-d10 mt-1" />
+                            ></Link>
+                            <MdDoubleArrow className="text-d10 mt-1" />
                           </div>
                         </li>
                         {subcategory.categories?.map((subcategory) => (
@@ -159,7 +168,10 @@ function DesktopMenu() {
                   (category) =>
                     category?.banners > 0 &&
                     category?.banners?.map((banner) => (
-                      <Link classname="grid grid-flow-col " key={banner.banner_id}>
+                      <Link
+                        classname="grid grid-flow-col "
+                        key={banner.banner_id}
+                      >
                         <img
                           src={`${
                             window.config["site-url"] +
@@ -171,6 +183,7 @@ function DesktopMenu() {
                       </Link>
                     ))
                 )}
+
                 {/* <p className="title"></p>
                 <p className="subtitle"></p>
                 <Link></Link> */}
