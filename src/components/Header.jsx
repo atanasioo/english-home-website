@@ -181,6 +181,12 @@ function Header() {
               <div className="container">
                 <div className="row">
                   <div className="topbar__links float-right">
+                  <Link
+                      className="text-dblack2 text-d12 ml-5 leading-10 font-bold hover:underline border-r border-dgrey9 pr-4"
+                      to={`/storeLocator`}
+                    >
+                      Store Locator
+                    </Link>
                     {infoState?.informations?.map(
                       (i) =>
                         i.status === "1" && (
