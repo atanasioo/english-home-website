@@ -43,19 +43,22 @@ export default function VerticalNav() {
 
   return (
       <div className="py-2.5 text-d12 text-left font-mono pr-5">
-        <div className="mb-7">
+        {/* <div className="mb-7">
           <span className="font-semibold text-sm mb-1 block">my orders</span>
           <ul className="pb-7 border-b border-dgrey5 capitalize">
             <li className="leading-7">
               <Link to={"/account/orders"}>All My Orders</Link>
             </li>
           </ul>
-        </div>
+        </div> */}
         <div className="mb-7">
-          <span className="font-semibold text-sm mb-1 block">
-            My Profile / Personal Information
+          <span className="font-semibold text-sm mb-1 block ">
+            My Orders / Personal Information 
           </span>
           <ul className="pb-7 border-b border-dgrey5 capitalize">
+          <li className="leading-7">
+              <Link to={"/account/orders"}>All My Orders</Link>
+            </li>
             <li className="leading-7">
               <Link to={"/account/profile"}>my profile</Link>
             </li>

@@ -45,7 +45,7 @@ function Footer() {
                 {data?.data?.map((cat) => {
                   return (
                     <div
-                      key={cat.category_id}
+                      key={cat?.category_id}
                       className="mt-2 mb-3 mx-2 flex flex-col justify-center"
                     >
                       <Link
@@ -56,26 +56,26 @@ function Footer() {
                             .replace("/", "-")
                             .replace("%", "") +
                           "/c=" +
-                          cat.category_id
+                          cat?.category_id
                         }`}
                         className="text-d18 font-medium text-dbasenavy text-center md:text-left  pb-3 uppercase"
-                        dangerouslySetInnerHTML={{ __html: cat.name }}
+                        dangerouslySetInnerHTML={{ __html: cat?.name }}
                       ></Link>
                       {cat?.data?.map((sub) => {
                         return (
                           <Link
                             to={`${
-                              sub.name
+                              sub?.name
                                 .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
                                 .replace(/\s+/g, "-")
                                 .replace("/", "-")
                                 .replace("%", "") +
                               "/c=" +
-                              sub.category_id
+                              sub?.category_id
                             }`}
                             className="text-d15 font-light text-center md:text-left  leading-relaxed text-dbgrey6 cursor-pointer text-dgrey6 hover:text-dblue1 hover:underline transition-all"
-                            dangerouslySetInnerHTML={{ __html: sub.name }}
-                            key={sub.category_id}
+                            dangerouslySetInnerHTML={{ __html: sub?.name }}
+                            key={sub?.category_id}
                           ></Link>
                         );
                       })}
@@ -91,12 +91,12 @@ function Footer() {
                 <div className="flex w-full place-content-center mx-5 ">
                   <div className="md:border-2 rounded-full  md:border-dbasenavy p-2 text-d25 mx-1 cursor-pointer">
                     {" "}
-                    <a href={window.config["facebook"]}>
+                    <a href={window.config["facebook"]} target="_blank">
                       <FaFacebookF className="w-4 h-4 md:w-6 md:h-6" />
                     </a>
                   </div>
                   <div className="md:border-2 rounded-full  md:border-dbasenavy p-2 text-d25  mx-1 cursor-pointer">
-                    <a href={window.config["instagram"]}>
+                    <a href={window.config["instagram"]} target="_blank">
                       <FaInstagram className="w-4 h-4 md:w-6 md:h-6" />
                     </a>
                   </div>
@@ -119,21 +119,30 @@ function Footer() {
                     Download the Mobile App Don't Miss The Opportunities!
                   </span>
                   <div className="flex space-x-3 py-3 w-full  place-content-center">
-                    <a  href={window.config['appleStore']}>
+                    <a href={window.config["appleStore"]}>
                       <p className="appleStore px-10 cursor-pointer"></p>
                     </a>
-                    <a href={window.config['googlePlay']}>
+                    <a href={window.config["googlePlay"]}>
                       <p className="googlePlay cursor-pointer"></p>
                     </a>
                   </div>
-                  <div className="w-full grid-flow-row  pt-3">
-                    <span className="w-full flex place-content-center leading-snug">
-                      <img src={supportImage} alt="22" className="w-16 " />
-                    </span>
-                    <span className="w-full flex place-content-center text-d22 font-bold pt-3">
-                      {window.config["supportNumber"]}
-                    </span>{" "}
-                  </div>
+                  <a
+                    className="flex justify-start text-center "
+                    href={`https://api.whatsapp.com/send?phone=${
+                      window.config["countryCode"] + "76400008"
+                    }&text=Hi%20there%20i%27m%20interested%20in%20${
+                      window.config["site-url"]
+                    }`}
+                  >
+                    <div className="w-full grid-flow-row  pt-3">
+                      <span className="w-full flex place-content-center leading-snug">
+                        <img src={supportImage} alt="22" className="w-16 " />
+                      </span>
+                      <span className="w-full flex place-content-center text-d22 font-bold pt-3">
+                        {window.config["supportNumber"]}
+                      </span>{" "}
+                    </div>
+                  </a>
                 </div>
               </div>
             </div>

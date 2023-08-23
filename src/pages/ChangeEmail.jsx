@@ -55,7 +55,11 @@ export default function ChangeEmail() {
         <Loader />
       ) : (
         <div>
-          <div className=" bg-dgrey10 pt-5 px-12">
+           <div
+          className={`relative -top-2 bg-dgrey10 pt-5  ${
+            window.innerWidth < 650 ? "px-0" : "px-32"
+          }`}
+        >
             {/* <div className="flex py-5 bg-dyellow2 my-5 mx-12">
               <div className="w-1/3"></div>
               <div className="flex flex-col w-full items-center">
@@ -90,7 +94,9 @@ export default function ChangeEmail() {
                     <div className="text-d13 text-left py-2">New Email </div>
                     <div className="text-d13 w-full text-left">
                       <input
-                        className="bg-white text-left w-full p-2  border outline-none"
+                        className={` bg-white text-left p-2  border outline-none ${
+                          window.innerWidth < 650 ? "w-full" : "w-5/12"
+                        }`}
                         ref={newEmailRef}
                       />
                     </div>
@@ -99,7 +105,9 @@ export default function ChangeEmail() {
                     </div>
                     <div className="text-d13 w-full text-left">
                       <input
-                        className="bg-white text-left w-full p-2  border outline-none"
+                         className={` bg-white text-left p-2  border outline-none ${
+                          window.innerWidth < 650 ? "w-full" : "w-5/12"
+                        }`}
                         ref={confirmEmailRef}
                       />
                     </div>
@@ -110,7 +118,9 @@ export default function ChangeEmail() {
                     <div className="text-d13 w-full text-left">
                       <input
                         type="text"
-                        className="bg-white text-left w-full p-2  border outline-none"
+                        className={` bg-white text-left p-2  border outline-none ${
+                          window.innerWidth < 650 ? "w-full" : "w-5/12"
+                        }`}
                         ref={oldEmailRef}
                       />
                     </div>

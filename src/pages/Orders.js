@@ -5,7 +5,7 @@ import VerticalNav from "../components/VerticalNav";
 import _axios from "../axios";
 import buildLink, { path } from "../urls";
 import { FaDigitalTachograph } from "react-icons/fa";
-
+import AccountHeader from "../components/AccountHeader";
 export default function Orders() {
   const [stateAccount, dispatchAccount] = useContext(AccountContext);
   const [data, setData] = useState();
@@ -22,25 +22,24 @@ export default function Orders() {
   }, [window.location.href]);
 
   return (
-    <div className="relative -top-2  pt-5 px-12">
-      <div className="flex py-5 bg-dyellow2 my-5 mx-12">
-        <div className="w-1/3"></div>
-        <div className="flex flex-col w-full items-center">
-          <span className="text-d14 font-light">MY ACCOUNT</span>{" "}
-          <span className="mt-1">hello {stateAccount.username}</span>
-        </div>
-        <div className="w-1/3 mt-3">
-          {" "}
-          <Link to="/" className="text-d14 underline underline-offset-1">
-            continue to Shopping{" "}
-          </Link>
-        </div>
-      </div>
-      <div className="flex">
-        <div className="">
-          <VerticalNav />
-        </div>
-        <div className="w-9/12  border">
+ <div
+            className={` bg-dgrey10 pt-5  ${
+              window.innerWidth < 650 ? "px-0" : "px-32"
+            }`}
+          >
+            
+            <AccountHeader stateAccount={stateAccount} />
+            <div className="flex mt-2">
+              {window.innerWidth > 650 && (
+                <div className="">
+                  <VerticalNav />
+                </div>
+              )}
+              <div
+                className={`  ${
+                  window.innerWidth < 650 ? "w-full" : "w-full"
+                }`}
+              >
           <div className="w-full  overflow-y-auto px-2  md:py-10">
             {/* Header */}
             <div className="flex items-center mb-8">

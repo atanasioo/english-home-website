@@ -81,7 +81,7 @@ export default function ChangePassword() {
       ) : (
         <div
           className={`relative -top-2 bg-dgrey10 pt-5  ${
-            window.innerWidth < 650 ? "px-0" : "px-12"
+            window.innerWidth < 650 ? "px-0" : "px-32"
           }`}
         >
           {/* <div

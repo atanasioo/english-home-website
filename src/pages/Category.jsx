@@ -656,7 +656,7 @@ function Category() {
               ></div>
             )}
             <div className="  flex  pt-4 pb-2 pl-8 items-center text-d16 text-dblack1 capitalize">
-              <div className=" flex w-3/12">
+              <div className=" flex w-auto">
                 <div className="flex items-center ">
                   <Link
                     to="/"
@@ -669,17 +669,17 @@ function Category() {
                 </div>
                 {data?.breadcrumbs?.map((bread) => (
                   <div
-                    className="flex items-center text-dborderblack0"
+                    className="flex items-center text-dbasenavy"
                     key={bread.text}
                   >
-                    <p className=" mx-2 whitespace-nowrap">
+                    <p className=" mx-2 whitespace-nowrap font-semibold">
                       {bread.text.replace("&amp;", "&")}
                     </p>
                   </div>
                 ))}
               </div>
               {window.innerWidth > 650 && (
-                <div className="w-1/2 text-left text-d14">
+                <div className=" text-left text-d16 text-sem-bold pl-5">
                   Showing {data?.products?.length} products
                 </div>
               )}
