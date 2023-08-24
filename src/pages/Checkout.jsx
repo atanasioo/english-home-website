@@ -544,11 +544,11 @@ function Checkout() {
     window.scroll(0, 0);
     let body = {};
     // if it's first attemp
-    if (stateAccount.loged) {
-      setFirstAttemp(false);
-    }
+    // if (stateAccount.loged) {
+    //   setFirstAttemp(false);
+    // }
 
-    if (firstAttemp) {
+    if (firstAttemp  && !stateAccount.loged) {
       body = {
         order_product: manualCartProducts,
         customer_id: customerId,
