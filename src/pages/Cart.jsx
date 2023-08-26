@@ -542,6 +542,29 @@ function Cart() {
                           </div>
                         ))}
                       </div>
+                      {window.location.href.split("/")[3] === "store_one" ? 
+
+                      <>
+                      {width < 650 ? (
+                        <Link
+                          to={"/store_one/checkout"}
+                          className="fixed z-30 bottom-0 
+                          left-0 md:block py-2 text-d17 tracking-wide inline-block bg-dblue1 font-bold uppercase text-dwhite1 text-center w-full h-14 md:h-10 bg-clip-padding pt-3.5 md:pt-1.5"
+                        >
+                          Confirm cart
+                        </Link>
+                      ) : (
+                        <Link
+                          to={"/store_one/checkout"}
+                          className="py-2 text-d17 tracking-wide inline-block bg-dblue1 font-bold uppercase text-dwhite1 text-center w-full h-12 md:h-10 bg-clip-padding md:pt-1.5"
+                        >
+                          Confirm cart
+                        </Link>
+                      )}
+                      </>
+
+                      :
+                      <>
                       {width < 650 ? (
                         <Link
                           to={"/checkout"}
@@ -558,6 +581,11 @@ function Cart() {
                           Confirm cart
                         </Link>
                       )}
+                      </>
+
+
+
+}
                     </div>
                   </div>
                   <div className="w-full rounded-lg mt-3.5"></div>

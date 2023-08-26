@@ -32,7 +32,10 @@ function TopSearch() {
   const [message, setMessage] = useState();
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef);
-
+  var store =''
+  if(window.location.href.split("/")[3] === "store_one") {
+    store = "/store_one"
+  }
 //   let i=0;
 //   let placeholder= "";
 //   const txt = "What are you looking for?";
@@ -56,14 +59,14 @@ function TopSearch() {
       const query = e.target.value;
       setQuery("");
       setLoading(false);
-      navigate("/search" + "?keyword=" + query)
+      navigate(store + "/search" + "?keyword=" + query)
     }
   }
   function navigateclickSearch(e) {
  
     setQuery("");
     setLoading(false);
-    navigate("/search?keyword=" + wrapperRef.current.value)
+    navigate(store +"/search?keyword=" + wrapperRef.current.value)
   
   
 }

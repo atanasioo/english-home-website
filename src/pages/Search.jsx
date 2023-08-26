@@ -43,6 +43,11 @@ function Search() {
   const navType = useNavigationType();
   const width = window.innerWidth;
 
+  var store =''
+  if(window.location.href.split("/")[3] === "store_one") {
+    store = "/store_one"
+  }
+
   function showCart() {
     setShowCartmenu(true);
     setOverlay(true);
@@ -88,9 +93,9 @@ function Search() {
         if (navType === "POP") {
           navigate(-1);
         } else if (state.Admin) {
-          navigate("/" + data.data.type + "/" + data.data.type_id);
+          navigate(store +"/" + data.data.type + "/" + data.data.type_id);
         } else {
-          navigate(
+          navigate( store +
             "/" +
               encodedKeyword +
               "/" +
@@ -125,9 +130,12 @@ function Search() {
     const Name = encodeURIComponent(name);
     if (location.search.indexOf(Name) > 0) {
       const srch = baseURL.replace("&" + type + "=" + Name, "");
-      navigate("/search" + srch);
+      navigate(store + "/search" + srch);
+
+
+
     } else {
-      navigate("/search" + baseURL + "&" + type + "=" + Name);
+      navigate(store + "/search" + baseURL + "&" + type + "=" + Name);
       setBaseURL(location.search);
     }
   }
@@ -139,14 +147,16 @@ function Search() {
       arr.pop();
       console.log(arr[0]);
 
-      navigate("/search" + arr[0]);
+      navigate(store +"/search" + arr[0]);
+
+    
     }
   }
 
   //pagination
   function pageSetter(page) {
     const new_page = parseInt(page["selected"]);
-    navigate("/search?" + "keyword=" + encodedKeyword + "&page=" + new_page);
+    navigate(store + "/search?" + "keyword=" + encodedKeyword + "&page=" + new_page);
   }
 
   //toggle filters
