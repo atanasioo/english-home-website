@@ -700,6 +700,9 @@ function Checkout() {
               setAddresstab(false);
             }
           }
+
+          setFirstAttemp(false);
+
         }
       });
 
