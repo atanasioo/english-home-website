@@ -658,14 +658,9 @@ function Checkout() {
           manualErrors.current = response.data.errors;
 
           setConfirmDisalbe(false);
-          // if (manualErrors.current["0"].errorCode === "payment_method") {
-          //   setAddresstab(false);
           setPaymenttab(false);
           setAddresstab(true);
 
-          //   setPaymentMeth("Cash On Delivery");
-          // } else {
-          // }
         } else {
           manualErrors.current = "";
           paymentForm(confirm, paymentcode);
@@ -701,7 +696,7 @@ function Checkout() {
             }
           }
 
-          setFirstAttemp(false);
+          if (firstAttemp) setFirstAttemp(false);
 
         }
       });
