@@ -808,9 +808,9 @@ function Checkout() {
             });
         }
         if (window.location.href.split("/")[3] === "store_one") {
-          navigate("/success");
-        } else {
           navigate("/store_one/success");
+        } else {
+          navigate("/success");
         }
       }
     });
