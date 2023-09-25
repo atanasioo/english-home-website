@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import facebook from "../assets/images/facebook.png"
 import instagram from "../assets/images/instagram.png"
+import tiktok from "../assets/images/tiktok.png"
 
 import _axios from "../axios";
 import buildLink from "../urls";
@@ -100,6 +101,12 @@ function Footer() {
                   <div className="text-d25  mx-1 cursor-pointer">
                     <a href={window.config["instagram"]} target="_blank">
                     <img src={instagram} className="w-10" />
+                    </a>
+                  </div>
+
+                  <div className="text-d25  mx-1 cursor-pointer">
+                    <a href={window.config["tiktok"]} target="_blank">
+                    <img src={tiktok} className="w-10" />
                     </a>
                   </div>
                   {/* <div className="md:border-2 rounded-full  md:border-dbasenavy p-2 text-d25 mx-1 cursor-pointer">
