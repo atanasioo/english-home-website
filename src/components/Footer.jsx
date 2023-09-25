@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import facebook from "../assets/images/facebook.png"
+import instagram from "../assets/images/instagram.png"
 
 import _axios from "../axios";
 import buildLink from "../urls";
@@ -89,15 +91,15 @@ function Footer() {
                 </div>
 
                 <div className="flex w-full place-content-center mx-5 ">
-                  <div className="md:border-2 rounded-full  md:border-dbasenavy p-2 text-d25 mx-1 cursor-pointer">
+                  <div className="text-d25 mx-1 cursor-pointer">
                     {" "}
                     <a href={window.config["facebook"]} target="_blank">
-                      <FaFacebookF className="w-4 h-4 md:w-6 md:h-6" />
+                      <img src={facebook} className="w-10" />
                     </a>
                   </div>
-                  <div className="md:border-2 rounded-full  md:border-dbasenavy p-2 text-d25  mx-1 cursor-pointer">
+                  <div className="text-d25  mx-1 cursor-pointer">
                     <a href={window.config["instagram"]} target="_blank">
-                      <FaInstagram className="w-4 h-4 md:w-6 md:h-6" />
+                    <img src={instagram} className="w-10" />
                     </a>
                   </div>
                   {/* <div className="md:border-2 rounded-full  md:border-dbasenavy p-2 text-d25 mx-1 cursor-pointer">

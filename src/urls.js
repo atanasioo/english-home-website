@@ -75,6 +75,8 @@ var urls = {
   contactUs: "v2/index.php?route=account/contact_us",
   disabledAccount: "v2/index.php?route=account/logout/disableAccount",
   pixel: "v2/index.php?route=marketing/st",
+  getSalesMan: "v2/index.php?route=stockapi/admin_login/getSalesMan",
+
 };
 
 pixelID = "597971315174718";
