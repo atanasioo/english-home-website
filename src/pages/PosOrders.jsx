@@ -198,7 +198,7 @@ export default function PosOrders() {
 
       {showDetails && (
         <div class="fixed left-0 top-0   h-full w-full overflow-y-auto overflow-x-hidden outline-none z-50">
-          <div class="pointer-events-none relative w-1/2 top-1/3 left-1/4  translate-y-[-50px]  transition-all duration-300 ease-in-out min-[576px]:mx-auto min-[576px]:mt-7 min-[576px]:max-w-[500px]">
+          <div class="pointer-events-none relative left-1/4 top-1/3  translate-y-[-50px]  transition-all duration-300 ease-in-out w-3/4">
             <div class="p-5  pointer-events-auto relative flex w-full flex-col rounded-md border-dinputBorder bg-white  text-current shadow-lg outline-none">
               <div class="flex flex-shrink-0 items-center justify-between rounded-t-md border-b-2 border-dinputBorder z-50	 ">
                 <h5

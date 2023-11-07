@@ -134,7 +134,7 @@ function Header() {
                 target="_blank"
                 className="px-2"
                 rel="noreferrer"
-                href={`${path}/orders`}
+                href={`${path}/posorders`}
               >
                 orders list
               </a>

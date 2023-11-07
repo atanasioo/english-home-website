@@ -16,7 +16,7 @@ import { InformationProvider } from "./contexts/InformationContext";
 import Login from "./pages/Login";
 import Account from "./pages/Account";
 import Orders from "./pages/Orders";
-import Profile from "./pages/Profile";
+import Profile from "./pages/Profile"
 import Search from "./pages/Search";
 import OrderDetails from "./pages/OrderDetails";
 import ChangeEmail from "./pages/ChangeEmail";
@@ -35,6 +35,7 @@ import PosOrders from "./pages/PosOrders";
 import Pos from "./pages/Pos";
 import PosPrinttest from "./components/Posprint";
 import StoreLocator from "./pages/StoreLocator";
+import PosPrint from "./components/Posprint";
 
 function App() {
   const width = window.innerWidth;
@@ -162,6 +163,7 @@ function App() {
                     <Route path="account/addresses" element={<Addresses />} />
                     <Route path="/storeLocator" element={<StoreLocator />} />
                     <Route path="/information/:id" element={<Information />} />
+                    <Route path="/posprint/:id" element={<PosPrint />} />
                     <Route path="/contact" element={<Contact />} />
 
                     <Route path="search" element={<Search />} />

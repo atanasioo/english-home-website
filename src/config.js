@@ -44,6 +44,7 @@ if (
       "http://www.englishhome.com.lb/control/admin/index.php?route=catalog/product/update&product_id=",
     facebook: "https://www.facebook.com/EnglishHomeLebanon/",
     instagram: "https://instagram.com/englishhome.lb?igshid=YmMyMTA2M2Y=",
+    tiktok: "https://www.tiktok.com/@englishhomelb?lang=en",
     youtube: "https://www.youtube.com/channel/UCZ9aa_BjFF2oWVEtC4f6PDA",
     twitter: "https://twitter.com/ishtari",
     linkedin: "https://www.linkedin.com/company/ishtari",

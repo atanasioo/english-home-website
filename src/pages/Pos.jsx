@@ -195,6 +195,13 @@ export default function Pos() {
   };
 
   useEffect(() => {
+    if(typeof localStorage.getItem("orders") == 'undefined'){
+      localStorage.setItem("orders", [])  
+      }
+
+      if(typeof localStorage.getItem("hold-order")== 'undefined'){
+      localStorage.setItem("hold-order", [])  
+      }
     // Load the array from local storage on component mount
     const storedArray = localStorage.getItem("orders");
     if (storedArray) {
@@ -1344,19 +1351,19 @@ export default function Pos() {
                 {success ? (
                   <div className="flex">
                     <button
-                      className="w-full bg-greenaalbeit h-12 m-4 text-white px-2"
+                      className="w-1/2  bg-greenaalbeit h-12 m-4 text-gray px-2 z-50 bg-black text-white"
                       onClick={(e) => neworder(e)}
                       // onClick={(e)=>newTab(e)}
                     >
                       New Order
                     </button>
 
-                    {/* <button
+                    <button
                       className="w-1/2 bg-dgreen h-12 m-4 text-white px-2"
                       onClick={(e) => handlePrint(e)}
                     >
                       Print
-                    </button> */}
+                    </button>
                   </div>
                 ) : (
                   <button
@@ -1376,7 +1383,7 @@ export default function Pos() {
                   </button>
                 )}
               </div>
-            )}
+           )} 
           </div>
         </div>
       )}

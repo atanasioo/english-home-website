@@ -663,23 +663,11 @@ function Checkout() {
 
         } else {
           manualErrors.current = "";
-          paymentForm(confirm, paymentcode);
-          setLoading(false);
+         
 
           const data = response.data.data;
-          console.log("heree");
-          var dataSocial = data.social_data;
-          dataSocial["link"] = window.location.href;
-          dataSocial["fbp"] = Cookies.get("_fbp");
-          dataSocial["fbc"] = Cookies.get("_fbc");
-          dataSocial["ttp"] = Cookies.get("_ttp");
-          _axios
-            .post(buildLink("pixel", undefined, window.innerWidth), dataSocial)
-            .then((response) => {
-              const data = response.data;
-              if (data.success === true) {
-              }
-            });
+       
+       
 
           if (bool === true) {
             setPaymenttab(false);
@@ -693,7 +681,22 @@ function Checkout() {
             } else {
               setPaymenttab(true);
               setAddresstab(false);
+              paymentForm(true, "cod");
+              setLoading(false);
             }
+            
+            var dataSocial = data.social_data;
+            dataSocial["link"] = window.location.href;
+            dataSocial["fbp"] = Cookies.get("_fbp");
+            dataSocial["fbc"] = Cookies.get("_fbc");
+            dataSocial["ttp"] = Cookies.get("_ttp");
+            _axios
+              .post(buildLink("pixel", undefined, window.innerWidth), dataSocial)
+              .then((response) => {
+                const data = response.data;
+                if (data.success === true) {
+                }
+              });
           }
 
           if (firstAttemp) setFirstAttemp(false);
@@ -855,7 +858,7 @@ function Checkout() {
           if (p_m === "mpgs" && confirm) {
             _axios
               .get(
-                "https://www.ishtari-mobile.com/v1/index.php/?route=payment/mpgs/getSessionId"
+                "https://www.ishtari-mobile.com/v2/index.php/?route=payment/mpgs/getSessionId"
               )
               .then((res) => {
                 window.paymentStart(res.data.payment_session);
