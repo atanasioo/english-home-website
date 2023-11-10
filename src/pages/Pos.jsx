@@ -24,6 +24,7 @@ export default function Pos() {
   const [showSearch, setShowSearch] = useState(false);
   const [dataSearch, setDataSearch] = useState(false);
   const [holdArray, setHoldArray] = useState([]);
+  const [salesManRequired, setShowSaleRequird] = useState(false);
 
   const [success, setSuccess] = useState(false);
   // const printRef = useRef();
@@ -130,7 +131,7 @@ export default function Pos() {
       payment_method: "Cash On Delivery",
       payment_code: "cod",
       comment: "",
-      country_id: window.config["zone"],
+      country_id: 118,
       payment_session: "",
       zone_id: "",
       zone: "",
@@ -477,6 +478,7 @@ export default function Pos() {
     setConfirmDisalbe(true);
     manual(confirm, calculate);
   }
+
   function manual(confirm, calculate, bool) {
     // console.log("manual");
     // window.scroll(0, 0);
@@ -489,11 +491,18 @@ export default function Pos() {
       let new_product = {};
       let product_option = {};
       new_product.product_id = dt[index]["product_id"];
+      new_product.name = dt[index]["name"];
+      new_product.sku = dt[index]["sku"];
+      new_product.model = dt[index]["model"];
       new_product.quantity = dt[index]["quantity"];
+      new_product.unit_price = dt[index]["unit_price"];
+      new_product.price = dt[index]["price"];
       if (dt[index]["option"].length !== 0) {
         product_option["type"] = "radio";
         product_option["product_option_id"] =
           dt[index]["option"][0]["product_option_id"];
+        product_option["name"] = dt[index]["option"][0]["name"];
+        product_option["value"] = dt[index]["option"][0]["value"];
         product_option["product_option_value_id"] =
           dt[index]["option"][0]["product_option_value_id"];
 
@@ -502,6 +511,7 @@ export default function Pos() {
       temp.push(new_product);
     }
     console.log("manual-2");
+    console.log(cart);
     if (!typeRef.current.value && !amountRef.current.value) {
       body = {
         order_product: temp,
@@ -518,9 +528,8 @@ export default function Pos() {
         payment_method: "Cash On Delivery",
         payment_code: "cod",
         comment: "",
-        country_id: window.config["zone"],
+        country_id: 118,
         zone_id: 3995,
-        user_id: Cookies.get("salsMan") ? Cookies.get("salsMan") : "",
         modification_type: typeRef.current.value || "",
         modification: amountRef.current.value || "",
         modification_remarque: remarqueRef.current.value || "",
@@ -531,7 +540,12 @@ export default function Pos() {
         payment_session: false,
         source_id: 1,
         coupon: couponRef.current.value || "",
-        code_version: window.innerWidth > 600 ? "web_desktop" : "web_mobile"
+        code_version: window.innerWidth > 600 ? "web_desktop" : "web_mobile",
+        total: cart?.totals?.find((t) => t.code === "total")?.value,
+        sub_total: cart?.totals?.find((t) => t.code === "sub_total")?.value,
+        user_id: Cookies.get("user_id") ? Cookies.get("user_id") : 1069,
+        // order_total: cart?.totals?.find((t) => t.code === "sub_total")?.value,
+        person_sale_id: Cookies.get("salsMan") ? Cookies.get("salsMan") : ""
       };
     } else {
       body = {
@@ -549,55 +563,81 @@ export default function Pos() {
         payment_method: "Cash On Delivery",
         payment_code: "cod",
         comment: "",
-        country_id: window.config["zone"],
+        country_id:118,
         zone: "Store",
-
         zone_id: 3995,
         modification_type: typeRef.current.value,
         modification: amountRef.current.value,
         modification_remarque: remarqueRef.current.value,
         currency_code: "USD",
-        order_total: cart?.totals?.find((t) => t.code === "total")?.value,
-        user_id: Cookies.get("salsMan") ? Cookies.get("salsMan") : "",
-
+        total: cart?.totals?.find((t) => t.code === "total")?.value,
+        sub_total: cart?.totals?.find((t) => t.code === "sub_total")?.value,
+        user_id:  Cookies.get("user_id") ? Cookies.get("user_id") : 1069,
+        order_total: cart?.totals?.find((t) => t.code === "sub_total")?.value,
         town_id: "",
         town: "",
         is_web: true,
         payment_session: false,
         source_id: 1,
+        person_sale_id: Cookies.get("salsMan") ? Cookies.get("salsMan") : "",
         coupon: couponRef.current.value || "",
         code_version: window.innerWidth > 600 ? "web_desktop" : "web_mobile"
       };
     }
+    const salesMan = Cookies?.get("salsMan");
 
     _axios
       .post(buildLink("manual", undefined, window.innerWidth), body)
       .then((response) => {
-        setManualResponse(response?.data?.data);
-
         if (response?.data?.success === false) {
+          setManualResponse(response?.data?.data);
           console.log(response?.data);
           setError(response?.data?.errors);
+          setManualResponse(response?.data?.data);
+          if (
+            response?.data?.errors.length === 1 &&
+            (response?.data.message === "OUT OF STOCK" ||
+              response?.data?.message?.includes("STOCK") ||
+              response?.data.message.includes("stock") ||
+              response?.data.message.includes("Stock")) &&
+            confirm
+          ) {
+            if (
+              salesMan === "" ||
+              salesMan === null ||
+              typeof salesMan === "undefined"
+            ) {
+              setShowSaleRequird(true);
+            } else {
+              setSuccess(true);
+              body.hold_reason = response?.data.message;
+              body.totals = response?.data?.data?.order_total;
+              addToHold(body);
+              setShowCalculate(false);
+              setOpacity(true);
 
-          if(response?.data?.errors.length === 1 &&  (response?.data.message ==="OUT OF STOCK" || response?.data?.message?.indexOf('STOCK') > -1 ||  response?.data?.message?.indexOf('Stock') > 0 ||  response?.data?.message?.indexOf('stock') > 0) ){
-            setSuccess(true);
-            body.hold_reason  = response?.data.message 
-            addToHold(body)    
-            setShowCalculate(false);
-            setOpacity(true);
-          
-            handlePrintHolder(holdArray.length)
+              handlePrintHolder(holdArray.length);
+              Cookies.get("salsMan", "");
+            }
           }
-         
         } else {
+
           if (calculate === true) {
-            setShowCalculate(true);
-            cart?.totals?.map((total) => {
-              if (total.title === "Total") {
-                setChange(total.value);
-              }
-            });
-            document.getElementById("rendered").focus();
+            // if (
+            //   salesMan === "" ||
+            //   salesMan === null ||
+            //   typeof salesMan === "undefined"
+            // ) {
+            //   setShowSaleRequird(true);
+            // } else {
+              setShowCalculate(true);
+              cart?.totals?.map((total) => {
+                if (total.title === "Total") {
+                  setChange(total.value);
+                }
+              });
+              document.getElementById("rendered").focus();
+            // }
           } else {
             paymentForm(confirm, "cod");
             setManualResponse(response?.data?.data);
@@ -1089,25 +1129,7 @@ export default function Pos() {
                           ))}
                     </div>
                   )}
-                  <div className="w-auto px-5 h-8 border text-xl font-semibold cursor-pointer text-white fixed bottom-0 p-7 m-7 rounded-full ">
-                    <select
-                      className="w-auto px-5  border text-xl font-semibold cursor-pointer text-white   p-3 rounded-full bg-Orangeflo"
-                      onChange={(e) => Cookies.set("salsMan", e.target.value)}
-                    >
-                      <option value="">user</option>
-
-                      {users?.map((u) =>
-                        u.user_id == Cookies.get("salsMan") ? (
-                          <option value={u.user_id} selected>
-                            {" "}
-                            {u.username}
-                          </option>
-                        ) : (
-                          <option value={u.user_id}> {u.username}</option>
-                        )
-                      )}
-                    </select>
-                  </div>
+              
                 </div>
 
                 {/* <div className=" w-3/4 mt-3 mx-3">
@@ -1163,7 +1185,7 @@ export default function Pos() {
                       
                       <p className=" ">
                         {" "}
-                        {window.config["countryCode"].substring(1)}{" "}
+                        {window.config["countryCode"]?.substring(1)}{" "}
                       </p>{" "}
                     </div>
                     <div
@@ -1231,6 +1253,27 @@ export default function Pos() {
                 )} */}
                 </div>
               </div>
+
+              <div className="w-full flex border-t p-4 justify-center items-center">
+            
+                    <label className="w-1/4">Sale person</label>    <select
+                      className=" px-5  border text-xl font-semibold cursor-pointer w-full p-1 rounded"
+                      onChange={(e) => Cookies.set("salsMan", e.target.value)}
+                    >
+                      <option value="">user</option>
+
+                      {users?.map((u) =>
+                        u.user_id == Cookies.get("salsMan") ? (
+                          <option value={u.user_id} selected>
+                            {" "}
+                            {u.username}
+                          </option>
+                        ) : (
+                          <option value={u.user_id}> {u.username}</option>
+                        )
+                      )}
+                    </select>
+                  </div>
               <div className="px-3 ">
                 {/* <p
                       className={
@@ -1325,10 +1368,11 @@ export default function Pos() {
               </div>
             </div>
           </div>
-          <div className="flex inset-x-0 bottom-0 fixed text-left ">
+      
+          <div className="flex inset-x-0 bottom-0 fixed  ">
             <div className="flex w-3/4"></div>
             {cart?.totals?.length && (
-              <div className=" px-6 py-4 rounded bg-white w-1/4 mx-5 border  border-dinputBorder">
+              <div className=" px-6 py-4 rounded bg-white w-1/4 mx-5 border-t-8  border-dinputBorder">
                 <div className="flex w-full">
                   <div className="w-full mb-2 font-semibold text-lg">
                     Order Totals
@@ -1338,20 +1382,30 @@ export default function Pos() {
                   </div>
                 </div>
                 <div>
-                  {cart?.totals?.map(
-                    (total) =>
-                      total.title !== "Store" && (
-                        <div className="flex items-center justify-between mb-1 text-dblack">
-                          <span>{total.title}</span>
-                          <span>{total.text}</span>
-                        </div>
+                  {manualResponse?.order_total?.length > 0
+                    ? manualResponse?.order_total?.map(
+                        (total) =>
+                          total.title !== "Store" && (
+                            <div className="flex items-center justify-between mb-1 text-dblack">
+                              <span>{total.title}</span>
+                              <span>{total.text}</span>
+                            </div>
+                          )
                       )
-                  )}
+                    : cart?.totals?.map(
+                        (total) =>
+                          total.title !== "Store" && (
+                            <div className="flex items-center justify-between mb-1 text-dblack">
+                              <span>{total.title}</span>
+                              <span>{total.text}</span>
+                            </div>
+                          )
+                      )}
                 </div>
                 {success ? (
                   <div className="flex">
                     <button
-                      className="w-1/2  bg-greenaalbeit h-12 m-4 text-gray px-2 z-50 bg-black text-white"
+                      className="w-full bg-dblue h-12 m-4 text-white px-2"
                       onClick={(e) => neworder(e)}
                       // onClick={(e)=>newTab(e)}
                     >
@@ -1360,7 +1414,7 @@ export default function Pos() {
 
                     <button
                       className="w-1/2 bg-dgreen h-12 m-4 text-white px-2"
-                      onClick={(e) => handlePrint(e)}
+                      onClick={(e) => handlePrint(id)}
                     >
                       Print
                     </button>
@@ -1383,7 +1437,7 @@ export default function Pos() {
                   </button>
                 )}
               </div>
-           )} 
+            )}
           </div>
         </div>
       )}
