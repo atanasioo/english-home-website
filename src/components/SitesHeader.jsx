@@ -22,6 +22,15 @@ function SitesHeader() {
           {" "}
           English Home Store One{" "}
         </div>
+        <div
+          className="bg-dgrey9 text-dwhite1 px-4 py-2 ml-3 font-semibold cursor-pointer"
+          onClick={() =>
+            localStorage.setItem("site-local-name", "english-home-store_two")
+          }
+        >
+          {" "}
+          English Home Store Two{" "}
+        </div>
       </div>
     </div>
   );

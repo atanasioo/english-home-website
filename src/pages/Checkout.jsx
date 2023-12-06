@@ -810,6 +810,8 @@ function Checkout() {
         }
         if (window.location.href.split("/")[3] === "store_one") {
           navigate("/store_one/success");
+        } else if (window.location.href.split("/")[3] === "store_two") {
+          navigate("/store_two/success");
         } else {
           navigate("/success");
         }

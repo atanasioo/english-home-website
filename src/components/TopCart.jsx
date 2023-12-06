@@ -36,13 +36,13 @@ function TopCart(props) {
     vertical: true,
     arrows: true,
     prevArrow: upArrow,
-    nextArrow: downArrow
+    nextArrow: downArrow,
   };
 
   useEffect(() => {
     dispatch({
       type: "loading",
-      payload: true
+      payload: true,
     });
     _axios
       .get(buildLink("cartCount", undefined, window.innerWidth))
@@ -50,21 +50,21 @@ function TopCart(props) {
         if (response.data.success) {
           dispatch({
             type: "setProductsCount",
-            payload: response.data.data.nb_of_products
+            payload: response.data.data.nb_of_products,
           });
 
           dispatch({
             type: "loading",
-            payload: false
+            payload: false,
           });
         } else {
           dispatch({
             type: "setProductsCount",
-            payload: 0
+            payload: 0,
           });
           dispatch({
             type: "loading",
-            payload: false
+            payload: false,
           });
         }
       });
@@ -81,20 +81,20 @@ function TopCart(props) {
           if (response.data.success) {
             dispatch({
               type: "setProducts",
-              payload: response.data.data.products
+              payload: response.data.data.products,
             });
 
             dispatch({
               type: "setProductsCount",
-              payload: response.data.data.total_product_count
+              payload: response.data.data.total_product_count,
             });
             dispatch({
               type: "setTotals",
-              payload: response.data.data.totals
+              payload: response.data.data.totals,
             });
             dispatch({
               type: "loading",
-              payload: false
+              payload: false,
             });
           }
         });
@@ -105,7 +105,7 @@ function TopCart(props) {
     const obj = { key, quantity };
     dispatch({
       type: "loading",
-      payload: true
+      payload: true,
     });
     _axios
       .put(buildLink("cart", undefined, window.innerWidth), obj)
@@ -118,25 +118,25 @@ function TopCart(props) {
               payload:
                 response.data?.data?.products?.length > 0
                   ? response.data.data.products
-                  : []
+                  : [],
             });
             dispatch({
               type: "setTotals",
               payload:
                 response.data?.data?.totals?.length > 0
                   ? response.data.data.totals
-                  : 0
+                  : 0,
             });
             dispatch({
               type: "setProductsCount",
               payload:
                 response.data?.data?.total_product_count > 0
                   ? response.data.data.total_product_count
-                  : 0
+                  : 0,
             });
             dispatch({
               type: "loading",
-              payload: false
+              payload: false,
             });
             // if (quantity === 0) {
             //   window.location.reload();
@@ -172,7 +172,7 @@ function TopCart(props) {
           </Link>
           {showmenu && accountState.loged && (
             <div
-              className="hidden md:block absolute z-20 w-80 top-full -mt-2 -right-4 bg-dblue shadow-lg"
+              className="hidden md:block absolute z-20 w-80 top-full -mt-2 -right-4 bg-dwhite1 shadow-lg"
               onMouseEnter={() => setShowmenu(true)}
               onMouseLeave={() => setShowmenu(false)}
             >
@@ -192,7 +192,7 @@ function TopCart(props) {
                 style={{
                   maxHeight: "270px",
                   minHeight: "270px",
-                  maxWidth: "320px"
+                  maxWidth: "320px",
                 }}
               >
                 <div className="table w-full p-4">
@@ -234,7 +234,7 @@ function TopCart(props) {
                             <p
                               className="header__basket__item__text__product__name text-sm line-clamp-3"
                               dangerouslySetInnerHTML={{
-                                __html: product?.name
+                                __html: product?.name,
                               }}
                             ></p>
                             <div className="product-quantity-area text-sm">
@@ -304,6 +304,22 @@ function TopCart(props) {
                       Complete shopping
                     </Link>
                   </div>
+                ) : window.location.href.split("/")[3] === "store_two" ? (
+                  <div className="header__basket__buttons flex my-5 mr-2.5 h-10">
+                    <Link
+                      to={"/store_two/cart"}
+                      className="mx-2 text-d12 p-2.5 text-center  w-full bg-dwhite1 text-dblue1 border border-dblue1 uppercase"
+                    >
+                      View cart
+                    </Link>
+
+                    <Link
+                      to={"/store_two/checkout"}
+                      className="text-d12 p-2.5 text-center  w-full bg-dblue1 hover:bg-dblack2 transition-all ease-in-out text-dwhite1 tracking-tighter z-20 uppercase"
+                    >
+                      Complete shopping
+                    </Link>
+                  </div>
                 ) : (
                   <div className="header__basket__buttons flex my-5 mr-2.5 h-10">
                     <Link
@@ -352,7 +368,7 @@ function TopCart(props) {
             style={{
               maxHeight: "270px",
               minHeight: "270px",
-              maxWidth: "320px"
+              maxWidth: "320px",
             }}
           >
             <div className="table w-full p-4">
@@ -432,9 +448,8 @@ function TopCart(props) {
             <div className="clear"></div>
           </div>
           <div>
-
-          {window.location.href.split("/")[3] === "store_one" ? (
-                <div className="header__basket__buttons flex my-5 mr-2.5 h-10">
+            {window.location.href.split("/")[3] === "store_one" ? (
+              <div className="header__basket__buttons flex my-5 mr-2.5 h-10">
                 <Link
                   to={"/store_one/cart"}
                   className="mx-2 text-d12 p-2.5 text-center  w-full bg-dwhite1 text-dblue1 border border-dblue1 uppercase"
@@ -448,24 +463,38 @@ function TopCart(props) {
                   Complete shopping
                 </Link>
               </div>
-                ) : (
-                  <div className="header__basket__buttons flex my-5 mr-2.5 h-10">
-              <Link
-                to={"/cart"}
-                className="mx-2 text-d12 p-2.5 text-center  w-full bg-dwhite1 text-dblue1 border border-dblue1 uppercase"
-              >
-                View cart
-              </Link>
-              <Link
-                to={"/checkout"}
-                className="text-d12 p-2.5 text-center  w-full bg-dblue1 hover:bg-dblack2 transition-all ease-in-out text-dwhite1 tracking-tighter z-20 uppercase"
-              >
-                Complete shopping
-              </Link>
-            </div>
-                 
-                )}
-           
+            ) : window.location.href.split("/")[3] === "store_two" ? (
+              <div className="header__basket__buttons flex my-5 mr-2.5 h-10">
+                <Link
+                  to={"/store_two/cart"}
+                  className="mx-2 text-d12 p-2.5 text-center  w-full bg-dwhite1 text-dblue1 border border-dblue1 uppercase"
+                >
+                  View cart
+                </Link>
+                <Link
+                  to={"/store_two/checkout"}
+                  className="text-d12 p-2.5 text-center  w-full bg-dblue1 hover:bg-dblack2 transition-all ease-in-out text-dwhite1 tracking-tighter z-20 uppercase"
+                >
+                  Complete shopping
+                </Link>
+              </div>
+            ) : (
+              <div className="header__basket__buttons flex my-5 mr-2.5 h-10">
+                <Link
+                  to={"/cart"}
+                  className="mx-2 text-d12 p-2.5 text-center  w-full bg-dwhite1 text-dblue1 border border-dblue1 uppercase"
+                >
+                  View cart
+                </Link>
+                <Link
+                  to={"/checkout"}
+                  className="text-d12 p-2.5 text-center  w-full bg-dblue1 hover:bg-dblack2 transition-all ease-in-out text-dwhite1 tracking-tighter z-20 uppercase"
+                >
+                  Complete shopping
+                </Link>
+              </div>
+            )}
+
             <div className="clear"></div>
             <div className="header__basket__upsells text-d text-center capitalize"></div>
             {/* <div className="header__basket-discounts h-auto p-2.5">

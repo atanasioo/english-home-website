@@ -16,7 +16,7 @@ import { InformationProvider } from "./contexts/InformationContext";
 import Login from "./pages/Login";
 import Account from "./pages/Account";
 import Orders from "./pages/Orders";
-import Profile from "./pages/Profile"
+import Profile from "./pages/Profile";
 import Search from "./pages/Search";
 import OrderDetails from "./pages/OrderDetails";
 import ChangeEmail from "./pages/ChangeEmail";
@@ -96,11 +96,26 @@ function App() {
                     />
 
                     <Route path="/store_one/account" element={<Account />} />
-                    <Route path="/store_one/account/orders" element={<Orders />} />
-                    <Route path="/store_one/account/profile" element={<Profile />} />
-                    <Route path="/store_one/account/addresses" element={<Addresses />} />
-                    <Route path="/store_one/storeLocator" element={<StoreLocator />} />
-                    <Route path="/store_one/information/:id" element={<Information />} />
+                    <Route
+                      path="/store_one/account/orders"
+                      element={<Orders />}
+                    />
+                    <Route
+                      path="/store_one/account/profile"
+                      element={<Profile />}
+                    />
+                    <Route
+                      path="/store_one/account/addresses"
+                      element={<Addresses />}
+                    />
+                    <Route
+                      path="/store_one/storeLocator"
+                      element={<StoreLocator />}
+                    />
+                    <Route
+                      path="/store_one/information/:id"
+                      element={<Information />}
+                    />
                     <Route path="/store_one/contact" element={<Contact />} />
 
                     <Route path="/store_one/search" element={<Search />} />
@@ -131,6 +146,102 @@ function App() {
                     <Route path="/store_one/success" element={<Success />} />
                     <Route
                       path="/store_one/:name"
+                      element={<NotFound />}
+                      exact
+                    />
+                  </>
+                ) : window.location.href.split("/")[3] === "store_two" ? (
+                  <>
+                    <Route path="/store_two" element={<Home />} exact />
+                    <Route path="/store_two/category" element={<Category />} />
+                    <Route
+                      path={"/store_two/:name/c=:id"}
+                      element={<Category />}
+                      exact
+                    />
+                    <Route
+                      path={"/store_two/:name/c=:id/all"}
+                      element={<Category />}
+                      exact
+                    />
+                    <Route
+                      path={"/store_two/:name/s=:id"}
+                      element={<Category />}
+                      exact
+                    />
+                    <Route
+                      path={"/store_two/:name/m=:id"}
+                      element={<Category />}
+                      exact
+                    />
+                    <Route path="/store_two/cart" element={<Cart />} />
+                    <Route path="/store_two/checkout" element={<Checkout />} />
+                    <Route path="/store_two/login" element={<Login />} />
+                    <Route
+                      path="/store_two/forgotmypassword"
+                      element={<ForgotMyPassword />}
+                    />
+                    <Route
+                      path="/store_two/product/:id"
+                      element={<Product />}
+                    />
+                    <Route
+                      path="/store_two/:name/p=:id"
+                      element={<Product />}
+                      exact
+                    />
+
+                    <Route path="/store_two/account" element={<Account />} />
+                    <Route
+                      path="/store_two/account/orders"
+                      element={<Orders />}
+                    />
+                    <Route
+                      path="/store_two/account/profile"
+                      element={<Profile />}
+                    />
+                    <Route
+                      path="/store_two/account/addresses"
+                      element={<Addresses />}
+                    />
+                    <Route
+                      path="/store_two/storeLocator"
+                      element={<StoreLocator />}
+                    />
+                    <Route
+                      path="/store_two/information/:id"
+                      element={<Information />}
+                    />
+                    <Route path="/store_two/contact" element={<Contact />} />
+
+                    <Route path="/store_two/search" element={<Search />} />
+                    <Route path="/store_two/latest" element={<Latest />} />
+                    <Route
+                      path="/store_two/posOrders"
+                      element={<posOrders />}
+                    />
+
+                    <Route path="/store_two/pos" element={<Pos />} />
+
+                    <Route
+                      path="/store_two/account/change-email"
+                      element={<ChangeEmail />}
+                    />
+                    <Route
+                      path="/store_two/account/change-password"
+                      element={<ChangePassword />}
+                    />
+                    <Route
+                      path="/store_two/account/order-details"
+                      element={<OrderDetails />}
+                    />
+                    <Route
+                      path="/store_two/account/wishlist"
+                      element={<Wishlist />}
+                    />
+                    <Route path="/store_two/success" element={<Success />} />
+                    <Route
+                      path="/store_two/:name"
                       element={<NotFound />}
                       exact
                     />

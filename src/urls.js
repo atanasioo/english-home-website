@@ -6,6 +6,8 @@ var path1 = "";
 export var path = "";
 if (window.location.href.split("/")[3] === "store_one") {
   path = "/store_one";
+} else if (window.location.href.split("/")[3] === "store_two") {
+  path = "/store_two";
 }
 
 if (
@@ -15,7 +17,14 @@ if (
 ) {
   host = "https://www.englishhome.com.lb/";
   path1 = "store_one/api/";
-}else{
+} else if (
+  localStorage.getItem("site-local-name") === "english-home-store_two" ||
+  ((host === "www.englishhome.com.lb" || host === "englishhome.com.lb") &&
+    firstPath === "store_two")
+) {
+  host = "https://www.englishhome.com.lb/";
+  path1 = "store_two/api/";
+} else{
   host = window.location.host;
   host = "https://www.englishhome.com.lb/api/";
 }

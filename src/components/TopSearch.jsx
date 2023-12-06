@@ -35,6 +35,8 @@ function TopSearch() {
   var store =''
   if(window.location.href.split("/")[3] === "store_one") {
     store = "/store_one"
+  } else if(window.location.href.split("/")[3] === "store_two") {
+    store = "/store_two"
   }
 //   let i=0;
 //   let placeholder= "";

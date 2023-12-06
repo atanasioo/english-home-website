@@ -169,7 +169,7 @@ function WidgetsLoop({ widget, showCartmenu }) {
         <div className="">
           {window.innerWidth > 650 ? (
             <Slider
-              {...(widget.items[0].product_id ? productSetting : carousal)}
+              {...(widget.items[0]?.product_id ? productSetting : carousal)}
               beforeChange={handleBeforeChange}
               afterChange={handleAfterChange}
               className="carousel place-items-center flex-row-reverse"

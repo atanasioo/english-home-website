@@ -34,8 +34,6 @@ function Cart() {
       });
   };
 
-
-
   useEffect(() => {
     function getCart() {
       Cookies.set("change", false);
@@ -46,20 +44,20 @@ function Cart() {
           if (response.data.success) {
             dispatch({
               type: "setProducts",
-              payload: response.data.data.products
+              payload: response.data.data.products,
             });
 
             dispatch({
               type: "setProductsCount",
-              payload: response.data.data.total_product_count
+              payload: response.data.data.total_product_count,
             });
             dispatch({
               type: "setTotals",
-              payload: response.data.data.totals
+              payload: response.data.data.totals,
             });
             dispatch({
               type: "loading",
-              payload: false
+              payload: false,
             });
           }
           // console.log("response"+response.data.success)
@@ -68,7 +66,7 @@ function Cart() {
         });
     }
     getCart();
-  }, [ window.location]);
+  }, [window.location]);
 
   useEffect(() => {
     getProductCount();
@@ -109,7 +107,7 @@ function Cart() {
       setOpacity(true);
       dispatch({
         type: "loading",
-        payload: true
+        payload: true,
       });
       _axios
         .put(buildLink("cart", undefined, window.innerWidth), obj)
@@ -124,25 +122,25 @@ function Cart() {
                 payload:
                   response.data?.data?.products?.length > 0
                     ? response.data.data.products
-                    : []
+                    : [],
               });
               dispatch({
                 type: "setTotals",
                 payload:
                   response.data?.data?.totals?.length > 0
                     ? response.data.data.totals
-                    : 0
+                    : 0,
               });
               dispatch({
                 type: "setProductsCount",
                 payload:
                   response.data.total_product_count > 0
                     ? response.data.total_product_count
-                    : 0
+                    : 0,
               });
               dispatch({
                 type: "loading",
-                payload: false
+                payload: false,
               });
             });
 
@@ -153,7 +151,6 @@ function Cart() {
   }
 
   function updateQuantity(key, quantity, i, type) {
- 
     if (type === "d") {
       if (document.getElementById("p-quantity" + i)) {
         document.getElementById("p-quantity" + i).value = quantity;
@@ -170,7 +167,7 @@ function Cart() {
     setOpacity(true);
     dispatch({
       type: "loading",
-      payload: true
+      payload: true,
     });
     _axios
       .put(buildLink("cart", undefined, window.innerWidth), obj)
@@ -179,37 +176,36 @@ function Cart() {
           .get(buildLink("cart", undefined, window.innerWidth))
           .then((response) => {
             // console.log(response?.data?.errors[0])
-            if(response?.data?.errors){
+            if (response?.data?.errors) {
               setError(response?.data?.errors[0]);
             }
-
 
             dispatch({
               type: "setProducts",
               payload:
                 response.data?.data?.products?.length > 0
                   ? response.data.data.products
-                  : []
+                  : [],
             });
             dispatch({
               type: "setTotals",
               payload:
                 response.data?.data?.totals?.length > 0
                   ? response.data.data.totals
-                  : 0
+                  : 0,
             });
             dispatch({
               type: "setProductsCount",
               payload:
                 response.data?.data?.total_product_count > 0
                   ? response.data.data.total_product_count
-                  : 0
+                  : 0,
             });
-             dispatch({
+            dispatch({
               type: "loading",
-              payload: false
+              payload: false,
             });
-            console.log("omar")
+            console.log("omar");
             // if (quantity === 0) {
             //   window.location.reload();
             // }
@@ -237,7 +233,7 @@ function Cart() {
                   console.log("delete");
                   dispatchW({
                     type: "setProductsCount",
-                    payload: response.data.data.total
+                    payload: response.data.data.total,
                   });
                 }
               });
@@ -249,7 +245,7 @@ function Cart() {
             if (response.data.success) {
               dispatchW({
                 type: "setProducts",
-                payload: response.data.data.products
+                payload: response.data.data.products,
               });
               // dispatchW({
               //   type: "setProductsCount",
@@ -257,34 +253,34 @@ function Cart() {
               // });
               dispatchW({
                 type: "setTotals",
-                payload: response.data.data.totals
+                payload: response.data.data.totals,
               });
               const ids = response.data.data.products.map((p) => p.product_id);
               dispatchW({
                 type: "setProductIds",
-                payload: ids
+                payload: ids,
               });
               dispatchW({
                 type: "loading",
-                payload: false
+                payload: false,
               });
               //setIsWishlist(false);
             } else {
               dispatch({
                 type: "setProductsCount",
-                payload: 0
+                payload: 0,
               });
 
               dispatch({
                 type: "loading",
-                payload: false
+                payload: false,
               });
             }
           });
       } else {
         dispatchW({
           type: "setProductIds",
-          payload: [...stateW.pIds, product_id]
+          payload: [...stateW.pIds, product_id],
         });
 
         _axios
@@ -301,7 +297,7 @@ function Cart() {
                   console.log("hii");
                   dispatchW({
                     type: "setProductsCount",
-                    payload: response.data.data.total
+                    payload: response.data.data.total,
                   });
                   // setIsWishlist(true);
                 }
@@ -329,7 +325,11 @@ function Cart() {
               <div className="w-full pt-6 flex flex-col md:flex-row">
                 {/* product list */}
                 {state.loading}
-                <div className={`w-full md:w-2/3 mr-6 ${state.loading && 'pointer-events-none opacity-50'}` }>
+                <div
+                  className={`w-full md:w-2/3 mr-6 ${
+                    state.loading && "pointer-events-none opacity-50"
+                  }`}
+                >
                   <div className="mt-10 w-full text-center justify-center md:justify-start md:text-left text-dblack2 mb-5 flex items-center ">
                     <p className="inline-block font-mono text-d18 font-bold uppercase">
                       MY CART
@@ -347,8 +347,7 @@ function Cart() {
                       {state?.products?.map((product, i) => (
                         <div
                           className={`p-4 ${
-                            product?.stock_qty < product.quantity &&
-                            "bg-dred5"
+                            product?.stock_qty < product.quantity && "bg-dred5"
                           }`}
                         >
                           <div
@@ -393,7 +392,7 @@ function Cart() {
                                 <p
                                   className="text-d14 text-dgrey12 md:text-dblue2"
                                   dangerouslySetInnerHTML={{
-                                    __html: product?.name
+                                    __html: product?.name,
                                   }}
                                 ></p>
                                 {product?.option.map((op) => (
@@ -542,50 +541,64 @@ function Cart() {
                           </div>
                         ))}
                       </div>
-                      {window.location.href.split("/")[3] === "store_one" ? 
-
-                      <>
-                      {width < 650 ? (
-                        <Link
-                          to={"/store_one/checkout"}
-                          className="fixed z-30 bottom-0 
+                      {window.location.href.split("/")[3] === "store_one" ? (
+                        <>
+                          {width < 650 ? (
+                            <Link
+                              to={"/store_one/checkout"}
+                              className="fixed z-30 bottom-0 
                           left-0 md:block py-2 text-d17 tracking-wide inline-block bg-dblue1 font-bold uppercase text-dwhite1 text-center w-full h-14 md:h-10 bg-clip-padding pt-3.5 md:pt-1.5"
-                        >
-                          Confirm cart
-                        </Link>
-                      ) : (
-                        <Link
-                          to={"/store_one/checkout"}
-                          className="py-2 text-d17 tracking-wide inline-block bg-dblue1 font-bold uppercase text-dwhite1 text-center w-full h-12 md:h-10 bg-clip-padding md:pt-1.5"
-                        >
-                          Confirm cart
-                        </Link>
-                      )}
-                      </>
-
-                      :
-                      <>
-                      {width < 650 ? (
-                        <Link
-                          to={"/checkout"}
-                          className="fixed z-30 bottom-0 
+                            >
+                              Confirm cart
+                            </Link>
+                          ) : (
+                            <Link
+                              to={"/store_one/checkout"}
+                              className="py-2 text-d17 tracking-wide inline-block bg-dblue1 font-bold uppercase text-dwhite1 text-center w-full h-12 md:h-10 bg-clip-padding md:pt-1.5"
+                            >
+                              Confirm cart
+                            </Link>
+                          )}
+                        </>
+                      ) : window.location.href.split("/")[3] === "store_two" ? (
+                        <>
+                          {width < 650 ? (
+                            <Link
+                              to={"/store_two/checkout"}
+                              className="fixed z-30 bottom-0 
                           left-0 md:block py-2 text-d17 tracking-wide inline-block bg-dblue1 font-bold uppercase text-dwhite1 text-center w-full h-14 md:h-10 bg-clip-padding pt-3.5 md:pt-1.5"
-                        >
-                          Confirm cart
-                        </Link>
+                            >
+                              Confirm cart
+                            </Link>
+                          ) : (
+                            <Link
+                              to={"/store_two/checkout"}
+                              className="py-2 text-d17 tracking-wide inline-block bg-dblue1 font-bold uppercase text-dwhite1 text-center w-full h-12 md:h-10 bg-clip-padding md:pt-1.5"
+                            >
+                              Confirm cart
+                            </Link>
+                          )}
+                        </>
                       ) : (
-                        <Link
-                          to={"/checkout"}
-                          className="py-2 text-d17 tracking-wide inline-block bg-dblue1 font-bold uppercase text-dwhite1 text-center w-full h-12 md:h-10 bg-clip-padding md:pt-1.5"
-                        >
-                          Confirm cart
-                        </Link>
+                        <>
+                          {width < 650 ? (
+                            <Link
+                              to={"/checkout"}
+                              className="fixed z-30 bottom-0 
+                          left-0 md:block py-2 text-d17 tracking-wide inline-block bg-dblue1 font-bold uppercase text-dwhite1 text-center w-full h-14 md:h-10 bg-clip-padding pt-3.5 md:pt-1.5"
+                            >
+                              Confirm cart
+                            </Link>
+                          ) : (
+                            <Link
+                              to={"/checkout"}
+                              className="py-2 text-d17 tracking-wide inline-block bg-dblue1 font-bold uppercase text-dwhite1 text-center w-full h-12 md:h-10 bg-clip-padding md:pt-1.5"
+                            >
+                              Confirm cart
+                            </Link>
+                          )}
+                        </>
                       )}
-                      </>
-
-
-
-}
                     </div>
                   </div>
                   <div className="w-full rounded-lg mt-3.5"></div>
