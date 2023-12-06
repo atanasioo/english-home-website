@@ -158,11 +158,7 @@ function Home() {
           >
             <TopCart cartmenu={hoveredCart} />
           </div>
-          {/* <div
-            className={`fixed h-full w-full min-h-full z-10 ${
-              showCartmenu ? "bg-transparent" : "bg-dblackOverlay2"
-            }  top-0 left-0`}
-          ></div> */}
+
         </>
       )}
 

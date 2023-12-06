@@ -172,7 +172,7 @@ function TopCart(props) {
           </Link>
           {showmenu && accountState.loged && (
             <div
-              className="hidden md:block absolute z-20 w-80 top-full -mt-2 -right-4 bg-dwhite1 shadow-lg"
+              className="hidden md:block absolute z-20 w-80 top-full -mt-2 -right-4 bg-dblue shadow-lg"
               onMouseEnter={() => setShowmenu(true)}
               onMouseLeave={() => setShowmenu(false)}
             >
