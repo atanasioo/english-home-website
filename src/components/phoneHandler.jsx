@@ -5,6 +5,7 @@ import buildLink from "../urls";
 
 function PhoneHandler(props) {
   const { phone, phoneHanlder, AdminPhoneHandler, setConfirmDisalbe, parentData, nb, handleInputs, fromCheckout, fromContact } = props;
+  console.log(phone)
   const [state, dispatch] = useContext(AccountContext);
   const [valid, setValid] = useState(true);
   const [data, setData] = useState();

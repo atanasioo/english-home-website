@@ -115,8 +115,11 @@ function Cart() {
           _axios
             .get(buildLink("cart", undefined, window.innerWidth))
             .then((response) => {
-              setError(response?.data?.errors[0]);
-
+              setOpacity(false)
+            
+             if(!response?.data?.error == null  ||!response?.data?.error == undefined ){
+  setError(response?.data?.errors[0]);
+             }
               dispatch({
                 type: "setProducts",
                 payload:

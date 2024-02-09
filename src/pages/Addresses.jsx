@@ -68,6 +68,7 @@ function Addresses() {
 
   function addAddress(e) {
     e.preventDefault();
+    console.log(window.config["zone"])
     const obj = {
       firstname: firstname.current.value,
       lastname: lastname.current.value,

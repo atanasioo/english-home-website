@@ -51,7 +51,7 @@ function TopWishlist() {
           <SlHeart className="h-5 w-5 lg:h-6 lg:w-6 " />
         </div>
         <span className="header__icons-text whitespace-nowrap hidden md:block mt-1.5 text-d8 font-semibold lg:font-normal lg:text-d11">
-          <p>Favorites</p>
+          <p>WishList</p>
         </span>
       </Link>
     </div>

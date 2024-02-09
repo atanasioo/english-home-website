@@ -4,7 +4,7 @@ const firstPath = window.location.href.split("/")[3];
 
 if (
   localStorage.getItem("site-local-name") === "english-home" ||
-  ((host === "www.englishhome.com.lb" || host === "englishhome.com.lb") &&
+  ((host === "www.englishhome.com.lb" || host === "englishhome.com.lb" || host.startsWith("localhost")) &&
     firstPath !== "store_one" &&
     firstPath !== "store_two")
 ) {
