@@ -3,7 +3,6 @@ import GoogleMapReact from "google-map-react";
 import Cookies from "js-cookie";
 import { ImLocation } from "react-icons/im";
 import { MdLocationOn } from "react-icons/md";
-import Geocode from "react-geocode";
 
 function StoreLocator() {
 
