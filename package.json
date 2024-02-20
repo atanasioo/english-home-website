@@ -8,6 +8,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.21.1",
+    "dompurify": "^3.0.8",
     "ga-gtag": "^1.1.4",
     "google-map-react": "^2.2.1",
     "js-cookie": "^3.0.0",

@@ -166,7 +166,7 @@ function TopCart(props) {
                 <BsCart3 className="h-5 w-5 lg:h-6 lg:w-6" />
               </div>
               <div className="text-d8 font-semibold lg:font-normal lg:text-d11 whitespace-nowrap hidden md:block">
-                My cart
+              My cart
               </div>
             </div>
           </Link>

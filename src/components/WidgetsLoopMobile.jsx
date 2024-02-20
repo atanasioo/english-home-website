@@ -233,7 +233,7 @@ function WidgetsLoopMobile({ widget, showCartmenuMob }) {
       )}
 
       {widget.display === "grid" && widget.items.length > 1 && (
-        <div className="">
+        <div className={` px-1 grid grid-cols-${widget.column_number} gap-2`}>
           {widget.mobile_widget_id > 0 ? (
             widget?.items?.map((item, index) =>
               item.mobile_type_id !== "0" ? (

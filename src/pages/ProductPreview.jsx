@@ -61,6 +61,7 @@ function ProductPreview() {
   let product_id = useParams().id;
   const navigate = useNavigate();
   const [quantity, setQuantity] = useState(1);
+
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef);
 
@@ -85,6 +86,7 @@ function ProductPreview() {
   console.log(stateW?.pIds.indexOf(product_id));
 
   useEffect(() => {
+
     window.scrollTo(
       {
         top: 0,
@@ -92,6 +94,12 @@ function ProductPreview() {
       },
       []
     );
+
+
+
+
+
+
 
     _axios
       .get(buildLink("productpreview", undefined, undefined) + product_id?.replace("p=","") +`&source_id=1${stateAccount.admin && "&admin=true"}`) 

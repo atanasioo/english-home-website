@@ -20,6 +20,7 @@ function DesktopMenu() {
         .then((response) => {
           try {
             const data = response.data.data;
+         
             setSelectedTopCategory(data[0]);
           } catch (error) {}
         });
@@ -27,6 +28,7 @@ function DesktopMenu() {
         .get(buildLink("headerv2", undefined, window.innerWidth))
         .then((response) => {
           const data = response?.data;
+          console.log(data)
           setMenuCategories2(data.data);
           setSelectedMenuCategory2(data[0]);
         });
@@ -40,7 +42,7 @@ function DesktopMenu() {
           <div className="flex flex-col xl:flex-row justify-center items-center mx-auto">
             <ul className="navigation relative text-center  flex  justify-center">
               <div
-                className="whitespace-nowrap"
+                className=" flex flex-row "
                 onMouseEnter={() => {
                   setViewMenuCategories2(true);
                 }}
@@ -50,7 +52,7 @@ function DesktopMenu() {
               >
                 {menuCategories2?.length > 0 &&
                   menuCategories2?.map((category) => (
-                    <li className="inline-block" key={Math.random()}>
+                    <li className="" key={Math.random()}>
                       <Link
                         to={`${path}/${category["title"].title
                           .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")

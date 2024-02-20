@@ -28,6 +28,7 @@ import { AccountContext } from "../contexts/AccountContext";
 import Cookies from "js-cookie";
 import CategoryPlaceholder from "../components/CategoryPlaceholder";
 import CategoryMobilePlaceholder from "../components/CategoryMobilePlaceholder";
+import DOMPurify from "dompurify";
 function Category() {
   const location = useLocation();
   const params = useParams();
@@ -656,26 +657,41 @@ function Category() {
               ></div>
             )}
             <div className="  flex  pt-4 pb-2 pl-8 items-center text-d16 text-dblack1 capitalize">
-              <div className=" flex w-auto">
+              <div className=" flex w-fit overflow-x-auto">
                 <div className="flex items-center ">
                   <Link
                     to="/"
-                    className=" md:block text-dborderblack0 font-light truncate text-d16 md:text-tiny mr-2 hover:text-dblue"
+                    className=" md:block text-dborderblack0 font-light truncate text-sm md:text-tiny mr-2 hover:text-dblue"
                     dangerouslySetInnerHTML={{
                       __html: "Home",
                     }}
                   />{" "}
-                  <RiArrowRightSLine className="text-d22 font-light mt-0.5 -mx-2 " />
+                  <RiArrowRightSLine className="md:text-d22 max-md:text-sm  font-light mt-0.5 -mx-2 " />
                 </div>
-                {data?.breadcrumbs?.map((bread) => (
-                  <div
-                    className="flex items-center text-dbasenavy"
-                    key={bread.text}
+                {data?.breadcrumbs[0].category?.map((bread,index) => (
+                  <Link
+                  to={
+                    path +
+                    "/" +
+                    bread?.category_name
+                      .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                      .replace(/\s+/g, "-")
+                      .replace("/", "-")
+                      .replace("%", "") +
+                    "/c=" +
+                    bread.category_id
+                  }
+                    className="flex  text-sm items-center text-dbasenavy"
+               
                   >
-                    <p className=" mx-2 whitespace-nowrap font-semibold">
-                      {bread.text.replace("&amp;", "&")}
+                    <p dangerouslySetInnerHTML={{
+                        __html: DOMPurify.sanitize(bread.category_name),
+                      }} className=" mx-2 whitespace-nowrap font-semibold">
+                     
                     </p>
-                  </div>
+                     {index !== data?.breadcrumbs[0].category.length-1 && <RiArrowRightSLine className="text-d22 font-light mt-0.5 -mx-2 " />}
+                  </Link>
+                  
                 ))}
               </div>
               {window.innerWidth > 650 && (
@@ -696,11 +712,11 @@ function Category() {
                   {/* <div className="w-10/12 text-left text-d18  border-b border-b-dblack2 py-2">
                     CATEGORIES
                   </div> */}
-                  <div className="w-10/12 text-left py-2 underline underline-offset-8">
+                  {data.categories&& <div className="w-10/12 text-left py-2 underline underline-offset-8">
                     Categories
-                  </div>
+                  </div>}
                   <div className="w-10/12 ">
-                    {data?.categories?.map((category) => (
+                    {data.categories&& data?.categories?.map((category) => (
                       <div className="w-full text-left pt-1">
                         <Link
                           className="hover:underline font-light py-4"

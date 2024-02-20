@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import facebook from "../assets/images/facebook.png"
 import instagram from "../assets/images/instagram.png"
 import tiktok from "../assets/images/tiktok.png"
-
+import DOMPurify from "dompurify";
 import _axios from "../axios";
 import buildLink from "../urls";
 import {
@@ -19,9 +19,24 @@ import { Link } from "react-router-dom";
 import { InformationContext } from "../contexts/InformationContext";
 
 function Footer() {
+  const [show, setShow] = useState({ id: "", status: false });
+
+
   const [data, setData] = useState("");
   const [state, dispatch] = useContext(AccountContext);
   const infoState = useContext(InformationContext);
+
+
+
+
+  function toggleButton(id) {
+    if (show.id === id) {
+      setShow({ id: "", status: false });
+    } else {
+      setShow({ id: id, status: true });
+    }
+  }
+
 
   async function getFooter() {
     const footer = await _axios.get(
@@ -38,13 +53,13 @@ function Footer() {
       {1 === 1 && (
         <>
           <div className="border-t-2 "></div>
-          <div className="container">
+          <div className="md:container ">
             <div
               className={`flex flex-col  md:flex-row   px-6 ${
                 window.innerWidth < 650 ? "mt-2" : "  mt-16"
               }`}
             >
-              <div className="flex flex-col  md:grid md:grid-cols-3 md:gap-3 text-left pb-3 ">
+              <div className="   md:grid hidden   md:grid-cols-3 md:gap-3 text-left pb-3 ">
                 {data?.data?.map((cat) => {
                   return (
                     <div
@@ -86,9 +101,40 @@ function Footer() {
                   );
                 })}
               </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
               <div className="md:ml-12">
-                <div className="text-dbasenavy text-d14 text-left p-3 ">
-                  Follow Us!{" "}
+                <div className="text-dbasenavy text-d14 mx-auto py-3 w-fit">
+                 <span className=" w-fit  text-center mx-auto">Follow Us!{" "}</span> 
                 </div>
 
                 <div className="flex w-full place-content-center mx-5 ">
@@ -123,6 +169,102 @@ function Footer() {
                     <FaYoutube className="w-4 h-4 md:w-6 md:h-6" />
                   </div> */}
                 </div>
+
+
+
+
+
+                <div className="mt-2 md:hidden">
+        {data?.data?.map((cat) => {
+          return (
+            <div
+              key={cat.category_id}
+              className="flex-row  justify-between"
+            >
+              <div className="mt-1 border-b  border-dinputBorder ">
+                <div className="flex w-full items-center justify-between font-normal text-sm pb-1 hover:text-dblue">
+                  <Link
+                  className="text-d18 font-medium text-dbasenavy text-left md:text-left  pb-3 uppercase"
+                    href={`${
+                      // state.admin
+                      //   ? path + "/category/" + cat.category_id
+                      //   :
+                      cat.name.length > 0
+                        ? "/" +
+                          cat.name
+                            .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                            .replaceAll("%", "")
+                            .replace(/\s+/g, "-") +
+                          "/c=" +
+                          cat.category_id
+                        : "cat/c=" + cat.category_id
+                    }`}
+                    to={`/${cat.name}/c=${cat.category_id}`}
+                    dangerouslySetInnerHTML={{
+                      __html: DOMPurify.sanitize(cat.name),
+                    }}
+                  ></Link>
+                  <span
+                    onClick={() => toggleButton(cat.category_id)}
+                    className={
+                      show.id === cat.category_id
+                        ? "  text-dblack1 font-thin text-2xl transition-all "
+                        : " text-dblack1 font-thin text-2xl transition-all "
+                    }
+                  >
+                    {show.id === cat.category_id ? "-" : "+"}
+                    
+                  </span>
+                </div>
+                <div
+                  className={
+                    show.id === cat.category_id && show.status
+                      ? "flex my-2 flex-col text-start justify-items-start  mx-4"
+                      : "hidden"
+                  }
+                >
+                  {cat.data.map((sub) => (
+                    <Link
+                      key={sub.category_id}
+                      className="block font-light text-d13 py-1 hover:text-dblue"
+                      href={`${
+                        // state.admin
+                        //   ? path + "/category/" + sub.category_id
+                        //   :
+
+                        sub.name.length > 0
+                          ? "/" +
+                            sub.name
+                              .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                              .replaceAll("%", "")
+                              .replace(/\s+/g, "-") +
+                            "/c=" +
+                            sub.category_id
+                          : "cat/c=" + sub.category_id
+                      }`}
+                      // to={`${path}/${sub.name}/c=${sub.id}}`}
+                      dangerouslySetInnerHTML={{
+                        __html: DOMPurify.sanitize(sub.name),
+                      }}
+                    ></Link>
+                  ))}
+                </div>
+              </div>
+            </div>
+          );
+        })}
+        <div>
+        
+        </div>
+      </div>
+
+
+
+
+
+
+
+
                 <div className="pt-6 text-left ml-3">
                   <span className="text-d14 font-normal	">
                     Download the Mobile App Don't Miss The Opportunities!
@@ -143,11 +285,11 @@ function Footer() {
                       window.config["site-url"]
                     }`}
                   >
-                    <div className="w-full grid-flow-row  pt-3">
-                      <span className="w-full flex place-content-center leading-snug">
-                        <img src={supportImage} alt="22" className="w-16 " />
+                    <div className="max-md:w-fit w-full bg-d grid-flow-row max-md:flex max-md:flex-row gap-3   justify-center text-center  pt-3">
+                      <span className=" mx-auto w-12   flex place-content-center leading-snug">
+                        <img src={supportImage} alt="22" className=" w-10 " />
                       </span>
-                      <span className="w-full flex place-content-center text-d22 font-bold pt-3">
+                      <span className=" max-md:w-fit w-full flex place-content-center text-d18 font-bold pt-3">
                         {window.config["supportNumber"]}
                       </span>{" "}
                     </div>

@@ -347,32 +347,25 @@ function Header() {
                           </div>
                         </div>
                       </div>
-                      {categories?.map((category) => (
+                      {menuCategories2?.map((category) => (
                         <div
                           className="menu-item--col h-11 border-b border-dbordergrey"
                           key={category?.category_id}
                         >
                           <div className="menu-item--box flex items-center justify-between px-5 h-full ">
                             <Link
-                              to={`${
-                                // state.admin
-                                //   ? path + "/category/" + category.category_id
-                                // :
-                                category.name.length > 0
-                                  ? "/" +
-                                    category.name
-                                      .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
-                                      .replace(/\s+/g, "-") +
-                                    "/c=" +
-                                    category.category_id
-                                  : "cat/c=" + category.category_id
-                              }`}
+                          to={`${path}/${category["title"].title
+                          .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                          .replace(/\s+/g, "-")
+                          .replace(/'/g, "")}/c=${
+                          category["title"].mobile_type_id
+                        }`}
                               onClick={() => {
                                 setViewMenu(false);
                               }}
                               className="menu-item--title relative flex items-center uppercase text-d16 font-bold text-dbasenavy text-left font-mono"
                               dangerouslySetInnerHTML={{
-                                __html: category?.name
+                                __html: category["title"].title
                               }}
                             ></Link>
                             {/* <img
@@ -420,11 +413,11 @@ function Header() {
                               className="w-5 h-5 mr-2"
                               onClick={() => setViewLevel2(false)}
                             />
-                            <p
+                            {/* <p
                               dangerouslySetInnerHTML={{
                                 __html: activeCategory?.name
                               }}
-                            ></p>
+                            ></p> */}
                           </div>
                         </Link>
                         <Link className="menu-subitem--all block py-4  pr-4 pl-8 font-bold">
@@ -432,8 +425,8 @@ function Header() {
                           See all
                         </Link>
                         <div className="menu-subitem--list pb-5 pr-3.5 pl-5 overflow-y-scroll h-full">
-                          {activeCategory.categories?.length > 0 &&
-                            activeCategory?.categories?.map((subcategory) => (
+                          {activeCategory['sub-categories-level1']?.length > 0 &&
+                            activeCategory['sub-categories-level1']?.map((subcategory) => (
                               <div
                                 className="font-d16 p-4 border-t border-dbordergrey4 flex items-center"
                                 key={subcategory?.category_id}

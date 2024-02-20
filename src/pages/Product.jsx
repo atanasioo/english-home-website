@@ -819,11 +819,7 @@ function Product() {
             </div>
           ))}
         </div>
-        <div className={`${width > 650 && "overflow-hidden"} ${
-                stateAccount.admin && productData?.status === "0"
-                  ? "bg-dPink"
-                  : "bg-white"
-              } flex flex-col md:flex-row`}>
+        <div className="flex flex-col md:flex-row">
           <div className="mr-4 relative w-full md:w-577">
             {images?.length > 0 ? (
               // <NewZoom
