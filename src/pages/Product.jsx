@@ -330,7 +330,8 @@ function Product() {
             ln: data?.data?.social_data?.lastname,
             external_id: data?.data?.social_data?.external_id,
             country: data?.data?.social_data?.country_code,
-            fbp: Cookies.get("_fbp")
+            fbp: Cookies.get("_fbp"),
+            eventID:data?.data?.social_data?.event_id,
           };
           ReactPixel.init(pixelID, advancedMatching, {
             debug: true,
@@ -352,7 +353,7 @@ function Product() {
               fbp: Cookies.get("_fbp"),
        
             },
-            { eventID: data?.event_id }
+            { eventID: data?.data?.social_data?.event_id }
           );
 
           var dataSocial = productData.social_data;
