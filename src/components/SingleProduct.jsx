@@ -29,6 +29,7 @@ export default function SingleProduct(props) {
   const [activeOption, setActiveOption] = useState({});
   const [successAdded, setSuccessAdded] = useState(false);
   const [accountContext] = useContext(AccountContext);
+  const [productData, setProductData] = useState();
   const width = window.innerWidth;
   const navigate = useNavigate();
   const wrapperRef = useRef(null);
@@ -148,6 +149,8 @@ export default function SingleProduct(props) {
               });
             });
 
+
+
           setSuccessAdded(true);
           if (width > 650) {
             // setCartmenu(true);
@@ -167,6 +170,54 @@ export default function SingleProduct(props) {
             setAddingToCart(false);
           }, 3000);
         }
+                     // ---> Facebook PIXEL <---
+                     const advancedMatching = {
+                      em: data?.data?.social_data?.email,
+                      fn: data?.data?.social_data?.firstname,
+                      ln: data?.data?.social_data?.lastname,
+                      external_id: data?.data?.social_data?.external_id,
+                      country: data?.data?.social_data?.country_code,
+                      fbp: Cookies.get("_fbp"),
+                      eventID:data?.data?.social_data?.event_id,
+                    };
+                    ReactPixel.init(pixelID, advancedMatching, {
+                      debug: true,
+                      autoConfig: false
+                    });
+                    ReactPixel.pageView();
+                    ReactPixel.fbq("track", "PageView");
+          
+                    window.fbq(
+                      "track",
+                      "AddToCart",
+                      {
+                        content_type: "product",
+                        content_ids: data?.data.social_data?.content_ids,
+                        content_name: data?.data.social_data?.name,
+                        value: data?.data.social_data?.value,
+                        content_category: productData?.product_categories[0]?.name,
+                        currency: data?.data.social_data?.currency,
+                        fbp: Cookies.get("_fbp"),
+                 
+                      },
+                      { eventID: data?.data?.social_data?.event_id }
+                    );
+          
+                    var dataSocial = productData.social_data;
+                    dataSocial["link"] = window.location.href;
+                    dataSocial["fbp"] = Cookies.get("_fbp");
+                    dataSocial["fbc"] = Cookies.get("_fbc");
+                    dataSocial["ttp"] = Cookies.get("_ttp");
+          
+                    _axios
+                      .post(buildLink("pixel", undefined, window.innerWidth), dataSocial)
+                      .then((response) => {
+                        const data = response.data;
+                        if (data.success === true) {
+                        }
+                      });
+          
+                    // }
       });
   }
 
