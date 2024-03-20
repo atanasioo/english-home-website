@@ -8,6 +8,7 @@ import { path } from "../urls";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import SliderPlaceHolder from "../assets/images/singleProduct.png";
 import SliderPlace from "../assets/images/product.png"
+import { FaAngleRight } from "react-icons/fa";
 function WidgetsLoopMobile({ widget, showCartmenuMob }) {
   const [accountState] = useContext(AccountContext);
 
@@ -108,6 +109,165 @@ function WidgetsLoopMobile({ widget, showCartmenuMob }) {
             </Link>
           ))}
         </Slider>
+      )}
+      {/* view all button */}
+      {widget?.display === "carousel" && (
+        <div className="flex items-center justify-between">
+          {widget.view_title && (
+            <h1
+              className="pr-semibold p-2 text-xl"
+              dangerouslySetInnerHTML={{ __html: widget.title }}
+            />
+          )}
+          {widget.view_all !== "0" && (
+            <div>
+              {widget.type === "seller" ? (
+                <a
+                  href={
+                    widget.filters !== false && widget.filters !== ""
+                      ? "/" +
+                        widget.title
+                          .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                          .replace(/\s+/g, "-")
+                          .replaceAll("/", "-")
+                          .replace("%", "") +
+                        "/s=" +
+                        widget.type_id +
+                        "?has_filter=true" +
+                        (widget?.filters?.filter_categories
+                          ? "&filter_categories=" +
+                            widget?.filters?.filter_categories.map(
+                              (fc) => fc.id
+                            )
+                          : "") +
+                        (widget?.filters?.filter_manufacturers
+                          ? "&filter_manufacturers=" +
+                            widget?.filters?.filter_manufacturers.map(
+                              (fm) => fm.id
+                            )
+                          : "") +
+                        (widget?.filters?.filter_sellers
+                          ? "&filter_sellers=" +
+                            widget?.filters?.filter_sellers.map((fs) => fs.id)
+                          : "") +
+                        (widget?.filters?.filter_options
+                          ? "&filter_options=" +
+                            widget?.filters?.filter_options.map((fo) => fo.id)
+                          : "")
+                      : "/" +
+                        widget.title
+                          .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                          .replace(/\s+/g, "-")
+                          .replaceAll("/", "-")
+                          .replace("%", "") +
+                        "/s=" +
+                        widget.type_id
+                  }
+                >
+                  <h1 className="font-bold text-xs px-2 py-1 cursor-pointer hover:opacity-80 flex items-center">
+                    VIEW ALL <FaAngleRight className="mr-1 ml-1" />
+                  </h1>
+                </a>
+              ) : widget.type === "category" ? (
+                <a
+                  href={
+                    widget.filters !== false && widget.filters !== ""
+                      ? "/" +
+                        widget.title
+                          .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                          .replace(/\s+/g, "-")
+                          .replaceAll("/", "-")
+                          .replace("%", "") +
+                        "/c=" +
+                        widget.type_id +
+                        "?has_filter=true" +
+                        (widget?.filters?.filter_categories
+                          ? "&filter_categories=" +
+                            widget?.filters?.filter_categories.map(
+                              (fc) => fc.id
+                            )
+                          : "") +
+                        (widget?.filters?.filter_manufacturers
+                          ? "&filter_manufacturers=" +
+                            widget?.filters?.filter_categories.map(
+                              (fm) => fm.id
+                            )
+                          : "") +
+                        (widget?.filters?.filter_sellers
+                          ? "&filter_sellers=" +
+                            widget?.filters?.filter_sellers.map((fs) => fs.id)
+                          : "") +
+                        (widget?.filters?.filter_options
+                          ? "&filter_options=" +
+                            widget?.filters?.filter_options.map((fo) => fo.id)
+                          : "")
+                      : "/" +
+                        widget.title
+                          .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                          .replace(/\s+/g, "-")
+                          .replaceAll("/", "-")
+                          .replace("%", "") +
+                        "/c=" +
+                        widget.type_id
+                  }
+                >
+                  <h1 className="font-bold text-xs px-2 py-1 cursor-pointer hover:opacity-80 flex items-center">
+                    VIEW ALL <FaAngleRight className="mr-1 ml-1" />
+                  </h1>
+                </a>
+              ) : (
+                <a
+                  href={
+                    widget.type === "new_arrival"
+                      ? "/latest"
+                      : widget.filters !== false && widget.filters !== ""
+                      ? "/" +
+                        widget.title
+                          .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                          .replace(/\s+/g, "-")
+                          .replaceAll("/", "-")
+                          .replace("%", "") +
+                        "/c=" +
+                        widget.type_id +
+                        "?has_filter=true" +
+                        (widget?.filters?.filter_categories
+                          ? "&filter_categories=" +
+                            widget?.filters?.filter_categories.map(
+                              (fc) => fc.id
+                            )
+                          : "") +
+                        (widget?.filters?.filter_manufacturers
+                          ? "&filter_manufacturers=" +
+                            widget?.filters?.filter_manufacturers.map(
+                              (fm) => fm.id
+                            )
+                          : "") +
+                        (widget?.filters?.filter_sellers
+                          ? "&filter_sellers=" +
+                            widget?.filters?.filter_sellers.map((fs) => fs.id)
+                          : "") +
+                        (widget?.filters?.filter_options
+                          ? "&filter_options=" +
+                            widget?.filters?.filter_options.map((fo) => fo.id)
+                          : "")
+                      : "/" +
+                        widget.title
+                          .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                          .replace(/\s+/g, "-")
+                          .replaceAll("/", "-")
+                          .replace("%", "") +
+                        "/c=" +
+                        widget.type_id
+                  }
+                >
+                  <h1 className="font-bold text-xs px-2 py-1 cursor-pointer hover:opacity-80 flex items-center">
+                    VIEW ALL <FaAngleRight className="mr-1 ml-1" />
+                  </h1>
+                </a>
+              )}
+            </div>
+          )}
+        </div>
       )}
       {widget.display === "carousel" && (
         <div className="">
