@@ -72,14 +72,14 @@ function DesktopMenu() {
                   ))}
               </div>
             </ul>
-            <div className="inline-block mt-4 xl:mt-0 ml-1">
+            {/* <div className="inline-block mt-4 xl:mt-0 ml-1">
               <Link
                 to={`${path}/latest`}
                 className="bg-dred1 text-dwhite1 text-d12 p-2.5 whitespace-nowrap"
               >
                 NEW PRODUCTS
               </Link>
-            </div>
+            </div> */}
           </div>
         </div>
       </nav>

@@ -288,55 +288,21 @@ function TopCart(props) {
                 <div className="clear"></div>
               </div>
               <div>
-                {window.location.href.split("/")[3] === "store_one" ? (
-                  <div className="header__basket__buttons flex my-5 mr-2.5 h-10">
+              <div className="header__basket__buttons flex my-5 mr-2.5 h-10">
                     <Link
-                      to={"/store_one/cart"}
+                      to={`${path}/cart`}
                       className="mx-2 text-d12 p-2.5 text-center  w-full bg-dwhite1 text-dblue1 border border-dblue1 uppercase"
                     >
                       View cart
                     </Link>
 
                     <Link
-                      to={"/store_one/checkout"}
+                      to={`${path}/checkout`}
                       className="text-d12 p-2.5 text-center  w-full bg-dblue1 hover:bg-dblack2 transition-all ease-in-out text-dwhite1 tracking-tighter z-20 uppercase"
                     >
                       Complete shopping
                     </Link>
                   </div>
-                ) : window.location.href.split("/")[3] === "store_two" ? (
-                  <div className="header__basket__buttons flex my-5 mr-2.5 h-10">
-                    <Link
-                      to={"/store_two/cart"}
-                      className="mx-2 text-d12 p-2.5 text-center  w-full bg-dwhite1 text-dblue1 border border-dblue1 uppercase"
-                    >
-                      View cart
-                    </Link>
-
-                    <Link
-                      to={"/store_two/checkout"}
-                      className="text-d12 p-2.5 text-center  w-full bg-dblue1 hover:bg-dblack2 transition-all ease-in-out text-dwhite1 tracking-tighter z-20 uppercase"
-                    >
-                      Complete shopping
-                    </Link>
-                  </div>
-                ) : (
-                  <div className="header__basket__buttons flex my-5 mr-2.5 h-10">
-                    <Link
-                      to={"/cart"}
-                      className="mx-2 text-d12 p-2.5 text-center  w-full bg-dwhite1 text-dblue1 border border-dblue1 uppercase"
-                    >
-                      View cart
-                    </Link>
-
-                    <Link
-                      to={"/checkout"}
-                      className="text-d12 p-2.5 text-center  w-full bg-dblue1 hover:bg-dblack2 transition-all ease-in-out text-dwhite1 tracking-tighter z-20 uppercase"
-                    >
-                      Complete shopping
-                    </Link>
-                  </div>
-                )}
                 <div className="clear"></div>
                 <div className="header__basket__upsells text-d text-center capitalize"></div>
                 {/* <div className="header__basket-discounts h-auto p-2.5">
@@ -448,52 +414,20 @@ function TopCart(props) {
             <div className="clear"></div>
           </div>
           <div>
-            {window.location.href.split("/")[3] === "store_one" ? (
-              <div className="header__basket__buttons flex my-5 mr-2.5 h-10">
+          <div className="header__basket__buttons flex my-5 mr-2.5 h-10">
                 <Link
-                  to={"/store_one/cart"}
+                  to={`${path}/cart`}
                   className="mx-2 text-d12 p-2.5 text-center  w-full bg-dwhite1 text-dblue1 border border-dblue1 uppercase"
                 >
                   View cart
                 </Link>
                 <Link
-                  to={"/store_one/checkout"}
+                  to={`${path}/checkout`}
                   className="text-d12 p-2.5 text-center  w-full bg-dblue1 hover:bg-dblack2 transition-all ease-in-out text-dwhite1 tracking-tighter z-20 uppercase"
                 >
                   Complete shopping
                 </Link>
               </div>
-            ) : window.location.href.split("/")[3] === "store_two" ? (
-              <div className="header__basket__buttons flex my-5 mr-2.5 h-10">
-                <Link
-                  to={"/store_two/cart"}
-                  className="mx-2 text-d12 p-2.5 text-center  w-full bg-dwhite1 text-dblue1 border border-dblue1 uppercase"
-                >
-                  View cart
-                </Link>
-                <Link
-                  to={"/store_two/checkout"}
-                  className="text-d12 p-2.5 text-center  w-full bg-dblue1 hover:bg-dblack2 transition-all ease-in-out text-dwhite1 tracking-tighter z-20 uppercase"
-                >
-                  Complete shopping
-                </Link>
-              </div>
-            ) : (
-              <div className="header__basket__buttons flex my-5 mr-2.5 h-10">
-                <Link
-                  to={"/cart"}
-                  className="mx-2 text-d12 p-2.5 text-center  w-full bg-dwhite1 text-dblue1 border border-dblue1 uppercase"
-                >
-                  View cart
-                </Link>
-                <Link
-                  to={"/checkout"}
-                  className="text-d12 p-2.5 text-center  w-full bg-dblue1 hover:bg-dblack2 transition-all ease-in-out text-dwhite1 tracking-tighter z-20 uppercase"
-                >
-                  Complete shopping
-                </Link>
-              </div>
-            )}
 
             <div className="clear"></div>
             <div className="header__basket__upsells text-d text-center capitalize"></div>

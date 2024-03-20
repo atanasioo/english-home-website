@@ -323,7 +323,7 @@ function Footer() {
             </div>
           </div>
           <div className=" h-16 md:h-12  text-d14 px-24 py-4 w-full text-center">
-            Copyright © 2023 English Home Lebanon All rights reserved.
+            Copyright © 2023 English Home Lebanon All rights reserved. 
           </div>
         </>
       )}

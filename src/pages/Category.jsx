@@ -234,11 +234,7 @@ function Category() {
             `${stateAccount.admin ? "&adm_quantity=true" : ""}`
         )
         .then((response) => {
-          // setData((prevData) => {
-          //   return [
-          //     ...new Set([...prevData, ...response?.data?.data]),
-          //   ];
-          // });
+      
           setData(response?.data?.data);
           setfilters(response?.data?.data?.filters);
           setPointer(true);
@@ -263,11 +259,7 @@ function Category() {
             newPath.replace("undefined", "")
         )
         .then((response) => {
-          // setData((prevData) => {
-          //   return [
-          //     ...new Set([...prevData, ...response?.data?.data]),
-          //   ];
-          // });
+        
           setData(response?.data?.data);
           setfilters(response?.data?.data?.filters);
           setPointer(true);
@@ -306,8 +298,7 @@ function Category() {
           window.fbq(
             "track",
             "ViewContent",
-            {
-              content_type: "product",
+            { content_type: "product",
               content_ids: productArray,
               contents: productDetails,
               content_name: data?.social_data?.name,
@@ -315,21 +306,33 @@ function Category() {
             { eventID: data?.social_data?.event_id }
           );
         }
-        var dataSocial = data.social_data;
-        dataSocial["fbp"] = Cookies.get("_fbp");
-        dataSocial["fbc"] = Cookies.get("_fbc");
-        dataSocial["ttp"] = Cookies.get("_ttp");
-        dataSocial["link"] = window.location.href;
-        _axios
-          .post(buildLink("pixel", undefined, window.innerWidth), dataSocial)
-          .then((response) => {
-            const data = response.data;
-            if (data.success === true) {
-            }
-          });
       }
     }
   }, [location, sort, stateAccount.admin]);
+
+
+
+
+  useEffect(()=>{
+    if (data && data.social_data) {
+
+    var dataSocial = data.social_data;
+    dataSocial["fbp"] = Cookies.get("_fbp");
+    dataSocial["fbc"] = Cookies.get("_fbc");
+    dataSocial["ttp"] = Cookies.get("_ttp");
+    dataSocial["link"] = window.location.href;
+    _axios
+      .post(buildLink("pixel", undefined, window.innerWidth), dataSocial)
+      .then((response) => {
+        const data = response.data;
+        if (data.success === true) {
+        }
+      });
+    }
+  },[data])
+  
+
+
 
   function getType() {
     if (window.location.href.indexOf("c=") > 0) return "category";

@@ -8,7 +8,7 @@ import {
 import { GiSquare } from "react-icons/gi";
 import queryString from "query-string";
 import _axios from "../axios";
-import buildLink from "../urls";
+import buildLink, { path } from "../urls";
 
 import { AccountContext } from "../contexts/AccountContext";
 import SingleProductCategory from "../components/SingleProductCategory";
@@ -43,12 +43,8 @@ function Search() {
   const navType = useNavigationType();
   const width = window.innerWidth;
 
-  var store =''
-  if(window.location.href.split("/")[3] === "store_one") {
-    store = "/store_one"
-  } else if(window.location.href.split("/")[3] === "store_two") {
-    store = "/store_two"
-  }
+  var store =path;
+
 
   function showCart() {
     setShowCartmenu(true);

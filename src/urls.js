@@ -4,27 +4,40 @@ const firstPath = window.location.href.split('/')[3];
 var path1 = "";
 
 export var path = "";
-if (window.location.href.split("/")[3] === "store_one") {
-  path = "/store_one";
-} else if (window.location.href.split("/")[3] === "store_two") {
-  path = "/store_two";
+if (window.location.href.split("/")[3] === "storeone") {
+  path = "/storeone";
+} else if (window.location.href.split("/")[3] === "storetwo") {
+  path = "/storetwo";
+} else if (window.location.href.split("/")[3] === "storezahle") {
+  path = "/storezahle";
 }
 
 if (
   localStorage.getItem("site-local-name") === "english-home-store_one" ||
-  ((host === "www.englishhome.com.lb" || host === "englishhome.com.lb") &&
-    firstPath === "store_one")
+  ((host === "www.englishhome.com.lb"|| host == "localhost:3000" || host === "englishhome.com.lb") &&
+    firstPath === "storeone")
 ) {
   host = "https://www.englishhome.com.lb/";
   path1 = "store_one/api/";
 } else if (
   localStorage.getItem("site-local-name") === "english-home-store_two" ||
   ((host === "www.englishhome.com.lb" || host === "englishhome.com.lb") &&
-    firstPath === "store_two")
+    firstPath === "storetwo")
 ) {
   host = "https://www.englishhome.com.lb/";
   path1 = "store_two/api/";
-} else{
+} 
+else if (
+  localStorage.getItem("site-local-name") === "english-home-store_zahle" ||
+  ((host === "www.englishhome.com.lb" || host === "englishhome.com.lb") &&
+    firstPath === "storezahle")
+) {
+  host = "https://www.englishhome.com.lb/";
+  path1 = "store_zahle/api/";
+}
+
+
+else{
   host = window.location.host;
   host = "https://www.englishhome.com.lb/api/";
 }

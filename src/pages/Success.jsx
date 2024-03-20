@@ -1,5 +1,6 @@
 import { useLocation } from "react-router-dom";
 import { BsCheckLg } from "react-icons/bs"
+import { path } from "../urls";
 function Success(props) {
   const location = useLocation();
 
@@ -15,7 +16,7 @@ function Success(props) {
         </h1>
       </div>
       <button
-        onClick={() => (window.location.href = "/")}
+        onClick={() => (window.location.href = `${path}/`)}
         className="bg-white text-dbasenavy px-10 py-3 rounded mt-4 font-bold"
       >
         CONTINUE SHOPPING

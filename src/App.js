@@ -54,199 +54,298 @@ function App() {
 
               {width > 650 && <HeaderCampaigns />}
               <Routes>
-                {window.location.href.split("/")[3] === "store_one" ? (
+                {window.location.href.split("/")[3] === "storeone" ? (
                   <>
-                    <Route path="/store_one" element={<Home />} exact />
-                    <Route path="/store_one/category" element={<Category />} />
+                    <Route path="/storeone" element={<Home />} exact />
+                    <Route path="/storeone/category" element={<Category />} />
                     <Route
-                      path={"/store_one/:name/c=:id"}
+                      path={"/storeone/:name/c=:id"}
                       element={<Category />}
                       exact
                     />
                     <Route
-                      path={"/store_one/:name/c=:id/all"}
+                      path={"/storeone/:name/c=:id/all"}
                       element={<Category />}
                       exact
                     />
                     <Route
-                      path={"/store_one/:name/s=:id"}
+                      path={"/storeone/:name/s=:id"}
                       element={<Category />}
                       exact
                     />
                     <Route
-                      path={"/store_one/:name/m=:id"}
+                      path={"/storeone/:name/m=:id"}
                       element={<Category />}
                       exact
                     />
-                    <Route path="/store_one/cart" element={<Cart />} />
-                    <Route path="/store_one/checkout" element={<Checkout />} />
-                    <Route path="/store_one/login" element={<Login />} />
+                    <Route path="/storeone/cart" element={<Cart />} />
+                    <Route path="/storeone/checkout" element={<Checkout />} />
+                    <Route path="/storeone/login" element={<Login />} />
                     <Route
-                      path="/store_one/forgotmypassword"
+                      path="/storeone/forgotmypassword"
                       element={<ForgotMyPassword />}
                     />
                     <Route
-                      path="/store_one/product/:id"
+                      path="/storeone/product/:id"
                       element={<Product />}
                     />
                     <Route
-                      path="/store_one/:name/p=:id"
+                      path="/storeone/:name/p=:id"
                       element={<Product />}
                       exact
                     />
 
-                    <Route path="/store_one/account" element={<Account />} />
+                    <Route path="/storeone/account" element={<Account />} />
                     <Route
-                      path="/store_one/account/orders"
+                      path="/storeone/account/orders"
                       element={<Orders />}
                     />
                     <Route
-                      path="/store_one/account/profile"
+                      path="/storeone/account/profile"
                       element={<Profile />}
                     />
                     <Route
-                      path="/store_one/account/addresses"
+                      path="/storeone/account/addresses"
                       element={<Addresses />}
                     />
                     <Route
-                      path="/store_one/storeLocator"
+                      path="/storeone/storeLocator"
                       element={<StoreLocator />}
                     />
                     <Route
-                      path="/store_one/information/:id"
+                      path="/storeone/information/:id"
                       element={<Information />}
                     />
-                    <Route path="/store_one/contact" element={<Contact />} />
+                    <Route path="/storeone/contact" element={<Contact />} />
 
-                    <Route path="/store_one/search" element={<Search />} />
-                    <Route path="/store_one/latest" element={<Latest />} />
+                    <Route path="/storeone/search" element={<Search />} />
+                    <Route path="/storeone/latest" element={<Latest />} />
                     <Route
-                      path="/store_one/posOrders"
+                      path="/storeone/posOrders"
                       element={<posOrders />}
                     />
 
-                    <Route path="/store_one/pos" element={<Pos />} />
+                    <Route path="/storeone/pos" element={<Pos />} />
 
                     <Route
-                      path="/store_one/account/change-email"
+                      path="/storeone/account/change-email"
                       element={<ChangeEmail />}
                     />
                     <Route
-                      path="/store_one/account/change-password"
+                      path="/storeone/account/change-password"
                       element={<ChangePassword />}
                     />
                     <Route
-                      path="/store_one/account/order-details"
+                      path="/storeone/account/order-details"
                       element={<OrderDetails />}
                     />
                     <Route
-                      path="/store_one/account/wishlist"
+                      path="/storeone/account/wishlist"
                       element={<Wishlist />}
                     />
-                    <Route path="/store_one/success" element={<Success />} />
+                    <Route path="/storeone/success" element={<Success />} />
                     <Route
-                      path="/store_one/:name"
+                      path="/storeone/:name"
                       element={<NotFound />}
                       exact
                     />
                   </>
-                ) : window.location.href.split("/")[3] === "store_two" ? (
+                ) : window.location.href.split("/")[3] === "storetwo" ? (
                   <>
-                    <Route path="/store_two" element={<Home />} exact />
-                    <Route path="/store_two/category" element={<Category />} />
+                    <Route path="/storetwo" element={<Home />}  />
+                    <Route path="/storetwo/category" element={<Category />} />
                     <Route
-                      path={"/store_two/:name/c=:id"}
+                      path={"/storetwo/:name/c=:id"}
                       element={<Category />}
                       exact
                     />
                     <Route
-                      path={"/store_two/:name/c=:id/all"}
+                      path={"/storetwo/:name/c=:id/all"}
                       element={<Category />}
                       exact
                     />
                     <Route
-                      path={"/store_two/:name/s=:id"}
+                      path={"/storetwo/:name/s=:id"}
                       element={<Category />}
                       exact
                     />
                     <Route
-                      path={"/store_two/:name/m=:id"}
+                      path={"/storetwo/:name/m=:id"}
                       element={<Category />}
                       exact
                     />
-                    <Route path="/store_two/cart" element={<Cart />} />
-                    <Route path="/store_two/checkout" element={<Checkout />} />
-                    <Route path="/store_two/login" element={<Login />} />
+                    <Route path="/storetwo/cart" element={<Cart />} />
+                    <Route path="/storetwo/checkout" element={<Checkout />} />
+                    <Route path="/storetwo/login" element={<Login />} />
                     <Route
-                      path="/store_two/forgotmypassword"
+                      path="/storetwo/forgotmypassword"
                       element={<ForgotMyPassword />}
                     />
                     <Route
-                      path="/store_two/product/:id"
+                      path="/storetwo/product/:id"
                       element={<Product />}
                     />
                     <Route
-                      path="/store_two/:name/p=:id"
+                      path="/storetwo/:name/p=:id"
                       element={<Product />}
                       exact
                     />
 
-                    <Route path="/store_two/account" element={<Account />} />
+                    <Route path="/storetwo/account" element={<Account />} />
                     <Route
-                      path="/store_two/account/orders"
+                      path="/storetwo/account/orders"
                       element={<Orders />}
                     />
                     <Route
-                      path="/store_two/account/profile"
+                      path="/storetwo/account/profile"
                       element={<Profile />}
                     />
                     <Route
-                      path="/store_two/account/addresses"
+                      path="/storetwo/account/addresses"
                       element={<Addresses />}
                     />
                     <Route
-                      path="/store_two/storeLocator"
+                      path="/storetwo/storeLocator"
                       element={<StoreLocator />}
                     />
                     <Route
-                      path="/store_two/information/:id"
+                      path="/storetwo/information/:id"
                       element={<Information />}
                     />
-                    <Route path="/store_two/contact" element={<Contact />} />
+                    <Route path="/storetwo/contact" element={<Contact />} />
 
-                    <Route path="/store_two/search" element={<Search />} />
-                    <Route path="/store_two/latest" element={<Latest />} />
+                    <Route path="/storetwo/search" element={<Search />} />
+                    <Route path="/storetwo/latest" element={<Latest />} />
                     <Route
-                      path="/store_two/posOrders"
+                      path="/storetwo/posOrders"
                       element={<posOrders />}
                     />
 
-                    <Route path="/store_two/pos" element={<Pos />} />
+                    <Route path="/storetwo/pos" element={<Pos />} />
 
                     <Route
-                      path="/store_two/account/change-email"
+                      path="/storetwo/account/change-email"
                       element={<ChangeEmail />}
                     />
                     <Route
-                      path="/store_two/account/change-password"
+                      path="/storetwo/account/change-password"
                       element={<ChangePassword />}
                     />
                     <Route
-                      path="/store_two/account/order-details"
+                      path="/storetwo/account/order-details"
                       element={<OrderDetails />}
                     />
                     <Route
-                      path="/store_two/account/wishlist"
+                      path="/storetwo/account/wishlist"
                       element={<Wishlist />}
                     />
-                    <Route path="/store_two/success" element={<Success />} />
+                    <Route path="/storetwo/success" element={<Success />} />
                     <Route
-                      path="/store_two/:name"
+                      path="/storetwo/:name"
                       element={<NotFound />}
                       exact
                     />
                   </>
-                ) : (
+                ) 
+                : window.location.href.split("/")[3] === "storezahle" ? (
+                  <>
+                    <Route path="/storezahle" element={<Home />}  />
+                    <Route path="/storezahle/category" element={<Category />} />
+                    <Route
+                      path={"/storezahle/:name/c=:id"}
+                      element={<Category />}
+                      exact
+                    />
+                    <Route
+                      path={"/storezahle/:name/c=:id/all"}
+                      element={<Category />}
+                      exact
+                    />
+                    <Route
+                      path={"/storezahle/:name/s=:id"}
+                      element={<Category />}
+                      exact
+                    />
+                    <Route
+                      path={"/storezahle/:name/m=:id"}
+                      element={<Category />}
+                      exact
+                    />
+                    <Route path="/storezahle/cart" element={<Cart />} />
+                    <Route path="/storezahle/checkout" element={<Checkout />} />
+                    <Route path="/storezahle/login" element={<Login />} />
+                    <Route
+                      path="/storezahle/forgotmypassword"
+                      element={<ForgotMyPassword />}
+                    />
+                    <Route
+                      path="/storezahle/product/:id"
+                      element={<Product />}
+                    />
+                    <Route
+                      path="/storezahle/:name/p=:id"
+                      element={<Product />}
+                      exact
+                    />
+
+                    <Route path="/storezahle/account" element={<Account />} />
+                    <Route
+                      path="/storezahle/account/orders"
+                      element={<Orders />}
+                    />
+                    <Route
+                      path="/storezahle/account/profile"
+                      element={<Profile />}
+                    />
+                    <Route
+                      path="/storezahle/account/addresses"
+                      element={<Addresses />}
+                    />
+                    <Route
+                      path="/storezahle/storeLocator"
+                      element={<StoreLocator />}
+                    />
+                    <Route
+                      path="/storezahle/information/:id"
+                      element={<Information />}
+                    />
+                    <Route path="/storezahle/contact" element={<Contact />} />
+
+                    <Route path="/storezahle/search" element={<Search />} />
+                    <Route path="/storezahle/latest" element={<Latest />} />
+                    <Route
+                      path="/storezahle/posOrders"
+                      element={<posOrders />}
+                    />
+
+                    <Route path="/storezahle/pos" element={<Pos />} />
+
+                    <Route
+                      path="/storezahle/account/change-email"
+                      element={<ChangeEmail />}
+                    />
+                    <Route
+                      path="/storezahle/account/change-password"
+                      element={<ChangePassword />}
+                    />
+                    <Route
+                      path="/storezahle/account/order-details"
+                      element={<OrderDetails />}
+                    />
+                    <Route
+                      path="/storezahle/account/wishlist"
+                      element={<Wishlist />}
+                    />
+                    <Route path="/storezahle/success" element={<Success />} />
+                    <Route
+                      path="/storezahle/:name"
+                      element={<NotFound />}
+                      exact
+                    />
+                  </>
+                )
+                
+                : (
                   <>
                     <Route path="/" element={<Home />} />
                     <Route path="category" element={<Category />} />

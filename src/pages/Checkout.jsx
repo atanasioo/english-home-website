@@ -808,13 +808,7 @@ function Checkout() {
               }
             });
         }
-        if (window.location.href.split("/")[3] === "store_one") {
-          navigate("/store_one/success");
-        } else if (window.location.href.split("/")[3] === "store_two") {
-          navigate("/store_two/success");
-        } else {
-          navigate("/success");
-        }
+        navigate(`${path}/success`);
       }
     });
   }
@@ -829,7 +823,7 @@ function Checkout() {
   function setCoupon() {
     const obj = {
       name: zone.current.name,
-      value: zone.current.id
+      value: '3'
     };
     if (coupon.current.value.length > 1) {
       manual(manualCart, obj, activePaymentMethod, false, false);
