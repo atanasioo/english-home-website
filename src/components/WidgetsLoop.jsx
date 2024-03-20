@@ -8,6 +8,7 @@ import { path } from "../urls";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import SliderPlaceholder from "../assets/images/singleProduct.png";
 import SliderPlace from "../assets/images/product.png";
+import { FaAngleRight } from "react-icons/fa";
 
 function WidgetsLoop({ widget, showCartmenu }) {
   const [accountState] = useContext(AccountContext);
@@ -17,7 +18,7 @@ function WidgetsLoop({ widget, showCartmenu }) {
     1: "product",
     2: "category",
     3: "manufacturer",
-    4: "seller"
+    4: "seller",
   };
 
   const setting = {
@@ -30,12 +31,12 @@ function WidgetsLoop({ widget, showCartmenu }) {
     autoplay: true,
     autoplaySpeed: 4000,
     prevArrow: <CustomArrows direction={"l"} type={"slider"} />,
-    nextArrow: <CustomArrows direction={"r"} type={"slider"} />
+    nextArrow: <CustomArrows direction={"r"} type={"slider"} />,
   };
 
   const carousal = {
     // dots: true,
-     infinite: true,
+    infinite: true,
     speed: 1000,
     slidesToShow: 2.3,
     slidesToScroll: 1,
@@ -43,7 +44,7 @@ function WidgetsLoop({ widget, showCartmenu }) {
     autoplay: true,
     autoplaySpeed: 4000,
     prevArrow: <CustomArrows direction={"l"} type={"carousel"} />,
-    nextArrow: <CustomArrows direction={"r"} type={"carousel"} />
+    nextArrow: <CustomArrows direction={"r"} type={"carousel"} />,
   };
 
   const grid = {
@@ -56,7 +57,7 @@ function WidgetsLoop({ widget, showCartmenu }) {
     // autoplay: true,
     // autoplaySpeed: 4000,
     prevArrow: <CustomArrows direction={"l"} type={"grid"} />,
-    nextArrow: <CustomArrows direction={"r"} type={"grid"} />
+    nextArrow: <CustomArrows direction={"r"} type={"grid"} />,
   };
   const productMobile = {
     dots: false,
@@ -70,7 +71,7 @@ function WidgetsLoop({ widget, showCartmenu }) {
     swipeToSlide: true,
     infinite: false,
     arrows: false,
-    lazyLoad: true
+    lazyLoad: true,
   };
   const productSetting = {
     dots: true,
@@ -79,7 +80,7 @@ function WidgetsLoop({ widget, showCartmenu }) {
     slidesToScroll: 4,
     infinite: true,
     prevArrow: <CustomArrows direction={"l"} />,
-    nextArrow: <CustomArrows direction={"r"} />
+    nextArrow: <CustomArrows direction={"r"} />,
   };
 
   const handleBeforeChange = useCallback(() => {
@@ -105,7 +106,7 @@ function WidgetsLoop({ widget, showCartmenu }) {
       {" "}
       {/* <h1>{window.innerWidth}</h1> */}
       {widget.display === "slider" && (
-        <Slider {...setting} >
+        <Slider {...setting}>
           {widget?.items?.map((item, index) =>
             item.mobile_type_id === "0" ? (
               <div data-index={index} key={`slider` + index}>
@@ -115,8 +116,7 @@ function WidgetsLoop({ widget, showCartmenu }) {
                   className="w-full"
                   // width={widget.banner_width}
                   height={widget.banner_height}
-
-                //  height={window.innerWidth * widget.banner_height/widget.banner_width}
+                  //  height={window.innerWidth * widget.banner_height/widget.banner_width}
                   placeholderSrc={SliderPlaceholder}
                 />
               </div>
@@ -124,7 +124,6 @@ function WidgetsLoop({ widget, showCartmenu }) {
               <div>
                 <Link
                   key={index}
-                  
                   to={
                     // accountState.admin
                     //   ? `${path}/${types[item.mobile_type]}/${
@@ -164,6 +163,165 @@ function WidgetsLoop({ widget, showCartmenu }) {
             )
           )}
         </Slider>
+      )}
+      {/* view all button */}
+      {widget?.display === "carousel" && (
+        <div className="flex items-center justify-between">
+          {widget.view_title && (
+            <h1
+              className="pr-semibold p-2 text-xl"
+              dangerouslySetInnerHTML={{ __html: widget.title }}
+            />
+          )}
+          {widget.view_all !== "0" && (
+            <div>
+              {widget.type === "seller" ? (
+                <a
+                  href={
+                    widget.filters !== false && widget.filters !== ""
+                      ? "/" +
+                        widget.title
+                          .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                          .replace(/\s+/g, "-")
+                          .replaceAll("/", "-")
+                          .replace("%", "") +
+                        "/s=" +
+                        widget.type_id +
+                        "?has_filter=true" +
+                        (widget?.filters?.filter_categories
+                          ? "&filter_categories=" +
+                            widget?.filters?.filter_categories.map(
+                              (fc) => fc.id
+                            )
+                          : "") +
+                        (widget?.filters?.filter_manufacturers
+                          ? "&filter_manufacturers=" +
+                            widget?.filters?.filter_manufacturers.map(
+                              (fm) => fm.id
+                            )
+                          : "") +
+                        (widget?.filters?.filter_sellers
+                          ? "&filter_sellers=" +
+                            widget?.filters?.filter_sellers.map((fs) => fs.id)
+                          : "") +
+                        (widget?.filters?.filter_options
+                          ? "&filter_options=" +
+                            widget?.filters?.filter_options.map((fo) => fo.id)
+                          : "")
+                      : "/" +
+                        widget.title
+                          .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                          .replace(/\s+/g, "-")
+                          .replaceAll("/", "-")
+                          .replace("%", "") +
+                        "/s=" +
+                        widget.type_id
+                  }
+                >
+                  <h1 className="font-bold text-xs px-2 py-1 cursor-pointer hover:opacity-80 flex items-center">
+                    VIEW ALL <FaAngleRight className="mr-1 ml-1" />
+                  </h1>
+                </a>
+              ) : widget.type === "category" ? (
+                <a
+                  href={
+                    widget.filters !== false && widget.filters !== ""
+                      ? "/" +
+                        widget.title
+                          .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                          .replace(/\s+/g, "-")
+                          .replaceAll("/", "-")
+                          .replace("%", "") +
+                        "/c=" +
+                        widget.type_id +
+                        "?has_filter=true" +
+                        (widget?.filters?.filter_categories
+                          ? "&filter_categories=" +
+                            widget?.filters?.filter_categories.map(
+                              (fc) => fc.id
+                            )
+                          : "") +
+                        (widget?.filters?.filter_manufacturers
+                          ? "&filter_manufacturers=" +
+                            widget?.filters?.filter_categories.map(
+                              (fm) => fm.id
+                            )
+                          : "") +
+                        (widget?.filters?.filter_sellers
+                          ? "&filter_sellers=" +
+                            widget?.filters?.filter_sellers.map((fs) => fs.id)
+                          : "") +
+                        (widget?.filters?.filter_options
+                          ? "&filter_options=" +
+                            widget?.filters?.filter_options.map((fo) => fo.id)
+                          : "")
+                      : "/" +
+                        widget.title
+                          .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                          .replace(/\s+/g, "-")
+                          .replaceAll("/", "-")
+                          .replace("%", "") +
+                        "/c=" +
+                        widget.type_id
+                  }
+                >
+                  <h1 className="font-bold text-xs px-2 py-1 cursor-pointer hover:opacity-80 flex items-center">
+                    VIEW ALL <FaAngleRight className="mr-1 ml-1" />
+                  </h1>
+                </a>
+              ) : (
+                <a
+                  href={
+                    widget.type === "new_arrival"
+                      ? "/latest"
+                      : widget.filters !== false && widget.filters !== ""
+                      ? "/" +
+                        widget.title
+                          .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                          .replace(/\s+/g, "-")
+                          .replaceAll("/", "-")
+                          .replace("%", "") +
+                        "/c=" +
+                        widget.type_id +
+                        "?has_filter=true" +
+                        (widget?.filters?.filter_categories
+                          ? "&filter_categories=" +
+                            widget?.filters?.filter_categories.map(
+                              (fc) => fc.id
+                            )
+                          : "") +
+                        (widget?.filters?.filter_manufacturers
+                          ? "&filter_manufacturers=" +
+                            widget?.filters?.filter_manufacturers.map(
+                              (fm) => fm.id
+                            )
+                          : "") +
+                        (widget?.filters?.filter_sellers
+                          ? "&filter_sellers=" +
+                            widget?.filters?.filter_sellers.map((fs) => fs.id)
+                          : "") +
+                        (widget?.filters?.filter_options
+                          ? "&filter_options=" +
+                            widget?.filters?.filter_options.map((fo) => fo.id)
+                          : "")
+                      : "/" +
+                        widget.title
+                          .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                          .replace(/\s+/g, "-")
+                          .replaceAll("/", "-")
+                          .replace("%", "") +
+                        "/c=" +
+                        widget.type_id
+                  }
+                >
+                  <h1 className="font-bold text-xs px-2 py-1 cursor-pointer hover:opacity-80 flex items-center">
+                    VIEW ALL <FaAngleRight className="mr-1 ml-1" />
+                  </h1>
+                </a>
+              )}
+            </div>
+          )}
+        </div>
       )}
       {widget.display === "carousel" && (
         <div className="">

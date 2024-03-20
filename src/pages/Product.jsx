@@ -871,7 +871,7 @@ function Product() {
                 </div>
               </div>
               <div className="flex my-3">
-                <div className=" bg-dborderblack2 text-white w-16 h-16 font-black align-middle pt-4 text-d20">
+                <div className="bg-blue-600 text-white w-16 h-16 font-black align-middle pt-4 text-d20">
                   {/* DiSCOUNT IN CART */}
                   {productData?.saving && productData?.saving + "%"}
                 </div>
@@ -1037,7 +1037,7 @@ function Product() {
                     </button>
                   </div>
                   <button
-                    className="bg-dborderblack2 font-black	 text-white  py-4 w-8/12 text-d16"
+                    className=" bg-blue-600 font-black	 text-white  py-4 w-8/12 text-d16"
                     onClick={() =>
                       productData["quantity"] === "0"
                         ? console.log("yep no")

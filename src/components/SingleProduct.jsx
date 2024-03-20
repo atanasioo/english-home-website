@@ -268,7 +268,7 @@ export default function SingleProduct(props) {
               {props.item.special !== "0" ? (
                 <div className="flex flex-col ">
                   <div className="line-through">{props.item.price}</div>
-                  <div>{props.item.special}</div>
+                  <div className="text-blue-600">{props.item.special}</div>
                 </div>
               ) : (
                 <span className="text-left  pt-3 flex-auto">
@@ -276,7 +276,7 @@ export default function SingleProduct(props) {
                 </span>
               )}
               {props.item.saving !== 0 && (
-                <button className="border-dblue1 text-dblue1 border p-3 flex-auto text-sm">
+                <button className=" border-dred1 text-red-500 border p-3 flex-auto text-sm">
                   {/* in the basket{" "}
                 <span className="font-bold">
                   {" "}
@@ -295,7 +295,7 @@ export default function SingleProduct(props) {
                   <div className="line-through text-d13">
                     {props.item.price}
                   </div>
-                  <div>{props.item.special}</div>
+                  <div className=" text-blue-600">{props.item.special}</div>
                 </div>
               ) : (
                 <span className="text-left  pt-1 flex-auto  mt-1">
