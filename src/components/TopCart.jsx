@@ -305,7 +305,7 @@ function TopCart(props) {
                   </div>
                 <div className="clear"></div>
                 <div className="header__basket__upsells text-d text-center capitalize"></div>
-                {/* <div className="header__basket-discounts h-auto p-2.5">
+                {/* <div className="header__basket-s h-auto p-2.5">
                   <div className="mb-2.5 text-center text-d17">
                     <div className="header__basket-discount-name h-auto bg-dgrey8 text-dblue1 p-2.5">
                       *Additional 10% Discount on All Discounts

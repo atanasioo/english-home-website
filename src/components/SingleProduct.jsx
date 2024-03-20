@@ -305,7 +305,7 @@ export default function SingleProduct(props) {
               )}
 
               {props.item.saving !== 0 && (
-                <button className="flex border border-dblue1 text-dblue1 p-1  flex-auto text-d13 ">
+                <button className="flex border border-dred1 text-red-500 p-1  flex-auto text-d13 ">
                   {/* <span className="w-1/2">in the basket</span>{" "}
                 <span className="font-bold ml-2 text-center pt-3 w-1/2">
                   {props.item.special ? props.item.special : props.item.price}

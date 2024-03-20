@@ -234,7 +234,7 @@ export default function SingleProducCategory(props) {
               )}
             </span>
 
-            <button className="border px-1 flex-auto text-dblue1 border-dblue1 text-d13 w-1/2">
+            <button className="border px-1 flex-auto border-dred1 text-red-500 text-d13 w-1/2">
               <span className="">{props.item.saving}% Discount</span>
             </button>
           </div>
@@ -255,7 +255,7 @@ export default function SingleProducCategory(props) {
               )}
             </span>
 
-            <span className=" text-dblue1 flex  text-d11  w-1/2  border border-dblue1">
+            <span className=" border-dred1 text-red-500 flex  text-d11  w-1/2  border">
               {props.item.saving}% Discount
             </span>
           </div>
