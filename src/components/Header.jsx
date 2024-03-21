@@ -13,6 +13,7 @@ import { AccountContext } from "../contexts/AccountContext";
 import { InformationContext } from "../contexts/InformationContext";
 import Cookies from "js-cookie";
 import SitesHeader from "./SitesHeader";
+import logo_edit from "../assets/images/logo_edit.png";
 
 function Header() {
   const width = window.innerWidth;
@@ -32,7 +33,10 @@ function Header() {
   const [local, setLocal] = useState(false);
 
   useEffect(() => {
-    if (window.location.host === "localhost:3000" || window.location.host === "localhost:3001") {
+    if (
+      window.location.host === "localhost:3000" ||
+      window.location.host === "localhost:3001"
+    ) {
       setLocal(true);
     }
 
@@ -99,14 +103,12 @@ function Header() {
   return (
     <div className="relative ">
       {/* Sites Header */}
-      {local && <SitesHeader />}
+      {/* {local && <SitesHeader />} */}
 
       {/* Admin Top Bar */}
       <div
         className={
-          !state.admin
-            ? "hidden"
-            : `h-12 px-10 text-white flex items-center`
+          !state.admin ? "hidden" : `h-12 px-10 text-white flex items-center`
         }
         style={{ background: "#555" }}
       >
@@ -181,7 +183,7 @@ function Header() {
               <div className="container">
                 <div className="row">
                   <div className="topbar__links float-right">
-                  <Link
+                    <Link
                       className="text-dblack2 text-d12 ml-5 leading-10 font-bold hover:underline border-r border-dgrey9 pr-4"
                       to={`/storeLocator`}
                     >
@@ -228,9 +230,14 @@ function Header() {
                         <Link className=""></Link>
                       </div>
                       <Link to={`${path}/`} className="md:text-d30 ">
-                        <span className="icon-logo text-xl md:text-2xl lg:text-4xl font-serif text-dbasenavy md:text-dblack1 whitespace-nowrap">
+                        {/* <span className="icon-logo text-xl md:text-2xl lg:text-4xl font-serif text-dbasenavy md:text-dblack1 whitespace-nowrap">
                           ENGLISH HOME
-                        </span>
+                        </span> */}
+                        <img
+                          className=" w-72"
+                          src={logo_edit}
+                          alt="Logo"
+                        />
                       </Link>
                     </div>
                     <div className="header__icons float-right flex ml-2">
@@ -262,10 +269,15 @@ function Header() {
                           </Link>
                           <Link className=""></Link>
                         </div>
-                        <Link to={`${path}/`} className="text-d30 ">
-                          <span className="icon-logo text-d16 xs:text-xl md:text-4xl font-serif whitespace-nowrap">
+                        <Link to={`${path}/`} className="">
+                          {/* <span className="icon-logo text-d16 xs:text-xl md:text-4xl font-serif whitespace-nowrap">
                             ENGLISH HOME
-                          </span>
+                          </span> */}
+                          <img
+                          className="w-72" 
+                          src={logo_edit}
+                          alt="Logo"
+                        />
                         </Link>
                       </div>
                       <div className="header__icons  flex ml-2">
@@ -354,18 +366,18 @@ function Header() {
                         >
                           <div className="menu-item--box flex items-center justify-between px-5 h-full ">
                             <Link
-                          to={`${path}/${category["title"].title
-                          .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
-                          .replace(/\s+/g, "-")
-                          .replace(/'/g, "")}/c=${
-                          category["title"].mobile_type_id
-                        }`}
+                              to={`${path}/${category["title"].title
+                                .replace(/\s+&amp;\s+|\s+&gt;\s+/g, "-")
+                                .replace(/\s+/g, "-")
+                                .replace(/'/g, "")}/c=${
+                                category["title"].mobile_type_id
+                              }`}
                               onClick={() => {
                                 setViewMenu(false);
                               }}
                               className="menu-item--title relative flex items-center uppercase text-d16 font-bold text-dbasenavy text-left font-mono"
                               dangerouslySetInnerHTML={{
-                                __html: category["title"].title
+                                __html: category["title"].title,
                               }}
                             ></Link>
                             {/* <img
@@ -425,41 +437,44 @@ function Header() {
                           See all
                         </Link>
                         <div className="menu-subitem--list pb-5 pr-3.5 pl-5 overflow-y-scroll h-full">
-                          {activeCategory['sub-categories-level1']?.length > 0 &&
-                            activeCategory['sub-categories-level1']?.map((subcategory) => (
-                              <div
-                                className="font-d16 p-4 border-t border-dbordergrey4 flex items-center"
-                                key={subcategory?.category_id}
-                              >
-                                <Link
-                                  to={`${
-                                    subcategory.name.length > 0
-                                      ? "/" +
-                                        subcategory.name
-                                          .replace(
-                                            /\s+&amp;\s+|\s+&gt;\s+/g,
-                                            "-"
-                                          )
-                                          .replace(/\s+/g, "-") +
-                                        "/c=" +
-                                        subcategory.category_id
-                                      : "cat/c=" + subcategory.category_id
-                                  }`}
-                                  onClick={() => {
-                                    setViewMenu(false);
-                                    setViewLevel2(false);
-                                  }}
-                                  className="menu-subitem--link flex items-center"
+                          {activeCategory["sub-categories-level1"]?.length >
+                            0 &&
+                            activeCategory["sub-categories-level1"]?.map(
+                              (subcategory) => (
+                                <div
+                                  className="font-d16 p-4 border-t border-dbordergrey4 flex items-center"
+                                  key={subcategory?.category_id}
                                 >
-                                  <span
-                                    className="js-menu-subitem--link-text mr-2 uppercase"
-                                    dangerouslySetInnerHTML={{
-                                      __html: subcategory?.name
+                                  <Link
+                                    to={`${
+                                      subcategory.name.length > 0
+                                        ? "/" +
+                                          subcategory.name
+                                            .replace(
+                                              /\s+&amp;\s+|\s+&gt;\s+/g,
+                                              "-"
+                                            )
+                                            .replace(/\s+/g, "-") +
+                                          "/c=" +
+                                          subcategory.category_id
+                                        : "cat/c=" + subcategory.category_id
+                                    }`}
+                                    onClick={() => {
+                                      setViewMenu(false);
+                                      setViewLevel2(false);
                                     }}
-                                  ></span>
-                                </Link>
-                              </div>
-                            ))}
+                                    className="menu-subitem--link flex items-center"
+                                  >
+                                    <span
+                                      className="js-menu-subitem--link-text mr-2 uppercase"
+                                      dangerouslySetInnerHTML={{
+                                        __html: subcategory?.name,
+                                      }}
+                                    ></span>
+                                  </Link>
+                                </div>
+                              )
+                            )}
                         </div>
                       </div>
                       {/* information level2 */}

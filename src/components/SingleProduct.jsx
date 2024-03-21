@@ -318,8 +318,8 @@ export default function SingleProduct(props) {
             <div className="flex flex-col lg:flex-row lg:gap-4">
               {props.item.special !== "0" ? (
                 <div className="flex flex-col ">
-                  <div className="line-through">{props.item.price}</div>
-                  <div className="text-blue-600">{props.item.special}</div>
+                  <div className="line-through text-d13 ">{props.item.price}</div>
+                  <div className="text-blue-600 font-bold">{props.item.special}</div>
                 </div>
               ) : (
                 <span className="text-left  pt-3 flex-auto">
@@ -346,7 +346,7 @@ export default function SingleProduct(props) {
                   <div className="line-through text-d13">
                     {props.item.price}
                   </div>
-                  <div className=" text-blue-600">{props.item.special}</div>
+                  <div className=" text-blue-600 font-bold">{props.item.special}</div>
                 </div>
               ) : (
                 <span className="text-left  pt-1 flex-auto  mt-1">
