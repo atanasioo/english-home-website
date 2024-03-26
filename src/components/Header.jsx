@@ -549,7 +549,11 @@ function Header() {
                       to={"/cart"}
                       className="mt-5 md:mr-10 text-d30 text-dborderblack2 font-serif"
                     >
-                      ENGLISH HOME
+                      <img
+                          className=" w-72"
+                          src={logo_edit}
+                          alt="Logo"
+                        />
                     </Link>
                   </div>
                 </div>
