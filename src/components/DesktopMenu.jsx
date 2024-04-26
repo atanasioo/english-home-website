@@ -38,8 +38,11 @@ function DesktopMenu() {
   return (
     <div className="hidden lg:block relative">
       <nav className="header-menu border-b border-dborderblack1 mt-6 h-17 xl:h-7.5">
+        
         <div className="container">
+          
           <div className="flex flex-col xl:flex-row justify-center items-center mx-auto">
+            
             <ul className="navigation relative text-center  flex  justify-center">
               <div
                 className=" flex flex-row "
@@ -72,6 +75,22 @@ function DesktopMenu() {
                   ))}
               </div>
             </ul>
+            <div className="px-4 hover:text-dbase cursor-pointer">
+<Link
+ to={`${path}/latest`}
+ className=""
+>
+ <span className=" font-thin ">NEW ARRIVALS</span>
+</Link>
+</div>
+<div className="px-4 hover:text-dbase cursor-pointer">
+<Link
+ to={`${path}/buy_one_get_one/c=441`}
+ className=""
+>
+ <span className=" font-thin ">BUY ONE GET ONE</span>
+</Link>
+</div>
             {/* <div className="inline-block mt-4 xl:mt-0 ml-1">
               <Link
                 to={`${path}/latest`}
@@ -209,11 +228,20 @@ function DesktopMenu() {
                 {/* <p className="title"></p>
                 <p className="subtitle"></p>
                 <Link></Link> */}
+                
               </div>
             </div>
           </div>
         </div>
+        
       )}
+      
+
+
+
+
+
+      
     </div>
   );
 }
